@@ -45,5 +45,6 @@ namespace WFM.DAL
         public virtual DbSet<Title> Titles { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<OrderType> OrderTypes { get; set; }
     }
 }

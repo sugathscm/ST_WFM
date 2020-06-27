@@ -93,6 +93,9 @@
     <Compile Include="OrderTracking.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="OrderType.cs">
+      <DependentUpon>STWFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="OrderWayForward.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
@@ -120,6 +123,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>STWFMModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="STWFMModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagram.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
@@ -151,7 +159,7 @@
     <Content Include="STWFMModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>STWFMModel.edmx</DependentUpon>
-      <LastGenOutput>STWFMModel.cs</LastGenOutput>
+      <LastGenOutput>STWFMModel1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

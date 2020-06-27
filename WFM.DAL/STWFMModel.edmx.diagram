@@ -53,6 +53,8 @@
         <EntityTypeShape EntityType="STWFMModel.OrderItem" Width="1.5" PointX="7.5" PointY="7.75" />
         <AssociationConnector Association="STWFMModel.FK_OrderItem_Category" />
         <AssociationConnector Association="STWFMModel.FK_OrderItem_Order" />
+        <EntityTypeShape EntityType="STWFMModel.OrderType" Width="1.5" PointX="10.375" PointY="0.75" />
+        <AssociationConnector Association="STWFMModel.FK_Order_OrderType" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
