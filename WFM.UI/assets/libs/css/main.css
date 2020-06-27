@@ -1,0 +1,25 @@
+﻿.days_over_100 {
+    background-color: #4dff88;
+}
+
+.days_over_50 {
+    background-color: #d9ff66;
+}
+
+.days_over_25 {
+    background-color: #ffff80;
+}
+
+.days_over_15 {
+    background-color: #ffc266;
+}
+
+.days_below_15 {
+    background-color: #ff8566;
+}
+
+.select2-results {
+    display: block;
+    font-size: .75rem;
+}
+

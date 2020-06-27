@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a528f362a3bd43e3b90554952831fd49" Name="Diagram1">
+        <EntityTypeShape EntityType="STWFMModel.AspNetRole" Width="1.5" PointX="1.5" PointY="9.125" />
+        <EntityTypeShape EntityType="STWFMModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="STWFMModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="30.375" />
+        <EntityTypeShape EntityType="STWFMModel.AspNetUser" Width="1.5" PointX="0.75" PointY="12.25" />
+        <EntityTypeShape EntityType="STWFMModel.Client" Width="1.5" PointX="3" PointY="17" />
+        <EntityTypeShape EntityType="STWFMModel.DataAudit" Width="1.5" PointX="3" PointY="27.25" />
+        <EntityTypeShape EntityType="STWFMModel.Designation" Width="1.5" PointX="0.75" PointY="21.125" />
+        <EntityTypeShape EntityType="STWFMModel.Division" Width="1.5" PointX="0.75" PointY="4.625" />
+        <EntityTypeShape EntityType="STWFMModel.Employee" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="STWFMModel.LoginAudit" Width="1.5" PointX="3" PointY="24.5" />
+        <EntityTypeShape EntityType="STWFMModel.Order" Width="1.5" PointX="5.25" PointY="2.375" />
+        <EntityTypeShape EntityType="STWFMModel.OrderTracking" Width="1.5" PointX="10.5" PointY="4.25" />
+        <EntityTypeShape EntityType="STWFMModel.OrderWayForward" Width="1.5" PointX="7.5" PointY="5" />
+        <EntityTypeShape EntityType="STWFMModel.PaperQuality" Width="1.5" PointX="3" PointY="14.75" />
+        <EntityTypeShape EntityType="STWFMModel.Printer" Width="1.5" PointX="3" PointY="12.375" />
+        <EntityTypeShape EntityType="STWFMModel.Status" Width="1.5" PointX="3" PointY="21.875" />
+        <EntityTypeShape EntityType="STWFMModel.sysdiagram" Width="1.5" PointX="7.75" PointY="1.875" />
+        <EntityTypeShape EntityType="STWFMModel.Title" Width="1.5" PointX="0.75" PointY="18.375" />
+        <AssociationConnector Association="STWFMModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="STWFMModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="STWFMModel.FK_DataAudit_AspNetUsers" />
+        <AssociationConnector Association="STWFMModel.FK_Employee_AspNetUsers" />
+        <AssociationConnector Association="STWFMModel.FK_LoginAudit_AspNetUsers" />
+        <AssociationConnector Association="STWFMModel.FK_Order_AspNetUsers" />
+        <AssociationConnector Association="STWFMModel.FK_Order_AspNetUsers_CreatedBy" />
+        <AssociationConnector Association="STWFMModel.FK_Order_AspNetUsers_UpdatedBy" />
+        <AssociationConnector Association="STWFMModel.FK_Order_Order" />
+        <AssociationConnector Association="STWFMModel.FK_OrderTracking_AspNetUsers" />
+        <AssociationConnector Association="STWFMModel.FK_Order_Client" />
+        <AssociationConnector Association="STWFMModel.FK_Employee_Designation" />
+        <AssociationConnector Association="STWFMModel.FK_Employee_Division" />
+        <AssociationConnector Association="STWFMModel.FK_Order_Division" />
+        <AssociationConnector Association="STWFMModel.FK_OrderTracking_FromDivision" />
+        <AssociationConnector Association="STWFMModel.FK_OrderTracking_ToDivision" />
+        <AssociationConnector Association="STWFMModel.FK_OrderWayForward_Division" />
+        <AssociationConnector Association="STWFMModel.FK_Employee_Title" />
+        <AssociationConnector Association="STWFMModel.FK_Order_Employee" />
+        <AssociationConnector Association="STWFMModel.FK_Order_PaperQuality" />
+        <AssociationConnector Association="STWFMModel.FK_Order_Printer" />
+        <AssociationConnector Association="STWFMModel.FK_Order_Status" />
+        <AssociationConnector Association="STWFMModel.FK_OrderTracking_Order" />
+        <AssociationConnector Association="STWFMModel.FK_OrderWayForward_Order" />
+        <AssociationConnector Association="STWFMModel.FK_OrderTracking_Status" />
+        <AssociationConnector Association="STWFMModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="STWFMModel.Category" Width="1.5" PointX="5.25" PointY="11.25" />
+        <EntityTypeShape EntityType="STWFMModel.OrderItem" Width="1.5" PointX="7.5" PointY="7.75" />
+        <AssociationConnector Association="STWFMModel.FK_OrderItem_Category" />
+        <AssociationConnector Association="STWFMModel.FK_OrderItem_Order" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
