@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="STWFMModel.DataAudit" Width="1.5" PointX="3" PointY="27.25" />
         <EntityTypeShape EntityType="STWFMModel.Designation" Width="1.5" PointX="0.75" PointY="21.125" />
         <EntityTypeShape EntityType="STWFMModel.Division" Width="1.5" PointX="0.75" PointY="4.625" />
-        <EntityTypeShape EntityType="STWFMModel.Employee" Width="1.5" PointX="3" PointY="3.875" />
         <EntityTypeShape EntityType="STWFMModel.LoginAudit" Width="1.5" PointX="3" PointY="24.5" />
         <EntityTypeShape EntityType="STWFMModel.Order" Width="1.5" PointX="5.25" PointY="2.375" />
         <EntityTypeShape EntityType="STWFMModel.OrderTracking" Width="1.5" PointX="10.5" PointY="4.25" />
@@ -26,7 +25,6 @@
         <AssociationConnector Association="STWFMModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="STWFMModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="STWFMModel.FK_DataAudit_AspNetUsers" />
-        <AssociationConnector Association="STWFMModel.FK_Employee_AspNetUsers" />
         <AssociationConnector Association="STWFMModel.FK_LoginAudit_AspNetUsers" />
         <AssociationConnector Association="STWFMModel.FK_Order_AspNetUsers" />
         <AssociationConnector Association="STWFMModel.FK_Order_AspNetUsers_CreatedBy" />
@@ -34,14 +32,10 @@
         <AssociationConnector Association="STWFMModel.FK_Order_Order" />
         <AssociationConnector Association="STWFMModel.FK_OrderTracking_AspNetUsers" />
         <AssociationConnector Association="STWFMModel.FK_Order_Client" />
-        <AssociationConnector Association="STWFMModel.FK_Employee_Designation" />
-        <AssociationConnector Association="STWFMModel.FK_Employee_Division" />
         <AssociationConnector Association="STWFMModel.FK_Order_Division" />
         <AssociationConnector Association="STWFMModel.FK_OrderTracking_FromDivision" />
         <AssociationConnector Association="STWFMModel.FK_OrderTracking_ToDivision" />
         <AssociationConnector Association="STWFMModel.FK_OrderWayForward_Division" />
-        <AssociationConnector Association="STWFMModel.FK_Employee_Title" />
-        <AssociationConnector Association="STWFMModel.FK_Order_Employee" />
         <AssociationConnector Association="STWFMModel.FK_Order_PaperQuality" />
         <AssociationConnector Association="STWFMModel.FK_Order_Printer" />
         <AssociationConnector Association="STWFMModel.FK_Order_Status" />
@@ -55,7 +49,8 @@
         <AssociationConnector Association="STWFMModel.FK_OrderItem_Order" />
         <EntityTypeShape EntityType="STWFMModel.OrderType" Width="1.5" PointX="10.375" PointY="0.75" />
         <AssociationConnector Association="STWFMModel.FK_Order_OrderType" />
-      </Diagram>
+        <EntityTypeShape EntityType="STWFMModel.Employee" Width="1.5" PointX="10.375" PointY="8.75" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

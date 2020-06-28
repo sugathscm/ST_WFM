@@ -33,7 +33,6 @@ namespace WFM.DAL
         public virtual DbSet<DataAudit> DataAudits { get; set; }
         public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<Division> Divisions { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<LoginAudit> LoginAudits { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderTracking> OrderTrackings { get; set; }
@@ -46,5 +45,6 @@ namespace WFM.DAL
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<OrderType> OrderTypes { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
     }
 }

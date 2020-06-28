@@ -17,7 +17,6 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Division()
         {
-            this.Employees = new HashSet<Employee>();
             this.Orders = new HashSet<Order>();
             this.OrderTrackings = new HashSet<OrderTracking>();
             this.OrderTrackings1 = new HashSet<OrderTracking>();
@@ -29,8 +28,6 @@ namespace WFM.DAL
         public bool IsActive { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

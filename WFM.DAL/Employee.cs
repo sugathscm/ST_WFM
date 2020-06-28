@@ -14,14 +14,7 @@ namespace WFM.DAL
     
     public partial class Employee
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Employee()
-        {
-            this.Orders = new HashSet<Order>();
-        }
-    
-        public string Id { get; set; }
-        public string UserId { get; set; }
+        public int Id { get; set; }
         public Nullable<int> DesignationId { get; set; }
         public Nullable<int> DivisionId { get; set; }
         public string Title { get; set; }
@@ -29,15 +22,9 @@ namespace WFM.DAL
         public string Mobile { get; set; }
         public string FixedLine { get; set; }
         public string Email { get; set; }
-        public Nullable<bool> IsActive { get; set; }
+        public bool IsActive { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
         public Nullable<int> TitleId { get; set; }
-    
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Designation Designation { get; set; }
-        public virtual Division Division { get; set; }
-        public virtual Title Title1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
+        public string AspNetUserId { get; set; }
     }
 }

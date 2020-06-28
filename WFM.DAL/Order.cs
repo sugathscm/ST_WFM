@@ -51,7 +51,6 @@ namespace WFM.DAL
         public virtual AspNetUser AspNetUser3 { get; set; }
         public virtual Client Client { get; set; }
         public virtual Division Division { get; set; }
-        public virtual Employee Employee { get; set; }
         public virtual PaperQuality PaperQuality { get; set; }
         public virtual Printer Printer { get; set; }
         public virtual Status Status { get; set; }
