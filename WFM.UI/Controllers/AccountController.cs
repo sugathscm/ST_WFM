@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using WFM.BAL.Services;
 using WFM.UI.Models;
 
 namespace WFM.UI.Controllers
@@ -17,6 +19,7 @@ namespace WFM.UI.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private EmployeeService employeeService = new EmployeeService();
 
         public AccountController()
         {
@@ -139,7 +142,14 @@ namespace WFM.UI.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel();
+
+            var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+            var roleMngr = new RoleManager<IdentityRole>(roleStore);
+
+            var roles = roleMngr.Roles.ToList();
+            model.Roles = new SelectList(roles);
+            return View(model);
         }
 
         //
@@ -155,15 +165,26 @@ namespace WFM.UI.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    employeeService.SaveOrUpdate(new DAL.Employee
+                    {
+                        Email = model.Email,
+                        Name = model.Email,
+                        AspNetUserId = user.Id
+                    });
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    var roleMngr = new RoleManager<IdentityRole>(roleStore);
+                    IdentityRole identityRole = roleMngr.FindById(model.RoleId);
+                    UserManager.AddToRole(user.Id, identityRole.Name);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "AccountUser");
                 }
                 AddErrors(result);
             }

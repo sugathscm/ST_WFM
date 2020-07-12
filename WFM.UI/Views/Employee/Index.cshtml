@@ -1,6 +1,8 @@
 ﻿@model WFM.DAL.Employee
 
 @{
+    /**/
+
     ViewBag.Title = "Employees";
 }
 
@@ -15,12 +17,11 @@
                 "datatype": "json"
             },
             "columns": [
-                { "data": "Title" },
                 { "data": "Name" },
                 { "data": "Mobile" },
                 { "data": "Email" },
-                { "data": "FixedLine" },
                 { "data": "DesignationName" },
+                { "data": "DivisionName" },
                 {
                     "data": "IsActive",
                     "render": function (data, type, full, meta) {
@@ -31,7 +32,7 @@
                     }
                 },
                 {
-                    "data": "Id", "searchable": false, "ordering": false,
+                    "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
                         return '<a class="btn btn-info" href="/Employee/Index/' + data + '">Edit</a>';
                     }
@@ -48,25 +49,7 @@
         <!-- ============================================================== -->
         <!-- pageheader  -->
         <!-- ============================================================== -->
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="page-header">
-                    <h2 class="pageheader-title">@ViewBag.Title</h2>
-                    <div class="page-breadcrumb">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                @*<li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">E-Commerce Dashboard Template</li>*@
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-                @if (TempData["Message"] != null)
-                {
-                    @Html.Raw(TempData["Message"])
-                }
-            </div>
-        </div>
+        @Html.Partial("_PageHeaderPartial")
         <!-- ============================================================== -->
         <!-- end pageheader  -->
         <!-- ============================================================== -->
@@ -78,10 +61,10 @@
                         {
                             @*<form class="needs-validation" novalidate="">*@
                             @Html.AntiForgeryToken()
-                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                            @Html.ValidationSummary("", new { @class = "valFailure" })
                             @Html.HiddenFor(m => m.Id, new { @name = "Id" })
                             <div class="row">
-                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 ">
+                                <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 mb-2">
                                     @Html.LabelFor(m => m.Title, new { @class = "control-label" })
                                     @Html.DropDownList("Title", new List<SelectListItem>
                                     {
@@ -93,13 +76,17 @@
                                     new SelectListItem{ Text="Rev.", Value = "Rev." }
                                     }, "Title", new { @class = "form-control" })
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 mb-2">
                                     @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", required = "required" })
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-2">
                                     @Html.LabelFor(m => m.DesignationId, new { @class = "control-label" })
-                                    @Html.DropDownList("DesignationId", (SelectList)ViewBag.ListObject, "Designation", new { @class = "form-control" })
+                                    @Html.DropDownList("DesignationId", (SelectList)ViewBag.DesignationList, "Select Designation", new { @class = "form-control", required = "required" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-2">
+                                    @Html.LabelFor(m => m.DivisionId, new { @class = "control-label" })
+                                    @Html.DropDownList("DivisionId", (SelectList)ViewBag.DivisionList, "Select Division", new { @class = "form-control", required = "required" })
                                 </div>
                             </div>
                             <br />
@@ -117,7 +104,7 @@
                                     @Html.TextBoxFor(m => m.FixedLine, new { @class = "form-control" })
                                 </div>
 
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
                                     <div class="form-group">
                                         <div class="form-check">
                                             @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input", @checked = Model.IsActive })
@@ -125,7 +112,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
                                     <input type="submit" class="btn btn-success" value="Save" />
                                 </div>
                             </div>
@@ -141,12 +128,11 @@
                     <table id="List" class="table table-striped table-bordered first">
                         <thead>
                             <tr>
-                                <th>Title</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
                                 <th>Email</th>
-                                <th>Fixed Line</th>
                                 <th>Designation</th>
+                                <th>Division</th>
                                 <th>Active</th>
                                 <th></th>
                             </tr>
@@ -161,13 +147,17 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-    $('#DesignationId').select2({
-        selectOnClose: true
-    });
+        $('#DesignationId').select2({
+            selectOnClose: true
+        });
 
-    $('#Title').select2({
-        selectOnClose: true
-    });
+        $('#DivisionId').select2({
+            selectOnClose: true
+        });
+
+        $('#Title').select2({
+            selectOnClose: true
+        });
     </script>
 
 }

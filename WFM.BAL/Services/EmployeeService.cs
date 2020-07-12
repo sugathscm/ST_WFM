@@ -11,7 +11,15 @@ namespace WFM.BAL.Services
         {
             using (STWFMEntities entities = new STWFMEntities())
             {
-                return entities.Employees.Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
+                return entities.Employees.Include("Designation").Include("Division").Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
+            }
+        }
+
+        public List<Employee> GetEmployeeFullList()
+        {
+            using (STWFMEntities entities = new STWFMEntities())
+            {
+                return entities.Employees.Include("Designation").Include("Division").OrderBy(d => d.Name).ToList();
             }
         }
 

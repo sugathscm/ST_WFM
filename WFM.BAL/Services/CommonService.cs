@@ -29,6 +29,22 @@ namespace WFM.BAL.Services
             return 1;
         }
 
+        public static string GenerateCode(string year, string month)
+        {
+            var number = 1;
+
+            using (STWFMEntities entities = new STWFMEntities())
+            {
+                var quotesInMonth = entities.Quotes.Where(q => q.Month == month && q.Year == year).OrderBy(q => q.Id).ToList();
+                if(quotesInMonth.Count > 0)
+                {
+                    number = quotesInMonth.First().CodeNumber.Value + 1;
+                }
+            }
+
+            return string.Format("{0}-{1}-{2}", year.Substring(2, 2), month, number.ToString("000"));
+        }
+
 
         //public static List<GetDataAuditByUser_Result> GetDataAuditByUser(Guid userId)
         //{

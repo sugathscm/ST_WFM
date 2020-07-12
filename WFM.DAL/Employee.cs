@@ -24,7 +24,10 @@ namespace WFM.DAL
         public string Email { get; set; }
         public bool IsActive { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
-        public Nullable<int> TitleId { get; set; }
         public string AspNetUserId { get; set; }
+    
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Designation Designation { get; set; }
+        public virtual Division Division { get; set; }
     }
 }

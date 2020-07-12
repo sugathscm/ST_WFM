@@ -1,0 +1,123 @@
+﻿@model WFM.DAL.Quote
+
+@{
+
+    ViewBag.Title = "Quote Details";
+}
+
+<div class="dashboard-ecommerce">
+    <div class="container-fluid dashboard-content ">
+        <!-- ============================================================== -->
+        <!-- pageheader  -->
+        <!-- ============================================================== -->
+        @Html.Partial("_PageHeaderPartial")
+        <!-- ============================================================== -->
+        <!-- end pageheader  -->
+        <!-- ============================================================== -->
+        <div class="row" style="background-color:#fff">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("SaveOrUpdate", "Quote", FormMethod.Post, new { @class = "needs-validation", role = "form", enctype = "multipart/form-data" }))
+                        {
+                            @*<form class="needs-validation" novalidate="">*@
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "valFailure" })
+                            @Html.HiddenFor(m => m.Id, new { @name = "Id" })
+                            <div class="form-row">
+                                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="BaseQuoteId">Base Quote</label>
+                                    @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Code">Code</label>
+                                    @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12 ">
+                                    <label class="control-label" for="CreatedDate">Created Date</label>
+                                    @Html.TextBoxFor(m => m.CreatedDate, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Version">Version</label>
+                                    @Html.TextBoxFor(m => m.Version, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Month">Month</label>
+                                    @Html.TextBoxFor(m => m.Month, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Year">Year</label>
+                                    @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="Client">Client</label>
+                                    @Html.DropDownList("ClientId", (SelectList)ViewBag.ClientList, "Select Client", new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="ChanneledBy">Channeled By</label>
+                                    @Html.DropDownList("ChanneledBy", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Value">Value</label>
+                                    @Html.TextBoxFor(m => m.Value, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Comment">Comment</label>
+                                    @Html.TextBoxFor(m => m.Comments, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <label lass="control-label">Quotation File</label>
+                                    @Html.TextBox("file", "", new { type = "file", @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 ">
+                                    <input type="submit" class="btn btn-primary" value="Save" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 ">
+                                    <input type="button" class="btn btn-success" value="Approve" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $('#BaseQuoteId').select2({
+            selectOnClose: true
+        });
+        $('#ClientId').select2({
+            selectOnClose: true
+        });
+        $('#ChanneledBy').select2({
+            selectOnClose: true
+        });
+        $(document).ready(function () {
+            var d = new Date();
+            var today = new Date((d.getFullYear(), d.getMonth(), d.getDate()) + 'T00:00:00Z');
+            $("#Version").val("1");
+            $("#Month").val(d.getMonth().toString());
+            var year = d.getFullYear().toString();
+            $("#Year").val(year.substring(2, 4));
+            $("#CreatedDate").val(d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear());
+      });
+
+    </script>
+}
+ 
+

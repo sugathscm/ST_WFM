@@ -1,0 +1,174 @@
+﻿@model WFM.DAL.Order
+
+@{
+
+    ViewBag.Title = "Order Details";
+}
+
+<div class="dashboard-ecommerce">
+    <div class="container-fluid dashboard-content ">
+        <!-- ============================================================== -->
+        <!-- pageheader  -->
+        <!-- ============================================================== -->
+        @Html.Partial("_PageHeaderPartial")
+        <!-- ============================================================== -->
+        <!-- end pageheader  -->
+        <!-- ============================================================== -->
+        <div class="row" style="background-color:#fff">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("SaveOrUpdate", "Order", FormMethod.Post, new { @class = "needs-validation", role = "form" }))
+                        {
+                            @*<form class="needs-validation" novalidate="">*@
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "valFailure" })
+                            @Html.HiddenFor(m => m.Id, new { @name = "Id" })
+                            <div class="form-row">
+                                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="QuoteId">Quote</label>
+                                    @Html.DropDownList("QuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 ">
+                                    <label class="control-label" for="Code">Code</label>
+                                    @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12 ">
+                                    <label class="control-label" for="CreatedDate">Created Date</label>
+                                    @Html.TextBoxFor(m => m.CreatedDate, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 ">
+                                    <label class="control-label" for="Month">Month</label>
+                                    @Html.TextBoxFor(m => m.Month, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 ">
+                                    <label class="control-label" for="Year">Year</label>
+                                    @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12 ">
+                                    <label class="control-label" for="CreatedDate">Created Date</label>
+                                    @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="Client">Client</label>
+                                    @Html.DropDownList("ClientId", (SelectList)ViewBag.ClientList, "Select Client", new { @class = "form-control" })
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="ChanneledBy">Channeled By</label>
+                                    @Html.DropDownList("ChanneledBy", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="PaperQualityId">Paper Quality</label>
+                                    @Html.DropDownList("PaperQualityId", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="PrinterId">Printer</label>
+                                    @Html.DropDownList("PrinterId", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Value">Value</label>
+                                    @Html.TextBoxFor(m => m.Value, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Location">Location</label>
+                                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Comment">Comment</label>
+                                    @Html.TextBoxFor(m => m.Comments, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Location">Special Instructions</label>
+                                    @Html.TextAreaFor(m => m.Location, new { @class = "form-control" })
+                                </div>
+
+                            </div> <hr />
+                            <div>Order Items</div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 ">
+                                    Category
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 ">
+                                    Size
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                    Description
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
+                                    Qty
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
+                                    Value
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 ">
+                                    @Html.DropDownList("PrinterId", (SelectList)ViewBag.ChanneledByList, "Select Category", new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 ">
+                                    <input type="text" class="form-control" placeholder="Size" />
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                    <input type="text" class="form-control" placeholder="Description" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 ">
+                                    <input type="text" class="form-control" placeholder="Qty" />
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
+                                    <input type="text" class="form-control" placeholder="Value" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 ">
+                                    <input type="button" class="form-control" value="+" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 ">
+                                    <input type="submit" class="btn btn-primary" value="Save" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 ">
+                                    <input type="button" class="btn btn-success" value="Generate Final Invoice" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $('#QuoteId').select2({
+            selectOnClose: true
+        });
+        $('#ClientId').select2({
+            selectOnClose: true
+        });
+        $('#ChanneledBy').select2({
+            selectOnClose: true
+        });
+        $('#PaperQualityId').select2({
+            selectOnClose: true
+        });
+        $('#PrinterId').select2({
+            selectOnClose: true
+        });
+    </script>
+}
+
+

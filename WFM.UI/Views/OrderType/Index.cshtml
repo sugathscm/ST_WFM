@@ -39,25 +39,7 @@
         <!-- ============================================================== -->
         <!-- pageheader  -->
         <!-- ============================================================== -->
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="page-header">
-                    <h2 class="pageheader-title">@ViewBag.Title</h2>
-                    <div class="page-breadcrumb">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                @*<li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">E-Commerce Dashboard Template</li>*@
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-                @if (TempData["Message"] != null)
-                {
-                    @Html.Raw(TempData["Message"])
-                }
-            </div>
-        </div>
+        @Html.Partial("_PageHeaderPartial")
         <!-- ============================================================== -->
         <!-- end pageheader  -->
         <!-- ============================================================== -->
@@ -79,7 +61,7 @@
                 @using (Html.BeginForm("SaveOrUpdate", "OrderType", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    @Html.ValidationSummary("", new { @class = "valFailure" })
                     <div class="form-group">
                         @Html.HiddenFor(m => m.Id, new { @name = "Id" })
                         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })

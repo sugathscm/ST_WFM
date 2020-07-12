@@ -61,7 +61,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ParentId" Type="int" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
@@ -84,6 +84,8 @@
           <Property Name="CPMobile" Type="nvarchar" MaxLength="150" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CPTitle" Type="nvarchar" MaxLength="5" />
+          <Property Name="IsVAT" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DataAudit">
           <Key>
@@ -118,17 +120,16 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DesignationId" Type="int" />
           <Property Name="DivisionId" Type="int" />
-          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar" MaxLength="5" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="Mobile" Type="nvarchar" MaxLength="50" />
           <Property Name="FixedLine" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" />
-          <Property Name="TitleId" Type="int" />
           <Property Name="AspNetUserId" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="LoginAudit">
@@ -166,6 +167,8 @@
           <Property Name="LastTransferredDate" Type="datetime" />
           <Property Name="LastTransferredBy" Type="nvarchar" MaxLength="128" />
           <Property Name="OrderTypeId" Type="int" />
+          <Property Name="QuoteId" Type="int" />
+          <Property Name="Value" Type="money" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -226,6 +229,31 @@
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" />
         </EntityType>
+        <EntityType Name="Quote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientId" Type="int" />
+          <Property Name="Month" Type="nvarchar" MaxLength="10" />
+          <Property Name="Year" Type="nvarchar" MaxLength="4" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="ChanneledBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="Location" Type="nvarchar(max)" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="ApprovedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="ApprovedDate" Type="datetime" />
+          <Property Name="Value" Type="money" />
+          <Property Name="Version" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="BaseQuoteId" Type="int" />
+          <Property Name="CodeNumber" Type="int" />
+          <Property Name="FileAttched" Type="bit" />
+        </EntityType>
         <EntityType Name="Status">
           <Key>
             <PropertyRef Name="Id" />
@@ -252,6 +280,18 @@
           <Property Name="IsActive" Type="bit" />
           <Property Name="DateCreated" Type="datetime" />
         </EntityType>
+        <Association Name="FK_Client_Designation">
+          <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="CPDesignationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DataAudit_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="DataAudit" Type="Self.DataAudit" Multiplicity="*" />
@@ -317,6 +357,42 @@
             </Principal>
             <Dependent Role="AspNetUserRoles">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Designation">
+          <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DesignationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Division">
+          <End Role="Division" Type="Self.Division" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Division">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -440,6 +516,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Order_Quote">
+          <End Role="Quote" Type="Self.Quote" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Order_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -560,6 +648,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Quote_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="STWFMModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -580,9 +680,14 @@
           <EntitySet Name="OrderWayForward" EntityType="Self.OrderWayForward" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaperQuality" EntityType="Self.PaperQuality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Printer" EntityType="Self.Printer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title" EntityType="Self.Title" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Client_Designation" Association="Self.FK_Client_Designation">
+            <End Role="Designation" EntitySet="Designation" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
           <AssociationSet Name="FK_DataAudit_AspNetUsers" Association="Self.FK_DataAudit_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="DataAudit" EntitySet="DataAudit" />
@@ -602,6 +707,18 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_AspNetUsers" Association="Self.FK_Employee_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Designation" Association="Self.FK_Employee_Designation">
+            <End Role="Designation" EntitySet="Designation" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Division" Association="Self.FK_Employee_Division">
+            <End Role="Division" EntitySet="Division" />
+            <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
           <AssociationSet Name="FK_LoginAudit_AspNetUsers" Association="Self.FK_LoginAudit_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -643,6 +760,10 @@
             <End Role="Printer" EntitySet="Printer" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
+          <AssociationSet Name="FK_Order_Quote" Association="Self.FK_Order_Quote">
+            <End Role="Quote" EntitySet="Quote" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
           <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="Order" EntitySet="Order" />
@@ -682,6 +803,10 @@
           <AssociationSet Name="FK_OrderWayForward_Order" Association="Self.FK_OrderWayForward_Order">
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderWayForward" EntitySet="OrderWayForward" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quote_Client" Association="Self.FK_Quote_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Quote" EntitySet="Quote" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -806,6 +931,31 @@
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <EntitySet Name="Employees" EntityType="STWFMModel.Employee" />
+          <AssociationSet Name="FK_Employee_AspNetUsers" Association="STWFMModel.FK_Employee_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client_Designation" Association="STWFMModel.FK_Client_Designation">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Designation" Association="STWFMModel.FK_Employee_Designation">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Division" Association="STWFMModel.FK_Employee_Division">
+            <End Role="Division" EntitySet="Divisions" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <EntitySet Name="Quotes" EntityType="STWFMModel.Quote" />
+          <AssociationSet Name="FK_Quote_Client" Association="STWFMModel.FK_Quote_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Quote" EntitySet="Quotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Quote" Association="STWFMModel.FK_Order_Quote">
+            <End Role="Quote" EntitySet="Quotes" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -862,6 +1012,7 @@
           <NavigationProperty Name="Orders3" Relationship="STWFMModel.FK_Order_Order" FromRole="AspNetUser" ToRole="Order" />
           <NavigationProperty Name="OrderTrackings" Relationship="STWFMModel.FK_OrderTracking_AspNetUsers" FromRole="AspNetUser" ToRole="OrderTracking" />
           <NavigationProperty Name="AspNetRoles" Relationship="STWFMModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <NavigationProperty Name="Employees" Relationship="STWFMModel.FK_Employee_AspNetUsers" FromRole="AspNetUser" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -883,6 +1034,10 @@
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Client" FromRole="Client" ToRole="Order" />
+          <NavigationProperty Name="Designation" Relationship="STWFMModel.FK_Client_Designation" FromRole="Client" ToRole="Designation" />
+          <Property Name="CPTitle" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Quotes" Relationship="STWFMModel.FK_Quote_Client" FromRole="Client" ToRole="Quote" />
+          <Property Name="IsVAT" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="DataAudit">
           <Key>
@@ -904,6 +1059,8 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Clients" Relationship="STWFMModel.FK_Client_Designation" FromRole="Designation" ToRole="Client" />
+          <NavigationProperty Name="Employees" Relationship="STWFMModel.FK_Employee_Designation" FromRole="Designation" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Division">
           <Key>
@@ -917,6 +1074,7 @@
           <NavigationProperty Name="OrderTrackings" Relationship="STWFMModel.FK_OrderTracking_FromDivision" FromRole="Division" ToRole="OrderTracking" />
           <NavigationProperty Name="OrderTrackings1" Relationship="STWFMModel.FK_OrderTracking_ToDivision" FromRole="Division" ToRole="OrderTracking" />
           <NavigationProperty Name="OrderWayForwards" Relationship="STWFMModel.FK_OrderWayForward_Division" FromRole="Division" ToRole="OrderWayForward" />
+          <NavigationProperty Name="Employees" Relationship="STWFMModel.FK_Employee_Division" FromRole="Division" ToRole="Employee" />
         </EntityType>
         <EntityType Name="LoginAudit">
           <Key>
@@ -967,6 +1125,9 @@
           <NavigationProperty Name="OrderItems" Relationship="STWFMModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
           <Property Name="OrderTypeId" Type="Int32" />
           <NavigationProperty Name="OrderType" Relationship="STWFMModel.FK_Order_OrderType" FromRole="Order" ToRole="OrderType" />
+          <Property Name="QuoteId" Type="Int32" />
+          <NavigationProperty Name="Quote" Relationship="STWFMModel.FK_Order_Quote" FromRole="Order" ToRole="Quote" />
+          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="OrderTracking">
           <Key>
@@ -1297,7 +1458,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ParentId" Type="Int32" />
           <NavigationProperty Name="OrderItems" Relationship="STWFMModel.FK_OrderItem_Category" FromRole="Category" ToRole="OrderItem" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -1365,19 +1526,120 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DesignationId" Type="Int32" />
           <Property Name="DivisionId" Type="Int32" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FixedLine" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <Property Name="TitleId" Type="Int32" />
           <Property Name="AspNetUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="STWFMModel.FK_Employee_AspNetUsers" FromRole="Employee" ToRole="AspNetUser" />
+          <NavigationProperty Name="Designation" Relationship="STWFMModel.FK_Employee_Designation" FromRole="Employee" ToRole="Designation" />
+          <NavigationProperty Name="Division" Relationship="STWFMModel.FK_Employee_Division" FromRole="Employee" ToRole="Division" />
         </EntityType>
+        <Association Name="FK_Employee_AspNetUsers">
+          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="STWFMModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="AspNetUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client_Designation">
+          <End Type="STWFMModel.Designation" Role="Designation" Multiplicity="0..1" />
+          <End Type="STWFMModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="CPDesignationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Designation">
+          <End Type="STWFMModel.Designation" Role="Designation" Multiplicity="0..1" />
+          <End Type="STWFMModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DesignationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Division">
+          <End Type="STWFMModel.Division" Role="Division" Multiplicity="0..1" />
+          <End Type="STWFMModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Division">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Quote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChanneledBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Client" Relationship="STWFMModel.FK_Quote_Client" FromRole="Quote" ToRole="Client" />
+          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Quote" FromRole="Quote" ToRole="Order" />
+          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Version" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="BaseQuoteId" Type="Int32" />
+          <Property Name="CodeNumber" Type="Int32" />
+          <Property Name="FileAttched" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_Quote_Client">
+          <End Type="STWFMModel.Client" Role="Client" Multiplicity="0..1" />
+          <End Type="STWFMModel.Quote" Role="Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Quote">
+          <End Type="STWFMModel.Quote" Role="Quote" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1432,6 +1694,8 @@
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="STWFMModel.Client">
               <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
+                <ScalarProperty Name="CPTitle" ColumnName="CPTitle" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CPMobile" ColumnName="CPMobile" />
@@ -1495,6 +1759,8 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="STWFMModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
                 <ScalarProperty Name="OrderTypeId" ColumnName="OrderTypeId" />
                 <ScalarProperty Name="LastTransferredBy" ColumnName="LastTransferredBy" />
                 <ScalarProperty Name="LastTransferredDate" ColumnName="LastTransferredDate" />
@@ -1636,7 +1902,6 @@
             <EntityTypeMapping TypeName="STWFMModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
                 <ScalarProperty Name="AspNetUserId" ColumnName="AspNetUserId" />
-                <ScalarProperty Name="TitleId" ColumnName="TitleId" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1646,6 +1911,32 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="DivisionId" ColumnName="DivisionId" />
                 <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quotes">
+            <EntityTypeMapping TypeName="STWFMModel.Quote">
+              <MappingFragment StoreEntitySet="Quote">
+                <ScalarProperty Name="FileAttched" ColumnName="FileAttched" />
+                <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
+                <ScalarProperty Name="BaseQuoteId" ColumnName="BaseQuoteId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="ChanneledBy" ColumnName="ChanneledBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

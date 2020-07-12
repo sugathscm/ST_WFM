@@ -18,6 +18,7 @@ namespace WFM.UI.Models
         [MaxLength(50)]
         public string FixedLine { get; set; }
         public string DesignationName { get; set; }
+        public string DivisionName { get; set; }
         [Display(Name = "Active")]
         public bool IsActive { get; set; } = true;
         public int DesignationId { get; set; }

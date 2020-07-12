@@ -8,7 +8,7 @@ using WFM.UI.Models;
 
 namespace WFM.UI.Controllers
 {
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class AccountUserController : Controller
     {
         private ApplicationDbContext context;
@@ -32,13 +32,13 @@ namespace WFM.UI.Controllers
                                                    equals role.Id
                                                    select role.Name).ToList()
                                   }).ToList().Select(p => new UsersInRoleViewModel()
-
                                   {
                                       UserId = p.UserId,
                                       Username = p.Username,
                                       Email = p.Email,
                                       Role = string.Join(",", p.RoleNames)
                                   });
+
             return View(usersWithRoles);
         }
     }

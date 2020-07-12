@@ -18,6 +18,7 @@ namespace WFM.DAL
         public Client()
         {
             this.Orders = new HashSet<Order>();
+            this.Quotes = new HashSet<Quote>();
         }
     
         public int Id { get; set; }
@@ -35,8 +36,13 @@ namespace WFM.DAL
         public string CPMobile { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CPTitle { get; set; }
+        public bool IsVAT { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual Designation Designation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Quote> Quotes { get; set; }
     }
 }

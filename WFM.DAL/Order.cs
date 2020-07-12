@@ -44,6 +44,8 @@ namespace WFM.DAL
         public Nullable<System.DateTime> LastTransferredDate { get; set; }
         public string LastTransferredBy { get; set; }
         public Nullable<int> OrderTypeId { get; set; }
+        public Nullable<int> QuoteId { get; set; }
+        public Nullable<decimal> Value { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }
@@ -61,5 +63,6 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual OrderType OrderType { get; set; }
+        public virtual Quote Quote { get; set; }
     }
 }

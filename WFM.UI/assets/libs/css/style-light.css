@@ -1272,10 +1272,18 @@ Top Header
     color: #82849f;
 }
 
+.navbar-right li a {
+    color: #270c0c;
+    padding: 5px 10px;
+    font-weight:bold;
+    font-size:14px;
+}
+    .navbar-right li a:hover {
+        color: #fff;
+    }
 
-/* ------  top-search-bar --------  */
-
-.top-search-bar {
+    /* ------  top-search-bar --------  */
+    .top-search-bar {
     padding-top: 12px;
     padding-right: 24px;
 }
@@ -1815,7 +1823,7 @@ Leftsidebar - dark
 ------------------------- */
 
 .sidebar-dark {
-    background-color: #0e0c28;
+    background-color: #333;
     -webkit-box-shadow: 0px 0px 28px 0px rgba(82, 63, 105, 0.13);
     box-shadow: 0px 0px 28px 0px rgba(82, 63, 105, 0.13);
     -webkit-transition: all 0.3s ease;
@@ -2609,6 +2617,7 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 2.1  Alerts
 -------------------------*/
 #flash-success {
+    margin-bottom:10px;
     display: none;
     background-color: #2ec551;
     color: #fff;
@@ -2616,11 +2625,34 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 }
 
 #flash-error {
+    margin-top: 10px;
     display: none;
     background-color: #ef172c;
     color: #fff;
     padding: 5px;
 }
+
+.valFailure {
+ 
+    text-align: left;
+    margin: 10px 0;
+}
+
+    .valFailure ul {
+        color: #bf1616;
+        padding-left: 30px;
+    }
+
+        .valFailure ul li {
+            padding-top: 2px;
+        }
+            .valFailure ul li:before {
+                content: "\f00d"; /* FontAwesome Unicode */
+                font-family: FontAwesome;
+                display: inline-block;
+                margin-left: -1.3em; /* same as padding-left set on li */
+                width: 1.3em; /* same as padding-left set on li */
+            }
 
 /* -----------------------
 2.2  Buttons
@@ -2678,15 +2710,15 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 
 .btn-primary {
     color: #fff;
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #e30613;
+    border-color: #270c0c;
 }
 
-.btn-primary:hover {
-    color: #fff;
-    background-color: #4656e9;
-    border-color: #4656e9;
-}
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #270c0c;
+        border-color: #e30613;
+    }
 
 .btn-primary.focus,
 .btn-primary:focus {
@@ -7003,17 +7035,20 @@ Media Query
     padding: 17px 29px;}
 }
 
-
-
-
 /* Custom, iPhone Retina */
-@media only screen and (max-width:320px) {}
+@media only screen and (max-width:320px) {
+
+}
 
 /* custom */
 .bg-white {
-    background-color: #0e0c28 !important;
+    background-color: #e30613 !important;
 }
 
 select.form-control:not([size]):not([multiple]) {
     height: calc(1rem +2)!important;
+}
+
+input:required {
+    background-color: #fffedf;
 }

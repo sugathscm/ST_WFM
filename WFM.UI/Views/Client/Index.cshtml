@@ -1,0 +1,195 @@
+﻿@model WFM.DAL.Client
+
+@{
+     ViewBag.Title = "Clients";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#List').DataTable({
+            "paging": true,
+
+            "ajax": {
+                "url": "/Client/GetList",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Name" },
+                { "data": "CPTitle" },
+                { "data": "CPName" },
+                { "data": "DesignationName" },
+                { "data": "CPMobile" },
+                { "data": "Email" },
+                { "data": "LandLine" },
+                {
+                    "data": "IsActive",
+                    "render": function (data, type, full, meta) {
+                        if (data == true)
+                            return 'Yes';
+                        else
+                            return 'No';
+                    }
+                },
+                {
+                    "data": "Id", "searchable": false, "ordering": false,
+                    "render": function (data, type, full, meta) {
+                        return '<a class="btn btn-info" href="/Client/Index/' + data + '">Edit</a>';
+                    }
+                },
+            ]
+        });
+    });
+</script>
+
+<div class="dashboard-ecommerce">
+    <div class="container-fluid dashboard-content ">
+        <!-- ============================================================== -->
+        <!-- pageheader  -->
+        <!-- ============================================================== -->
+        @Html.Partial("_PageHeaderPartial")
+        <!-- ============================================================== -->
+        <!-- end pageheader  -->
+        <!-- ============================================================== -->
+        <div class="row" style="background-color:#fff">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("SaveOrUpdate", "Client", FormMethod.Post, new { @class = "needs-validation", role = "form" }))
+                        {
+                            @*<form class="needs-validation" novalidate="">*@
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary("", new { @class = "valFailure" })
+                            @Html.HiddenFor(m => m.Id, new { @name = "Id" })
+                            <div class="form-row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                    @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", required = "required" })
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="AddressLine1">Address Line 1</label>
+                                    @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="AddressLine2">Address Line 2</label>
+                                    @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 ">
+                                    @Html.LabelFor(m => m.City, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 ">
+                                    @Html.LabelFor(m => m.PostCode, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.PostCode, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
+                                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="LandLine">Land Line</label>
+                                    @Html.TextBoxFor(m => m.LandLine, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="FixedLine">Fixed Line</label>
+                                    @Html.TextBoxFor(m => m.FixedLine, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
+                                    <label class="control-label" for="Title">Title</label>
+                                    @Html.DropDownList("CPTitle", new List<SelectListItem>
+                                    {
+                                    new SelectListItem{ Text="Mr.", Value = "Mr." },
+                                    new SelectListItem{ Text="Ms.", Value = "Ms." },
+                                    new SelectListItem{ Text="Mrs.", Value = "Mrs." },
+                                    new SelectListItem{ Text="Miss.", Value = "Miss." },
+                                    new SelectListItem{ Text="Dr.", Value = "Dr." },
+                                    new SelectListItem{ Text="Rev.", Value = "Rev." }
+                                    }, "Title", new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="CPName">Contact Person</label>
+                                    @Html.TextBoxFor(m => m.CPName, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="Designation">Designation</label>
+                                    @Html.DropDownList("CPDesignationId", (SelectList)ViewBag.ListObject, "Designation", new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-2">
+                                    <label class="control-label" for="Mobile">Mobile</label>
+                                    @Html.TextBoxFor(m => m.CPMobile, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(m => m.IsVAT, new { @class = "form-check-input", @checked = Model.IsVAT })
+                                            @Html.LabelFor(m => m.IsVAT, new { @class = "col-md-2 control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input", @checked = Model.IsActive })
+                                            @Html.LabelFor(m => m.IsActive, new { @class = "col-md-2 control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                                    <input type="submit" class="btn btn-success" value="Save" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row" style="background-color:#fff">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
+                <div class="table-responsive">
+                    <table id="List" class="table table-striped table-bordered first">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Title</th>
+                                <th>Contact Person</th>
+                                <th>Designation</th>
+                                <th>Mobile</th>
+                                <th>Email</th>
+                                <th>Land Line</th>
+                                <th>Active</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $('#CPDesignationId').select2({
+            selectOnClose: true
+        });
+
+        $('#CPTitle').select2({
+            selectOnClose: true
+        });
+    </script>
+
+}

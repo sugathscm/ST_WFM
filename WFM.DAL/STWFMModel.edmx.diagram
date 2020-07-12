@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="STWFMModel.AspNetUser" Width="1.5" PointX="0.75" PointY="12.25" />
         <EntityTypeShape EntityType="STWFMModel.Client" Width="1.5" PointX="3" PointY="17" />
         <EntityTypeShape EntityType="STWFMModel.DataAudit" Width="1.5" PointX="3" PointY="27.25" />
-        <EntityTypeShape EntityType="STWFMModel.Designation" Width="1.5" PointX="0.75" PointY="21.125" />
+        <EntityTypeShape EntityType="STWFMModel.Designation" Width="1.5" PointX="8" PointY="18.75" />
         <EntityTypeShape EntityType="STWFMModel.Division" Width="1.5" PointX="0.75" PointY="4.625" />
         <EntityTypeShape EntityType="STWFMModel.LoginAudit" Width="1.5" PointX="3" PointY="24.5" />
         <EntityTypeShape EntityType="STWFMModel.Order" Width="1.5" PointX="5.25" PointY="2.375" />
@@ -49,7 +49,14 @@
         <AssociationConnector Association="STWFMModel.FK_OrderItem_Order" />
         <EntityTypeShape EntityType="STWFMModel.OrderType" Width="1.5" PointX="10.375" PointY="0.75" />
         <AssociationConnector Association="STWFMModel.FK_Order_OrderType" />
-        <EntityTypeShape EntityType="STWFMModel.Employee" Width="1.5" PointX="10.375" PointY="8.75" />
+        <EntityTypeShape EntityType="STWFMModel.Employee" Width="1.5" PointX="3" PointY="4.25" />
+        <AssociationConnector Association="STWFMModel.FK_Employee_AspNetUsers" />
+        <AssociationConnector Association="STWFMModel.FK_Client_Designation" />
+        <AssociationConnector Association="STWFMModel.FK_Employee_Designation" />
+        <AssociationConnector Association="STWFMModel.FK_Employee_Division" />
+        <EntityTypeShape EntityType="STWFMModel.Quote" Width="1.5" PointX="5.25" PointY="17.25" />
+        <AssociationConnector Association="STWFMModel.FK_Quote_Client" />
+        <AssociationConnector Association="STWFMModel.FK_Order_Quote" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

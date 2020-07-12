@@ -27,6 +27,7 @@ namespace WFM.DAL
             this.Orders3 = new HashSet<Order>();
             this.OrderTrackings = new HashSet<OrderTracking>();
             this.AspNetRoles = new HashSet<AspNetRole>();
+            this.Employees = new HashSet<Employee>();
         }
     
         public string Id { get; set; }
@@ -62,5 +63,7 @@ namespace WFM.DAL
         public virtual ICollection<OrderTracking> OrderTrackings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

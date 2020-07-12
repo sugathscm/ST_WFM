@@ -18,6 +18,7 @@ namespace WFM.UI.Controllers
         private ApplicationUserManager _userManager;
         private readonly EmployeeService employeeService = new EmployeeService();
         private readonly DesignationService designationService = new DesignationService();
+        private readonly DivisionService divisionService = new DivisionService();
 
         public EmployeeController()
         {
@@ -50,9 +51,8 @@ namespace WFM.UI.Controllers
                 employee = employeeService.GetEmployeeById(id);
             }
 
-            var listData = designationService.GetDesignationList();
-
-            ViewBag.ListObject = new SelectList(listData, "Id", "Name");
+            ViewBag.DesignationList = new SelectList(designationService.GetDesignationList(), "Id", "Name");
+            ViewBag.DivisionList = new SelectList(divisionService.GetDivisionList(), "Id", "Name");
 
             return View(employee);
         }
@@ -60,7 +60,7 @@ namespace WFM.UI.Controllers
         public ActionResult GetList()
         {
 
-            var list = employeeService.GetEmployeeList();
+            var list = employeeService.GetEmployeeFullList();
             List<EmployeeView> modelList = new List<EmployeeView>();
             foreach (var item in list)
             {
@@ -73,7 +73,8 @@ namespace WFM.UI.Controllers
                     Mobile = item.Mobile,
                     Email = item.Email,
                     FixedLine = item.FixedLine,
-                    DesignationName = (item.DesignationId == 0) ? "" : designationService.GetDesignationById(item.DesignationId).Name,
+                    DesignationName = (item.DesignationId == 0 || item.DesignationId == null) ? "" : item.Designation.Name,
+                    DivisionName = (item.DivisionId == 0 || item.DivisionId == null) ? "" : item.Division.Name,
                 });
             }
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
@@ -101,7 +102,8 @@ namespace WFM.UI.Controllers
                         Email = model.Email,
                         FixedLine = model.FixedLine,
                         IsActive = true,
-                        DesignationId = model.DesignationId
+                        DesignationId = model.DesignationId,
+                        DivisionId = model.DivisionId
                     };
 
                     oldEmployee = new Employee();
@@ -122,6 +124,7 @@ namespace WFM.UI.Controllers
                         Email = oldEmployee.Email,
                         FixedLine = oldEmployee.FixedLine,
                         DesignationId = oldEmployee.DesignationId,
+                        DivisionId = oldEmployee.DivisionId,
                         IsActive = oldEmployee.IsActive
                     });
 
@@ -130,6 +133,7 @@ namespace WFM.UI.Controllers
                     employee.Mobile = model.Mobile;
                     employee.Email = model.Email;
                     employee.FixedLine = model.FixedLine;
+                    employee.DivisionId = model.DivisionId;
                     employee.DesignationId = model.DesignationId;
                     bool Example = Convert.ToBoolean(Request.Form["IsActive.Value"]);
                     employee.IsActive = model.IsActive;
@@ -143,9 +147,12 @@ namespace WFM.UI.Controllers
                         Email = employee.Email,
                         FixedLine = employee.FixedLine,
                         DesignationId = employee.DesignationId,
+                        DivisionId = oldEmployee.DivisionId,
                         IsActive = employee.IsActive
                     });
                 }
+
+                employeeService.SaveOrUpdate(employee);
 
                 CommonService.SaveDataAudit(new DataAudit()
                 {
