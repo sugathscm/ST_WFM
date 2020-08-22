@@ -47,5 +47,7 @@ namespace WFM.DAL
         public virtual DbSet<OrderType> OrderTypes { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Quote> Quotes { get; set; }
+        public virtual DbSet<QuoteTerm> QuoteTerms { get; set; }
+        public virtual DbSet<QuoteItem> QuoteItems { get; set; }
     }
 }

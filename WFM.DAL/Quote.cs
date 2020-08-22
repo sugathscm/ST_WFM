@@ -18,6 +18,7 @@ namespace WFM.DAL
         public Quote()
         {
             this.Orders = new HashSet<Order>();
+            this.QuoteItems = new HashSet<QuoteItem>();
         }
     
         public int Id { get; set; }
@@ -40,9 +41,15 @@ namespace WFM.DAL
         public Nullable<int> BaseQuoteId { get; set; }
         public Nullable<int> CodeNumber { get; set; }
         public Nullable<bool> FileAttched { get; set; }
+        public Nullable<bool> ConvertedToOrder { get; set; }
+        public bool IsVAT { get; set; }
+        public string Header { get; set; }
+        public Nullable<bool> IsConverted { get; set; }
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuoteItem> QuoteItems { get; set; }
     }
 }

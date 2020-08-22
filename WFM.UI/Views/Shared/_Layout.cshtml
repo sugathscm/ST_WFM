@@ -12,7 +12,6 @@
     @*<link rel="stylesheet" href="~/assets/vendor/fonts/fontawesome/css/fontawesome-all.css" />*@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/assets/vendor/fonts/circular-std/style.css" />
-    <link rel="stylesheet" href="~/assets/libs/css/style-light.css" />
     <link rel="stylesheet" href="~/assets/vendor/charts/chartist-bundle/chartist.css" />
     <link rel="stylesheet" href="~/assets/vendor/charts/morris-bundle/morris.css" />
     <link rel="stylesheet" href="~/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css" />
@@ -22,9 +21,10 @@
     <link rel="stylesheet" href="~/assets/vendor/datatables/css/buttons.bootstrap4.css" />
     <link rel="stylesheet" href="~/assets/vendor/datatables/css/select.bootstrap4.css" />
     <link rel="stylesheet" href="~/assets/vendor/datatables/css/fixedHeader.bootstrap4.css" />
-    <link rel="stylesheet" href="~/assets/vendor/select2/css/select2.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/assets/libs/css/main.css" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
     <script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -32,6 +32,11 @@
     <link rel="stylesheet" href="~/assets/libs/css/index.css" />
     <!-- bootstap bundle js -->
     <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+
+    <link rel="stylesheet" href="~/assets/libs/css/style-light.css" />
+    <script src="~/assets/vendor/charts/c3charts/c3.min.js"></script>
+    <script src="~/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
+    <script src="~/assets/vendor/charts/c3charts/C3chartjs.js"></script>
 </head>
 <body>
     @*<div class="navbar navbar-inverse navbar-fixed-top">
@@ -108,8 +113,8 @@
                                             <a class="nav-link" href="DataAudit">Data Audit</a>
                                         </li>
                                         @*<li class="nav-item">
-                                            <a class="nav-link" href="#">Message Centre</a>
-                                        </li>*@
+                                                <a class="nav-link" href="#">Message Centre</a>
+                                            </li>*@
                                     </ul>
                                 </div>
                             </li>
@@ -129,17 +134,20 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="~/OrderType">Order Type</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="~/PaperQuality">Paper Quality</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="~/Printer">Printer</a>
-                                        </li>
+                                        @*<li class="nav-item">
+                                                <a class="nav-link" href="~/PaperQuality">Paper Quality</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="~/Printer">Printer</a>
+                                            </li>*@
                                         <li class="nav-item">
                                             <a class="nav-link" href="~/Employee">Employees</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="~/Client">Client</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="~/QuoteTerm">Quote Term</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="~/AccountUser">User Management</a>
@@ -148,13 +156,33 @@
                                 </div>
                             </li>
                             <li class="nav-divider">
-                                Projects
+                                Transctions
                             </li>
-                            <li>
-                                <a class="nav-link" href="~/Quote"><i class="fa fa-fw fa-file"></i>Quotations</a>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#quote" aria-controls="master"><i class="fa fa-fw fa-folder-open"></i>Quotations</a>
+                                <div id="quote" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="~/Quote">Quotation List</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="~/Quote/Details">New Quotation</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
-                            <li>
-                                <a class="nav-link" href="~/Order"><i class="fa fa-fw fa-dollar"></i>Orders</a>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#order" aria-controls="master"><i class="fa fa-fw fa-folder-open"></i>Job Orders</a>
+                                <div id="order" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="~/Order">Job Order List</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="~/Order/Details">New Job Order</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -206,10 +234,7 @@
     <script src="~/assets/vendor/charts/morris-bundle/raphael.min.js"></script>
     <script src="~/assets/vendor/charts/morris-bundle/morris.js"></script>
     <!-- chart c3 js -->
-    @*<script src="~/assets/vendor/charts/c3charts/c3.min.js"></script>
-        <script src="~/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
-        <script src="~/assets/vendor/charts/c3charts/C3chartjs.js"></script>
-        <script src="~/assets/libs/js/dashboard-ecommerce.js"></script>*@
+    @*    <script src="~/assets/libs/js/dashboard-ecommerce.js"></script>*@
     <script src="~/assets/libs/js/dataTables.min.js"></script>
     <script src="~/assets/vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
     @*<script src="~/assets/vendor/datatables/js/buttons.bootstrap4.min.js"></script>*@

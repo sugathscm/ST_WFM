@@ -15,4 +15,10 @@ namespace WFM.UI.Models
         [Display(Name = "Active")]
         public bool IsActive { get; set; } = true;
     }
+
+    public class CategoryViewModel : BaseViewModel
+    {
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+    }
 }

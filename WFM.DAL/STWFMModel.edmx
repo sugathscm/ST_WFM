@@ -64,6 +64,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ParentId" Type="int" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -169,6 +170,7 @@
           <Property Name="OrderTypeId" Type="int" />
           <Property Name="QuoteId" Type="int" />
           <Property Name="Value" Type="money" />
+          <Property Name="Header" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -253,6 +255,31 @@
           <Property Name="BaseQuoteId" Type="int" />
           <Property Name="CodeNumber" Type="int" />
           <Property Name="FileAttched" Type="bit" />
+          <Property Name="ConvertedToOrder" Type="bit" />
+          <Property Name="IsVAT" Type="bit" Nullable="false" />
+          <Property Name="Header" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsConverted" Type="bit" />
+        </EntityType>
+        <EntityType Name="QuoteItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuoteId" Type="int" />
+          <Property Name="CatgoryId" Type="int" />
+          <Property Name="Size" Type="nvarchar" MaxLength="50" />
+          <Property Name="Qty" Type="float" />
+          <Property Name="Value" Type="money" />
+          <Property Name="VAT" Type="money" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="QuoteTerm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -660,6 +687,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_QuoteItem_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="QuoteItem" Type="Self.QuoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteItem">
+              <PropertyRef Name="CatgoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteItem_Quote">
+          <End Role="Quote" Type="Self.Quote" Multiplicity="0..1" />
+          <End Role="QuoteItem" Type="Self.QuoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteItem">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="STWFMModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -681,6 +732,8 @@
           <EntitySet Name="PaperQuality" EntityType="Self.PaperQuality" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Printer" EntityType="Self.Printer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuoteItem" EntityType="Self.QuoteItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuoteTerm" EntityType="Self.QuoteTerm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title" EntityType="Self.Title" Schema="dbo" store:Type="Tables" />
@@ -807,6 +860,14 @@
           <AssociationSet Name="FK_Quote_Client" Association="Self.FK_Quote_Client">
             <End Role="Client" EntitySet="Client" />
             <End Role="Quote" EntitySet="Quote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteItem_Category" Association="Self.FK_QuoteItem_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="QuoteItem" EntitySet="QuoteItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteItem_Quote" Association="Self.FK_QuoteItem_Quote">
+            <End Role="Quote" EntitySet="Quote" />
+            <End Role="QuoteItem" EntitySet="QuoteItem" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -955,6 +1016,16 @@
           <AssociationSet Name="FK_Order_Quote" Association="STWFMModel.FK_Order_Quote">
             <End Role="Quote" EntitySet="Quotes" />
             <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="QuoteTerms" EntityType="STWFMModel.QuoteTerm" />
+          <EntitySet Name="QuoteItems" EntityType="STWFMModel.QuoteItem" />
+          <AssociationSet Name="FK_QuoteItem_Category" Association="STWFMModel.FK_QuoteItem_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="QuoteItem" EntitySet="QuoteItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteItem_Quote" Association="STWFMModel.FK_QuoteItem_Quote">
+            <End Role="Quote" EntitySet="Quotes" />
+            <End Role="QuoteItem" EntitySet="QuoteItems" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetRole">
@@ -1128,6 +1199,7 @@
           <Property Name="QuoteId" Type="Int32" />
           <NavigationProperty Name="Quote" Relationship="STWFMModel.FK_Order_Quote" FromRole="Order" ToRole="Quote" />
           <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Header" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderTracking">
           <Key>
@@ -1462,6 +1534,8 @@
           <Property Name="ParentId" Type="Int32" />
           <NavigationProperty Name="OrderItems" Relationship="STWFMModel.FK_OrderItem_Category" FromRole="Category" ToRole="OrderItem" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="QuoteItems" Relationship="STWFMModel.FK_QuoteItem_Category" FromRole="Category" ToRole="QuoteItem" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -1615,6 +1689,11 @@
           <Property Name="BaseQuoteId" Type="Int32" />
           <Property Name="CodeNumber" Type="Int32" />
           <Property Name="FileAttched" Type="Boolean" />
+          <Property Name="ConvertedToOrder" Type="Boolean" />
+          <Property Name="IsVAT" Type="Boolean" Nullable="false" />
+          <Property Name="Header" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsConverted" Type="Boolean" />
+          <NavigationProperty Name="QuoteItems" Relationship="STWFMModel.FK_QuoteItem_Quote" FromRole="Quote" ToRole="QuoteItem" />
         </EntityType>
         <Association Name="FK_Quote_Client">
           <End Type="STWFMModel.Client" Role="Client" Multiplicity="0..1" />
@@ -1636,6 +1715,53 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Order">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="QuoteTerm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuoteItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuoteId" Type="Int32" />
+          <Property Name="CatgoryId" Type="Int32" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Double" />
+          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="VAT" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="STWFMModel.FK_QuoteItem_Category" FromRole="QuoteItem" ToRole="Category" />
+          <NavigationProperty Name="Quote" Relationship="STWFMModel.FK_QuoteItem_Quote" FromRole="QuoteItem" ToRole="Quote" />
+        </EntityType>
+        <Association Name="FK_QuoteItem_Category">
+          <End Type="STWFMModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="STWFMModel.QuoteItem" Role="QuoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteItem">
+              <PropertyRef Name="CatgoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteItem_Quote">
+          <End Type="STWFMModel.Quote" Role="Quote" Multiplicity="0..1" />
+          <End Type="STWFMModel.QuoteItem" Role="QuoteItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteItem">
               <PropertyRef Name="QuoteId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1759,6 +1885,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="STWFMModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Header" ColumnName="Header" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
                 <ScalarProperty Name="OrderTypeId" ColumnName="OrderTypeId" />
@@ -1869,6 +1996,7 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="STWFMModel.Category">
               <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -1918,6 +2046,10 @@
           <EntitySetMapping Name="Quotes">
             <EntityTypeMapping TypeName="STWFMModel.Quote">
               <MappingFragment StoreEntitySet="Quote">
+                <ScalarProperty Name="IsConverted" ColumnName="IsConverted" />
+                <ScalarProperty Name="Header" ColumnName="Header" />
+                <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
+                <ScalarProperty Name="ConvertedToOrder" ColumnName="ConvertedToOrder" />
                 <ScalarProperty Name="FileAttched" ColumnName="FileAttched" />
                 <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
                 <ScalarProperty Name="BaseQuoteId" ColumnName="BaseQuoteId" />
@@ -1937,6 +2069,29 @@
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuoteTerms">
+            <EntityTypeMapping TypeName="STWFMModel.QuoteTerm">
+              <MappingFragment StoreEntitySet="QuoteTerm">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuoteItems">
+            <EntityTypeMapping TypeName="STWFMModel.QuoteItem">
+              <MappingFragment StoreEntitySet="QuoteItem">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="VAT" ColumnName="VAT" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="CatgoryId" ColumnName="CatgoryId" />
+                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

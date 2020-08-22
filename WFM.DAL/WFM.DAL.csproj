@@ -109,6 +109,12 @@
     <Compile Include="Quote.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="QuoteItem.cs">
+      <DependentUpon>STWFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QuoteTerm.cs">
+      <DependentUpon>STWFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Status.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>

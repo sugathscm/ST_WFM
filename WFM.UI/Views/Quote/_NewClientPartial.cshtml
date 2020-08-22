@@ -1,0 +1,74 @@
+﻿@model WFM.DAL.Client
+
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-20">
+    @using (Html.BeginForm("Save", "Client", FormMethod.Post, new { @class = "needs-validation", role = "form" }))
+    {
+        @*<form class="needs-validation" novalidate="">*@
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "valFailure" })
+        @Html.HiddenFor(m => m.Id, new { @name = "Id" })
+        <div class="form-row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", required = "required" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
+                <label class="control-label" for="AddressLine1">Address Line 1</label>
+                @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
+                <label class="control-label" for="AddressLine2">Address Line 2</label>
+                @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2 m-b-10">
+                <label class="control-label" for="CPName">Contact Person</label>
+                @Html.TextBoxFor(m => m.CPName, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2 m-b-10">
+                <label class="control-label" for="Mobile">Mobile</label>
+                @Html.TextBoxFor(m => m.CPMobile, new { @class = "form-control" })
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 m-b-10">
+                <label class="control-label" for="LandLine">Land Line</label>
+                @Html.TextBoxFor(m => m.LandLine, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 m-b-10">
+                <div class="form-group">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.IsVAT, new { @class = "form-check-input", @checked = Model.IsVAT })
+                        @Html.LabelFor(m => m.IsVAT, new { @class = "col-md-2 control-label" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 m-b-10">
+                <div class="form-group">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input", @checked = Model.IsActive })
+                        @Html.LabelFor(m => m.IsActive, new { @class = "col-md-2 control-label" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>
+        </div>
+    }
+</div>
+
+

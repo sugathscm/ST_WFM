@@ -46,6 +46,7 @@ namespace WFM.DAL
         public Nullable<int> OrderTypeId { get; set; }
         public Nullable<int> QuoteId { get; set; }
         public Nullable<decimal> Value { get; set; }
+        public string Header { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual AspNetUser AspNetUser1 { get; set; }

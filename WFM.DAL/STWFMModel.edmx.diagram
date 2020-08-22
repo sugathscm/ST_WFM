@@ -57,6 +57,10 @@
         <EntityTypeShape EntityType="STWFMModel.Quote" Width="1.5" PointX="5.25" PointY="17.25" />
         <AssociationConnector Association="STWFMModel.FK_Quote_Client" />
         <AssociationConnector Association="STWFMModel.FK_Order_Quote" />
+        <EntityTypeShape EntityType="STWFMModel.QuoteTerm" Width="1.5" PointX="9.625" PointY="8.25" />
+        <EntityTypeShape EntityType="STWFMModel.QuoteItem" Width="1.5" PointX="7.5" PointY="14.875" />
+        <AssociationConnector Association="STWFMModel.FK_QuoteItem_Category" />
+        <AssociationConnector Association="STWFMModel.FK_QuoteItem_Quote" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

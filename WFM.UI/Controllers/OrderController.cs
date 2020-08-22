@@ -57,11 +57,11 @@ namespace WFM.UI.Controllers
                 order = orderService.GetOrderById(id);
             }
 
-            var quoteList = quoteService.GetQuoteList();
+            var quoteList = quoteService.GetQuoteList().Where(q => q.ApprovedBy != null).ToList();
             var clientList = clientService.GetClientList();
             var employeeList = employeeService.GetEmployeeList();
 
-            ViewBag.QuoteList = new SelectList(quoteList, "Id", "Name");
+            ViewBag.QuoteList = new SelectList(quoteList, "Id", "Code");
             ViewBag.ClientList = new SelectList(clientList, "Id", "Name");
             ViewBag.ChanneledByList = new SelectList(employeeList, "Id", "Name");
 

@@ -118,7 +118,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/13/2020 14:57:28</publishTime>
     </File>
     <File Include="assets/libs/css/style-light.css">
-      <publishTime>07/11/2020 21:28:34</publishTime>
+      <publishTime>08/16/2020 15:34:34</publishTime>
     </File>
     <File Include="assets/libs/css/style.css">
       <publishTime>07/01/2020 20:08:05</publishTime>
@@ -148,7 +148,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/13/2020 14:57:28</publishTime>
     </File>
     <File Include="assets/libs/js/main-js.js">
-      <publishTime>04/13/2020 14:57:28</publishTime>
+      <publishTime>08/15/2020 12:52:46</publishTime>
     </File>
     <File Include="assets/vendor/bootstrap-colorpicker/%40claviska/jquery-minicolors/jquery.minicolors.css">
       <publishTime>04/13/2020 14:57:28</publishTime>
@@ -1302,11 +1302,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Antlr3.Runtime.pdb">
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
+    <File Include="bin/Aspose.Words.dll">
+      <publishTime>03/07/2020 09:14:38</publishTime>
+    </File>
+    <File Include="bin/Aspose.Words.Pdf2Word.dll">
+      <publishTime>01/07/2020 08:46:14</publishTime>
+    </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>10/23/2017 13:15:18</publishTime>
+      <publishTime>04/16/2020 20:38:42</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>10/23/2017 13:15:20</publishTime>
+      <publishTime>04/16/2020 20:38:56</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>04/24/2018 12:47:38</publishTime>
@@ -1494,6 +1500,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
+    <File Include="bin/Syncfusion.DocIO.Base.dll">
+      <publishTime>07/13/2020 10:34:56</publishTime>
+    </File>
+    <File Include="bin/Syncfusion.DocToPdfConverter.Base.dll">
+      <publishTime>07/13/2020 10:38:06</publishTime>
+    </File>
+    <File Include="bin/Syncfusion.Licensing.dll">
+      <publishTime>07/13/2020 10:20:06</publishTime>
+    </File>
+    <File Include="bin/Syncfusion.Pdf.Base.dll">
+      <publishTime>07/13/2020 10:37:10</publishTime>
+    </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>02/01/2018 12:20:56</publishTime>
     </File>
@@ -1519,25 +1537,49 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2014 13:57:34</publishTime>
     </File>
     <File Include="bin/WFM.BAL.dll">
-      <publishTime>07/11/2020 17:51:28</publishTime>
+      <publishTime>08/17/2020 01:18:27</publishTime>
     </File>
     <File Include="bin/WFM.BAL.pdb">
-      <publishTime>07/11/2020 17:51:28</publishTime>
+      <publishTime>08/17/2020 01:18:27</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll">
-      <publishTime>07/11/2020 01:03:54</publishTime>
+      <publishTime>08/17/2020 01:18:26</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll.config">
       <publishTime>06/27/2020 13:26:10</publishTime>
     </File>
     <File Include="bin/WFM.DAL.pdb">
-      <publishTime>07/11/2020 01:03:54</publishTime>
+      <publishTime>08/17/2020 01:18:26</publishTime>
     </File>
     <File Include="bin/WFM.UI.dll">
-      <publishTime>07/11/2020 21:29:45</publishTime>
+      <publishTime>08/21/2020 23:18:52</publishTime>
     </File>
     <File Include="bin/WFM.UI.pdb">
-      <publishTime>07/11/2020 21:29:45</publishTime>
+      <publishTime>08/21/2020 23:18:52</publishTime>
+    </File>
+    <File Include="Content/bootstrap-grid.css">
+      <publishTime>07/15/2020 22:24:16</publishTime>
+    </File>
+    <File Include="Content/bootstrap-grid.css.map">
+      <publishTime>07/15/2020 22:24:16</publishTime>
+    </File>
+    <File Include="Content/bootstrap-grid.min.css">
+      <publishTime>07/15/2020 22:24:16</publishTime>
+    </File>
+    <File Include="Content/bootstrap-grid.min.css.map">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Content/bootstrap-reboot.css">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Content/bootstrap-reboot.css.map">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Content/bootstrap-reboot.min.css">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Content/bootstrap-reboot.min.css.map">
+      <publishTime>07/15/2020 22:24:15</publishTime>
     </File>
     <File Include="Content/bootstrap-theme.css">
       <publishTime>06/27/2020 00:26:22</publishTime>
@@ -1552,16 +1594,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/27/2020 00:26:22</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>06/27/2020 00:26:22</publishTime>
+      <publishTime>07/15/2020 22:24:15</publishTime>
     </File>
     <File Include="Content/bootstrap.css.map">
-      <publishTime>06/27/2020 00:26:22</publishTime>
+      <publishTime>07/15/2020 22:24:15</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css">
-      <publishTime>06/27/2020 00:26:22</publishTime>
+      <publishTime>07/15/2020 22:24:15</publishTime>
     </File>
     <File Include="Content/bootstrap.min.css.map">
-      <publishTime>06/27/2020 00:26:22</publishTime>
+      <publishTime>07/15/2020 22:24:15</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>06/27/2020 00:26:16</publishTime>
@@ -1587,11 +1629,56 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Global.asax">
       <publishTime>06/27/2020 00:26:17</publishTime>
     </File>
+    <File Include="Scripts/bootstrap.bundle.js">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.bundle.js.map">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.bundle.min.js">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.bundle.min.js.map">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
     <File Include="Scripts/bootstrap.js">
-      <publishTime>06/27/2020 00:26:22</publishTime>
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js.map">
+      <publishTime>07/15/2020 22:24:15</publishTime>
     </File>
     <File Include="Scripts/bootstrap.min.js">
-      <publishTime>06/27/2020 00:26:22</publishTime>
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js.map">
+      <publishTime>07/15/2020 22:24:15</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper-utils.js">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper-utils.js.map">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper-utils.min.js">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper-utils.min.js.map">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper.js">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper.js.map">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper.min.js">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/esm/popper.min.js.map">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/index.js.flow">
+      <publishTime>07/15/2020 22:24:14</publishTime>
     </File>
     <File Include="Scripts/jquery-3.3.1.js">
       <publishTime>06/27/2020 00:26:23</publishTime>
@@ -1625,6 +1712,249 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/modernizr-2.8.3.js">
       <publishTime>06/27/2020 00:26:26</publishTime>
+    </File>
+    <File Include="Scripts/popper-utils.js">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/popper-utils.js.map">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/popper-utils.min.js">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/popper-utils.min.js.map">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/popper.js">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/popper.js.map">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/popper.min.js">
+      <publishTime>07/15/2020 22:24:14</publishTime>
+    </File>
+    <File Include="Scripts/popper.min.js.map">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/README.md">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/index.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/defaults.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/destroy.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/disableEventListeners.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/enableEventListeners.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/placements.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/methods/update.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/applyStyle.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/arrow.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/computeStyle.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/flip.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/hide.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/index.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/inner.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/keepTogether.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/offset.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/preventOverflow.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/modifiers/shift.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/clockwise.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/computeAutoPlacement.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/debounce.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/find.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/findCommonOffsetParent.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/findIndex.js">
+      <publishTime>07/15/2020 22:24:13</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getBordersSize.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getBoundaries.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getBoundingClientRect.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getClientRect.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getFixedPositionOffsetParent.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOffsetParent.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOffsetRect.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOffsetRectRelativeToArbitraryNode.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOppositePlacement.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOppositeVariation.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getOuterSizes.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getParentNode.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getPopperOffsets.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getReferenceNode.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getReferenceOffsets.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getRoot.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getRoundedOffsets.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getScroll.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getScrollParent.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getStyleComputedProperty.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getSupportedPropertyName.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getViewportOffsetRectRelativeToArtbitraryNode.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getWindow.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/getWindowSizes.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/includeScroll.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/index.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isBrowser.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isFixed.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isFunction.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isIE.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isModifierEnabled.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isModifierRequired.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isNumeric.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/isOffsetContainer.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/removeEventListeners.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/runModifiers.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/setAttributes.js">
+      <publishTime>07/15/2020 22:24:12</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/setStyles.js">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/src/utils/setupEventListeners.js">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper-utils.js">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper-utils.js.map">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper-utils.min.js">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper-utils.min.js.map">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.js">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.js.flow">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.js.map">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.min.js">
+      <publishTime>07/15/2020 22:24:11</publishTime>
+    </File>
+    <File Include="Scripts/umd/popper.min.js.map">
+      <publishTime>07/15/2020 22:24:11</publishTime>
     </File>
     <File Include="Views/Account/ConfirmEmail.cshtml">
       <publishTime>06/27/2020 00:26:28</publishTime>
@@ -1666,19 +1996,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/28/2020 01:20:10</publishTime>
     </File>
     <File Include="Views/Category/Index.cshtml">
-      <publishTime>07/10/2020 23:19:32</publishTime>
+      <publishTime>08/10/2020 23:08:37</publishTime>
     </File>
     <File Include="Views/Client/Index.cshtml">
-      <publishTime>07/10/2020 23:50:52</publishTime>
+      <publishTime>08/09/2020 13:04:58</publishTime>
     </File>
     <File Include="Views/Designation/Index.cshtml">
-      <publishTime>07/10/2020 23:19:10</publishTime>
+      <publishTime>08/09/2020 12:31:10</publishTime>
     </File>
     <File Include="Views/Division/Index.cshtml">
-      <publishTime>07/10/2020 22:02:04</publishTime>
+      <publishTime>08/09/2020 12:36:34</publishTime>
     </File>
     <File Include="Views/Employee/Index.cshtml">
-      <publishTime>07/11/2020 17:44:02</publishTime>
+      <publishTime>08/09/2020 13:06:46</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>06/27/2020 00:26:17</publishTime>
@@ -1687,7 +2017,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/27/2020 00:26:17</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>07/11/2020 16:54:18</publishTime>
+      <publishTime>08/21/2020 23:17:59</publishTime>
     </File>
     <File Include="Views/Manage/AddPhoneNumber.cshtml">
       <publishTime>07/10/2020 22:00:31</publishTime>
@@ -1714,7 +2044,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2020 02:05:29</publishTime>
     </File>
     <File Include="Views/OrderType/Index.cshtml">
-      <publishTime>07/10/2020 22:02:39</publishTime>
+      <publishTime>08/09/2020 12:36:27</publishTime>
     </File>
     <File Include="Views/PaperQuality/Index.cshtml">
       <publishTime>07/10/2020 22:02:39</publishTime>
@@ -1723,10 +2053,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2020 22:02:39</publishTime>
     </File>
     <File Include="Views/Quote/Details.cshtml">
-      <publishTime>07/11/2020 00:17:52</publishTime>
+      <publishTime>08/20/2020 10:15:49</publishTime>
     </File>
     <File Include="Views/Quote/Index.cshtml">
-      <publishTime>07/10/2020 03:00:18</publishTime>
+      <publishTime>08/10/2020 10:34:02</publishTime>
+    </File>
+    <File Include="Views/Quote/_NewClientPartial.cshtml">
+      <publishTime>08/09/2020 22:09:52</publishTime>
+    </File>
+    <File Include="Views/QuoteTerm/Index.cshtml">
+      <publishTime>08/14/2020 22:35:28</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>06/27/2020 00:26:28</publishTime>
@@ -1735,7 +2071,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/27/2020 00:26:28</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/11/2020 13:45:38</publishTime>
+      <publishTime>08/21/2020 22:43:07</publishTime>
     </File>
     <File Include="Views/Shared/_LoginLayout.cshtml">
       <publishTime>07/11/2020 19:52:57</publishTime>
@@ -1744,16 +2080,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/11/2020 16:53:33</publishTime>
     </File>
     <File Include="Views/Shared/_PageHeaderPartial.cshtml">
-      <publishTime>07/10/2020 19:05:09</publishTime>
+      <publishTime>08/15/2020 12:14:44</publishTime>
     </File>
     <File Include="Views/Web.config">
-      <publishTime>06/27/2020 00:26:17</publishTime>
+      <publishTime>07/19/2020 14:07:32</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>06/27/2020 00:26:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/10/2020 02:52:21</publishTime>
+      <publishTime>07/28/2020 00:09:46</publishTime>
     </File>
   </ItemGroup>
 </Project>

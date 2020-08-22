@@ -192,5 +192,61 @@ namespace WFM.UI.Controllers
 
             return RedirectToAction("Index", "Client");
         }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Save(Client model)
+        {
+            string newData = string.Empty, oldData = string.Empty;
+
+            try
+            {
+                int id = model.Id;
+                Client client = null;
+                Client oldClient = null;
+                if (model.Id == 0)
+                {
+                    client = new Client
+                    {
+                        Name = model.Name,
+                        AddressLine1 = model.AddressLine1,
+                        AddressLine2 = model.AddressLine2,
+                        City = model.City,
+                        PostCode = model.PostCode,
+                        Email = model.Email,
+                        FixedLine = model.FixedLine,
+                        LandLine = model.LandLine,
+                        IsActive = true,
+                        CPTitle = model.CPTitle,
+                        CPName = model.CPName,
+                        CPMobile = model.CPMobile,
+                        CPDesignationId = model.CPDesignationId
+                    };
+
+                    oldClient = new Client();
+                    oldData = new JavaScriptSerializer().Serialize(oldClient);
+                    newData = new JavaScriptSerializer().Serialize(client);
+                }
+
+                clientService.SaveOrUpdate(client);
+
+                CommonService.SaveDataAudit(new DataAudit()
+                {
+                    Entity = "Client",
+                    NewData = newData,
+                    OldData = oldData,
+                    UpdatedOn = DateTime.Now,
+                    UserId = User.Identity.GetUserId()
+                });
+
+                TempData["Message"] = ResourceData.SaveSuccessMessage;
+            }
+            catch (Exception ex)
+            {
+                TempData["Message"] = string.Format(ResourceData.SaveErrorMessage, ex.InnerException);
+            }
+
+            return RedirectToAction("Details", "Quote");
+        }
     }
 }

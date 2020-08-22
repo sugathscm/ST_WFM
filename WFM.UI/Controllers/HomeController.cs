@@ -10,6 +10,9 @@ namespace WFM.UI.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Months = "Jan-2020, Feb-2020, Mar-2020, Apr-2020, May-2020, Jun-2020";
+            ViewBag.TotalQuotes = "Total Quotes, 80, 10, 50, 60, 40, 20";
+            ViewBag.TotalConvertedJobs = "Total Converted Jobs, 30, 60, 50, 120, 20, 40";
             return View();
         }
 

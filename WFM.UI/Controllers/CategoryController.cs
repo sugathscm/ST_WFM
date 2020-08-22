@@ -53,11 +53,11 @@ namespace WFM.UI.Controllers
         {
             List<Category> list = categoryService.GetCategoryList();
 
-            List<BaseViewModel> modelList = new List<BaseViewModel>();
+            List<CategoryViewModel> modelList = new List<CategoryViewModel>();
 
             foreach (var item in list)
             {
-                modelList.Add(new BaseViewModel() { Id = item.Id, IsActive = item.IsActive, Name = item.Name });
+                modelList.Add(new CategoryViewModel() { Id = item.Id, IsActive = item.IsActive, Name = item.Name, Description = item.Description });
             }
 
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
@@ -80,6 +80,7 @@ namespace WFM.UI.Controllers
                     Category = new Category
                     {
                         Name = model.Name,
+                        Description = model.Description,
                         IsActive = true
                     };
 
@@ -96,10 +97,12 @@ namespace WFM.UI.Controllers
                     {
                         Id = oldCategory.Id,
                         Name = oldCategory.Name,
+                        Description = oldCategory.Description,
                         IsActive = oldCategory.IsActive
                     });
 
                     Category.Name = model.Name;
+                    Category.Description = model.Description;
                     bool Example = Convert.ToBoolean(Request.Form["IsActive.Value"]);
                     Category.IsActive = model.IsActive;
 
@@ -107,6 +110,7 @@ namespace WFM.UI.Controllers
                     {
                         Id = Category.Id,
                         Name = Category.Name,
+                        Description = model.Description,
                         IsActive = Category.IsActive
                     });
                 }
@@ -131,6 +135,23 @@ namespace WFM.UI.Controllers
 
 
             return RedirectToAction("Index", "Category");
+        }
+
+        [HttpPost]
+        public JsonResult GetDescriptionById(int? id)
+        {
+            string description = "";
+
+            if (id == null)
+            {
+                description = "-";
+            }
+            else
+            {
+                description = categoryService.GetCategoryById(id).Description;
+                description = string.IsNullOrEmpty(description) ? "-" : description;
+            }
+            return Json(description, JsonRequestBehavior.AllowGet);
         }
     }
 }
