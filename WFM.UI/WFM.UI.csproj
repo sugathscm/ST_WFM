@@ -197,7 +197,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\DesignationController.cs" />
-    <Compile Include="Controllers\DivisionController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -675,6 +675,7 @@
     <Content Include="assets\vendor\summernote\css\font\summernote.ttf" />
     <Content Include="assets\vendor\summernote\css\font\summernote.woff" />
     <Content Include="assets\vendor\summernote\css\font\summernote.woff2" />
+    <Content Include="Resources\print-logo.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -774,7 +775,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -809,7 +812,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Designation\Index.cshtml" />
-    <Content Include="Views\Division\Index.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
     <Content Include="Views\OrderType\Index.cshtml" />
     <Content Include="Views\PaperQuality\Index.cshtml" />
     <Content Include="Views\Printer\Index.cshtml" />
@@ -835,6 +838,10 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Quote\_NewClientPartial.cshtml" />
     <Content Include="Views\QuoteTerm\Index.cshtml" />
+    <Content Include="Views\Quote\_PrintQuote.cshtml" />
+    <Content Include="Views\Shared\_PageHeaderPartialWithButton.cshtml" />
+    <Content Include="Views\Quote\History.cshtml" />
+    <Content Include="Views\Order\_PrintOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

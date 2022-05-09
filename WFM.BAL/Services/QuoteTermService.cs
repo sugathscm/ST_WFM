@@ -39,6 +39,14 @@ namespace WFM.BAL.Services
                 }
             }
         }
+
+        public List<QuoteTermDetail> GetQuoteTermsByQuoteId(int? quoteId)
+        {
+            using (STWFMEntities entities = new STWFMEntities())
+            {
+                return entities.QuoteTermDetails.Include("QuoteTerm").Where(qt => qt.QuoteId == quoteId).ToList();
+            }
+        }
     }
 
 }

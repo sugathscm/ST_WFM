@@ -23,10 +23,12 @@ namespace WFM.UI.Controllers
         {
 
         }
+
         public ClientController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
         }
+
         public ApplicationUserManager UserManager
         {
             get
@@ -44,7 +46,6 @@ namespace WFM.UI.Controllers
         {
             Client client = new Client();
 
-
             if (id != null)
             {
                 client = clientService.GetClientById(id);
@@ -55,6 +56,18 @@ namespace WFM.UI.Controllers
             ViewBag.ListObject = new SelectList(listData, "Id", "Name");
 
             return View(client);
+        }
+
+        public ActionResult GetClientById(int? id)
+        {
+            Client client = new Client();
+
+            if (id != null)
+            {
+                client = clientService.GetClientById(id);
+            }            
+
+            return Json(new ClientView { Id = client.Id, CPName = client.CPName, CPMobile = client.CPMobile }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetList()
@@ -76,6 +89,7 @@ namespace WFM.UI.Controllers
                     LandLine = item.LandLine,
                     FixedLine = item.FixedLine,
                     DesignationName = (item.CPDesignationId == 0 || item.CPDesignationId == null) ? "" : item.Designation.Name,
+                    VATNumber = item.VATNumber
                 });
             }
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
@@ -109,7 +123,8 @@ namespace WFM.UI.Controllers
                         CPTitle = model.CPTitle,
                         CPName = model.CPName,
                         CPMobile = model.CPMobile,
-                        CPDesignationId = model.CPDesignationId
+                        CPDesignationId = model.CPDesignationId,
+                        VATNumber = model.VATNumber
                     };
 
                     oldClient = new Client();
@@ -136,7 +151,8 @@ namespace WFM.UI.Controllers
                         CPTitle = oldClient.CPTitle,
                         CPName = oldClient.CPName,
                         CPMobile = oldClient.CPMobile,
-                        CPDesignationId = oldClient.CPDesignationId
+                        CPDesignationId = oldClient.CPDesignationId,
+                        VATNumber = oldClient.VATNumber
                     });
 
                     client.Name = model.Name;
@@ -152,23 +168,25 @@ namespace WFM.UI.Controllers
                     client.CPMobile = model.CPMobile;
                     client.CPDesignationId = model.CPDesignationId;
                     client.IsActive = model.IsActive;
+                    client.VATNumber = model.VATNumber;
 
                     newData = new JavaScriptSerializer().Serialize(new Client()
                     {
                         Id = client.Id,
-                        Name = oldClient.Name,
-                        AddressLine1 = oldClient.AddressLine1,
-                        AddressLine2 = oldClient.AddressLine2,
-                        City = oldClient.City,
-                        PostCode = oldClient.PostCode,
-                        Email = oldClient.Email,
-                        FixedLine = oldClient.FixedLine,
-                        LandLine = oldClient.LandLine,
-                        IsActive = oldClient.IsActive,
-                        CPTitle = oldClient.CPTitle,
-                        CPName = oldClient.CPName,
-                        CPMobile = oldClient.CPMobile,
-                        CPDesignationId = oldClient.CPDesignationId
+                        Name = client.Name,
+                        AddressLine1 = client.AddressLine1,
+                        AddressLine2 = client.AddressLine2,
+                        City = client.City,
+                        PostCode = client.PostCode,
+                        Email = client.Email,
+                        FixedLine = client.FixedLine,
+                        LandLine = client.LandLine,
+                        IsActive = client.IsActive,
+                        CPTitle = client.CPTitle,
+                        CPName = client.CPName,
+                        CPMobile = client.CPMobile,
+                        CPDesignationId = client.CPDesignationId,
+                        VATNumber = client.VATNumber
                     });
                 }
 
@@ -192,6 +210,7 @@ namespace WFM.UI.Controllers
 
             return RedirectToAction("Index", "Client");
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

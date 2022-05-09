@@ -1,6 +1,6 @@
 ﻿@model WFM.DAL.OrderType
 @{
-    ViewBag.Title = "OrderType";
+    ViewBag.Title = "Job Order Type";
 }
 
 <script type="text/javascript">
@@ -27,7 +27,7 @@
                 {
                     "data": "Id", "searchable": false, "ordering": false,
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn btn-info" href="/OrderType/Index/' + data + '">Edit</a>';
+                        return '<a class="btn btn-info btn-xs" href="/OrderType/Index/' + data + '">Edit</a>';
                     }
                 },
             ]

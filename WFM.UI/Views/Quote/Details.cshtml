@@ -28,21 +28,32 @@
                     <input type="hidden" name="costArray" value="" id="costArray" />
                     <input type="hidden" name="vatArray" value="" id="vatArray" />
                     <input type="hidden" name="sizeArray" value="" id="sizeArray" />
-                    <input type="hidden" name="VATPercentage" value="12.5" id="VATPercentage" />
+                    <input type="hidden" name="categoryTypeArray" value="" id="categoryTypeArray" />
+                    <input type="hidden" name="visibilityArray" value="" id="visibilityArray" />
+                    <input type="hidden" name="frameworkWarrantyPeriodArray" value="" id="frameworkWarrantyPeriodArray" />
+                    <input type="hidden" name="letteringWarrantyPeriodArray" value="" id="letteringWarrantyPeriodArray" />
+                    <input type="hidden" name="illuminationWarrantyPeriodArray" value="" id="illuminationWarrantyPeriodArray" />
+                    <input type="hidden" name="installationArray" value="" id="installationArray" />
+                    <input type="hidden" name="termsArray" value="" id="termsArray" />
+                    <input type="hidden" name="VATPercentage" value="@ViewBag.VATPercentage" id="VATPercentage" />
                     <div class="form-row">
                         <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2">
                             <label class="control-label" for="BaseQuoteId">Base Quote</label>
-                            @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control selection" })
+                            @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            <label class="control-label" for="IsVAT">Is VAT</label>
-                            @Html.CheckBoxFor(m => m.IsVAT, new { @class = "form-check-input m-l-10 m-b-20", @checked = Model.IsVAT })
+                        @*<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                <label class="control-label" for="IsVAT">Is VAT</label>
+                                @Html.CheckBoxFor(m => m.IsVAT, new { @class = "form-check-input m-l-10 m-b-20", @checked = Model.IsVAT })
+                            </div>*@
+                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2">
+                            <label class="control-label" for="BaseQuoteId">Type</label>
+                            @Html.DropDownList("OrderTypeId", (SelectList)ViewBag.OrderTypeList, "Select Type", new { @class = "form-control order-type" })
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12 m-t-5">
                             <label class="control-label" for="Code">Code</label>
-                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                         <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
                             <label class="control-label" for="CreatedDate">Created Date</label>
@@ -50,15 +61,15 @@
                         </div>
                         <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
                             <label class="control-label" for="Version">Version</label>
-                            @Html.TextBoxFor(m => m.Version, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(m => m.Version, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                         <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
                             <label class="control-label" for="Month">Month</label>
-                            @Html.TextBoxFor(m => m.Month, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(m => m.Month, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                         <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
                             <label class="control-label" for="Year">Year</label>
-                            @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2 m-t-5">
                             <label class="control-label" for="ChanneledBy">Channeled By</label>
@@ -76,15 +87,25 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                            <label class="control-label" for="Value">Value</label>
-                            @Html.TextBoxFor(m => m.Value, new { @class = "form-control", @disabled = "disabled" })
+                        <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Contact No.">File No.</label>
+                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
                         </div>
-                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 m-t-5">
-                            <label class="control-label" for="Comment">Header</label>
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Header">Header</label>
                             @Html.TextBoxFor(m => m.Header, new { @class = "form-control" })
                         </div>
-                        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 m-t-5">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Contact Person">Contact Person</label>
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Contact No.">Contact No.</label>
+                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-5">
                             <label class="control-label" for="Comment">Comments</label>
                             @Html.TextBoxFor(m => m.Comments, new { @class = "form-control" })
                         </div>
@@ -94,109 +115,203 @@
                     <input type="hidden" id="item-count" value="1" />
                     <input type="hidden" id="base-element" value="1" />
                     <div id="items-header" class="m-t-10 m-b-10">
-                        <div class="form-row m-t-10 m-b-10" id="header-row">
-                            @*<div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
-                                    <input type="text" placeholder="#1" class="form-control" disabled="disabled" />
-                                </div>*@
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5 border bg-dark text-light padding-5" id="product">
+                        <div class="form-row m-t-10 mb-0 m-b-0" id="header-row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  m-t-5 border bg-dark text-light padding-5" id="product">
                                 Product Type
                             </div>
-                            <div class="col-md-1 m-t-5 border bg-dark text-light padding-5">
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5 border bg-dark text-light padding-5">
                                 Size
                             </div>
-                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5 border bg-dark text-light padding-5">
                                 Qty
                             </div>
-                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5 border bg-dark text-light padding-5">
                                 Cost
                             </div>
-                            <div class="col-xl-2 col-lg-1 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 m-t-5 border bg-dark text-light padding-5">
                                 Total Cost
                             </div>
-                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5 border bg-dark text-light padding-5">
                                 VAT
                             </div>
-                            <div class="col-xl-2 col-lg-13 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 m-t-5 border bg-dark text-light padding-5">
                                 Total Cost with VAT
                             </div>
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border bg-dark text-light padding-5">
+                        </div>
+                        <div class="form-row mt-0 m-t-0" id="header-row">
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12  m-t-5 border bg-dark text-light padding-5">
+                                Category Type
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5 border bg-dark text-light padding-5">
+                                Visibility
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5 border bg-dark text-light padding-5">
+                                Framework
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5 border bg-dark text-light padding-5">
+                                Lettering
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5 border bg-dark text-light padding-5">
+                                Illumination
+                            </div>
+                        </div>
+                        <div class="form-row m-t-0" id="header-row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 m-t-5 border bg-dark text-light padding-5">
                                 Description
                             </div>
                         </div>
                     </div>
-
                     <div id="items" class="m-t-10 m-b-10">
-                        <div class="form-row item m-t-10 m-b-20" id="item-row">
-                            @*<div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
-                                    <input type="text" placeholder="#1" class="form-control" disabled="disabled" />
-                                </div>*@
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="product">
-                                @Html.DropDownList("ProductTypeId", (SelectList)ViewBag.CategoryList, "Product Type", new { @class = "form-control" })
+                        @if (Model.QuoteItems.Count > 0)
+                        {
+                            foreach (var quoteItem in Model.QuoteItems)
+                            {
+                                <div class="form-row item m-t-10 m-b-20" id="item-row">
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="product">
+                                        @Html.DropDownListFor(m => quoteItem.CategoryId, new SelectList(ViewBag.CategoryList, "Id", "Name", quoteItem.CategoryId.Value), "Select Product Type", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5">
+                                        <input type="text" id="Size" placeholder="Size" class="form-control" value="@quoteItem.Size" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5">
+                                        <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" value="@quoteItem.Qty" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5">
+                                        <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" value="@quoteItem.UnitCost.Value.ToString("##0.00")" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 m-t-5">
+                                        <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" value="@((quoteItem.UnitCost.Value * quoteItem.Qty.Value).ToString("##0.00"))" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5">
+                                        <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" value="@quoteItem.VAT.Value.ToString("##0.00")" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 m-t-5">
+                                        <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" value="@(((quoteItem.UnitCost.Value * quoteItem.Qty.Value) + quoteItem.VAT.Value).ToString(" ##0.00"))" />
+                                    </div>
+                                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 m-t-5">
+                                        <input type="text" placeholder="Category Type" class="form-control" id="CategoryType" value="" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 m-t-5">
+                                        @Html.DropDownListFor(m => quoteItem.VisibilityId, new SelectList(ViewBag.VisibilityList, "Id", "Name", quoteItem.VisibilityId.Value), "Visibility", new { @class = "form-control selection" })
+                                    </div>
+                                    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 m-t-5">
+                                        <input type="text" placeholder="Installation" class="form-control" id="Installation" value="" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
+                                        @Html.DropDownListFor(m => quoteItem.FrameworkWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", quoteItem.FrameworkWarrantyPeriod.Value), "Framework", new { @class = "form-control selection" })
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
+                                        @Html.DropDownListFor(m => quoteItem.LetteringWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", quoteItem.LetteringWarrantyPeriod.Value), "Lettering", new { @class = "form-control selection" })
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
+                                        @Html.DropDownListFor(m => quoteItem.IlluminationWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", quoteItem.IlluminationWarrantyPeriod.Value), "Illumination", new { @class = "form-control selection" })
+                                    </div>
+                                    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                        <input type="text" placeholder="Description" class="form-control" id="Description" value="@quoteItem.Description" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                        <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="form-row item m-t-10 m-b-20" id="item-row">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="product">
+                                    @Html.DropDownList("quoteItem_CategoryId", new SelectList(ViewBag.CategoryList, "Id", "Name"), "Select Product Type", new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-1 m-t-5">
+                                    <input type="text" id="Size" placeholder="Size" class="form-control" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                    <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                    <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" />
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                                    <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                    <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" />
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                                    <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" />
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 m-t-5">
+                                    <input type="text" placeholder="Category Type" class="form-control" id="CategoryType" value="" />
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 m-t-5">
+                                    @Html.DropDownList("quoteItem_VisibilityId", new SelectList(ViewBag.VisibilityList, "Id", "Name"), "Visibility", new { @class = "form-control selection" })
+                                </div>
+                                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 m-t-5">
+                                    <input type="text" placeholder="Installation" class="form-control" id="Installation" value="" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
+                                    @Html.DropDownList("quoteItem_FrameworkWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name"), "Framework", new { @class = "form-control selection" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
+                                    @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name"), "Lettering", new { @class = "form-control selection" })
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
+                                    @Html.DropDownList("quoteItem_IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name"), "Illumination", new { @class = "form-control selection" })
+                                </div>
+                                <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                    <input type="text" placeholder="Description" class="form-control" id="Description" value="" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                    <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
+                                </div>
                             </div>
-                            <div class="col-md-1 m-t-5">
-                                <input type="text" id="Size" placeholder="Size" class="form-control" />
-                            </div>
-                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" />
-                            </div>
-                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" />
-                            </div>
-                            <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" disabled="disabled" />
-                            </div>
-                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" disabled="disabled" />
-                            </div>
-                            <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
-                                <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" disabled="disabled" />
-                            </div>
-                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-                                <input type="text" placeholder="Description" class="form-control" id="Description" />
-                            </div>
-                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
-                            </div>
-                        </div>
+                        }
                     </div>
                     <hr />
                     <div class="form-row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
-                            Terms &amp; Conditions :
+                            <label class="control-label" for="Comment">Terms &amp; Conditions :</label>
+                        </div>
+                    </div>
+                    <div class="form-row m-t-10">
+                        <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                            Advance Payment
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control advance" })
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                            Validity Days
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-row m-t-10">
+                        <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                            Power Supply Amp.
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                            Delivery Period
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
                         </div>
                     </div>
                     foreach (var term in ViewBag.QuoteTermList)
                     {
                         <div class="form-row m-t-10">
-                            <div class="w3-show-inline-block">
-                                <div class="w3-bar">
-                                    @*<span class="m-r-10 m-l-10"># 1</span>*@
-                                    <span class="m-r-10">
-                                        <input type="checkbox" />
-                                    </span>
-                                    <span class="m-r-10">@term.Name</span>
-                                </div>
+                            <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
+                                <input type="checkbox" class="terms" value="@term.Id" />
+                                <span class="m-l-10 font-bold">@term.Name</span>
+                            </div>
+                            <div class="col-xl-10 col-lg-10 col-md-10 m-t-5 text-justify term-@term.Id">
+                                @term.Details
                             </div>
                         </div>
                     }
-
-                    @*<br />
-                        <div class="form-row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <label lass="control-label">Quotation File</label>
-                                @Html.TextBox("file", "", new { type = "file", @class = "form-control", @required = "required" })
-                                <div class="m-t-5">(.docx files will supported)</div>
-                            </div>
-                            @if ((Model.FileAttched.HasValue) && (Model.FileAttched.Value))
-                            {
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12">
-                                    <label lass="control-label">&nbsp;</label>
-                                    <div>
-                                        <a class="btn btn-info" href='/Quotes/@(Model.Id.ToString() + ".docx")'>Download</a>
-                                    </div>
-                                </div>
-                            }
-                        </div>*@
                     <div class="form-row m-t-10">
                         <div id="outer">
                             <div class="inner"><input type="submit" class="btn btn-primary" value="Save" /></div>
@@ -214,7 +329,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">New Client</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -235,7 +350,7 @@
         //$('select').select2({
         //    selectOnClose: true
         //});
-
+        var termsArray = [];
         function removeItem(elem) {
             if ($('#item-count').val() != "1") {
                 $('#item-count').val(parseInt($('#item-count').val()) - 1);
@@ -252,20 +367,52 @@
             var d = new Date();
             var today = new Date((d.getFullYear(), d.getMonth(), d.getDate()) + 'T00:00:00Z');
             $("#Version").val("1");
-            $("#Month").val((d.getMonth() + 1).toString());
-            var year = d.getFullYear().toString();
-            $("#Year").val(year.substring(2, 4));
-            $("#CreatedDate").val(d.getDate() + "-" + (d.getMonth() + 1).toString() + "-" + d.getFullYear());
+            var formattedNumber = ("0" + (d.getMonth() + 1)).slice(-2);
+            $("#Month").val(formattedNumber);
+            var year = d.getFullYear().toString().substring(2, 4);
+            $("#Year").val(year);
+            $("#CreatedDate").val(d.getDate() + "-" + formattedNumber + "-" + year);
 
-
-            $('#IsVAT').change(function () {
-                setTotals();
+            $('.terms').change(function () {
                 if ($(this).is(":checked")) {
-                    $('#Code').val($('#Code').val().replace('STA/', 'ST/'));
+                    termsArray.push($(this).val());
                 }
                 else {
-                    $('#Code').val($('#Code').val().replace('ST/', 'STA/'));
+                    termsArray = $('#termsArray').val().split(',');
+                    const index = termsArray.indexOf($(this).val());
+                    if (index > -1) {
+                        termsArray.splice(index, 1);
+                    }
                 }
+                $('#termsArray').val(termsArray);
+                console.log($('#termsArray').val());
+            });
+
+            //$('#IsVAT').change(function () {
+            //    var obj_list = document.querySelectorAll('[class*="form-row item m-t-10 m-b-20"]');
+            //    $.each(obj_list, function (key, obj) {
+            //        elem = $(obj).find('input#Qty');
+            //        setTotals();
+            //    });
+
+            //    if ($(this).is(":checked")) {
+            //        $('#Code').val($('#Code').val().replace('STA/', 'ST/'));
+            //    }
+            //    else {
+            //        $('#Code').val($('#Code').val().replace('ST/', 'STA/'));
+            //    }
+            //});
+
+            $(".order-type").change(function () {
+                var code = $(".order-type option:selected").text();
+                var sections = $('#Code').val().split("/");
+                $('#Code').val(code + "/" + sections[1] + "/" + sections[2] + "/" + sections[3]);
+            });
+
+            $(".advance").change(function () {
+                console.log($(".advance").val());
+                console.log($(".term-1").html());
+                $(".term-1").html($(".term-1").html().replace("[AP_VAL]", $(".advance").val()));
             });
 
             $('#add').click(function () {
@@ -276,13 +423,23 @@
                 $('#item-count').val(parseInt($('#item-count').val()) + 1);
             });
 
-            $(document).on("change", "select#ProductTypeId", function () {
+            $(document).on("change", "select#quoteItem_CategoryId", function () {
                 elem = $(this);
                 var obj = { id: $(elem).val() };
                 AjaxCall('/Category/GetDescriptionById', JSON.stringify(obj), 'POST').done(function (response) {
-                    if (response.length > 0) {
-                        $(elem).parent().parent('div').find('input#Description').val(response);
-                    }
+                    $(elem).parent().parent('div').find('input#Description').val(response.Description);
+                    $(elem).parent().parent('div').find('input#CategoryType').val(response.CategoryType);
+                }).fail(function (error) {
+                    alert(error.StatusText);
+                });
+            });
+
+            $(document).on("change", "select#ClientId", function () {
+                elem = $(this);
+                var obj = { id: $(elem).val() };
+                AjaxCall('/Client/GetClientById', JSON.stringify(obj), 'POST').done(function (response) {
+                    $('#ContactPerson').val(response.CPName);
+                    $('#ContactMobile').val(response.CPMobile);
                 }).fail(function (error) {
                     alert(error.StatusText);
                 });
@@ -350,18 +507,33 @@
             var productIdArray = [];
             var qtyArray = [];
             var descriptionArray = [];
+            var categoryTypeArray = [];
+            var visibilityArray = [];
             var costArray = [];
             var vatArray = [];
             var sizeArray = [];
+            var categoryTypeArray = [];
+            var visibilityArray = [];
+            var frameworkWarrantyPeriodArray = [];
+            var letteringWarrantyPeriodArray = [];
+            var illuminationWarrantyPeriodArray = [];
+            var installationArray = [];
+
             var obj_list = document.querySelectorAll('[class*="form-row item m-t-10 m-b-20"]');
             $.each(obj_list, function (key, obj) {
-                productIdArray.push($(obj).find('select#ProductTypeId').val());
+                productIdArray.push($(obj).find('select#quoteItem_CategoryId').val());
                 qtyArray.push($(obj).find('input#Qty').val());
                 descriptionArray.push($(obj).find('input#Description').val());
                 costArray.push($(obj).find('input#Cost').val());
                 vatArray.push($(obj).find('input#VAT').val());
                 vatArray.push($(obj).find('input#VAT').val());
                 sizeArray.push($(obj).find('input#Size').val());
+                categoryTypeArray.push($(obj).find('input#CategoryType').val());
+                visibilityArray.push($(obj).find('select#quoteItem_VisibilityId').val());
+                frameworkWarrantyPeriodArray.push($(obj).find('select#quoteItem_FrameworkWarrantyPeriod').val());
+                letteringWarrantyPeriodArray.push($(obj).find('select#quoteItem_LetteringWarrantyPeriod').val());
+                illuminationWarrantyPeriodArray.push($(obj).find('select#quoteItem_IlluminationWarrantyPeriod').val());
+                installationArray.push($(obj).find('input#Installation').val());
             });
 
             $('#productIdArray').val(productIdArray);
@@ -370,8 +542,42 @@
             $('#costArray').val(costArray);
             $('#vatArray').val(vatArray);
             $('#sizeArray').val(sizeArray);
+            $('#categoryTypeArray').val(categoryTypeArray);
+            $('#visibilityArray').val(visibilityArray);
+            $('#frameworkWarrantyPeriodArray').val(frameworkWarrantyPeriodArray);
+            $('#letteringWarrantyPeriodArray').val(letteringWarrantyPeriodArray);
+            $('#illuminationWarrantyPeriodArray').val(illuminationWarrantyPeriodArray);
+            $('#installationArray').val(installationArray);
 
             return true;
+        }
+
+        function LoadData() {
+            $("#tblStudent tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getStudent")',
+                dataType: 'json',
+                data: { id: '' },
+                success: function (data) {
+                    var items = '';
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                        + "<td class='prtoducttd'>" + item.studentID + "</td>"
+                        + "<td class='prtoducttd'>" + item.studentName + "</td>"
+                        + "<td class='prtoducttd'>" + item.studentAddress + "</td>"
+                        + "</tr>";
+                        $('#tblStudent tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
         }
 
     </script>

@@ -118,7 +118,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/13/2020 14:57:28</publishTime>
     </File>
     <File Include="assets/libs/css/style-light.css">
-      <publishTime>08/16/2020 15:34:34</publishTime>
+      <publishTime>09/16/2020 20:17:42</publishTime>
     </File>
     <File Include="assets/libs/css/style.css">
       <publishTime>07/01/2020 20:08:05</publishTime>
@@ -1537,25 +1537,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/23/2014 13:57:34</publishTime>
     </File>
     <File Include="bin/WFM.BAL.dll">
-      <publishTime>08/17/2020 01:18:27</publishTime>
+      <publishTime>10/12/2020 07:32:30</publishTime>
     </File>
     <File Include="bin/WFM.BAL.pdb">
-      <publishTime>08/17/2020 01:18:27</publishTime>
+      <publishTime>10/12/2020 07:32:30</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll">
-      <publishTime>08/17/2020 01:18:26</publishTime>
+      <publishTime>10/12/2020 07:32:29</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll.config">
       <publishTime>06/27/2020 13:26:10</publishTime>
     </File>
     <File Include="bin/WFM.DAL.pdb">
-      <publishTime>08/17/2020 01:18:26</publishTime>
+      <publishTime>10/12/2020 07:32:29</publishTime>
     </File>
     <File Include="bin/WFM.UI.dll">
-      <publishTime>08/21/2020 23:18:52</publishTime>
+      <publishTime>10/12/2020 07:44:13</publishTime>
     </File>
     <File Include="bin/WFM.UI.pdb">
-      <publishTime>08/21/2020 23:18:52</publishTime>
+      <publishTime>10/12/2020 07:44:13</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.css">
       <publishTime>07/15/2020 22:24:16</publishTime>
@@ -1628,6 +1628,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Global.asax">
       <publishTime>06/27/2020 00:26:17</publishTime>
+    </File>
+    <File Include="Resources/print-logo.png">
+      <publishTime>10/01/2020 22:14:37</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.js">
       <publishTime>07/15/2020 22:24:15</publishTime>
@@ -1996,19 +1999,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/28/2020 01:20:10</publishTime>
     </File>
     <File Include="Views/Category/Index.cshtml">
-      <publishTime>08/10/2020 23:08:37</publishTime>
+      <publishTime>08/10/2020 20:50:52</publishTime>
     </File>
     <File Include="Views/Client/Index.cshtml">
-      <publishTime>08/09/2020 13:04:58</publishTime>
+      <publishTime>08/10/2020 21:00:33</publishTime>
     </File>
     <File Include="Views/Designation/Index.cshtml">
-      <publishTime>08/09/2020 12:31:10</publishTime>
+      <publishTime>09/16/2020 20:14:02</publishTime>
     </File>
     <File Include="Views/Division/Index.cshtml">
-      <publishTime>08/09/2020 12:36:34</publishTime>
+      <publishTime>09/16/2020 20:14:02</publishTime>
     </File>
     <File Include="Views/Employee/Index.cshtml">
-      <publishTime>08/09/2020 13:06:46</publishTime>
+      <publishTime>09/16/2020 20:37:21</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>06/27/2020 00:26:17</publishTime>
@@ -2038,31 +2041,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/10/2020 22:00:24</publishTime>
     </File>
     <File Include="Views/Order/Details.cshtml">
-      <publishTime>07/10/2020 22:02:04</publishTime>
+      <publishTime>09/25/2020 22:28:29</publishTime>
     </File>
     <File Include="Views/Order/Index.cshtml">
-      <publishTime>07/10/2020 02:05:29</publishTime>
+      <publishTime>09/17/2020 21:26:43</publishTime>
+    </File>
+    <File Include="Views/Order/_PrintOrder.cshtml">
+      <publishTime>09/16/2020 21:59:42</publishTime>
     </File>
     <File Include="Views/OrderType/Index.cshtml">
-      <publishTime>08/09/2020 12:36:27</publishTime>
+      <publishTime>09/16/2020 20:19:08</publishTime>
     </File>
     <File Include="Views/PaperQuality/Index.cshtml">
-      <publishTime>07/10/2020 22:02:39</publishTime>
+      <publishTime>09/16/2020 20:14:02</publishTime>
     </File>
     <File Include="Views/Printer/Index.cshtml">
-      <publishTime>07/10/2020 22:02:39</publishTime>
+      <publishTime>09/16/2020 20:14:01</publishTime>
     </File>
     <File Include="Views/Quote/Details.cshtml">
-      <publishTime>08/20/2020 10:15:49</publishTime>
+      <publishTime>10/12/2020 07:43:39</publishTime>
+    </File>
+    <File Include="Views/Quote/History.cshtml">
+      <publishTime>09/16/2020 21:37:24</publishTime>
     </File>
     <File Include="Views/Quote/Index.cshtml">
-      <publishTime>08/10/2020 10:34:02</publishTime>
+      <publishTime>10/01/2020 22:21:19</publishTime>
     </File>
     <File Include="Views/Quote/_NewClientPartial.cshtml">
       <publishTime>08/09/2020 22:09:52</publishTime>
     </File>
+    <File Include="Views/Quote/_PrintQuote.cshtml">
+      <publishTime>10/12/2020 07:27:18</publishTime>
+    </File>
     <File Include="Views/QuoteTerm/Index.cshtml">
-      <publishTime>08/14/2020 22:35:28</publishTime>
+      <publishTime>08/10/2020 21:31:35</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>06/27/2020 00:26:28</publishTime>
@@ -2071,7 +2083,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/27/2020 00:26:28</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>08/21/2020 22:43:07</publishTime>
+      <publishTime>09/19/2020 22:49:43</publishTime>
     </File>
     <File Include="Views/Shared/_LoginLayout.cshtml">
       <publishTime>07/11/2020 19:52:57</publishTime>
@@ -2082,6 +2094,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Shared/_PageHeaderPartial.cshtml">
       <publishTime>08/15/2020 12:14:44</publishTime>
     </File>
+    <File Include="Views/Shared/_PageHeaderPartialWithButton.cshtml">
+      <publishTime>09/16/2020 20:55:01</publishTime>
+    </File>
     <File Include="Views/Web.config">
       <publishTime>07/19/2020 14:07:32</publishTime>
     </File>
@@ -2089,7 +2104,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/27/2020 00:26:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/28/2020 00:09:46</publishTime>
+      <publishTime>10/12/2020 07:32:36</publishTime>
     </File>
   </ItemGroup>
 </Project>

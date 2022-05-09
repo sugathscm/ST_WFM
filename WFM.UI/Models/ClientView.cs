@@ -30,6 +30,8 @@ namespace WFM.UI.Models
 
         public string DesignationName { get; set; }
 
+        public string VATNumber { get; set; }
+
         [Display(Name = "Active")]
         public bool IsActive { get; set; } = true;
 

@@ -19,6 +19,7 @@ namespace WFM.DAL
         {
             this.Orders = new HashSet<Order>();
             this.QuoteItems = new HashSet<QuoteItem>();
+            this.QuoteTermDetails = new HashSet<QuoteTermDetail>();
         }
     
         public int Id { get; set; }
@@ -45,11 +46,23 @@ namespace WFM.DAL
         public bool IsVAT { get; set; }
         public string Header { get; set; }
         public Nullable<bool> IsConverted { get; set; }
+        public Nullable<int> WarrantyPeriodId { get; set; }
+        public bool IsApproved { get; set; }
+        public string ContactPerson { get; set; }
+        public string ContactMobile { get; set; }
+        public Nullable<int> FrameworkWarrantyPeriod { get; set; }
+        public Nullable<int> LetteringWarrantyPeriod { get; set; }
+        public Nullable<int> IlluminationWarrantyPeriod { get; set; }
+        public string FileNumber { get; set; }
+        public Nullable<int> StatusId { get; set; }
+        public Nullable<int> OrderTypeId { get; set; }
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuoteItem> QuoteItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuoteTermDetail> QuoteTermDetails { get; set; }
     }
 }

@@ -57,7 +57,13 @@ namespace WFM.UI.Controllers
 
             foreach (var item in list)
             {
-                modelList.Add(new CategoryViewModel() { Id = item.Id, IsActive = item.IsActive, Name = item.Name, Description = item.Description });
+                modelList.Add(new CategoryViewModel() {
+                    Id = item.Id,
+                    IsActive = item.IsActive,
+                    Name = item.Name,
+                    Description = item.Description,
+                    CategoryType = item.CategoryType
+                });
             }
 
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
@@ -73,24 +79,25 @@ namespace WFM.UI.Controllers
             try
             {
                 int id = model.Id;
-                Category Category = null;
+                Category category = null;
                 Category oldCategory = null;
                 if (model.Id == 0)
                 {
-                    Category = new Category
+                    category = new Category
                     {
                         Name = model.Name,
                         Description = model.Description,
-                        IsActive = true
+                        IsActive = true,
+                        CategoryType = model.CategoryType
                     };
 
                     oldCategory = new Category();
                     oldData = new JavaScriptSerializer().Serialize(oldCategory);
-                    newData = new JavaScriptSerializer().Serialize(Category);
+                    newData = new JavaScriptSerializer().Serialize(category);
                 }
                 else
                 {
-                    Category = categoryService.GetCategoryById(model.Id);
+                    category = categoryService.GetCategoryById(model.Id);
                     oldCategory = categoryService.GetCategoryById(model.Id);
 
                     oldData = new JavaScriptSerializer().Serialize(new Category()
@@ -98,24 +105,26 @@ namespace WFM.UI.Controllers
                         Id = oldCategory.Id,
                         Name = oldCategory.Name,
                         Description = oldCategory.Description,
-                        IsActive = oldCategory.IsActive
+                        IsActive = oldCategory.IsActive,
+                        CategoryType = oldCategory.CategoryType
                     });
 
-                    Category.Name = model.Name;
-                    Category.Description = model.Description;
+                    category.Name = model.Name;
+                    category.Description = model.Description;
+                    category.CategoryType = model.CategoryType;
                     bool Example = Convert.ToBoolean(Request.Form["IsActive.Value"]);
-                    Category.IsActive = model.IsActive;
+                    category.IsActive = model.IsActive;
 
                     newData = new JavaScriptSerializer().Serialize(new Category()
                     {
-                        Id = Category.Id,
-                        Name = Category.Name,
+                        Id = category.Id,
+                        Name = category.Name,
                         Description = model.Description,
-                        IsActive = Category.IsActive
+                        IsActive = category.IsActive
                     });
                 }
 
-                categoryService.SaveOrUpdate(Category);
+                categoryService.SaveOrUpdate(category);
 
                 CommonService.SaveDataAudit(new DataAudit()
                 {
@@ -140,18 +149,9 @@ namespace WFM.UI.Controllers
         [HttpPost]
         public JsonResult GetDescriptionById(int? id)
         {
-            string description = "";
+            var category = categoryService.GetCategoryById(id);
 
-            if (id == null)
-            {
-                description = "-";
-            }
-            else
-            {
-                description = categoryService.GetCategoryById(id).Description;
-                description = string.IsNullOrEmpty(description) ? "-" : description;
-            }
-            return Json(description, JsonRequestBehavior.AllowGet);
+            return Json(new Category { Id = category.Id, CategoryType = category.CategoryType, Description = category.Description }, JsonRequestBehavior.AllowGet);
         }
     }
 }

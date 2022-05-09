@@ -1,0 +1,316 @@
+﻿@model WFM.UI.Models.QuoteView
+@using WFM.BAL.Enums
+@using WFM.BAL.Helpers
+
+<div class="row m-10" id="printThis">
+
+    <table class="report-container">
+        <thead class="report-header">
+            <tr>
+                <th class="report-header-cell">
+                    <div class="header-info col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 text-right">
+                        <img src="~/Resources/print-logo.png" width="230" />
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        @*<tfoot class="report-footer">
+                <tr>
+                    <td class="report-footer-cell">
+                        <div class="footer-info">
+                            .ttttttttttttttttttttttttttttttttttttt
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>*@
+        <tbody class="report-content">
+            <tr>
+                <td class="report-content-cell">
+                    <div class="main">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
+                            <div class="row">
+                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
+                                    Date :
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
+                                    @if (Model != null && Model.CreatedDate != null)
+                                    {
+                                        @Html.DisplayFor(q => q.CreatedDateString);
+                                    }
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
+                                    Our Ref No :
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
+                                    @Html.DisplayFor(q => q.Code)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
+                                    File No :
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
+                                    @Html.DisplayFor(q => q.FileNumber)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
+                                    VAT Reg. No. :
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
+                                    @ViewBag.VATNo
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-2">
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-2">
+                                    @Html.DisplayFor(q => q.Client.Name),
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-2">
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-2">
+                                    Dear Sir,
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-2">
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-2">
+                                    <b><u>QUOTATION FOR @Html.DisplayFor(q => q.Header)</u></b>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-2">
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-2">
+                                    We thank you for your inquiry, and are pleased to submit our quotation for your
+                                    consideration. We trust it will meet with your approval. Please quote our Ref No: @Html.DisplayFor(q => q.Code) in your correspondence on this quotation.
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-10 mb-2">
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-2">
+                                    <b><u>SPECIFICATIONS</u></b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            @if (Model != null)
+            {
+                foreach (var item in Model.QuoteItems)
+                {
+                    <tr>
+                        <td>
+                            <div class="main">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
+
+                                    <div class="row">
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0 font-bold">
+                                            Product
+                                        </div>
+                                        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-0">
+                                            : @item.CategoryName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0 font-bold">
+                                            Size
+                                        </div>
+                                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 mb-0">
+                                            : @item.Size
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0 font-bold">
+                                            Visibility
+                                        </div>
+                                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 mb-0">
+                                            @{
+                                                if (item.VisibilityId != null)
+                                                {
+                                                    var description = EnumHelper<Visibility>.GetDisplayValue((Visibility)item.VisibilityId);
+                                                    @Html.DisplayFor(e => description);
+                                                }
+                                                //: @Html.DisplayFor(e => description);
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0 font-bold">
+                                            Description
+                                        </div>
+                                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 mb-0 text-justify">
+                                            : @item.Description
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0 font-bold">
+                                            Type
+                                        </div>
+                                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 mb-0 text-justify">
+                                            : @item.CategoryType
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0 font-bold">
+                                            Installation
+                                        </div>
+                                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 mb-0 text-justify">
+                                            : @item.Installation
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0 font-bold">
+                                            Qty
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                            : @item.Qty
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0 font-bold font-14">
+                                            Cost
+                                        </div>
+                                        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-0 font-bold font-14">
+                                            : Rs. @((item.UnitCost * item.Qty).ToString())/- @(Model.IsVAT ? " + " + ViewBag.VATPercentage + "% VAT " : "")
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <br />
+                                    </div>
+                                    @if (item.FrameworkWarrantyPeriod != null)
+                                    {
+                                        <div class="row">
+                                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-0 font-bold font-14">
+                                                Warranty for Framework
+                                            </div>
+                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-0 font-bold font-14">
+                                                : @item.FrameworkWarrantyPeriod year(s)
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @if (item.LetteringWarrantyPeriod != null)
+                                    {
+                                        <div class="row">
+                                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-0 font-bold font-14">
+                                                Warranty for Lettering
+                                            </div>
+                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-0 font-bold font-14">
+                                                : @item.LetteringWarrantyPeriod year(s)
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @if (item.IlluminationWarrantyPeriod != null)
+                                    {
+                                        <div class="row">
+                                            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 mb-0">
+                                            </div>
+                                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-0 font-bold font-14">
+                                                Warranty for Illumination
+                                            </div>
+                                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-0 font-bold font-14">
+                                                : @item.IlluminationWarrantyPeriod year(s)
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td>
+                    <div class="main">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
+                            <div class="row">
+                                <div class="col-xl-1col-lg-1 col-md-1 col-sm-12 col-12 mb-2">
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 mb-2 font-12 font-bold">
+                                    <u>TERMS & CONDITIONS</u>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
+                            @if (Model != null)
+                            {
+                                foreach (var termDetails in Model.QuoteTermDetails)
+                                {
+                                    <div class="row">
+                                        <div class="col-xl-1col-lg-1 col-md-1 col-sm-12 col-12 mb-2">
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 mb-2 font-bold">
+                                            @Html.DisplayFor(modelItem => termDetails.QuoteTerm.Name)
+                                        </div>
+                                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 mb-2 text-justify">
+                                            : @Html.DisplayFor(modelItem => termDetails.QuoteTerm.Details)
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        @if (Model != null && Model.IsVAT)
+                        {
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
+                                <div class="row">
+                                    <div class="col-xl-1col-lg-1 col-md-1 col-sm-12 col-12 mb-2">
+                                    </div>
+                                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-2 font-12 font-bold">
+                                        In addition, VAT 8% would be charged. If you are VAT registered, please give your VAT
+                                        number with the order / Confirmation (Purchase Order).
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
+                            <div class="row">
+                                <div class="col-xl-1col-lg-1 col-md-1 col-sm-12 col-12 mb-2">
+                                </div>
+                                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mb-2 font-12">
+                                    Thanking You,<br />
+                                    Yours faithfully,<br /><br />
+                                    @ViewBag.Name<br /><br /><br /><br />
+                                    @ViewBag.AuthorizedPersonName<br />
+                                    @ViewBag.AuthorizedPersonDesignation
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

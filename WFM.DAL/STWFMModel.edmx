@@ -65,6 +65,7 @@
           <Property Name="ParentId" Type="int" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CategoryType" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -87,6 +88,7 @@
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CPTitle" Type="nvarchar" MaxLength="5" />
           <Property Name="IsVAT" Type="bit" Nullable="false" />
+          <Property Name="VATNumber" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DataAudit">
           <Key>
@@ -171,6 +173,15 @@
           <Property Name="QuoteId" Type="int" />
           <Property Name="Value" Type="money" />
           <Property Name="Header" Type="nvarchar" MaxLength="500" />
+          <Property Name="WarrantyPeriodId" Type="int" />
+          <Property Name="CodeNumber" Type="int" />
+          <Property Name="ContactPerson" Type="nvarchar" MaxLength="150" />
+          <Property Name="ContactMobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsVAT" Type="bit" Nullable="false" />
+          <Property Name="FrameworkWarrantyPeriod" Type="int" />
+          <Property Name="LetteringWarrantyPeriod" Type="int" />
+          <Property Name="IlluminationWarrantyPeriod" Type="int" />
+          <Property Name="FileNumber" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="OrderItem">
           <Key>
@@ -178,11 +189,19 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="int" />
-          <Property Name="CatgoryId" Type="int" />
+          <Property Name="CategoryId" Type="int" />
           <Property Name="Size" Type="nvarchar" MaxLength="50" />
           <Property Name="Qty" Type="float" />
-          <Property Name="Value" Type="money" />
+          <Property Name="UnitCost" Type="float" />
+          <Property Name="VAT" Type="float" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="250" />
+          <Property Name="CategoryType" Type="nvarchar(max)" />
+          <Property Name="Installation" Type="nvarchar(max)" />
+          <Property Name="FrameworkWarrantyPeriod" Type="int" />
+          <Property Name="LetteringWarrantyPeriod" Type="int" />
+          <Property Name="IlluminationWarrantyPeriod" Type="int" />
+          <Property Name="VisibilityId" Type="int" />
         </EntityType>
         <EntityType Name="OrderTracking">
           <Key>
@@ -259,6 +278,16 @@
           <Property Name="IsVAT" Type="bit" Nullable="false" />
           <Property Name="Header" Type="nvarchar" MaxLength="500" />
           <Property Name="IsConverted" Type="bit" />
+          <Property Name="WarrantyPeriodId" Type="int" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="ContactPerson" Type="nvarchar" MaxLength="150" />
+          <Property Name="ContactMobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="FrameworkWarrantyPeriod" Type="int" />
+          <Property Name="LetteringWarrantyPeriod" Type="int" />
+          <Property Name="IlluminationWarrantyPeriod" Type="int" />
+          <Property Name="FileNumber" Type="nvarchar" MaxLength="250" />
+          <Property Name="StatusId" Type="int" />
+          <Property Name="OrderTypeId" Type="int" />
         </EntityType>
         <EntityType Name="QuoteItem">
           <Key>
@@ -266,12 +295,19 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="QuoteId" Type="int" />
-          <Property Name="CatgoryId" Type="int" />
+          <Property Name="CategoryId" Type="int" />
           <Property Name="Size" Type="nvarchar" MaxLength="50" />
           <Property Name="Qty" Type="float" />
-          <Property Name="Value" Type="money" />
-          <Property Name="VAT" Type="money" />
+          <Property Name="UnitCost" Type="float" />
+          <Property Name="VAT" Type="float" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="250" />
+          <Property Name="CategoryType" Type="nvarchar(max)" />
+          <Property Name="Installation" Type="nvarchar(max)" />
+          <Property Name="FrameworkWarrantyPeriod" Type="int" />
+          <Property Name="LetteringWarrantyPeriod" Type="int" />
+          <Property Name="IlluminationWarrantyPeriod" Type="int" />
+          <Property Name="VisibilityId" Type="int" />
         </EntityType>
         <EntityType Name="QuoteTerm">
           <Key>
@@ -280,6 +316,15 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="500" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="Details" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="QuoteTermDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuoteId" Type="int" Nullable="false" />
+          <Property Name="QuoteTermId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -287,6 +332,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Type" Type="nvarchar" MaxLength="3" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -306,6 +352,13 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="IsActive" Type="bit" />
           <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="WarrantyPeriod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Client_Designation">
           <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
@@ -435,54 +488,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_ApprovedBy">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ApprovedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="LastTransferredBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_AspNetUsers_CreatedBy">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ChanneledBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_AspNetUsers_UpdatedBy">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="UpdatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Order_Client">
           <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -575,7 +580,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrderItem">
-              <PropertyRef Name="CatgoryId" />
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -615,18 +620,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderTracking_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderTracking">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderTracking_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
@@ -663,18 +656,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderWayForward_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="OrderWayForward" Type="Self.OrderWayForward" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderWayForward">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Quote_Client">
           <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
           <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
@@ -695,7 +676,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="QuoteItem">
-              <PropertyRef Name="CatgoryId" />
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -708,6 +689,30 @@
             </Principal>
             <Dependent Role="QuoteItem">
               <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteTermDetail_Quote">
+          <End Role="Quote" Type="Self.Quote" Multiplicity="1" />
+          <End Role="QuoteTermDetail" Type="Self.QuoteTermDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteTermDetail">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteTermDetail_QuoteTerm">
+          <End Role="QuoteTerm" Type="Self.QuoteTerm" Multiplicity="1" />
+          <End Role="QuoteTermDetail" Type="Self.QuoteTermDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuoteTerm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteTermDetail">
+              <PropertyRef Name="QuoteTermId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -734,9 +739,11 @@
           <EntitySet Name="Quote" EntityType="Self.Quote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuoteItem" EntityType="Self.QuoteItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuoteTerm" EntityType="Self.QuoteTerm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuoteTermDetail" EntityType="Self.QuoteTermDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title" EntityType="Self.Title" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WarrantyPeriod" EntityType="Self.WarrantyPeriod" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Client_Designation" Association="Self.FK_Client_Designation">
             <End Role="Designation" EntitySet="Designation" />
             <End Role="Client" EntitySet="Client" />
@@ -776,22 +783,6 @@
           <AssociationSet Name="FK_LoginAudit_AspNetUsers" Association="Self.FK_LoginAudit_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="LoginAudit" EntitySet="LoginAudit" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_ApprovedBy" Association="Self.FK_Order_ApprovedBy">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_AspNetUsers" Association="Self.FK_Order_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_AspNetUsers_CreatedBy" Association="Self.FK_Order_AspNetUsers_CreatedBy">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_AspNetUsers_UpdatedBy" Association="Self.FK_Order_AspNetUsers_UpdatedBy">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Client" Association="Self.FK_Order_Client">
             <End Role="Client" EntitySet="Client" />
@@ -837,10 +828,6 @@
             <End Role="Division" EntitySet="Division" />
             <End Role="OrderTracking" EntitySet="OrderTracking" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderTracking_Order" Association="Self.FK_OrderTracking_Order">
-            <End Role="Order" EntitySet="Order" />
-            <End Role="OrderTracking" EntitySet="OrderTracking" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderTracking_Status" Association="Self.FK_OrderTracking_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="OrderTracking" EntitySet="OrderTracking" />
@@ -851,10 +838,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_OrderWayForward_Division" Association="Self.FK_OrderWayForward_Division">
             <End Role="Division" EntitySet="Division" />
-            <End Role="OrderWayForward" EntitySet="OrderWayForward" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderWayForward_Order" Association="Self.FK_OrderWayForward_Order">
-            <End Role="Order" EntitySet="Order" />
             <End Role="OrderWayForward" EntitySet="OrderWayForward" />
           </AssociationSet>
           <AssociationSet Name="FK_Quote_Client" Association="Self.FK_Quote_Client">
@@ -868,6 +851,14 @@
           <AssociationSet Name="FK_QuoteItem_Quote" Association="Self.FK_QuoteItem_Quote">
             <End Role="Quote" EntitySet="Quote" />
             <End Role="QuoteItem" EntitySet="QuoteItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteTermDetail_Quote" Association="Self.FK_QuoteTermDetail_Quote">
+            <End Role="Quote" EntitySet="Quote" />
+            <End Role="QuoteTermDetail" EntitySet="QuoteTermDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteTermDetail_QuoteTerm" Association="Self.FK_QuoteTermDetail_QuoteTerm">
+            <End Role="QuoteTerm" EntitySet="QuoteTerm" />
+            <End Role="QuoteTermDetail" EntitySet="QuoteTermDetail" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -884,7 +875,6 @@
           <EntitySet Name="Designations" EntityType="STWFMModel.Designation" />
           <EntitySet Name="Divisions" EntityType="STWFMModel.Division" />
           <EntitySet Name="LoginAudits" EntityType="STWFMModel.LoginAudit" />
-          <EntitySet Name="Orders" EntityType="STWFMModel.Order" />
           <EntitySet Name="OrderTrackings" EntityType="STWFMModel.OrderTracking" />
           <EntitySet Name="OrderWayForwards" EntityType="STWFMModel.OrderWayForward" />
           <EntitySet Name="PaperQualities" EntityType="STWFMModel.PaperQuality" />
@@ -908,33 +898,9 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="LoginAudit" EntitySet="LoginAudits" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_AspNetUsers" Association="STWFMModel.FK_Order_AspNetUsers">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_AspNetUsers_CreatedBy" Association="STWFMModel.FK_Order_AspNetUsers_CreatedBy">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_AspNetUsers_UpdatedBy" Association="STWFMModel.FK_Order_AspNetUsers_UpdatedBy">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Order" Association="STWFMModel.FK_Order_Order">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderTracking_AspNetUsers" Association="STWFMModel.FK_OrderTracking_AspNetUsers">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="OrderTracking" EntitySet="OrderTrackings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Client" Association="STWFMModel.FK_Order_Client">
-            <End Role="Client" EntitySet="Clients" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Division" Association="STWFMModel.FK_Order_Division">
-            <End Role="Division" EntitySet="Divisions" />
-            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderTracking_FromDivision" Association="STWFMModel.FK_OrderTracking_FromDivision">
             <End Role="Division" EntitySet="Divisions" />
@@ -948,26 +914,6 @@
             <End Role="Division" EntitySet="Divisions" />
             <End Role="OrderWayForward" EntitySet="OrderWayForwards" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_PaperQuality" Association="STWFMModel.FK_Order_PaperQuality">
-            <End Role="PaperQuality" EntitySet="PaperQualities" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Printer" Association="STWFMModel.FK_Order_Printer">
-            <End Role="Printer" EntitySet="Printers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Status" Association="STWFMModel.FK_Order_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderTracking_Order" Association="STWFMModel.FK_OrderTracking_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderTracking" EntitySet="OrderTrackings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderWayForward_Order" Association="STWFMModel.FK_OrderWayForward_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderWayForward" EntitySet="OrderWayForwards" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderTracking_Status" Association="STWFMModel.FK_OrderTracking_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="OrderTracking" EntitySet="OrderTrackings" />
@@ -977,20 +923,7 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Categories" EntityType="STWFMModel.Category" />
-          <EntitySet Name="OrderItems" EntityType="STWFMModel.OrderItem" />
-          <AssociationSet Name="FK_OrderItem_Category" Association="STWFMModel.FK_OrderItem_Category">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="OrderItem" EntitySet="OrderItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderItem_Order" Association="STWFMModel.FK_OrderItem_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderItem" EntitySet="OrderItems" />
-          </AssociationSet>
           <EntitySet Name="OrderTypes" EntityType="STWFMModel.OrderType" />
-          <AssociationSet Name="FK_Order_OrderType" Association="STWFMModel.FK_Order_OrderType">
-            <End Role="OrderType" EntitySet="OrderTypes" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
           <EntitySet Name="Employees" EntityType="STWFMModel.Employee" />
           <AssociationSet Name="FK_Employee_AspNetUsers" Association="STWFMModel.FK_Employee_AspNetUsers">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -1008,16 +941,75 @@
             <End Role="Division" EntitySet="Divisions" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
+          <EntitySet Name="QuoteTerms" EntityType="STWFMModel.QuoteTerm" />
+          <EntitySet Name="OrderItems" EntityType="STWFMModel.OrderItem" />
+          <AssociationSet Name="FK_OrderItem_Category" Association="STWFMModel.FK_OrderItem_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <EntitySet Name="WarrantyPeriods" EntityType="STWFMModel.WarrantyPeriod" />
+          <EntitySet Name="Orders" EntityType="STWFMModel.Order" />
           <EntitySet Name="Quotes" EntityType="STWFMModel.Quote" />
+          <AssociationSet Name="FK_Order_ApprovedBy" Association="STWFMModel.FK_Order_ApprovedBy">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_AspNetUsers" Association="STWFMModel.FK_Order_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_AspNetUsers_CreatedBy" Association="STWFMModel.FK_Order_AspNetUsers_CreatedBy">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_AspNetUsers_UpdatedBy" Association="STWFMModel.FK_Order_AspNetUsers_UpdatedBy">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Client" Association="STWFMModel.FK_Order_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Quote_Client" Association="STWFMModel.FK_Quote_Client">
             <End Role="Client" EntitySet="Clients" />
             <End Role="Quote" EntitySet="Quotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Division" Association="STWFMModel.FK_Order_Division">
+            <End Role="Division" EntitySet="Divisions" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_OrderType" Association="STWFMModel.FK_Order_OrderType">
+            <End Role="OrderType" EntitySet="OrderTypes" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_PaperQuality" Association="STWFMModel.FK_Order_PaperQuality">
+            <End Role="PaperQuality" EntitySet="PaperQualities" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Printer" Association="STWFMModel.FK_Order_Printer">
+            <End Role="Printer" EntitySet="Printers" />
+            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Quote" Association="STWFMModel.FK_Order_Quote">
             <End Role="Quote" EntitySet="Quotes" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
-          <EntitySet Name="QuoteTerms" EntityType="STWFMModel.QuoteTerm" />
+          <AssociationSet Name="FK_Order_Status" Association="STWFMModel.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Order" Association="STWFMModel.FK_OrderItem_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTracking_Order" Association="STWFMModel.FK_OrderTracking_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderTracking" EntitySet="OrderTrackings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderWayForward_Order" Association="STWFMModel.FK_OrderWayForward_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderWayForward" EntitySet="OrderWayForwards" />
+          </AssociationSet>
           <EntitySet Name="QuoteItems" EntityType="STWFMModel.QuoteItem" />
           <AssociationSet Name="FK_QuoteItem_Category" Association="STWFMModel.FK_QuoteItem_Category">
             <End Role="Category" EntitySet="Categories" />
@@ -1027,7 +1019,16 @@
             <End Role="Quote" EntitySet="Quotes" />
             <End Role="QuoteItem" EntitySet="QuoteItems" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="QuoteTermDetails" EntityType="STWFMModel.QuoteTermDetail" />
+          <AssociationSet Name="FK_QuoteTermDetail_Quote" Association="STWFMModel.FK_QuoteTermDetail_Quote">
+            <End Role="Quote" EntitySet="Quotes" />
+            <End Role="QuoteTermDetail" EntitySet="QuoteTermDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteTermDetail_QuoteTerm" Association="STWFMModel.FK_QuoteTermDetail_QuoteTerm">
+            <End Role="QuoteTerm" EntitySet="QuoteTerms" />
+            <End Role="QuoteTermDetail" EntitySet="QuoteTermDetails" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -1077,13 +1078,13 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="STWFMModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="DataAudits" Relationship="STWFMModel.FK_DataAudit_AspNetUsers" FromRole="AspNetUser" ToRole="DataAudit" />
           <NavigationProperty Name="LoginAudits" Relationship="STWFMModel.FK_LoginAudit_AspNetUsers" FromRole="AspNetUser" ToRole="LoginAudit" />
-          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_AspNetUsers" FromRole="AspNetUser" ToRole="Order" />
-          <NavigationProperty Name="Orders1" Relationship="STWFMModel.FK_Order_AspNetUsers_CreatedBy" FromRole="AspNetUser" ToRole="Order" />
-          <NavigationProperty Name="Orders2" Relationship="STWFMModel.FK_Order_AspNetUsers_UpdatedBy" FromRole="AspNetUser" ToRole="Order" />
-          <NavigationProperty Name="Orders3" Relationship="STWFMModel.FK_Order_Order" FromRole="AspNetUser" ToRole="Order" />
           <NavigationProperty Name="OrderTrackings" Relationship="STWFMModel.FK_OrderTracking_AspNetUsers" FromRole="AspNetUser" ToRole="OrderTracking" />
           <NavigationProperty Name="AspNetRoles" Relationship="STWFMModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
           <NavigationProperty Name="Employees" Relationship="STWFMModel.FK_Employee_AspNetUsers" FromRole="AspNetUser" ToRole="Employee" />
+          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_ApprovedBy" FromRole="AspNetUser" ToRole="Order" />
+          <NavigationProperty Name="Orders1" Relationship="STWFMModel.FK_Order_AspNetUsers" FromRole="AspNetUser" ToRole="Order" />
+          <NavigationProperty Name="Orders2" Relationship="STWFMModel.FK_Order_AspNetUsers_CreatedBy" FromRole="AspNetUser" ToRole="Order" />
+          <NavigationProperty Name="Orders3" Relationship="STWFMModel.FK_Order_AspNetUsers_UpdatedBy" FromRole="AspNetUser" ToRole="Order" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -1104,11 +1105,12 @@
           <Property Name="CPMobile" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Client" FromRole="Client" ToRole="Order" />
           <NavigationProperty Name="Designation" Relationship="STWFMModel.FK_Client_Designation" FromRole="Client" ToRole="Designation" />
           <Property Name="CPTitle" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Quotes" Relationship="STWFMModel.FK_Quote_Client" FromRole="Client" ToRole="Quote" />
           <Property Name="IsVAT" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Client" FromRole="Client" ToRole="Order" />
+          <NavigationProperty Name="Quotes" Relationship="STWFMModel.FK_Quote_Client" FromRole="Client" ToRole="Quote" />
+          <Property Name="VATNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DataAudit">
           <Key>
@@ -1141,11 +1143,11 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Division" FromRole="Division" ToRole="Order" />
           <NavigationProperty Name="OrderTrackings" Relationship="STWFMModel.FK_OrderTracking_FromDivision" FromRole="Division" ToRole="OrderTracking" />
           <NavigationProperty Name="OrderTrackings1" Relationship="STWFMModel.FK_OrderTracking_ToDivision" FromRole="Division" ToRole="OrderTracking" />
           <NavigationProperty Name="OrderWayForwards" Relationship="STWFMModel.FK_OrderWayForward_Division" FromRole="Division" ToRole="OrderWayForward" />
           <NavigationProperty Name="Employees" Relationship="STWFMModel.FK_Employee_Division" FromRole="Division" ToRole="Employee" />
+          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Division" FromRole="Division" ToRole="Order" />
         </EntityType>
         <EntityType Name="LoginAudit">
           <Key>
@@ -1156,50 +1158,6 @@
           <Property Name="IPAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DateLogged" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="STWFMModel.FK_LoginAudit_AspNetUsers" FromRole="LoginAudit" ToRole="AspNetUser" />
-        </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Year" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="ChanneledBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PaperQualityId" Type="Int32" />
-          <Property Name="PrinterId" Type="Int32" />
-          <Property Name="ClientId" Type="Int32" />
-          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ApprovedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
-          <Property Name="CurrentDivisionId" Type="Int32" />
-          <Property Name="LastTransferredDate" Type="DateTime" Precision="3" />
-          <Property Name="LastTransferredBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="STWFMModel.FK_Order_AspNetUsers" FromRole="Order" ToRole="AspNetUser" />
-          <NavigationProperty Name="AspNetUser1" Relationship="STWFMModel.FK_Order_AspNetUsers_CreatedBy" FromRole="Order" ToRole="AspNetUser" />
-          <NavigationProperty Name="AspNetUser2" Relationship="STWFMModel.FK_Order_AspNetUsers_UpdatedBy" FromRole="Order" ToRole="AspNetUser" />
-          <NavigationProperty Name="AspNetUser3" Relationship="STWFMModel.FK_Order_Order" FromRole="Order" ToRole="AspNetUser" />
-          <NavigationProperty Name="Client" Relationship="STWFMModel.FK_Order_Client" FromRole="Order" ToRole="Client" />
-          <NavigationProperty Name="Division" Relationship="STWFMModel.FK_Order_Division" FromRole="Order" ToRole="Division" />
-          <NavigationProperty Name="PaperQuality" Relationship="STWFMModel.FK_Order_PaperQuality" FromRole="Order" ToRole="PaperQuality" />
-          <NavigationProperty Name="Printer" Relationship="STWFMModel.FK_Order_Printer" FromRole="Order" ToRole="Printer" />
-          <NavigationProperty Name="Status" Relationship="STWFMModel.FK_Order_Status" FromRole="Order" ToRole="Status" />
-          <NavigationProperty Name="OrderTrackings" Relationship="STWFMModel.FK_OrderTracking_Order" FromRole="Order" ToRole="OrderTracking" />
-          <NavigationProperty Name="OrderWayForwards" Relationship="STWFMModel.FK_OrderWayForward_Order" FromRole="Order" ToRole="OrderWayForward" />
-          <NavigationProperty Name="OrderItems" Relationship="STWFMModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
-          <Property Name="OrderTypeId" Type="Int32" />
-          <NavigationProperty Name="OrderType" Relationship="STWFMModel.FK_Order_OrderType" FromRole="Order" ToRole="OrderType" />
-          <Property Name="QuoteId" Type="Int32" />
-          <NavigationProperty Name="Quote" Relationship="STWFMModel.FK_Order_Quote" FromRole="Order" ToRole="Quote" />
-          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="Header" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OrderTracking">
           <Key>
@@ -1216,8 +1174,8 @@
           <NavigationProperty Name="AspNetUser" Relationship="STWFMModel.FK_OrderTracking_AspNetUsers" FromRole="OrderTracking" ToRole="AspNetUser" />
           <NavigationProperty Name="Division" Relationship="STWFMModel.FK_OrderTracking_FromDivision" FromRole="OrderTracking" ToRole="Division" />
           <NavigationProperty Name="Division1" Relationship="STWFMModel.FK_OrderTracking_ToDivision" FromRole="OrderTracking" ToRole="Division" />
-          <NavigationProperty Name="Order" Relationship="STWFMModel.FK_OrderTracking_Order" FromRole="OrderTracking" ToRole="Order" />
           <NavigationProperty Name="Status" Relationship="STWFMModel.FK_OrderTracking_Status" FromRole="OrderTracking" ToRole="Status" />
+          <NavigationProperty Name="Order" Relationship="STWFMModel.FK_OrderTracking_Order" FromRole="OrderTracking" ToRole="Order" />
         </EntityType>
         <EntityType Name="OrderWayForward">
           <Key>
@@ -1235,9 +1193,9 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_PaperQuality" FromRole="PaperQuality" ToRole="Order" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_PaperQuality" FromRole="PaperQuality" ToRole="Order" />
         </EntityType>
         <EntityType Name="Printer">
           <Key>
@@ -1245,9 +1203,9 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Printer" FromRole="Printer" ToRole="Order" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Printer" FromRole="Printer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -1255,8 +1213,9 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Status" FromRole="Status" ToRole="Order" />
           <NavigationProperty Name="OrderTrackings" Relationship="STWFMModel.FK_OrderTracking_Status" FromRole="Status" ToRole="OrderTracking" />
+          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Status" FromRole="Status" ToRole="Order" />
+          <Property Name="Type" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -1329,54 +1288,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_AspNetUsers">
-          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="LastTransferredBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_AspNetUsers_CreatedBy">
-          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ChanneledBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_AspNetUsers_UpdatedBy">
-          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="UpdatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Order">
-          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ApprovedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderTracking_AspNetUsers">
           <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
           <End Type="STWFMModel.OrderTracking" Role="OrderTracking" Multiplicity="*" />
@@ -1386,30 +1297,6 @@
             </Principal>
             <Dependent Role="OrderTracking">
               <PropertyRef Name="TransferredBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Client">
-          <End Type="STWFMModel.Client" Role="Client" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Division">
-          <End Type="STWFMModel.Division" Role="Division" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Division">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="CurrentDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1449,66 +1336,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_PaperQuality">
-          <End Type="STWFMModel.PaperQuality" Role="PaperQuality" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaperQuality">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="PaperQualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Printer">
-          <End Type="STWFMModel.Printer" Role="Printer" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Printer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="PrinterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Status">
-          <End Type="STWFMModel.Status" Role="Status" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderTracking_Order">
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="0..1" />
-          <End Type="STWFMModel.OrderTracking" Role="OrderTracking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderTracking">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderWayForward_Order">
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="0..1" />
-          <End Type="STWFMModel.OrderWayForward" Role="OrderWayForward" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderWayForward">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderTracking_Status">
           <End Type="STWFMModel.Status" Role="Status" Multiplicity="0..1" />
           <End Type="STWFMModel.OrderTracking" Role="OrderTracking" Multiplicity="*" />
@@ -1532,49 +1359,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ParentId" Type="Int32" />
-          <NavigationProperty Name="OrderItems" Relationship="STWFMModel.FK_OrderItem_Category" FromRole="Category" ToRole="OrderItem" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="OrderItems" Relationship="STWFMModel.FK_OrderItem_Category" FromRole="Category" ToRole="OrderItem" />
+          <Property Name="CategoryType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="QuoteItems" Relationship="STWFMModel.FK_QuoteItem_Category" FromRole="Category" ToRole="QuoteItem" />
         </EntityType>
-        <EntityType Name="OrderItem">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" />
-          <Property Name="CatgoryId" Type="Int32" />
-          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Qty" Type="Double" />
-          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Category" Relationship="STWFMModel.FK_OrderItem_Category" FromRole="OrderItem" ToRole="Category" />
-          <NavigationProperty Name="Order" Relationship="STWFMModel.FK_OrderItem_Order" FromRole="OrderItem" ToRole="Order" />
-        </EntityType>
-        <Association Name="FK_OrderItem_Category">
-          <End Type="STWFMModel.Category" Role="Category" Multiplicity="0..1" />
-          <End Type="STWFMModel.OrderItem" Role="OrderItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderItem">
-              <PropertyRef Name="CatgoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderItem_Order">
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="0..1" />
-          <End Type="STWFMModel.OrderItem" Role="OrderItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderItem">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="OrderType">
           <Key>
             <PropertyRef Name="Id" />
@@ -1584,18 +1374,6 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_OrderType" FromRole="OrderType" ToRole="Order" />
         </EntityType>
-        <Association Name="FK_Order_OrderType">
-          <End Type="STWFMModel.OrderType" Role="OrderType" Multiplicity="0..1" />
-          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="OrderTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
@@ -1663,6 +1441,106 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="QuoteTerm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="QuoteTermDetails" Relationship="STWFMModel.FK_QuoteTermDetail_QuoteTerm" FromRole="QuoteTerm" ToRole="QuoteTermDetail" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Qty" Type="Double" />
+          <Property Name="UnitCost" Type="Double" />
+          <Property Name="VAT" Type="Double" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="STWFMModel.FK_OrderItem_Category" FromRole="OrderItem" ToRole="Category" />
+          <NavigationProperty Name="Order" Relationship="STWFMModel.FK_OrderItem_Order" FromRole="OrderItem" ToRole="Order" />
+          <Property Name="CategoryName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Installation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FrameworkWarrantyPeriod" Type="Int32" />
+          <Property Name="LetteringWarrantyPeriod" Type="Int32" />
+          <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
+          <Property Name="VisibilityId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_OrderItem_Category">
+          <End Type="STWFMModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="STWFMModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WarrantyPeriod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChanneledBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PaperQualityId" Type="Int32" />
+          <Property Name="PrinterId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="CurrentDivisionId" Type="Int32" />
+          <Property Name="LastTransferredDate" Type="DateTime" Precision="3" />
+          <Property Name="LastTransferredBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="OrderTypeId" Type="Int32" />
+          <Property Name="QuoteId" Type="Int32" />
+          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Header" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="STWFMModel.FK_Order_Client" FromRole="Order" ToRole="Client" />
+          <NavigationProperty Name="Division" Relationship="STWFMModel.FK_Order_Division" FromRole="Order" ToRole="Division" />
+          <NavigationProperty Name="OrderType" Relationship="STWFMModel.FK_Order_OrderType" FromRole="Order" ToRole="OrderType" />
+          <NavigationProperty Name="PaperQuality" Relationship="STWFMModel.FK_Order_PaperQuality" FromRole="Order" ToRole="PaperQuality" />
+          <NavigationProperty Name="Printer" Relationship="STWFMModel.FK_Order_Printer" FromRole="Order" ToRole="Printer" />
+          <NavigationProperty Name="Quote" Relationship="STWFMModel.FK_Order_Quote" FromRole="Order" ToRole="Quote" />
+          <NavigationProperty Name="Status" Relationship="STWFMModel.FK_Order_Status" FromRole="Order" ToRole="Status" />
+          <NavigationProperty Name="OrderItems" Relationship="STWFMModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
+          <NavigationProperty Name="OrderTrackings" Relationship="STWFMModel.FK_OrderTracking_Order" FromRole="Order" ToRole="OrderTracking" />
+          <NavigationProperty Name="OrderWayForwards" Relationship="STWFMModel.FK_OrderWayForward_Order" FromRole="Order" ToRole="OrderWayForward" />
+          <Property Name="WarrantyPeriodId" Type="Int32" />
+          <Property Name="CodeNumber" Type="Int32" />
+          <Property Name="ContactPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContactMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsVAT" Type="Boolean" Nullable="false" />
+          <Property Name="FrameworkWarrantyPeriod" Type="Int32" />
+          <Property Name="LetteringWarrantyPeriod" Type="Int32" />
+          <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
+          <Property Name="FileNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Quote">
           <Key>
             <PropertyRef Name="Id" />
@@ -1681,8 +1559,6 @@
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ApprovedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Client" Relationship="STWFMModel.FK_Quote_Client" FromRole="Quote" ToRole="Client" />
-          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Quote" FromRole="Quote" ToRole="Order" />
           <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Version" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" />
@@ -1693,8 +1569,81 @@
           <Property Name="IsVAT" Type="Boolean" Nullable="false" />
           <Property Name="Header" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsConverted" Type="Boolean" />
+          <NavigationProperty Name="Client" Relationship="STWFMModel.FK_Quote_Client" FromRole="Quote" ToRole="Client" />
+          <NavigationProperty Name="Orders" Relationship="STWFMModel.FK_Order_Quote" FromRole="Quote" ToRole="Order" />
+          <Property Name="WarrantyPeriodId" Type="Int32" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="ContactPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContactMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FrameworkWarrantyPeriod" Type="Int32" />
+          <Property Name="LetteringWarrantyPeriod" Type="Int32" />
+          <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
+          <Property Name="FileNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="QuoteItems" Relationship="STWFMModel.FK_QuoteItem_Quote" FromRole="Quote" ToRole="QuoteItem" />
+          <NavigationProperty Name="QuoteTermDetails" Relationship="STWFMModel.FK_QuoteTermDetail_Quote" FromRole="Quote" ToRole="QuoteTermDetail" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="OrderTypeId" Type="Int32" />
         </EntityType>
+        <Association Name="FK_Order_ApprovedBy">
+          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ApprovedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_AspNetUsers">
+          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="LastTransferredBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_AspNetUsers_CreatedBy">
+          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ChanneledBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_AspNetUsers_UpdatedBy">
+          <End Type="STWFMModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Client">
+          <End Type="STWFMModel.Client" Role="Client" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Quote_Client">
           <End Type="STWFMModel.Client" Role="Client" Multiplicity="0..1" />
           <End Type="STWFMModel.Quote" Role="Quote" Multiplicity="*" />
@@ -1704,6 +1653,54 @@
             </Principal>
             <Dependent Role="Quote">
               <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Division">
+          <End Type="STWFMModel.Division" Role="Division" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Division">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CurrentDivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_OrderType">
+          <End Type="STWFMModel.OrderType" Role="OrderType" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_PaperQuality">
+          <End Type="STWFMModel.PaperQuality" Role="PaperQuality" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaperQuality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PaperQualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Printer">
+          <End Type="STWFMModel.Printer" Role="Printer" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Printer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PrinterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1719,26 +1716,73 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="QuoteTerm">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
+        <Association Name="FK_Order_Status">
+          <End Type="STWFMModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Order">
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="STWFMModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTracking_Order">
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="STWFMModel.OrderTracking" Role="OrderTracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderTracking">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderWayForward_Order">
+          <End Type="STWFMModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="STWFMModel.OrderWayForward" Role="OrderWayForward" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderWayForward">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="QuoteItem">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="QuoteId" Type="Int32" />
-          <Property Name="CatgoryId" Type="Int32" />
+          <Property Name="CategoryId" Type="Int32" />
           <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Qty" Type="Double" />
-          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="VAT" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="UnitCost" Type="Double" />
+          <Property Name="VAT" Type="Double" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Installation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FrameworkWarrantyPeriod" Type="Int32" />
+          <Property Name="LetteringWarrantyPeriod" Type="Int32" />
+          <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
+          <Property Name="VisibilityId" Type="Int32" />
           <NavigationProperty Name="Category" Relationship="STWFMModel.FK_QuoteItem_Category" FromRole="QuoteItem" ToRole="Category" />
           <NavigationProperty Name="Quote" Relationship="STWFMModel.FK_QuoteItem_Quote" FromRole="QuoteItem" ToRole="Quote" />
         </EntityType>
@@ -1750,7 +1794,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="QuoteItem">
-              <PropertyRef Name="CatgoryId" />
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1763,6 +1807,40 @@
             </Principal>
             <Dependent Role="QuoteItem">
               <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="QuoteTermDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuoteId" Type="Int32" Nullable="false" />
+          <Property Name="QuoteTermId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Quote" Relationship="STWFMModel.FK_QuoteTermDetail_Quote" FromRole="QuoteTermDetail" ToRole="Quote" />
+          <NavigationProperty Name="QuoteTerm" Relationship="STWFMModel.FK_QuoteTermDetail_QuoteTerm" FromRole="QuoteTermDetail" ToRole="QuoteTerm" />
+        </EntityType>
+        <Association Name="FK_QuoteTermDetail_Quote">
+          <End Type="STWFMModel.Quote" Role="Quote" Multiplicity="1" />
+          <End Type="STWFMModel.QuoteTermDetail" Role="QuoteTermDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteTermDetail">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteTermDetail_QuoteTerm">
+          <End Type="STWFMModel.QuoteTerm" Role="QuoteTerm" Multiplicity="1" />
+          <End Type="STWFMModel.QuoteTermDetail" Role="QuoteTermDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuoteTerm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteTermDetail">
+              <PropertyRef Name="QuoteTermId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1820,6 +1898,7 @@
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="STWFMModel.Client">
               <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="VATNumber" ColumnName="VATNumber" />
                 <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
                 <ScalarProperty Name="CPTitle" ColumnName="CPTitle" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
@@ -1882,37 +1961,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="STWFMModel.Order">
-              <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="Header" ColumnName="Header" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
-                <ScalarProperty Name="OrderTypeId" ColumnName="OrderTypeId" />
-                <ScalarProperty Name="LastTransferredBy" ColumnName="LastTransferredBy" />
-                <ScalarProperty Name="LastTransferredDate" ColumnName="LastTransferredDate" />
-                <ScalarProperty Name="CurrentDivisionId" ColumnName="CurrentDivisionId" />
-                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
-                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="PrinterId" ColumnName="PrinterId" />
-                <ScalarProperty Name="PaperQualityId" ColumnName="PaperQualityId" />
-                <ScalarProperty Name="ChanneledBy" ColumnName="ChanneledBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="OrderTrackings">
             <EntityTypeMapping TypeName="STWFMModel.OrderTracking">
               <MappingFragment StoreEntitySet="OrderTracking">
@@ -1959,6 +2007,7 @@
           <EntitySetMapping Name="Status">
             <EntityTypeMapping TypeName="STWFMModel.Status">
               <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -1996,23 +2045,11 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="STWFMModel.Category">
               <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderItems">
-            <EntityTypeMapping TypeName="STWFMModel.OrderItem">
-              <MappingFragment StoreEntitySet="OrderItem">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="Qty" ColumnName="Qty" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="CatgoryId" ColumnName="CatgoryId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -2043,9 +2080,98 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="QuoteTerms">
+            <EntityTypeMapping TypeName="STWFMModel.QuoteTerm">
+              <MappingFragment StoreEntitySet="QuoteTerm">
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="STWFMModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItem">
+                <ScalarProperty Name="VisibilityId" ColumnName="VisibilityId" />
+                <ScalarProperty Name="IlluminationWarrantyPeriod" ColumnName="IlluminationWarrantyPeriod" />
+                <ScalarProperty Name="LetteringWarrantyPeriod" ColumnName="LetteringWarrantyPeriod" />
+                <ScalarProperty Name="FrameworkWarrantyPeriod" ColumnName="FrameworkWarrantyPeriod" />
+                <ScalarProperty Name="Installation" ColumnName="Installation" />
+                <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="VAT" ColumnName="VAT" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WarrantyPeriods">
+            <EntityTypeMapping TypeName="STWFMModel.WarrantyPeriod">
+              <MappingFragment StoreEntitySet="WarrantyPeriod">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="STWFMModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="FileNumber" ColumnName="FileNumber" />
+                <ScalarProperty Name="IlluminationWarrantyPeriod" ColumnName="IlluminationWarrantyPeriod" />
+                <ScalarProperty Name="LetteringWarrantyPeriod" ColumnName="LetteringWarrantyPeriod" />
+                <ScalarProperty Name="FrameworkWarrantyPeriod" ColumnName="FrameworkWarrantyPeriod" />
+                <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
+                <ScalarProperty Name="ContactMobile" ColumnName="ContactMobile" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
+                <ScalarProperty Name="WarrantyPeriodId" ColumnName="WarrantyPeriodId" />
+                <ScalarProperty Name="Header" ColumnName="Header" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
+                <ScalarProperty Name="OrderTypeId" ColumnName="OrderTypeId" />
+                <ScalarProperty Name="LastTransferredBy" ColumnName="LastTransferredBy" />
+                <ScalarProperty Name="LastTransferredDate" ColumnName="LastTransferredDate" />
+                <ScalarProperty Name="CurrentDivisionId" ColumnName="CurrentDivisionId" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="PrinterId" ColumnName="PrinterId" />
+                <ScalarProperty Name="PaperQualityId" ColumnName="PaperQualityId" />
+                <ScalarProperty Name="ChanneledBy" ColumnName="ChanneledBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Quotes">
             <EntityTypeMapping TypeName="STWFMModel.Quote">
               <MappingFragment StoreEntitySet="Quote">
+                <ScalarProperty Name="OrderTypeId" ColumnName="OrderTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="FileNumber" ColumnName="FileNumber" />
+                <ScalarProperty Name="IlluminationWarrantyPeriod" ColumnName="IlluminationWarrantyPeriod" />
+                <ScalarProperty Name="LetteringWarrantyPeriod" ColumnName="LetteringWarrantyPeriod" />
+                <ScalarProperty Name="FrameworkWarrantyPeriod" ColumnName="FrameworkWarrantyPeriod" />
+                <ScalarProperty Name="ContactMobile" ColumnName="ContactMobile" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="WarrantyPeriodId" ColumnName="WarrantyPeriodId" />
                 <ScalarProperty Name="IsConverted" ColumnName="IsConverted" />
                 <ScalarProperty Name="Header" ColumnName="Header" />
                 <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
@@ -2073,24 +2199,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QuoteTerms">
-            <EntityTypeMapping TypeName="STWFMModel.QuoteTerm">
-              <MappingFragment StoreEntitySet="QuoteTerm">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="QuoteItems">
+            <EntityTypeMapping TypeName="STWFMModel.QuoteItem">
+              <MappingFragment StoreEntitySet="QuoteItem">
+                <ScalarProperty Name="VisibilityId" ColumnName="VisibilityId" />
+                <ScalarProperty Name="IlluminationWarrantyPeriod" ColumnName="IlluminationWarrantyPeriod" />
+                <ScalarProperty Name="LetteringWarrantyPeriod" ColumnName="LetteringWarrantyPeriod" />
+                <ScalarProperty Name="FrameworkWarrantyPeriod" ColumnName="FrameworkWarrantyPeriod" />
+                <ScalarProperty Name="Installation" ColumnName="Installation" />
+                <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="VAT" ColumnName="VAT" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QuoteItems">
-            <EntityTypeMapping TypeName="STWFMModel.QuoteItem">
-              <MappingFragment StoreEntitySet="QuoteItem">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="VAT" ColumnName="VAT" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="Qty" ColumnName="Qty" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="CatgoryId" ColumnName="CatgoryId" />
+          <EntitySetMapping Name="QuoteTermDetails">
+            <EntityTypeMapping TypeName="STWFMModel.QuoteTermDetail">
+              <MappingFragment StoreEntitySet="QuoteTermDetail">
+                <ScalarProperty Name="QuoteTermId" ColumnName="QuoteTermId" />
                 <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

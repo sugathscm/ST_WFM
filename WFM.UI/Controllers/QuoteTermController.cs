@@ -79,6 +79,7 @@ namespace WFM.UI.Controllers
                     quoteTerm = new QuoteTerm
                     {
                         Name = model.Name,
+                        Details = model.Details,
                         IsActive = true
                     };
 
@@ -95,10 +96,12 @@ namespace WFM.UI.Controllers
                     {
                         Id = oldQuoteTerm.Id,
                         Name = oldQuoteTerm.Name,
+                        Details = oldQuoteTerm.Details,
                         IsActive = oldQuoteTerm.IsActive
                     });
 
                     quoteTerm.Name = model.Name;
+                    quoteTerm.Details = model.Details;
                     bool Example = Convert.ToBoolean(Request.Form["IsActive.Value"]);
                     quoteTerm.IsActive = model.IsActive;
 
@@ -106,6 +109,7 @@ namespace WFM.UI.Controllers
                     {
                         Id = quoteTerm.Id,
                         Name = quoteTerm.Name,
+                        Details = quoteTerm.Details,
                         IsActive = quoteTerm.IsActive
                     });
                 }

@@ -26,6 +26,7 @@ namespace WFM.DAL
         public Nullable<int> ParentId { get; set; }
         public bool IsActive { get; set; }
         public string Description { get; set; }
+        public string CategoryType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }

@@ -10,5 +10,6 @@ namespace WFM.UI.Models
     {
         public string ClientName { get; set; }
         public string StatusName { get; set; }
+        public string CreatedDateString { get; set; }
     }
 }

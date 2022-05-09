@@ -17,6 +17,8 @@ using Syncfusion.Pdf;
 using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
 using Syncfusion.DocToPDFConverter;
+using System.Web.Configuration;
+using WFM.BAL.Helpers;
 
 namespace WFM.UI.Controllers
 {
@@ -26,8 +28,11 @@ namespace WFM.UI.Controllers
         private readonly QuoteService quoteService = new QuoteService();
         private readonly ClientService clientService = new ClientService();
         private readonly EmployeeService employeeService = new EmployeeService();
+        private readonly DivisionService divisionService = new DivisionService();
         private readonly CategoryService categoryService = new CategoryService();
         private readonly QuoteTermService quoteTermService = new QuoteTermService();
+        private readonly OrderTypeService orderTypeService = new OrderTypeService();
+        private readonly WarrantyPeriodService warrantyPeriodService = new WarrantyPeriodService();
 
         public QuoteController()
         {
@@ -52,6 +57,12 @@ namespace WFM.UI.Controllers
         // GET: Quote
         public ActionResult Index()
         {
+            ViewBag.Divisions = divisionService.GetDivisionList();
+            return View();
+        }
+
+        public ActionResult History()
+        {
             return View();
         }
 
@@ -60,35 +71,54 @@ namespace WFM.UI.Controllers
         {
             Quote quote = new Quote();
 
+            var quoteList = quoteService.GetQuoteList().Where(q => q.ConvertedToOrder == false).OrderBy(o => o.Id).ToList();
+            var clientList = clientService.GetClientList();
+            var employeeList = employeeService.GetEmployeeList();
+            var orderTypeList = orderTypeService.GetOrderTypeList();
+            var quoteTermList = quoteTermService.GetQuoteTermList();
+
+            ViewBag.QuoteTermList = quoteTermList;
+            ViewBag.QuoteList = new SelectList(quoteList, "Id", "Code");
+            ViewBag.ClientList = new SelectList(clientList, "Id", "Name");
+            ViewBag.OrderTypeList = new SelectList(orderTypeList, "Id", "Name");
+            ViewBag.ChanneledByList = new SelectList(employeeList, "Id", "Name");
+
+            List<BaseViewModel> WarrantyPeriodList = new List<BaseViewModel>();
+            for (int i = 1; i < 10; i++)
+            {
+                WarrantyPeriodList.Add(new BaseViewModel() { Id = i, Name = i.ToString() });
+            }
+
+            List<BaseViewModel> VisibilityList = new List<BaseViewModel>();
+
+            VisibilityList.Add(new BaseViewModel() { Id = 1, Name = "Single Sided" });
+            VisibilityList.Add(new BaseViewModel() { Id = 2, Name = "Double Sided" });
+
+
+            ViewBag.WarrantyPeriodList = WarrantyPeriodList;
+            ViewBag.VisibilityList = VisibilityList;
+            ViewBag.CategoryList = categoryService.GetCategoryList();
+            ViewBag.VATPercentage = WebConfigurationManager.AppSettings["WBU"];
+
             if (id != null)
             {
                 quote = quoteService.GetQuoteById(id);
             }
             else
             {
-                var code = CommonService.GenerateCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false).Replace('-', '/');
+                var code = CommonService.GenerateQuoteCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false).Replace('-', '/');
                 quote.Code = code;
             }
-
-            var quoteList = quoteService.GetQuoteList().Where(q => q.ConvertedToOrder == false).ToList();
-            var clientList = clientService.GetClientList();
-            var employeeList = employeeService.GetEmployeeList();
-            var quoteTermList = quoteTermService.GetQuoteTermList();
-
-            ViewBag.QuoteTermList = quoteTermList;
-            ViewBag.QuoteList = new SelectList(quoteList, "Id", "Code");
-            ViewBag.ClientList = new SelectList(clientList, "Id", "Name");
-            ViewBag.ChanneledByList = new SelectList(employeeList, "Id", "Name");
-            ViewBag.CategoryList = new SelectList(categoryService.GetCategoryList(), "Id", "Name");
 
             return View(quote);
         }
 
-        public ActionResult GetList()
+        public ActionResult GetHistoryList()
         {
+            var list = quoteService.GetQuoteConvertedList();
 
-            var list = quoteService.GetQuoteFullList();
             List<QuoteView> modelList = new List<QuoteView>();
+
             foreach (var item in list)
             {
                 modelList.Add(new QuoteView()
@@ -100,56 +130,39 @@ namespace WFM.UI.Controllers
                     Value = item.Value,
                     FileAttched = item.FileAttched,
                     CreatedDate = item.CreatedDate,
-                    CreatedDateString = item.CreatedDate.Value.ToLongDateString()
+                    CreatedDateString = item.CreatedDate.Value.ToString(),
+                    IsApproved = item.IsApproved,
+                    Header = item.Header
                 });
             }
+
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Download(int? id)
+        public ActionResult GetList()
         {
-            object documentFormat = 8;
-            string _FileName = id.ToString() + ".docx";
-            string _docFilepath = Path.Combine(Server.MapPath("~/Quotes"), _FileName);
+            var list = quoteService.GetQuoteActiveList();
 
-            byte[] fileBytes = System.IO.File.ReadAllBytes(_docFilepath);
-            string fileName = _FileName;
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-        }
+            List<QuoteView> modelList = new List<QuoteView>();
 
-        public ActionResult Print(int? id)
-        {
-            object documentFormat = 8;
-            string _FileName = id.ToString() + ".docx";
-            string _docFilepath = Path.Combine(Server.MapPath("~/Quotes"), _FileName);
-            object _pdfFilePath = Server.MapPath("~/Quotes/") + id.ToString() + ".pdf";
-            object fileSavePath = Path.Combine(Server.MapPath("~/Quotes"), _FileName);
+            foreach (var item in list)
+            {
+                modelList.Add(new QuoteView()
+                {
+                    Id = item.Id,
+                    ClientName = item.Client.Name,
+                    Version = item.Version,
+                    Code = item.Code,
+                    Value = item.Value,
+                    FileAttched = item.FileAttched,
+                    CreatedDate = item.CreatedDate,
+                    CreatedDateString = item.CreatedDate.Value.ToString(),
+                    IsApproved = item.IsApproved,
+                    Header = item.Header
+                });
+            }
 
-            _Application applicationclass = new Application();
-            applicationclass.Documents.Open(ref fileSavePath);
-            applicationclass.Visible = false;
-            Document document = applicationclass.ActiveDocument;
-            document.SaveAs(ref _pdfFilePath, ref documentFormat);
-            document.Close();
-
-            //WordDocument wordDocument = new WordDocument(_docFilepath, FormatType.Docx);
-            //DocToPDFConverter converter = new DocToPDFConverter();
-            //PdfDocument pdfDocument = converter.ConvertToPDF(wordDocument);
-            //pdfDocument.Save(_pdfFilePath);
-            //pdfDocument.Close(true);
-            //wordDocument.Close();
-            //System.Diagnostics.Process.Start("WordtoPDF.pdf");
-
-            HttpResponse response = System.Web.HttpContext.Current.Response;
-            response.Clear();
-            response.AddHeader("content-disposition", "attachment; filename=" + id.ToString() + ".pdf");
-            response.WriteFile(_pdfFilePath.ToString());
-            response.ContentType = "";
-            response.End();
-
-            byte[] fileBytes = System.IO.File.ReadAllBytes(_docFilepath);
-            string fileName = _FileName;
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -167,18 +180,25 @@ namespace WFM.UI.Controllers
                 var costArray = formCollection["costArray"].Split(',');
                 var vatArray = formCollection["vatArray"].Split(',');
                 var sizeArray = formCollection["sizeArray"].Split(',');
+                var categoryTypeArray = formCollection["categoryTypeArray"].Split(',');
+                var visibilityArray = formCollection["visibilityArray"].Split(',');
+                var frameworkWarrantyPeriodArray = formCollection["frameworkWarrantyPeriodArray"].Split(',');
+                var letteringWarrantyPeriodArray = formCollection["letteringWarrantyPeriodArray"].Split(',');
+                var illuminationWarrantyPeriodArray = formCollection["illuminationWarrantyPeriodArray"].Split(',');
+                var installationArray = formCollection["installationArray"].Split(',');
+                var termsArray = formCollection["termsArray"].Split(',');
 
                 int id = model.Id;
                 Quote quote = null;
                 Quote oldQuote = null;
                 if (model.Id == 0)
                 {
-                    
+
                     quote = new Quote
                     {
                         ClientId = model.ClientId,
                         Code = model.Code,
-                        CodeNumber = int.Parse(model.Code.Split('-')[3]),
+                        CodeNumber = int.Parse(model.Code.Split('/')[3]),
                         Year = DateTime.Now.Year.ToString(),
                         Month = DateTime.Now.Month.ToString("00"),
                         Version = 1,
@@ -191,7 +211,14 @@ namespace WFM.UI.Controllers
                         IsActive = true,
                         FileAttched = false,
                         ConvertedToOrder = false,
-                        IsVAT = model.IsVAT
+                        IsVAT = model.IsVAT,
+                        WarrantyPeriodId = model.WarrantyPeriodId,
+                        ContactPerson = model.ContactPerson,
+                        ContactMobile = model.ContactMobile,
+                        FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod,
+                        IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod,
+                        LetteringWarrantyPeriod = model.LetteringWarrantyPeriod,
+                        OrderTypeId = model.OrderTypeId
                     };
 
                     oldQuote = new Quote();
@@ -211,32 +238,96 @@ namespace WFM.UI.Controllers
                     quote.ClientId = model.ClientId;
                     quote.ChanneledBy = model.ChanneledBy;
                     quote.Value = model.Value;
-                    //quote.Version = quote.Version + 1;
+                    quote.Header = model.Header;
                     quote.Comments = model.Comments;
                     quote.UpdatedBy = User.Identity.GetUserId();
                     quote.UpdatedDate = DateTime.Now;
+                    quote.ContactPerson = model.ContactPerson;
+                    quote.ContactMobile = model.ContactMobile;
+                    quote.OrderTypeId = model.OrderTypeId;
+                    //quote.FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod;
+                    //quote.IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod;
+                    //quote.LetteringWarrantyPeriod = model.LetteringWarrantyPeriod;
 
                     newData = new JavaScriptSerializer().Serialize(new Quote()
                     {
                         Id = quote.Id
                     });
+
+                    quoteService.RemoveItems(quote);
+                    quoteService.RemoveTerms(quote);
                 }
 
-
                 int i = 0;
+                quote.QuoteItems.Clear();
+                QuoteItem quoteItem = null;
 
-                foreach(var item in productIdArray)
+                foreach (var term in termsArray)
                 {
-                    QuoteItem quoteItem = new QuoteItem
+                    if (model.Id == 0)
                     {
-                        CatgoryId = int.Parse(item),
-                        Qty = (qtyArray[i] == "") ? 0 : double.Parse(qtyArray[i]),
-                        Value = (costArray[i] == "") ? 0 : decimal.Parse(costArray[i]),
-                        VAT = (vatArray[i] == "") ? 0 : decimal.Parse(vatArray[i]),
-                        Size = (sizeArray[i] == "") ? "" : sizeArray[i]
-                    };
+                        quote.QuoteTermDetails.Add(new QuoteTermDetail() { QuoteTermId = int.Parse(term) });
+                    }
+                    else
+                    {
+                        QuoteTermDetail quoteTermDetail =
+                            new QuoteTermDetail()
+                            {
+                                QuoteTermId = int.Parse(term),
+                                QuoteId = model.Id
+                            };
+
+                        quoteService.SaveOrUpdate(quoteTermDetail);
+                    }
+                }
+
+                foreach (var item in productIdArray)
+                {
+                    if (model.Id == 0)
+                    {
+                        quoteItem = new QuoteItem
+                        {
+                            CategoryId = int.Parse(item),
+                            CategoryName = categoryService.GetCategoryById(int.Parse(item)).Name,
+                            Qty = (qtyArray[i] == "") ? 0 : double.Parse(qtyArray[i]),
+                            UnitCost = (costArray[i] == "") ? 0 : double.Parse(costArray[i]),
+                            VAT = (vatArray[i] == "") ? 0 : double.Parse(vatArray[i]),
+                            Size = (sizeArray[i] == "") ? "" : sizeArray[i],
+                            Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
+                            Installation = (installationArray[i] == "") ? "" : installationArray[i],
+                            CategoryType = (categoryTypeArray[i] == "") ? "" : categoryTypeArray[i],
+                            VisibilityId = int.Parse(visibilityArray[i]),
+                            FrameworkWarrantyPeriod = int.Parse(frameworkWarrantyPeriodArray[i]),
+                            LetteringWarrantyPeriod = int.Parse(letteringWarrantyPeriodArray[i]),
+                            IlluminationWarrantyPeriod = int.Parse(illuminationWarrantyPeriodArray[i]),
+                        };
+
+                        quote.QuoteItems.Add(quoteItem);
+                    }
+                    else
+                    {
+                        quoteItem = new QuoteItem
+                        {
+                            CategoryId = int.Parse(item),
+                            CategoryName = categoryService.GetCategoryById(int.Parse(item)).Name,
+                            Qty = (qtyArray[i] == "") ? 0 : double.Parse(qtyArray[i]),
+                            UnitCost = (costArray[i] == "") ? 0 : double.Parse(costArray[i]),
+                            VAT = (vatArray[i] == "") ? 0 : double.Parse(vatArray[i]),
+                            Size = (sizeArray[i] == "") ? "" : sizeArray[i],
+                            Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
+                            Installation = (installationArray[i] == "") ? "" : installationArray[i],
+                            CategoryType = (categoryTypeArray[i] == "") ? "" : categoryTypeArray[i],
+                            VisibilityId = int.Parse(visibilityArray[i]),
+                            FrameworkWarrantyPeriod = int.Parse(frameworkWarrantyPeriodArray[i]),
+                            LetteringWarrantyPeriod = int.Parse(letteringWarrantyPeriodArray[i]),
+                            IlluminationWarrantyPeriod = int.Parse(illuminationWarrantyPeriodArray[i]),
+                            QuoteId = model.Id
+                        };
+
+                        quoteService.SaveOrUpdate(quoteItem);
+                    }
+
                     i++;
-                    quote.QuoteItems.Add(quoteItem);
                 }
 
                 quoteService.SaveOrUpdate(quote);
@@ -263,6 +354,102 @@ namespace WFM.UI.Controllers
         public PartialViewResult _NewClientPartial()
         {
             return PartialView();
+        }
+
+        public ActionResult PrintQuote(int id)
+        {
+            Quote quote = quoteService.GetQuoteById(id);
+            QuoteView quoteView = new QuoteView();
+
+            PropertyCopier<Quote, QuoteView>.Copy(quote, quoteView);
+
+            ViewBag.VATPercentage = WebConfigurationManager.AppSettings["WBU"];
+            ViewBag.VATNo = ResourceData.VATNo;
+            ViewBag.Name = ResourceData.Name;
+            ViewBag.AuthorizedPersonName = ResourceData.AuthorizedPersonName;
+            ViewBag.AuthorizedPersonDesignation = ResourceData.AuthorizedPersonDesignation;
+
+            quoteView.CreatedDateString = quoteView.CreatedDate.Value.ToString("dd/MM/yyyy");
+
+            quoteView.QuoteTermDetails = quoteTermService.GetQuoteTermsByQuoteId(quote.Id);
+
+
+
+            return PartialView("_PrintQuote", quoteView);
+        }
+
+        public ActionResult WayForwardQuote(int id)
+        {
+            Quote quote = quoteService.GetQuoteById(id);
+            ViewBag.Divisions = divisionService.GetDivisionList();
+            return PartialView("_WayForwardQuote", quote);
+        }
+
+        public ActionResult ApproveQuote(int id)
+        {
+            try
+            {
+                Quote quote = quoteService.GetQuoteById(id);
+                //quote.ApprovedBy = User.Identity.GetUserId();
+                quote.ApprovedDate = DateTime.Now;
+                quote.IsApproved = true;
+                quoteService.SaveOrUpdate(quote);
+
+                return RedirectToAction("Index", "Quote");
+            }
+            catch (Exception ex)
+            {
+                return Json("Error occurred. Error details: " + ex.Message);
+            }
+        }
+
+        public ActionResult ConvertQuote(FormCollection formCollection)
+        {
+            try
+            {
+                int id = int.Parse(formCollection["id"]);
+                string wayforward = formCollection["wayforward"];
+
+                List<DocumentViewModel> files = new List<DocumentViewModel>();
+
+                if (Request.Files.Count > 0)
+                {
+                    for (int i = 0; i < Request.Files.Count; i++)
+                    {
+                        if (Request.Files[i].ContentLength > 0)
+                            files.Add(new DocumentViewModel() { DocumentId = Request.Files.AllKeys[i], PostedFile = Request.Files[i] });
+                    }
+                }
+
+                foreach (var file in files)
+                {
+                    string path = Path.Combine(Server.MapPath("~/Docs/" + id + "/" + file.DocumentId));
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    if (file != null)
+                    {
+                        string fileName = Path.GetFileName(file.PostedFile.FileName);
+                        file.PostedFile.SaveAs(path + "/" + fileName);
+                    }
+                }
+
+                Quote quote = quoteService.GetQuoteById(id);
+                quote.UpdatedDate = DateTime.Now;
+                quote.IsConverted = true;
+                quoteService.SaveOrUpdate(quote);
+
+                OrderService orderService = new OrderService();
+                orderService.SaveOrUpdate(quote, User.Identity.GetUserId(), wayforward);
+
+                return RedirectToAction("Index", "Quote");
+            }
+            catch (Exception ex)
+            {
+                return Json("Error occurred. Error details: " + ex.Message);
+            }
         }
     }
 }

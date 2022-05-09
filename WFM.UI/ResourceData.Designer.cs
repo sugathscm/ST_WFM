@@ -88,6 +88,24 @@ namespace WFM.UI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CHIEF EXECUTIVE OFFICER.
+        /// </summary>
+        internal static string AuthorizedPersonDesignation {
+            get {
+                return ResourceManager.GetString("AuthorizedPersonDesignation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dileka De Silva.
+        /// </summary>
+        internal static string AuthorizedPersonName {
+            get {
+                return ResourceManager.GetString("AuthorizedPersonName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string City {
@@ -135,7 +153,7 @@ namespace WFM.UI {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SIGN-TECH Advertising Services (Pvt) Ltd.
+        ///   Looks up a localized string similar to SIGN TECH ADVERTISING SERVICES (PVT) LTD.
         /// </summary>
         internal static string Name {
             get {
@@ -194,6 +212,15 @@ namespace WFM.UI {
         internal static string URL {
             get {
                 return ResourceManager.GetString("URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 114 252751 – 7000.
+        /// </summary>
+        internal static string VATNo {
+            get {
+                return ResourceManager.GetString("VATNo", resourceCulture);
             }
         }
     }

@@ -29,7 +29,7 @@ namespace WFM.BAL.Services
             return 1;
         }
 
-        public static string GenerateCode(string year, string month, bool isVAT)
+        public static string GenerateQuoteCode(string year, string month, bool isVAT)
         {
             var number = 1;
 
@@ -43,6 +43,22 @@ namespace WFM.BAL.Services
             }
 
             return string.Format("{0}-{1}-{2}-{3}", (isVAT) ? "ST" : "STA", year.Substring(2, 2), month, number.ToString("000"));
+        }
+
+        public static string GenerateOrderCode(string year, string month, bool isVAT, string QuoteCode)
+        {
+            var number = 1;
+
+            using (STWFMEntities entities = new STWFMEntities())
+            {
+                var qordersInMonth = entities.Orders.Where(q => q.Month == month && q.Year == year).OrderBy(q => q.Id).ToList();
+                if (qordersInMonth.Count > 0)
+                {
+                    number = qordersInMonth.Last().CodeNumber.Value + 1;
+                }
+            }
+
+            return string.Format("{0}/{1}/{2}/{3}", QuoteCode.Split('/')[0], year.Substring(2, 2), month, number.ToString("000"));
         }
 
 

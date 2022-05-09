@@ -65,7 +65,6 @@
     <Compile Include="Category.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
     <Compile Include="Client.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
@@ -115,6 +114,9 @@
     <Compile Include="QuoteTerm.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="QuoteTermDetail.cs">
+      <DependentUpon>STWFMModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Status.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
@@ -138,10 +140,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="STWFMModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>STWFMModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="sysdiagram.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Title.cs">
+      <DependentUpon>STWFMModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WarrantyPeriod.cs">
       <DependentUpon>STWFMModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -150,7 +160,7 @@
     <None Include="packages.config" />
     <EntityDeploy Include="STWFMModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>STWFMModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>STWFMModel1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="STWFMModel.edmx.diagram">
       <DependentUpon>STWFMModel.edmx</DependentUpon>

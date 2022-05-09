@@ -1,8 +1,8 @@
 ﻿@model WFM.DAL.Order
-
+@using WFM.DAL
 @{
 
-    ViewBag.Title = "Order Details";
+    ViewBag.Title = "Quote Details";
 }
 
 <div class="dashboard-ecommerce">
@@ -14,137 +14,232 @@
         <!-- ============================================================== -->
         <!-- end pageheader  -->
         <!-- ============================================================== -->
-        <div class="row" style="background-color:#fff">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="card">
-                    <div class="card-body">
-                        @using (Html.BeginForm("SaveOrUpdate", "Order", FormMethod.Post, new { @class = "needs-validation", role = "form" }))
+        <div class="border border-primary bg-actual-white">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
+                @using (Html.BeginForm("SaveOrUpdate", "Quote", FormMethod.Post, new { @class = "needs-validation", role = "form", enctype = "multipart/form-data", onsubmit = "return readValues();" }))
+                {
+                    @*<form class="needs-validation" novalidate="">*@
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "valFailure" })
+                    @Html.HiddenFor(m => m.Id, new { @name = "Id" })
+                    <input type="hidden" name="productIdArray" value="" id="productIdArray" />
+                    <input type="hidden" name="qtyArray" value="" id="qtyArray" />
+                    <input type="hidden" name="descriptionArray" value="" id="descriptionArray" />
+                    <input type="hidden" name="costArray" value="" id="costArray" />
+                    <input type="hidden" name="vatArray" value="" id="vatArray" />
+                    <input type="hidden" name="sizeArray" value="" id="sizeArray" />
+                    <input type="hidden" name="VATPercentage" value="@ViewBag.VATPercentage" id="VATPercentage" />
+                    <div class="form-row">
+                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2">
+                            <label class="control-label" for="BaseQuoteId">Quote</label>
+                            @*@Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })*@
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <label class="control-label" for="IsVAT">Is VAT</label>
+                            @Html.CheckBoxFor(m => m.IsVAT, new { @class = "form-check-input m-l-10 m-b-20", @checked = Model.IsVAT })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Code">Code</label>
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="CreatedDate">Created Date</label>
+                            @Html.TextBoxFor(m => m.CreatedDate, new { @class = "form-control", @disabled = "disabled" })
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Version">Version</label>
+                            
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Month">Month</label>
+                            @Html.TextBoxFor(m => m.Month, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Year">Year</label>
+                            @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2 m-t-5">
+                            <label class="control-label" for="ChanneledBy">Channeled By</label>
+                            @Html.DropDownList("ChanneledBy", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control selection" })
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Client">Client</label>
+                            @Html.DropDownList("ClientId", (SelectList)ViewBag.ClientList, "Select Client", new { @class = "form-control selection" })
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Client">&nbsp;</label><br />
+                            <button type="button" class="btn btn-primary btn-xs full-width" data-toggle="modal" data-target="#exampleModal">
+                                New Client
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Header">Header</label>
+                            @Html.TextBoxFor(m => m.Header, new { @class = "form-control" })
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Contact Person">Contact Person</label>
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Contact No.">Contact No.</label>
+                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Value">Framework</label>
+                            @Html.DropDownList("FrameworkWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Value">Lettering</label>
+                            @Html.DropDownList("LetteringWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                        </div>
+                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Value">Illumination</label>
+                            @Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Comment">Comments</label>
+                            @Html.TextBoxFor(m => m.Comments, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <hr />
+                    <input type='button' id='add' value='+ Add item' class="btn btn-primary btn-xs" />
+                    <input type="hidden" id="item-count" value="1" />
+                    <input type="hidden" id="base-element" value="1" />
+                    <div id="items-header" class="m-t-10 m-b-10">
+                        <div class="form-row m-t-10 m-b-10" id="header-row">
+                            @*<div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
+                                    <input type="text" placeholder="#1" class="form-control" readonly="readonly" />
+                                </div>*@
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5 border bg-dark text-light padding-5" id="product">
+                                Product Type
+                            </div>
+                            <div class="col-md-1 m-t-5 border bg-dark text-light padding-5">
+                                Size
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                                Qty
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                                Cost
+                            </div>
+                            <div class="col-xl-2 col-lg-1 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                                Total Cost
+                            </div>
+                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                                VAT
+                            </div>
+                            <div class="col-xl-2 col-lg-13 col-md-1 m-t-5 border bg-dark text-light padding-5">
+                                Total Cost with VAT
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border bg-dark text-light padding-5">
+                                Description
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="items" class="m-t-10 m-b-10">
+                        @if (Model.OrderItems.Count > 0)
                         {
-                            @*<form class="needs-validation" novalidate="">*@
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary("", new { @class = "valFailure" })
-                            @Html.HiddenFor(m => m.Id, new { @name = "Id" })
-                            <div class="form-row">
-                                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 mb-2">
-                                    <label class="control-label" for="QuoteId">Quote</label>
-                                    @Html.DropDownList("QuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })
+                            foreach (var quoteItem in Model.OrderItems)
+                            {
+                                <div class="form-row item m-t-10 m-b-20" id="item-row">
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="product">
+                                        @Html.DropDownListFor(m => quoteItem.CategoryId, new SelectList(ViewBag.CategoryList, "Id", "Name", quoteItem.CategoryId.Value), "Product Type", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-1 m-t-5">
+                                        <input type="text" id="Size" placeholder="Size" class="form-control" value="@quoteItem.Size" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                        <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" value="@quoteItem.Qty" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                        <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" value="@quoteItem.UnitCost.Value.ToString("##0.00")" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                        <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" value="@((quoteItem.UnitCost.Value * quoteItem.Qty.Value).ToString("##0.00"))" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                        <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" value="@quoteItem.VAT.Value.ToString("##0.00")" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
+                                        <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" value="@(((quoteItem.UnitCost.Value * quoteItem.Qty.Value) + quoteItem.VAT.Value).ToString("##0.00"))" />
+                                    </div>
+                                    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                        <input type="text" placeholder="Description" class="form-control" id="Description" value="@quoteItem.Description" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                        <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
+                                    </div>
                                 </div>
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 ">
-                                    <label class="control-label" for="Code">Code</label>
-                                    @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @disabled = "disabled" })
+                            }
+                        }
+                        else
+                        {
+                            <div class="form-row item m-t-10 m-b-20" id="item-row">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="product">
+                                    @Html.DropDownList("quoteItem_CategoryId", new SelectList(ViewBag.CategoryList, "Id", "Name"), "Product Type", new { @class = "form-control" })
                                 </div>
-                                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12 ">
-                                    <label class="control-label" for="CreatedDate">Created Date</label>
-                                    @Html.TextBoxFor(m => m.CreatedDate, new { @class = "form-control", @disabled = "disabled" })
+                                <div class="col-md-1 m-t-5">
+                                    <input type="text" id="Size" placeholder="Size" class="form-control" />
                                 </div>
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 ">
-                                    <label class="control-label" for="Month">Month</label>
-                                    @Html.TextBoxFor(m => m.Month, new { @class = "form-control", @disabled = "disabled" })
+                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                    <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" />
                                 </div>
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-2 col-12 ">
-                                    <label class="control-label" for="Year">Year</label>
-                                    @Html.TextBoxFor(m => m.Year, new { @class = "form-control", @disabled = "disabled" })
+                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                    <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" />
                                 </div>
-                                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12 ">
-                                    <label class="control-label" for="CreatedDate">Created Date</label>
-                                    @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "form-control" })
+                                <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                    <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" />
                                 </div>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 mb-2">
-                                    <label class="control-label" for="Client">Client</label>
-                                    @Html.DropDownList("ClientId", (SelectList)ViewBag.ClientList, "Select Client", new { @class = "form-control" })
+                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                    <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" />
                                 </div>
-
-                            </div>
-                            <br />
-                            <div class="form-row">
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-2">
-                                    <label class="control-label" for="ChanneledBy">Channeled By</label>
-                                    @Html.DropDownList("ChanneledBy", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control" })
+                                <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
+                                    <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" />
                                 </div>
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-2">
-                                    <label class="control-label" for="PaperQualityId">Paper Quality</label>
-                                    @Html.DropDownList("PaperQualityId", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control" })
+                                <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                    <input type="text" placeholder="Description" class="form-control" id="Description" />
                                 </div>
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 mb-2">
-                                    <label class="control-label" for="PrinterId">Printer</label>
-                                    @Html.DropDownList("PrinterId", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control" })
-                                </div>
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 ">
-                                    <label class="control-label" for="Value">Value</label>
-                                    @Html.TextBoxFor(m => m.Value, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <br />
-                            <div class="form-row">
-                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
-                                    <label class="control-label" for="Location">Location</label>
-                                    @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
-                                    <label class="control-label" for="Comment">Comment</label>
-                                    @Html.TextBoxFor(m => m.Comments, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <br />
-                            <div class="form-row">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                    <label class="control-label" for="Location">Special Instructions</label>
-                                    @Html.TextAreaFor(m => m.Location, new { @class = "form-control" })
-                                </div>
-
-                            </div> <hr />
-                            <div>Order Items</div>
-                            <br />
-                            <div class="form-row">
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 ">
-                                    Category
-                                </div>
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 ">
-                                    Size
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
-                                    Description
-                                </div>
-                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
-                                    Qty
-                                </div>
-                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
-                                    Value
-                                </div>
-                            </div>
-                            <br />
-                            <div class="form-row">
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 ">
-                                    @Html.DropDownList("PrinterId", (SelectList)ViewBag.ChanneledByList, "Select Category", new { @class = "form-control" })
-                                </div>
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 ">
-                                    <input type="text" class="form-control" placeholder="Size" />
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
-                                    <input type="text" class="form-control" placeholder="Description" />
-                                </div>
-                                <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 ">
-                                    <input type="text" class="form-control" placeholder="Qty" />
-                                </div>
-                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 ">
-                                    <input type="text" class="form-control" placeholder="Value" />
-                                </div>
-                                <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 ">
-                                    <input type="button" class="form-control" value="+" />
-                                </div>
-                            </div>
-                            <br />
-                            <div class="form-row">
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 ">
-                                    <input type="submit" class="btn btn-primary" value="Save" />
-                                </div>
-                                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-1 ">
-                                    <input type="button" class="btn btn-success" value="Generate Final Invoice" />
+                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                    <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
                                 </div>
                             </div>
                         }
                     </div>
-                </div>
+                    <hr />
+                    <div class="form-row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
+                            Terms &amp; Conditions :
+                        </div>
+                    </div>
+                    foreach (var term in ViewBag.OrderTermList)
+                    {
+                        <div class="form-row m-t-10">
+                            <div class="w3-show-inline-block">
+                                <div class="w3-bar">
+                                    <span class="m-r-10">
+                                        <input type="checkbox" />
+                                    </span>
+                                    <span class="m-r-10">@term.Name</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="form-row m-t-10">
+                        <div id="outer">
+                            <div class="inner"><input type="submit" class="btn btn-primary" value="Save" /></div>
+                            <div class="inner"><input type="button" class="btn btn-success" value="Approve" /></div>
+                            <div class="inner"><input type="button" class="btn btn-warning" value="Print" onclick="readValues();" /></div>
+                            <div class="inner"><input type="button" class="btn btn-danger" value="Cancel" onclick="location.href='@Url.Action("Details","Quote")';" /></div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -153,21 +248,160 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        $('#QuoteId').select2({
-            selectOnClose: true
+        //$('select').select2({
+        //    selectOnClose: true
+        //});
+
+        function removeItem(elem) {
+            if ($('#item-count').val() != "1") {
+                $('#item-count').val(parseInt($('#item-count').val()) - 1);
+                $(elem).parent().parent('div').remove();
+            }
+            else {
+                alert('Last item cannot be removed');
+            }
+        };
+
+        $(document).ready(function () {
+            //$('.selection').select2();
+
+            var d = new Date();
+            var today = new Date((d.getFullYear(), d.getMonth(), d.getDate()) + 'T00:00:00Z');
+            $("#Version").val("1");
+            var formattedNumber = ("0" + (d.getMonth() + 1)).slice(-2);
+            $("#Month").val(formattedNumber);
+            var year = d.getFullYear().toString().substring(2, 4);
+            $("#Year").val(year);
+            $("#CreatedDate").val(d.getDate() + "-" + formattedNumber + "-" + year);
+
+
+            $('#IsVAT').change(function () {
+                setTotals();
+                if ($(this).is(":checked")) {
+                    $('#Code').val($('#Code').val().replace('STA/', 'ST/'));
+                }
+                else {
+                    $('#Code').val($('#Code').val().replace('ST/', 'STA/'));
+                }
+            });
+
+            $('#add').click(function () {
+                var n = $('.item').length + 1;
+                var temp = $('.item:first').clone();
+                //$('input:first', temp).attr('placeholder', '#' + n)
+                $('.item:last').after(temp);
+                $('#item-count').val(parseInt($('#item-count').val()) + 1);
+            });
+
+            $(document).on("change", "select#quoteItem_CategoryId", function () {
+                elem = $(this);
+                var obj = { id: $(elem).val() };
+                AjaxCall('/Category/GetDescriptionById', JSON.stringify(obj), 'POST').done(function (response) {
+                    if (response.length > 0) {
+                        $(elem).parent().parent('div').find('input#Description').val(response);
+                    }
+                }).fail(function (error) {
+                    alert(error.StatusText);
+                });
+            });
+
+            $(document).on("change", "select#ClientId", function () {
+                elem = $(this);
+                var obj = { id: $(elem).val() };
+                AjaxCall('/Client/GetClientById', JSON.stringify(obj), 'POST').done(function (response) {
+                    $('#ContactPerson').val(response.CPName);
+                    $('#ContactMobile').val(response.CPMobile);
+                }).fail(function (error) {
+                    alert(error.StatusText);
+                });
+            });
+
+            $(document).on("change", "input#Qty", function () {
+                elem = $(this);
+                setTotals();
+            });
+
+            $(document).on("change", "input#Cost", function () {
+                elem = $(this);
+                setTotals();
+            });
         });
-        $('#ClientId').select2({
-            selectOnClose: true
-        });
-        $('#ChanneledBy').select2({
-            selectOnClose: true
-        });
-        $('#PaperQualityId').select2({
-            selectOnClose: true
-        });
-        $('#PrinterId').select2({
-            selectOnClose: true
-        });
+
+        function setTotals() {
+            var qty = $(elem).parent().parent('div').find('input#Qty').val();
+            var cost = $(elem).parent().parent('div').find('input#Cost').val();
+            var VATPercentage = $("#VATPercentage").val();
+            var Total = parseFloat(qty) * parseFloat(cost);
+
+            if (isNaN(Total)) {
+                Total = 0;
+            }
+
+            var VAT = 0;
+
+            if ($('#IsVAT').is(":checked")) {
+                VAT = ((parseFloat(qty) * parseFloat(cost)) * parseFloat(VATPercentage)) / 100;
+            }
+            var TotalWithVAT = Total + VAT;
+
+            $(elem).parent().parent('div').find('input#TotalCost').val(number_format(Total, 2, '.', ','));
+            $(elem).parent().parent('div').find('input#VAT').val(number_format(VAT, 2, '.', ','));
+            $(elem).parent().parent('div').find('input#TotalCostVAT').val(number_format(TotalWithVAT, 2, '.', ','));
+        }
+
+        function AjaxCall(url, data, type) {
+            return $.ajax({
+                url: url,
+                type: type ? type : 'GET',
+                data: data,
+                contentType: 'application/json'
+            });
+        }
+
+        number_format = function (number, decimals, dec_point, thousands_sep) {
+            number = number.toFixed(decimals);
+
+            var nstr = number.toString();
+            nstr += '';
+            x = nstr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? dec_point + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+
+            while (rgx.test(x1))
+                x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
+
+            return x1 + x2;
+        }
+
+        function readValues() {
+            var productIdArray = [];
+            var qtyArray = [];
+            var descriptionArray = [];
+            var costArray = [];
+            var vatArray = [];
+            var sizeArray = [];
+            var obj_list = document.querySelectorAll('[class*="form-row item m-t-10 m-b-20"]');
+            $.each(obj_list, function (key, obj) {
+                productIdArray.push($(obj).find('select#quoteItem_CategoryId').val());
+                qtyArray.push($(obj).find('input#Qty').val());
+                descriptionArray.push($(obj).find('input#Description').val());
+                costArray.push($(obj).find('input#Cost').val());
+                vatArray.push($(obj).find('input#VAT').val());
+                vatArray.push($(obj).find('input#VAT').val());
+                sizeArray.push($(obj).find('input#Size').val());
+            });
+
+            $('#productIdArray').val(productIdArray);
+            $('#qtyArray').val(qtyArray);
+            $('#descriptionArray').val(descriptionArray);
+            $('#costArray').val(costArray);
+            $('#vatArray').val(vatArray);
+            $('#sizeArray').val(sizeArray);
+
+            return true;
+        }
+
     </script>
 }
 

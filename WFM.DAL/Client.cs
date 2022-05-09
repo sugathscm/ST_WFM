@@ -38,10 +38,11 @@ namespace WFM.DAL
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string CPTitle { get; set; }
         public bool IsVAT { get; set; }
+        public string VATNumber { get; set; }
     
+        public virtual Designation Designation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
-        public virtual Designation Designation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quote> Quotes { get; set; }
     }

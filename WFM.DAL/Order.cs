@@ -17,9 +17,9 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Order()
         {
+            this.OrderItems = new HashSet<OrderItem>();
             this.OrderTrackings = new HashSet<OrderTracking>();
             this.OrderWayForwards = new HashSet<OrderWayForward>();
-            this.OrderItems = new HashSet<OrderItem>();
         }
     
         public int Id { get; set; }
@@ -47,23 +47,28 @@ namespace WFM.DAL
         public Nullable<int> QuoteId { get; set; }
         public Nullable<decimal> Value { get; set; }
         public string Header { get; set; }
+        public Nullable<int> WarrantyPeriodId { get; set; }
+        public Nullable<int> CodeNumber { get; set; }
+        public string ContactPerson { get; set; }
+        public string ContactMobile { get; set; }
+        public bool IsVAT { get; set; }
+        public Nullable<int> FrameworkWarrantyPeriod { get; set; }
+        public Nullable<int> LetteringWarrantyPeriod { get; set; }
+        public Nullable<int> IlluminationWarrantyPeriod { get; set; }
+        public string FileNumber { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual AspNetUser AspNetUser1 { get; set; }
-        public virtual AspNetUser AspNetUser2 { get; set; }
-        public virtual AspNetUser AspNetUser3 { get; set; }
         public virtual Client Client { get; set; }
         public virtual Division Division { get; set; }
+        public virtual OrderType OrderType { get; set; }
         public virtual PaperQuality PaperQuality { get; set; }
         public virtual Printer Printer { get; set; }
+        public virtual Quote Quote { get; set; }
         public virtual Status Status { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTracking> OrderTrackings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderWayForward> OrderWayForwards { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
-        public virtual OrderType OrderType { get; set; }
-        public virtual Quote Quote { get; set; }
     }
 }

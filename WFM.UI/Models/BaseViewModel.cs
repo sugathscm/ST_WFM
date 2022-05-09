@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace WFM.UI.Models
 {
@@ -20,5 +21,18 @@ namespace WFM.UI.Models
     {
         [Display(Name = "Description")]
         public string Description { get; set; }
+        [Display(Name = "Category Type")]
+        public string CategoryType { get; set; }
     }
+
+    public class DocumentViewModel
+    {
+        public string DocumentId { get; set; }
+        public HttpPostedFileBase PostedFile { get; set; }
+
+        public string DocumentPath { get; set; }
+        public string Name { get; set; }
+    }
+
+
 }

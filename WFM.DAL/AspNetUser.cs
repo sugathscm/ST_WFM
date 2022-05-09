@@ -21,13 +21,13 @@ namespace WFM.DAL
             this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
             this.DataAudits = new HashSet<DataAudit>();
             this.LoginAudits = new HashSet<LoginAudit>();
+            this.OrderTrackings = new HashSet<OrderTracking>();
+            this.AspNetRoles = new HashSet<AspNetRole>();
+            this.Employees = new HashSet<Employee>();
             this.Orders = new HashSet<Order>();
             this.Orders1 = new HashSet<Order>();
             this.Orders2 = new HashSet<Order>();
             this.Orders3 = new HashSet<Order>();
-            this.OrderTrackings = new HashSet<OrderTracking>();
-            this.AspNetRoles = new HashSet<AspNetRole>();
-            this.Employees = new HashSet<Employee>();
         }
     
         public string Id { get; set; }
@@ -52,6 +52,12 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LoginAudit> LoginAudits { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderTracking> OrderTrackings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders1 { get; set; }
@@ -59,11 +65,5 @@ namespace WFM.DAL
         public virtual ICollection<Order> Orders2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders3 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderTracking> OrderTrackings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

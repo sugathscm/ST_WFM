@@ -1,6 +1,6 @@
 ﻿@model WFM.DAL.QuoteTerm
 @{
-    ViewBag.Title = "QuoteTerm";
+    ViewBag.Title = "Quote Term";
 }
 
 <script type="text/javascript">
@@ -27,7 +27,7 @@
                 {
                     "data": "Id", "searchable": false, "ordering": false,
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn btn-info" href="/QuoteTerm/Index/' + data + '">Edit</a>';
+                        return '<a class="btn btn-info btn-xs" href="/QuoteTerm/Index/' + data + '">Edit</a>';
                     }
                 },
             ]
@@ -68,6 +68,12 @@
                             @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                             <div class="col-md-12">
                                 @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Details, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-12">
+                                @Html.TextAreaFor(m => m.Details, new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="form-group">

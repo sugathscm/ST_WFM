@@ -34,7 +34,6 @@ namespace WFM.DAL
         public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<Division> Divisions { get; set; }
         public virtual DbSet<LoginAudit> LoginAudits { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderTracking> OrderTrackings { get; set; }
         public virtual DbSet<OrderWayForward> OrderWayForwards { get; set; }
         public virtual DbSet<PaperQuality> PaperQualities { get; set; }
@@ -43,11 +42,14 @@ namespace WFM.DAL
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Title> Titles { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<OrderType> OrderTypes { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<Quote> Quotes { get; set; }
         public virtual DbSet<QuoteTerm> QuoteTerms { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<WarrantyPeriod> WarrantyPeriods { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Quote> Quotes { get; set; }
         public virtual DbSet<QuoteItem> QuoteItems { get; set; }
+        public virtual DbSet<QuoteTermDetail> QuoteTermDetails { get; set; }
     }
 }
