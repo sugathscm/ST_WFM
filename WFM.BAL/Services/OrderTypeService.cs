@@ -9,7 +9,7 @@ namespace WFM.BAL.Services
     {
         public List<OrderType> GetOrderTypeList()
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.OrderTypes.Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
             }
@@ -17,7 +17,7 @@ namespace WFM.BAL.Services
 
         public OrderType GetOrderTypeById(int? id)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.OrderTypes.Where(s => s.Id == id).SingleOrDefault();
             }
@@ -25,7 +25,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(OrderType orderType)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (orderType.Id == 0)
                 {
@@ -41,4 +41,3 @@ namespace WFM.BAL.Services
         }
     }
 }
-

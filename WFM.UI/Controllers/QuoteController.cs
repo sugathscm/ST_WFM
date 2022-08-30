@@ -36,12 +36,13 @@ namespace WFM.UI.Controllers
 
         public QuoteController()
         {
-
         }
+
         public QuoteController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
         }
+
         public ApplicationUserManager UserManager
         {
             get
@@ -93,7 +94,6 @@ namespace WFM.UI.Controllers
 
             VisibilityList.Add(new BaseViewModel() { Id = 1, Name = "Single Sided" });
             VisibilityList.Add(new BaseViewModel() { Id = 2, Name = "Double Sided" });
-
 
             ViewBag.WarrantyPeriodList = WarrantyPeriodList;
             ViewBag.VisibilityList = VisibilityList;
@@ -173,6 +173,7 @@ namespace WFM.UI.Controllers
             string newData = string.Empty, oldData = string.Empty;
 
             try
+
             {
                 var productIdArray = formCollection["productIdArray"].Split(',');
                 var qtyArray = formCollection["qtyArray"].Split(',');
@@ -193,7 +194,6 @@ namespace WFM.UI.Controllers
                 Quote oldQuote = null;
                 if (model.Id == 0)
                 {
-
                     quote = new Quote
                     {
                         ClientId = model.ClientId,
@@ -218,7 +218,11 @@ namespace WFM.UI.Controllers
                         FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod,
                         IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod,
                         LetteringWarrantyPeriod = model.LetteringWarrantyPeriod,
-                        OrderTypeId = model.OrderTypeId
+                        PowerSupplyAmp = model.PowerSupplyAmp,
+                        AdvancePayment = model.AdvancePayment,
+                        ValidDays = model.ValidDays,
+                        DeliveryPeriod = model.DeliveryPeriod,
+                        // OrderTypeId = model.OrderTypeId
                     };
 
                     oldQuote = new Quote();
@@ -244,7 +248,11 @@ namespace WFM.UI.Controllers
                     quote.UpdatedDate = DateTime.Now;
                     quote.ContactPerson = model.ContactPerson;
                     quote.ContactMobile = model.ContactMobile;
-                    quote.OrderTypeId = model.OrderTypeId;
+                    quote.AdvancePayment = model.AdvancePayment;
+                    quote.PowerSupplyAmp = model.PowerSupplyAmp;
+                    quote.ValidDays = model.ValidDays;
+                    quote.DeliveryPeriod = model.DeliveryPeriod;
+                    // quote.OrderTypeId = model.OrderTypeId;
                     //quote.FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod;
                     //quote.IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod;
                     //quote.LetteringWarrantyPeriod = model.LetteringWarrantyPeriod;
@@ -372,8 +380,6 @@ namespace WFM.UI.Controllers
             quoteView.CreatedDateString = quoteView.CreatedDate.Value.ToString("dd/MM/yyyy");
 
             quoteView.QuoteTermDetails = quoteTermService.GetQuoteTermsByQuoteId(quote.Id);
-
-
 
             return PartialView("_PrintQuote", quoteView);
         }

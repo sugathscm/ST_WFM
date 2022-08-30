@@ -4,12 +4,12 @@ using System.Linq;
 using WFM.DAL;
 
 namespace WFM.BAL.Services
-{ 
+{
     public class QuoteTermService
     {
         public List<QuoteTerm> GetQuoteTermList()
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.QuoteTerms.Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
             }
@@ -17,7 +17,7 @@ namespace WFM.BAL.Services
 
         public QuoteTerm GetQuoteTermById(int? id)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.QuoteTerms.Where(s => s.Id == id).SingleOrDefault();
             }
@@ -25,7 +25,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(QuoteTerm QuoteTerms)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (QuoteTerms.Id == 0)
                 {
@@ -42,11 +42,10 @@ namespace WFM.BAL.Services
 
         public List<QuoteTermDetail> GetQuoteTermsByQuoteId(int? quoteId)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.QuoteTermDetails.Include("QuoteTerm").Where(qt => qt.QuoteId == quoteId).ToList();
             }
         }
     }
-
 }

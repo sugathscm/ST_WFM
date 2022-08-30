@@ -13,10 +13,10 @@ namespace WFM.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class STWFMEntities : DbContext
+    public partial class DB_stwfmEntities : DbContext
     {
-        public STWFMEntities()
-            : base("name=STWFMEntities")
+        public DB_stwfmEntities()
+            : base("name=DB_stwfmEntities")
         {
         }
     
@@ -29,27 +29,26 @@ namespace WFM.DAL
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<DataAudit> DataAudits { get; set; }
         public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<Division> Divisions { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<LoginAudit> LoginAudits { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<OrderTracking> OrderTrackings { get; set; }
+        public virtual DbSet<OrderType> OrderTypes { get; set; }
         public virtual DbSet<OrderWayForward> OrderWayForwards { get; set; }
         public virtual DbSet<PaperQuality> PaperQualities { get; set; }
         public virtual DbSet<Printer> Printers { get; set; }
-        public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<Title> Titles { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<OrderType> OrderTypes { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<QuoteTerm> QuoteTerms { get; set; }
-        public virtual DbSet<OrderItem> OrderItems { get; set; }
-        public virtual DbSet<WarrantyPeriod> WarrantyPeriods { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Quote> Quotes { get; set; }
         public virtual DbSet<QuoteItem> QuoteItems { get; set; }
+        public virtual DbSet<QuoteTerm> QuoteTerms { get; set; }
         public virtual DbSet<QuoteTermDetail> QuoteTermDetails { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Title> Titles { get; set; }
+        public virtual DbSet<WarrantyPeriod> WarrantyPeriods { get; set; }
     }
 }

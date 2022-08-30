@@ -9,7 +9,7 @@ namespace WFM.BAL.Services
     {
         public List<Designation> GetDesignationList()
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Designations.Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
             }
@@ -17,7 +17,7 @@ namespace WFM.BAL.Services
 
         public Designation GetDesignationById(int? id)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Designations.Where(s => s.Id == id).SingleOrDefault();
             }
@@ -25,7 +25,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(Designation designation)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (designation.Id == 0)
                 {

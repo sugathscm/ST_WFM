@@ -10,7 +10,7 @@ namespace WFM.BAL.Services
     {
         public List<Order> GetOrderList()
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Orders.Include("Client").OrderBy(d => d.Id).ToList();
             }
@@ -18,7 +18,7 @@ namespace WFM.BAL.Services
 
         public List<Order> GetOrderActiveList()
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Orders.Include("Client").Where(o => o.StatusId != (int)OrderStatus.Completed).OrderBy(d => d.Id).ToList();
             }
@@ -26,7 +26,7 @@ namespace WFM.BAL.Services
 
         public List<Order> GetOrderHistoryList()
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Orders.Include("Client").Where(o => o.StatusId == (int)OrderStatus.Completed).OrderBy(d => d.Id).ToList();
             }
@@ -34,7 +34,7 @@ namespace WFM.BAL.Services
 
         public Order GetOrderById(int? id)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Orders.Include("OrderItems").Where(s => s.Id == id).SingleOrDefault();
             }
@@ -42,7 +42,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(Order order)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (order.Id == 0)
                 {
@@ -59,7 +59,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(OrderItem orderItem)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (orderItem.OrderId != 0)
                 {
@@ -75,7 +75,7 @@ namespace WFM.BAL.Services
 
             try
             {
-                using (STWFMEntities entities = new STWFMEntities())
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
                 {
                     int id = model.Id;
                     Order order = null;
@@ -132,7 +132,7 @@ namespace WFM.BAL.Services
                         {
                             DivisionId = int.Parse(item)
                         };
-                        order.OrderWayForwards.Add(orderWayForward);
+                        //rder.OrderWayForwards.Add(orderWayForward);
                     }
 
                     entities.Orders.Add(order);
@@ -141,14 +141,12 @@ namespace WFM.BAL.Services
             }
             catch (Exception ex)
             {
-
             }
         }
 
-
         public void RemoveItems(Order order)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 bool validateOnSaveEnabled = entities.Configuration.ValidateOnSaveEnabled;
                 try

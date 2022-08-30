@@ -11,7 +11,7 @@ namespace WFM.BAL.Services
     {
         public static int SaveLoginAudit(LoginAudit loginAudit)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 entities.LoginAudits.Add(loginAudit);
                 entities.SaveChanges();
@@ -21,7 +21,7 @@ namespace WFM.BAL.Services
 
         public static int SaveDataAudit(DataAudit dataAudit)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 entities.DataAudits.Add(dataAudit);
                 entities.SaveChanges();
@@ -33,10 +33,10 @@ namespace WFM.BAL.Services
         {
             var number = 1;
 
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 var quotesInMonth = entities.Quotes.Where(q => q.Month == month && q.Year == year).OrderBy(q => q.Id).ToList();
-                if(quotesInMonth.Count > 0)
+                if (quotesInMonth.Count > 0)
                 {
                     number = quotesInMonth.Last().CodeNumber.Value + 1;
                 }
@@ -49,7 +49,7 @@ namespace WFM.BAL.Services
         {
             var number = 1;
 
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 var qordersInMonth = entities.Orders.Where(q => q.Month == month && q.Year == year).OrderBy(q => q.Id).ToList();
                 if (qordersInMonth.Count > 0)
@@ -60,7 +60,6 @@ namespace WFM.BAL.Services
 
             return string.Format("{0}/{1}/{2}/{3}", QuoteCode.Split('/')[0], year.Substring(2, 2), month, number.ToString("000"));
         }
-
 
         //public static List<GetDataAuditByUser_Result> GetDataAuditByUser(Guid userId)
         //{
@@ -77,6 +76,5 @@ namespace WFM.BAL.Services
         //        return entities.GetLoginAuditByUser(userId).OrderByDescending(o => o.DateLogged).ToList();
         //    }
         //}
-
     }
 }
