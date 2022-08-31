@@ -13,10 +13,10 @@ namespace WFM.DAL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DB_A4EFEA_stwfmEntities : DbContext
+    public partial class DB_stwfmEntities : DbContext
     {
-        public DB_A4EFEA_stwfmEntities()
-            : base("name=DB_A4EFEA_stwfmEntities")
+        public DB_stwfmEntities()
+            : base("name=DB_stwfmEntities")
         {
         }
     

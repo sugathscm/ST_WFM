@@ -4,32 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="569ddbda875e4e89aeb4d9b8df7b9627" Name="Diagram1">
+      <Diagram DiagramId="990db2ee35624643b39ccf12e52f5117" Name="Diagram1">
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetRole" Width="1.5" PointX="1.5" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="49.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="45.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="48.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUser" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Category" Width="1.5" PointX="6" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Client" Width="1.5" PointX="3.75" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.DataAudit" Width="1.5" PointX="3" PointY="52.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Designation" Width="1.5" PointX="1.5" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Client" Width="1.5" PointX="3.75" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.DataAudit" Width="1.5" PointX="3" PointY="50.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Designation" Width="1.5" PointX="1.5" PointY="19.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Division" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Employee" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.LoginAudit" Width="1.5" PointX="3" PointY="55.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.LoginAudit" Width="1.5" PointX="3" PointY="53.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderItem" Width="1.5" PointX="8.25" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderTracking" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderType" Width="1.5" PointX="3.75" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderType" Width="1.5" PointX="3.75" PointY="1.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderWayForward" Width="1.5" PointX="3" PointY="29.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.PaperQuality" Width="1.5" PointX="3.75" PointY="26.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Printer" Width="1.5" PointX="3.75" PointY="32.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Quote" Width="1.5" PointX="3.75" PointY="35.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteItem" Width="1.5" PointX="8.25" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteTerm" Width="1.5" PointX="3.75" PointY="45.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteTermDetail" Width="1.5" PointX="6" PointY="38.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.PaperQuality" Width="1.5" PointX="3.75" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Printer" Width="1.5" PointX="3.75" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Quote" Width="1.5" PointX="3.75" PointY="32.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteItem" Width="1.5" PointX="8.25" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteTerm" Width="1.5" PointX="3.75" PointY="41.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteTermDetail" Width="1.5" PointX="6" PointY="35.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Status" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Title" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.WarrantyPeriod" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Title" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.WarrantyPeriod" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_DataAudit_AspNetUsers" ManuallyRouted="false" />
