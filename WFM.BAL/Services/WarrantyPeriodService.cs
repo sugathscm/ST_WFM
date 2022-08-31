@@ -9,7 +9,7 @@ namespace WFM.BAL.Services
     {
         public List<WarrantyPeriod> GetWarrantyPeriodList()
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.WarrantyPeriods.OrderBy(d => d.Name).ToList();
             }
@@ -17,7 +17,7 @@ namespace WFM.BAL.Services
 
         public WarrantyPeriod GetWarrantyPeriodById(int? id)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.WarrantyPeriods.Where(s => s.Id == id).SingleOrDefault();
             }
@@ -25,7 +25,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(WarrantyPeriod WarrantyPeriods)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 if (WarrantyPeriods.Id == 0)
                 {

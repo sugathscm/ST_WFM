@@ -74,14 +74,13 @@
     <Compile Include="Services\WarrantyPeriodService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\WFM.DAL\WFM.DAL.csproj">
       <Project>{62e5528c-4244-488c-badc-a9b71b99c15c}</Project>
       <Name>WFM.DAL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

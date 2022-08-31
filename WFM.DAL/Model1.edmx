@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DB_A4EFEA_stwfmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DB_A4EFEA_stwfmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -853,7 +853,8 @@
             <End Role="QuoteTermDetail" EntitySet="QuoteTermDetail" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_A4EFEA_stwfmModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1176,14 +1177,14 @@
           <Property Name="LetteringWarrantyPeriod" Type="Int32" />
           <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
           <Property Name="FileNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="Self.FK_Quote_Client" FromRole="Quote" ToRole="Client" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Quote" FromRole="Quote" ToRole="Order" />
-          <NavigationProperty Name="QuoteItems" Relationship="Self.FK_QuoteItem_Quote" FromRole="Quote" ToRole="QuoteItem" />
-          <NavigationProperty Name="QuoteTermDetails" Relationship="Self.FK_QuoteTermDetail_Quote" FromRole="Quote" ToRole="QuoteTermDetail" />
           <Property Name="PowerSupplyAmp" Type="Int32" />
           <Property Name="AdvancePayment" Type="Int32" />
           <Property Name="ValidDays" Type="Int32" />
           <Property Name="DeliveryPeriod" Type="Int32" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Quote_Client" FromRole="Quote" ToRole="Client" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Quote" FromRole="Quote" ToRole="Order" />
+          <NavigationProperty Name="QuoteItems" Relationship="Self.FK_QuoteItem_Quote" FromRole="Quote" ToRole="QuoteItem" />
+          <NavigationProperty Name="QuoteTermDetails" Relationship="Self.FK_QuoteTermDetail_Quote" FromRole="Quote" ToRole="QuoteTermDetail" />
         </EntityType>
         <EntityType Name="QuoteItem">
           <Key>
@@ -1585,7 +1586,7 @@
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="DB_stwfmEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DB_A4EFEA_stwfmEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
@@ -1729,7 +1730,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_A4EFEA_stwfmModelStoreContainer" CdmEntityContainer="DB_stwfmEntities">
+        <EntityContainerMapping StorageEntityContainer="DB_A4EFEA_stwfmModelStoreContainer" CdmEntityContainer="DB_A4EFEA_stwfmEntities">
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -1987,10 +1988,6 @@
           <EntitySetMapping Name="Quotes">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Quote">
               <MappingFragment StoreEntitySet="Quote">
-                <ScalarProperty Name="DeliveryPeriod" ColumnName="DeliveryPeriod" />
-                <ScalarProperty Name="ValidDays" ColumnName="ValidDays" />
-                <ScalarProperty Name="AdvancePayment" ColumnName="AdvancePayment" />
-                <ScalarProperty Name="PowerSupplyAmp" ColumnName="PowerSupplyAmp" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
@@ -2023,6 +2020,10 @@
                 <ScalarProperty Name="LetteringWarrantyPeriod" ColumnName="LetteringWarrantyPeriod" />
                 <ScalarProperty Name="IlluminationWarrantyPeriod" ColumnName="IlluminationWarrantyPeriod" />
                 <ScalarProperty Name="FileNumber" ColumnName="FileNumber" />
+                <ScalarProperty Name="PowerSupplyAmp" ColumnName="PowerSupplyAmp" />
+                <ScalarProperty Name="AdvancePayment" ColumnName="AdvancePayment" />
+                <ScalarProperty Name="ValidDays" ColumnName="ValidDays" />
+                <ScalarProperty Name="DeliveryPeriod" ColumnName="DeliveryPeriod" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
