@@ -194,6 +194,7 @@ namespace WFM.UI.Controllers
                 Quote oldQuote = null;
                 if (model.Id == 0)
                 {
+
                     quote = new Quote
                     {
                         ClientId = model.ClientId,

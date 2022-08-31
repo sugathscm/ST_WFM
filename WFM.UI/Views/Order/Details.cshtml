@@ -290,6 +290,44 @@
             alert("");
         });
 
+
+
+        //Advanced payment
+        $('#AdvancePayment').change(function () {
+
+            // alert($('#hidden-1005').val());
+            var y = $('#hidden-1005').val().replace("{payment}", $('#AdvancePayment').val());
+            $('#term-1005').text(y);
+
+            var y = $('#hidden-1').val().replace("{payment}", $('#AdvancePayment').val());
+            $('#term-1').text(y);
+
+        });
+
+        //power supply
+        $('#PowerSupplyAmp').change(function () {
+
+            var y = $('#hidden-1003').val().replace("{amp}", $('#PowerSupplyAmp').val());
+            $('#term-1003').text(y);
+
+        });
+
+        //valid days
+        $('#ValidDays').change(function () {
+
+            var y = $('#hidden-2').val().replace("{Validity}", $('#ValidDays').val());
+            $('#term-2').text(y);
+
+        });
+
+        //delivery period
+        $('#DeliveryPeriod').change(function () {
+
+            var y = $('#hidden-1005').val().replace("{delivery}", $('#DeliveryPeriod').val());
+            $('#term-1005').text(y);
+
+        });
+
         $(document).on("change", "select#quoteItem_CategoryId", function () {
             elem = $(this);
             var obj = { id: $(elem).val() };
