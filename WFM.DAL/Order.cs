@@ -18,8 +18,6 @@ namespace WFM.DAL
         public Order()
         {
             this.OrderItems = new HashSet<OrderItem>();
-            this.OrderTrackings = new HashSet<OrderTracking>();
-            this.OrderWayForwards = new HashSet<OrderWayForward>();
         }
     
         public int Id { get; set; }
@@ -66,9 +64,5 @@ namespace WFM.DAL
         public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderTracking> OrderTrackings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderWayForward> OrderWayForwards { get; set; }
     }
 }

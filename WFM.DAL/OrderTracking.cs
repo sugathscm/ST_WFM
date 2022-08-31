@@ -27,6 +27,5 @@ namespace WFM.DAL
         public virtual Division Division { get; set; }
         public virtual Division Division1 { get; set; }
         public virtual Status Status { get; set; }
-        public virtual Order Order { get; set; }
     }
 }

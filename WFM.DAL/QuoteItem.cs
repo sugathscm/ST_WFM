@@ -25,6 +25,7 @@ namespace WFM.DAL
         public string CategoryName { get; set; }
         public string CategoryType { get; set; }
         public string Installation { get; set; }
+        public string Visibility { get; set; }
         public Nullable<int> FrameworkWarrantyPeriod { get; set; }
         public Nullable<int> LetteringWarrantyPeriod { get; set; }
         public Nullable<int> IlluminationWarrantyPeriod { get; set; }

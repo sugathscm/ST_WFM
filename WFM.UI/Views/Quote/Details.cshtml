@@ -267,6 +267,7 @@
                         }
                     </div>
                     <hr />
+
                     <div class="form-row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
                             <label class="control-label" for="Comment">Terms &amp; Conditions :</label>
@@ -277,13 +278,13 @@
                             Advance Payment
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
-                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control advance" })
+                            @Html.TextBoxFor(m => m.AdvancePayment, new { @class = "form-control advance" })
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
                             Validity Days
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
-                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.ValidDays, new { @class = "form-control" })
                         </div>
                     </div>
                     <div class="form-row m-t-10">
@@ -291,13 +292,13 @@
                             Power Supply Amp.
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
-                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.PowerSupplyAmp, new { @class = "form-control" })
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
                             Delivery Period
                         </div>
                         <div class="col-xl-2 col-lg-2 col-md-2 m-t-5">
-                            @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.DeliveryPeriod, new { @class = "form-control" })
                         </div>
                     </div>
                     foreach (var term in ViewBag.QuoteTermList)
@@ -307,7 +308,9 @@
                                 <input type="checkbox" class="terms" value="@term.Id" />
                                 <span class="m-l-10 font-bold">@term.Name</span>
                             </div>
-                            <div class="col-xl-10 col-lg-10 col-md-10 m-t-5 text-justify term-@term.Id">
+                            <input id="hidden-@term.Id" value="@term.Details" type="hidden" />
+
+                            <div class="col-xl-10 col-lg-10 col-md-10 m-t-5 text-justify term-@term.Id" id="term-@term.Id">
                                 @term.Details
                             </div>
                         </div>
@@ -386,6 +389,42 @@
                 }
                 $('#termsArray').val(termsArray);
                 console.log($('#termsArray').val());
+            });
+
+            //Advanced payment
+            $('#AdvancePayment').change(function () {
+
+               // alert($('#hidden-1005').val());
+                var y = $('#hidden-1005').val().replace("{payment}", $('#AdvancePayment').val());
+                $('#term-1005').text(y);
+
+                var y = $('#hidden-1').val().replace("{payment}", $('#AdvancePayment').val());
+                $('#term-1').text(y);
+
+            });
+
+            //power supply
+            $('#PowerSupplyAmp').change(function () {
+
+                var y = $('#hidden-1003').val().replace("{amp}", $('#PowerSupplyAmp').val());
+                    $('#term-1003').text(y);
+
+            });
+
+            //valid days
+            $('#ValidDays').change(function () {
+
+                var y = $('#hidden-2').val().replace("{Validity}", $('#ValidDays').val());
+                $('#term-2').text(y);
+
+            });
+
+            //delivery period
+            $('#DeliveryPeriod').change(function () {
+
+                var y = $('#hidden-1005').val().replace("{delivery}", $('#DeliveryPeriod').val());
+                $('#term-1005').text(y);
+
             });
 
             //$('#IsVAT').change(function () {
@@ -579,8 +618,5 @@
             });
             return false;
         }
-
     </script>
 }
-
-

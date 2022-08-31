@@ -129,7 +129,6 @@ namespace WFM.UI.Controllers
                 TempData["Message"] = string.Format(ResourceData.SaveErrorMessage, ex.InnerException);
             }
 
-
             return RedirectToAction("Index", "OrderType");
         }
     }

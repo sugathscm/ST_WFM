@@ -54,8 +54,10 @@ namespace WFM.DAL
         public Nullable<int> LetteringWarrantyPeriod { get; set; }
         public Nullable<int> IlluminationWarrantyPeriod { get; set; }
         public string FileNumber { get; set; }
-        public Nullable<int> StatusId { get; set; }
-        public Nullable<int> OrderTypeId { get; set; }
+        public Nullable<int> PowerSupplyAmp { get; set; }
+        public Nullable<int> AdvancePayment { get; set; }
+        public Nullable<int> ValidDays { get; set; }
+        public Nullable<int> DeliveryPeriod { get; set; }
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

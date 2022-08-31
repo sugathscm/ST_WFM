@@ -9,7 +9,7 @@ namespace WFM.BAL.Services
     {
         public List<Employee> GetEmployeeList()
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Employees.Include("Designation").Include("Division").Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
             }
@@ -17,7 +17,7 @@ namespace WFM.BAL.Services
 
         public List<Employee> GetEmployeeFullList()
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Employees.Include("Designation").Include("Division").OrderBy(d => d.Name).ToList();
             }
@@ -25,7 +25,7 @@ namespace WFM.BAL.Services
 
         public Employee GetEmployeeById(int? id)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Employees.Where(s => s.Id == id).SingleOrDefault();
             }
@@ -33,7 +33,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(Employee employee)
         {
-            using (STWFMEntities entities = new STWFMEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (employee.Id == 0)
                 {

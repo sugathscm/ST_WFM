@@ -16,7 +16,7 @@
         <!-- ============================================================== -->
         <div class="border border-primary bg-actual-white">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
-                @using (Html.BeginForm("SaveOrUpdate", "Quote", FormMethod.Post, new { @class = "needs-validation", role = "form", enctype = "multipart/form-data", onsubmit = "return readValues();" }))
+                @using (Html.BeginForm("SaveOrUpdate", "Order", FormMethod.Post, new { @class = "needs-validation", role = "form", enctype = "multipart/form-data", onsubmit = "return readValues();" }))
                 {
                     @*<form class="needs-validation" novalidate="">*@
                     @Html.AntiForgeryToken()
@@ -32,7 +32,7 @@
                     <div class="form-row">
                         <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2">
                             <label class="control-label" for="BaseQuoteId">Quote</label>
-                            @*@Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })*@
+                            @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                             <label class="control-label" for="IsVAT">Is VAT</label>
@@ -50,7 +50,6 @@
                         </div>
                         <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
                             <label class="control-label" for="Version">Version</label>
-                            
                         </div>
                         <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
                             <label class="control-label" for="Month">Month</label>
@@ -245,164 +244,162 @@
     </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        //$('select').select2({
-        //    selectOnClose: true
-        //});
+<script>
 
-        function removeItem(elem) {
-            if ($('#item-count').val() != "1") {
-                $('#item-count').val(parseInt($('#item-count').val()) - 1);
-                $(elem).parent().parent('div').remove();
+    function removeItem(elem) {
+        if ($('#item-count').val() != "1") {
+            $('#item-count').val(parseInt($('#item-count').val()) - 1);
+            $(elem).parent().parent('div').remove();
+        }
+        else {
+            alert('Last item cannot be removed');
+        }
+    }
+
+    $(document).ready(function () {
+        //$('.selection').select2();
+
+        var d = new Date();
+        var today = new Date((d.getFullYear(), d.getMonth(), d.getDate()) + 'T00:00:00Z');
+        $("#Version").val("1");
+        var formattedNumber = ("0" + (d.getMonth() + 1)).slice(-2);
+        $("#Month").val(formattedNumber);
+        var year = d.getFullYear().toString().substring(2, 4);
+        $("#Year").val(year);
+        $("#CreatedDate").val(d.getDate() + "-" + formattedNumber + "-" + year);
+
+        $('#IsVAT').change(function () {
+            setTotals();
+            if ($(this).is(":checked")) {
+                $('#Code').val($('#Code').val().replace('STA/', 'ST/'));
             }
             else {
-                alert('Last item cannot be removed');
+                $('#Code').val($('#Code').val().replace('ST/', 'STA/'));
             }
-        };
+        });
 
-        $(document).ready(function () {
-            //$('.selection').select2();
+        $('#add').click(function () {
+            var n = $('.item').length + 1;
+            var temp = $('.item:first').clone();
+            //$('input:first', temp).attr('placeholder', '#' + n)
+            $('.item:last').after(temp);
+            $('#item-count').val(parseInt($('#item-count').val()) + 1);
+        });
 
-            var d = new Date();
-            var today = new Date((d.getFullYear(), d.getMonth(), d.getDate()) + 'T00:00:00Z');
-            $("#Version").val("1");
-            var formattedNumber = ("0" + (d.getMonth() + 1)).slice(-2);
-            $("#Month").val(formattedNumber);
-            var year = d.getFullYear().toString().substring(2, 4);
-            $("#Year").val(year);
-            $("#CreatedDate").val(d.getDate() + "-" + formattedNumber + "-" + year);
+        $('#BaseQuoteId').onChange(function () {
+            alert("");
+        });
 
-
-            $('#IsVAT').change(function () {
-                setTotals();
-                if ($(this).is(":checked")) {
-                    $('#Code').val($('#Code').val().replace('STA/', 'ST/'));
+        $(document).on("change", "select#quoteItem_CategoryId", function () {
+            elem = $(this);
+            var obj = { id: $(elem).val() };
+            AjaxCall('/Category/GetDescriptionById', JSON.stringify(obj), 'POST').done(function (response) {
+                if (response.length > 0) {
+                    $(elem).parent().parent('div').find('input#Description').val(response);
                 }
-                else {
-                    $('#Code').val($('#Code').val().replace('ST/', 'STA/'));
-                }
-            });
-
-            $('#add').click(function () {
-                var n = $('.item').length + 1;
-                var temp = $('.item:first').clone();
-                //$('input:first', temp).attr('placeholder', '#' + n)
-                $('.item:last').after(temp);
-                $('#item-count').val(parseInt($('#item-count').val()) + 1);
-            });
-
-            $(document).on("change", "select#quoteItem_CategoryId", function () {
-                elem = $(this);
-                var obj = { id: $(elem).val() };
-                AjaxCall('/Category/GetDescriptionById', JSON.stringify(obj), 'POST').done(function (response) {
-                    if (response.length > 0) {
-                        $(elem).parent().parent('div').find('input#Description').val(response);
-                    }
-                }).fail(function (error) {
-                    alert(error.StatusText);
-                });
-            });
-
-            $(document).on("change", "select#ClientId", function () {
-                elem = $(this);
-                var obj = { id: $(elem).val() };
-                AjaxCall('/Client/GetClientById', JSON.stringify(obj), 'POST').done(function (response) {
-                    $('#ContactPerson').val(response.CPName);
-                    $('#ContactMobile').val(response.CPMobile);
-                }).fail(function (error) {
-                    alert(error.StatusText);
-                });
-            });
-
-            $(document).on("change", "input#Qty", function () {
-                elem = $(this);
-                setTotals();
-            });
-
-            $(document).on("change", "input#Cost", function () {
-                elem = $(this);
-                setTotals();
+            }).fail(function (error) {
+                alert(error.StatusText);
             });
         });
 
-        function setTotals() {
-            var qty = $(elem).parent().parent('div').find('input#Qty').val();
-            var cost = $(elem).parent().parent('div').find('input#Cost').val();
-            var VATPercentage = $("#VATPercentage").val();
-            var Total = parseFloat(qty) * parseFloat(cost);
-
-            if (isNaN(Total)) {
-                Total = 0;
-            }
-
-            var VAT = 0;
-
-            if ($('#IsVAT').is(":checked")) {
-                VAT = ((parseFloat(qty) * parseFloat(cost)) * parseFloat(VATPercentage)) / 100;
-            }
-            var TotalWithVAT = Total + VAT;
-
-            $(elem).parent().parent('div').find('input#TotalCost').val(number_format(Total, 2, '.', ','));
-            $(elem).parent().parent('div').find('input#VAT').val(number_format(VAT, 2, '.', ','));
-            $(elem).parent().parent('div').find('input#TotalCostVAT').val(number_format(TotalWithVAT, 2, '.', ','));
-        }
-
-        function AjaxCall(url, data, type) {
-            return $.ajax({
-                url: url,
-                type: type ? type : 'GET',
-                data: data,
-                contentType: 'application/json'
+        $(document).on("change", "select#ClientId", function () {
+            elem = $(this);
+            var obj = { id: $(elem).val() };
+            AjaxCall('/Client/GetClientById', JSON.stringify(obj), 'POST').done(function (response) {
+                $('#ContactPerson').val(response.CPName);
+                $('#ContactMobile').val(response.CPMobile);
+            }).fail(function (error) {
+                alert(error.StatusText);
             });
+        });
+
+        $(document).on("change", "input#Qty", function () {
+            elem = $(this);
+            setTotals();
+        });
+
+        $(document).on("change", "input#Cost", function () {
+            elem = $(this);
+            setTotals();
+        });
+    })
+
+    function setTotals() {
+        var qty = $(elem).parent().parent('div').find('input#Qty').val();
+        var cost = $(elem).parent().parent('div').find('input#Cost').val();
+        var VATPercentage = $("#VATPercentage").val();
+        var Total = parseFloat(qty) * parseFloat(cost);
+
+        if (isNaN(Total)) {
+            Total = 0;
         }
 
-        number_format = function (number, decimals, dec_point, thousands_sep) {
-            number = number.toFixed(decimals);
+        var VAT = 0;
 
-            var nstr = number.toString();
-            nstr += '';
-            x = nstr.split('.');
-            x1 = x[0];
-            x2 = x.length > 1 ? dec_point + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
-
-            while (rgx.test(x1))
-                x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
-
-            return x1 + x2;
+        if ($('#IsVAT').is(":checked")) {
+            VAT = ((parseFloat(qty) * parseFloat(cost)) * parseFloat(VATPercentage)) / 100;
         }
+        var TotalWithVAT = Total + VAT;
 
-        function readValues() {
-            var productIdArray = [];
-            var qtyArray = [];
-            var descriptionArray = [];
-            var costArray = [];
-            var vatArray = [];
-            var sizeArray = [];
-            var obj_list = document.querySelectorAll('[class*="form-row item m-t-10 m-b-20"]');
-            $.each(obj_list, function (key, obj) {
-                productIdArray.push($(obj).find('select#quoteItem_CategoryId').val());
-                qtyArray.push($(obj).find('input#Qty').val());
-                descriptionArray.push($(obj).find('input#Description').val());
-                costArray.push($(obj).find('input#Cost').val());
-                vatArray.push($(obj).find('input#VAT').val());
-                vatArray.push($(obj).find('input#VAT').val());
-                sizeArray.push($(obj).find('input#Size').val());
-            });
+        $(elem).parent().parent('div').find('input#TotalCost').val(number_format(Total, 2, '.', ','));
+        $(elem).parent().parent('div').find('input#VAT').val(number_format(VAT, 2, '.', ','));
+        $(elem).parent().parent('div').find('input#TotalCostVAT').val(number_format(TotalWithVAT, 2, '.', ','));
+    }
 
-            $('#productIdArray').val(productIdArray);
-            $('#qtyArray').val(qtyArray);
-            $('#descriptionArray').val(descriptionArray);
-            $('#costArray').val(costArray);
-            $('#vatArray').val(vatArray);
-            $('#sizeArray').val(sizeArray);
+    function AjaxCall(url, data, type) {
+        return $.ajax({
+            url: url,
+            type: type ? type : 'GET',
+            data: data,
+            contentType: 'application/json'
+        });
+    }
 
-            return true;
-        }
+    number_format = function (number, decimals, dec_point, thousands_sep) {
+        number = number.toFixed(decimals);
 
-    </script>
+        var nstr = number.toString();
+        nstr += '';
+        x = nstr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? dec_point + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
+
+        return x1 + x2;
+    }
+
+    function readValues() {
+        var productIdArray = [];
+        var qtyArray = [];
+        var descriptionArray = [];
+        var costArray = [];
+        var vatArray = [];
+        var sizeArray = [];
+        var obj_list = document.querySelectorAll('[class*="form-row item m-t-10 m-b-20"]');
+        $.each(obj_list, function (key, obj) {
+            productIdArray.push($(obj).find('select#quoteItem_CategoryId').val());
+            qtyArray.push($(obj).find('input#Qty').val());
+            descriptionArray.push($(obj).find('input#Description').val());
+            costArray.push($(obj).find('input#Cost').val());
+            vatArray.push($(obj).find('input#VAT').val());
+            vatArray.push($(obj).find('input#VAT').val());
+            sizeArray.push($(obj).find('input#Size').val());
+        });
+
+        $('#productIdArray').val(productIdArray);
+        $('#qtyArray').val(qtyArray);
+        $('#descriptionArray').val(descriptionArray);
+        $('#costArray').val(costArray);
+        $('#vatArray').val(vatArray);
+        $('#sizeArray').val(sizeArray);
+
+        return true;
+    }
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
-
-
