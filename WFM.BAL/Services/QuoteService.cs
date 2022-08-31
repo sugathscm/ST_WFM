@@ -9,7 +9,7 @@ namespace WFM.BAL.Services
     {
         public List<Quote> GetQuoteList()
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.Quotes.Include("Client").Where(d => d.IsActive == true).OrderBy(d => d.Id).ToList();
             }
@@ -17,7 +17,7 @@ namespace WFM.BAL.Services
 
         public List<Quote> GetQuoteActiveList()
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.Quotes.Include("Client").Where(o => o.IsConverted == false || o.IsConverted == null).OrderBy(d => d.Id).ToList();
             }
@@ -25,7 +25,7 @@ namespace WFM.BAL.Services
 
         public List<Quote> GetQuoteConvertedList()
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.Quotes.Include("Client").Where(o => o.IsConverted == true).OrderBy(d => d.Id).ToList();
             }
@@ -33,7 +33,7 @@ namespace WFM.BAL.Services
 
         public List<Quote> GetQuoteApprovedList()
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.Quotes.Include("Client").Where(o => o.IsApproved == true).OrderBy(d => d.Id).ToList();
             }
@@ -41,7 +41,7 @@ namespace WFM.BAL.Services
 
         public Quote GetQuoteById(int? id)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.Quotes
                     .Include("QuoteItems")
@@ -54,7 +54,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(Quote quote)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 if (quote.Id == 0)
                 {
@@ -71,7 +71,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(QuoteItem quoteItem)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 if (quoteItem.QuoteId != 0)
                 {
@@ -83,7 +83,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(QuoteTermDetail quoteTermDetail)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 if (quoteTermDetail.QuoteId != 0)
                 {
@@ -95,7 +95,7 @@ namespace WFM.BAL.Services
 
         public void RemoveItems(Quote quote)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 bool validateOnSaveEnabled = entities.Configuration.ValidateOnSaveEnabled;
                 try
@@ -123,7 +123,7 @@ namespace WFM.BAL.Services
 
         public void RemoveTerms(Quote quote)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 bool validateOnSaveEnabled = entities.Configuration.ValidateOnSaveEnabled;
                 try

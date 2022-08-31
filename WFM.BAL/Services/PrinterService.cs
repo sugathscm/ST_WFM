@@ -9,7 +9,7 @@ namespace WFM.BAL.Services
     {
         public List<Printer> GetPrinterList()
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.Printers.Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
             }
@@ -17,7 +17,7 @@ namespace WFM.BAL.Services
 
         public Printer GetPrinterById(int? id)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 return entities.Printers.Where(s => s.Id == id).SingleOrDefault();
             }
@@ -25,7 +25,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(Printer printer)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 if (printer.Id == 0)
                 {

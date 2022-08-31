@@ -11,7 +11,7 @@ namespace WFM.BAL.Services
     {
         public static int SaveLoginAudit(LoginAudit loginAudit)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 entities.LoginAudits.Add(loginAudit);
                 entities.SaveChanges();
@@ -21,7 +21,7 @@ namespace WFM.BAL.Services
 
         public static int SaveDataAudit(DataAudit dataAudit)
         {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 entities.DataAudits.Add(dataAudit);
                 entities.SaveChanges();
@@ -33,7 +33,7 @@ namespace WFM.BAL.Services
         {
             var number = 1;
 
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 var quotesInMonth = entities.Quotes.Where(q => q.Month == month && q.Year == year).OrderBy(q => q.Id).ToList();
                 if (quotesInMonth.Count > 0)
@@ -49,7 +49,7 @@ namespace WFM.BAL.Services
         {
             var number = 1;
 
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
             {
                 var qordersInMonth = entities.Orders.Where(q => q.Month == month && q.Year == year).OrderBy(q => q.Id).ToList();
                 if (qordersInMonth.Count > 0)
