@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalCharge.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AditionalCharge.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="AspNetRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -103,6 +109,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderItem.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderTermDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderTracking.cs">

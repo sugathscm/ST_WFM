@@ -10,7 +10,7 @@ namespace WFM.BAL.Services
     {
         public List<Order> GetOrderList()
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Orders.Include("Client").OrderBy(d => d.Id).ToList();
             }
@@ -18,7 +18,7 @@ namespace WFM.BAL.Services
 
         public List<Order> GetOrderActiveList()
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Orders.Include("Client").Where(o => o.StatusId != (int)OrderStatus.Completed).OrderBy(d => d.Id).ToList();
             }
@@ -26,7 +26,7 @@ namespace WFM.BAL.Services
 
         public List<Order> GetOrderHistoryList()
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Orders.Include("Client").Where(o => o.StatusId == (int)OrderStatus.Completed).OrderBy(d => d.Id).ToList();
             }
@@ -34,7 +34,7 @@ namespace WFM.BAL.Services
 
         public Order GetOrderById(int? id)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Orders.Include("OrderItems").Where(s => s.Id == id).SingleOrDefault();
             }
@@ -42,7 +42,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(Order order)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (order.Id == 0)
                 {
@@ -59,7 +59,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(OrderItem orderItem)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (orderItem.OrderId != 0)
                 {
@@ -75,7 +75,7 @@ namespace WFM.BAL.Services
 
             try
             {
-                using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
                 {
                     int id = model.Id;
                     Order order = null;
@@ -146,7 +146,7 @@ namespace WFM.BAL.Services
 
         public void RemoveItems(Order order)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 bool validateOnSaveEnabled = entities.Configuration.ValidateOnSaveEnabled;
                 try

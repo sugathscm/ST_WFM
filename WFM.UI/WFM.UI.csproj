@@ -266,6 +266,7 @@
     <Content Include="assets\libs\css\style-dark.css" />
     <Content Include="assets\libs\css\style-light.css" />
     <Content Include="assets\libs\css\style.css" />
+    <Content Include="assets\libs\css\tabs.css" />
     <Content Include="assets\libs\js\dashboard-ecommerce.js" />
     <Content Include="assets\libs\js\dashboard-finance.js" />
     <Content Include="assets\libs\js\dashboard-influencer.js" />

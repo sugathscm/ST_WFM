@@ -60,7 +60,6 @@ namespace WFM.DAL
         public virtual OrderType OrderType { get; set; }
         public virtual PaperQuality PaperQuality { get; set; }
         public virtual Printer Printer { get; set; }
-        public virtual Quote Quote { get; set; }
         public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }

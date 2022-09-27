@@ -17,7 +17,6 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Quote()
         {
-            this.Orders = new HashSet<Order>();
             this.QuoteItems = new HashSet<QuoteItem>();
             this.QuoteTermDetails = new HashSet<QuoteTermDetail>();
         }
@@ -60,8 +59,6 @@ namespace WFM.DAL
         public Nullable<int> DeliveryPeriod { get; set; }
     
         public virtual Client Client { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuoteItem> QuoteItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

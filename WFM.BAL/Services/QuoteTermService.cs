@@ -10,7 +10,7 @@ namespace WFM.BAL.Services
     {
         public List<QuoteTerm> GetQuoteTermList()
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.QuoteTerms.Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
             }
@@ -18,7 +18,7 @@ namespace WFM.BAL.Services
 
         public QuoteTerm GetQuoteTermById(int? id)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.QuoteTerms.Where(s => s.Id == id).SingleOrDefault();
             }
@@ -26,7 +26,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(QuoteTerm QuoteTerms)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (QuoteTerms.Id == 0)
                 {
@@ -43,7 +43,7 @@ namespace WFM.BAL.Services
 
         public List<QuoteTermDetail> GetQuoteTermsByQuoteId(int? quoteId)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.QuoteTermDetails.Include("QuoteTerm").Where(qt => qt.QuoteId == quoteId).ToList();
             }

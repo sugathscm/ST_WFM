@@ -14,6 +14,12 @@ namespace WFM.DAL
     
     public partial class OrderItem
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrderItem()
+        {
+            this.AditionalCharges = new HashSet<AditionalCharge>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> CategoryId { get; set; }
@@ -30,8 +36,11 @@ namespace WFM.DAL
         public Nullable<int> LetteringWarrantyPeriod { get; set; }
         public Nullable<int> IlluminationWarrantyPeriod { get; set; }
         public Nullable<int> VisibilityId { get; set; }
+        public string Illumination { get; set; }
     
         public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AditionalCharge> AditionalCharges { get; set; }
         public virtual Order Order { get; set; }
     }
 }

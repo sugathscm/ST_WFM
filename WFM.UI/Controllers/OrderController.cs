@@ -11,16 +11,26 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using WFM.BAL;
 using WFM.BAL.Services;
-using WFM.DAL;
 using WFM.UI.Models;
 using Syncfusion.Pdf;
 using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
 using Syncfusion.DocToPDFConverter;
 using System.Web.Configuration;
+using Aspose.Words;
+using System.Data.Entity;
+using WFM.DAL;
 
 namespace WFM.UI.Controllers
 {
+    public class test
+    {
+        public string name { get; set;}
+        public string name1 { get; set; }
+        public string name2 { get; set; }
+
+    }
+
     public class OrderController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -31,6 +41,7 @@ namespace WFM.UI.Controllers
         private readonly CategoryService categoryService = new CategoryService();
         private readonly QuoteTermService quoteTermService = new QuoteTermService();
         private readonly WarrantyPeriodService warrantyPeriodService = new WarrantyPeriodService();
+        private readonly OrderTypeService orderTypeService = new OrderTypeService();
 
         public OrderController()
         {
@@ -57,19 +68,57 @@ namespace WFM.UI.Controllers
         {
             return View();
         }
-        public ActionResult History()
+        
+
+        public JsonResult Convert(int qouteid)
         {
-            return View();
+           /// Quote qoute = new Quote();
+          var  qoute = GetQuoteById(qouteid);
+
+            OrderView order = new OrderView();
+            order.Month = qoute.Month;
+            order.Year = qoute.Year;
+     
+            order.CreatedDate = qoute.CreatedDate;
+           
+            order.QuoteId = qoute.Id;
+            order.ClientId = qoute.ClientId;
+           
+            order.Code = qoute.Code;
+            order.CodeNumber = qoute.CodeNumber;
+            order.Comments = qoute.Comments;
+            order.ContactPerson = qoute.ContactPerson;
+            order.ContactMobile = qoute.ContactMobile;
+            order.Header = qoute.Header;
+            order.FrameworkWarrantyPeriod = qoute.FrameworkWarrantyPeriod;
+            order.IlluminationWarrantyPeriod = qoute.IlluminationWarrantyPeriod;
+            order.LetteringWarrantyPeriod = qoute.LetteringWarrantyPeriod;
+
+            //OrderView t = new OrderView();
+            //t.ClientName = "saad";
+            //t.ClientId = 12;
+            //t.Code= "dkskd";
+
+            // return Json(order, JsonRequestBehavior.AllowGet);
+            // return Json(new { data = order }, JsonRequestBehavior.AllowGet);
+            return new JsonResult
+            {
+                Data = order,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
         }
 
-        // GET: Order
-        public ActionResult Details(int? id)
+        public ActionResult QouteDetails(int? QuoteId, string FromQuate)
         {
             Order order = new Order();
+            Quote qoute = new Quote();
+            qoute = GetQuoteById(QuoteId);
 
-            if (id != null)
+            if (qoute != null)
             {
-                order = orderService.GetOrderById(id);
+               // order = ConvertQuotetoOrder(qoute);
+                
             }
             else
             {
@@ -81,8 +130,60 @@ namespace WFM.UI.Controllers
             var clientList = clientService.GetClientList();
             var employeeList = employeeService.GetEmployeeList();
             var orderTermList = quoteTermService.GetQuoteTermList();
+            var orderTypeList = orderTypeService.GetOrderTypeList();
 
             ViewBag.OrderTermList = orderTermList;
+            ViewBag.OrderTypeList = new SelectList(orderTypeList, "Id", "Name");
+            ViewBag.QuoteList = new SelectList(quoteList, "Id", "Code");
+            ViewBag.ClientList = new SelectList(clientList, "Id", "Name");
+            ViewBag.ChanneledByList = new SelectList(employeeList, "Id", "Name");
+            ViewBag.WarrantyPeriodList = new SelectList(warrantyPeriodService.GetWarrantyPeriodList(), "Id", "Name");
+            ViewBag.CategoryList = categoryService.GetCategoryList();
+            ViewBag.VATPercentage = WebConfigurationManager.AppSettings["WBU"];
+            return View(order);
+        }
+        public ActionResult History()
+        {
+            return View();
+        }
+
+        // GET: Order
+        public ActionResult Details(int? id, int? qouteid)
+        {
+            Order order = new Order();
+
+            if (id != null)
+            {
+                order = orderService.GetOrderById(id);
+            }
+            // if (qouteid != null)
+            //{
+            //    Quote qoute = new Quote();
+            //    qoute = GetQuoteById(qouteid);
+            //    order = ConvertQuotetoOrder(qoute);
+
+            //  //  return Json(new { order });
+            //    return Json(order, JsonRequestBehavior.AllowGet);
+            //    //var code = CommonService.GenerateOrderCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false).Replace('-', '/');
+            //    //order.Code = code;
+            //}
+
+            var quoteList = quoteService.GetQuoteList().Where(q => q.IsConverted == false).ToList();
+            var clientList = clientService.GetClientList();
+            var employeeList = employeeService.GetEmployeeList();
+            var orderTermList = quoteTermService.GetQuoteTermList();
+            var orderTypeList = orderTypeService.GetOrderTypeList();
+
+            List<BaseViewModel> VisibilityList = new List<BaseViewModel>();
+
+            VisibilityList.Add(new BaseViewModel() { Id = 1, Name = "Single Sided" });
+            VisibilityList.Add(new BaseViewModel() { Id = 2, Name = "Double Sided" });
+
+
+
+            ViewBag.VisibilityList = VisibilityList;
+            ViewBag.OrderTermList = orderTermList;
+            ViewBag.OrderTypeList = new SelectList(orderTypeList, "Id", "Name");
             ViewBag.QuoteList = new SelectList(quoteList, "Id", "Code");
             ViewBag.ClientList = new SelectList(clientList, "Id", "Name");
             ViewBag.ChanneledByList = new SelectList(employeeList, "Id", "Name");
@@ -108,7 +209,8 @@ namespace WFM.UI.Controllers
                     Value = item.Value,
                     CreatedDate = item.CreatedDate,
                     CreatedDateString = item.CreatedDate.Value.ToString(),
-                    Header = item.Header
+                    Header = item.Header,
+              
                 });
             }
 
@@ -131,7 +233,8 @@ namespace WFM.UI.Controllers
                     Value = item.Value,
                     CreatedDate = item.CreatedDate,
                     CreatedDateString = item.CreatedDate.Value.ToString(),
-                    Header = item.Header
+                    Header = item.Header,
+                    OrderTypeId=item.OrderTypeId
                 });
             }
 
@@ -178,7 +281,8 @@ namespace WFM.UI.Controllers
                         ContactMobile = model.ContactMobile,
                         FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod,
                         IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod,
-                        LetteringWarrantyPeriod = model.LetteringWarrantyPeriod
+                        LetteringWarrantyPeriod = model.LetteringWarrantyPeriod,
+                        OrderTypeId =model.OrderTypeId
                     };
 
                     oldOrder = new Order();
@@ -207,7 +311,7 @@ namespace WFM.UI.Controllers
                     order.FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod;
                     order.IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod;
                     order.LetteringWarrantyPeriod = model.LetteringWarrantyPeriod;
-
+                    order.OrderTypeId = model.OrderTypeId;
                     newData = new JavaScriptSerializer().Serialize(new Order()
                     {
                         Id = order.Id
@@ -246,6 +350,7 @@ namespace WFM.UI.Controllers
                             Size = (sizeArray[i] == "") ? "" : sizeArray[i],
                             Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
                             OrderId = model.Id
+                          //  Illumination = model.Illumination
                         };
 
                         orderService.SaveOrUpdate(orderItem);
@@ -275,6 +380,18 @@ namespace WFM.UI.Controllers
             return RedirectToAction("Index", "Order");
         }
 
+        public Quote GetQuoteById(int? id)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Quotes
+                    .Include("QuoteItems")
+                    .Include("Client")
+                    .Include("QuoteTermDetails")
+                    .Include("QuoteTermDetails.QuoteTerm")
+                    .Where(s => s.Id == id).SingleOrDefault();
+            }
+        }
         public PartialViewResult _NewClientPartial()
         {
             return PartialView();

@@ -24,6 +24,7 @@ namespace WFM.DAL
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public string Details { get; set; }
+        public Nullable<int> JqueryId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuoteTermDetail> QuoteTermDetails { get; set; }

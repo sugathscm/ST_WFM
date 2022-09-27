@@ -18,10 +18,10 @@ namespace WFM.DAL
         public Division()
         {
             this.Employees = new HashSet<Employee>();
-            this.Orders = new HashSet<Order>();
             this.OrderTrackings = new HashSet<OrderTracking>();
             this.OrderTrackings1 = new HashSet<OrderTracking>();
             this.OrderWayForwards = new HashSet<OrderWayForward>();
+            this.Orders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
@@ -32,12 +32,12 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employee> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTracking> OrderTrackings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTracking> OrderTrackings1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderWayForward> OrderWayForwards { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

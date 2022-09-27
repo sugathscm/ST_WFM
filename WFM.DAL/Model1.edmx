@@ -5,6 +5,24 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DB_A4EFEA_stwfmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdditionalCharge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="AddChargeType" Type="nchar" MaxLength="10" />
+          <Property Name="AddChargeAmount" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="AditionalCharges">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="OrderItemId" Type="int" Nullable="false" />
+          <Property Name="ChargeType" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Cost" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -203,6 +221,15 @@
           <Property Name="LetteringWarrantyPeriod" Type="int" />
           <Property Name="IlluminationWarrantyPeriod" Type="int" />
           <Property Name="VisibilityId" Type="int" />
+          <Property Name="Illumination" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="OrderTermDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="QuoteTermId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderTracking">
           <Key>
@@ -312,6 +339,7 @@
           <Property Name="LetteringWarrantyPeriod" Type="int" />
           <Property Name="IlluminationWarrantyPeriod" Type="int" />
           <Property Name="VisibilityId" Type="int" />
+          <Property Name="Illumination" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="QuoteTerm">
           <Key>
@@ -321,6 +349,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="500" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="Details" Type="nvarchar(max)" />
+          <Property Name="JqueryId" Type="int" />
         </EntityType>
         <EntityType Name="QuoteTermDetail">
           <Key>
@@ -353,6 +382,18 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_AditionalCharges_OrderItem">
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="1" />
+          <End Role="AditionalCharges" Type="Self.AditionalCharges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AditionalCharges">
+              <PropertyRef Name="OrderItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Client_Designation">
           <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
@@ -541,18 +582,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_Quote">
-          <End Role="Quote" Type="Self.Quote" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Quote">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="QuoteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Order_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="Order" Type="Self.Order" Multiplicity="*" />
@@ -710,6 +739,8 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="DB_A4EFEA_stwfmModelStoreContainer">
+          <EntitySet Name="AdditionalCharge" EntityType="Self.AdditionalCharge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AditionalCharges" EntityType="Self.AditionalCharges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -724,6 +755,7 @@
           <EntitySet Name="LoginAudit" EntityType="Self.LoginAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderTermDetail" EntityType="Self.OrderTermDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderTracking" EntityType="Self.OrderTracking" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderType" EntityType="Self.OrderType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OrderWayForward" EntityType="Self.OrderWayForward" Schema="dbo" store:Type="Tables" />
@@ -736,6 +768,10 @@
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Title" EntityType="Self.Title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WarrantyPeriod" EntityType="Self.WarrantyPeriod" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AditionalCharges_OrderItem" Association="Self.FK_AditionalCharges_OrderItem">
+            <End Role="OrderItem" EntitySet="OrderItem" />
+            <End Role="AditionalCharges" EntitySet="AditionalCharges" />
+          </AssociationSet>
           <AssociationSet Name="FK_Client_Designation" Association="Self.FK_Client_Designation">
             <End Role="Designation" EntitySet="Designation" />
             <End Role="Client" EntitySet="Client" />
@@ -794,10 +830,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Order_Printer" Association="Self.FK_Order_Printer">
             <End Role="Printer" EntitySet="Printer" />
-            <End Role="Order" EntitySet="Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Quote" Association="Self.FK_Order_Quote">
-            <End Role="Quote" EntitySet="Quote" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
@@ -946,8 +978,8 @@
           <Property Name="IsVAT" Type="Boolean" Nullable="false" />
           <Property Name="VATNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Designation" Relationship="Self.FK_Client_Designation" FromRole="Client" ToRole="Designation" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Client" FromRole="Client" ToRole="Order" />
           <NavigationProperty Name="Quotes" Relationship="Self.FK_Quote_Client" FromRole="Client" ToRole="Quote" />
+          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Client" FromRole="Client" ToRole="Order" />
         </EntityType>
         <EntityType Name="DataAudit">
           <Key>
@@ -981,10 +1013,10 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Division" FromRole="Division" ToRole="Employee" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Division" FromRole="Division" ToRole="Order" />
           <NavigationProperty Name="OrderTrackings" Relationship="Self.FK_OrderTracking_FromDivision" FromRole="Division" ToRole="OrderTracking" />
           <NavigationProperty Name="OrderTrackings1" Relationship="Self.FK_OrderTracking_ToDivision" FromRole="Division" ToRole="OrderTracking" />
           <NavigationProperty Name="OrderWayForwards" Relationship="Self.FK_OrderWayForward_Division" FromRole="Division" ToRole="OrderWayForward" />
+          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Division" FromRole="Division" ToRole="Order" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -1015,53 +1047,6 @@
           <Property Name="DateLogged" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_LoginAudit_AspNetUsers" FromRole="LoginAudit" ToRole="AspNetUsers" />
         </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Year" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="ChanneledBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PaperQualityId" Type="Int32" />
-          <Property Name="PrinterId" Type="Int32" />
-          <Property Name="ClientId" Type="Int32" />
-          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ApprovedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
-          <Property Name="CurrentDivisionId" Type="Int32" />
-          <Property Name="LastTransferredDate" Type="DateTime" Precision="3" />
-          <Property Name="LastTransferredBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="OrderTypeId" Type="Int32" />
-          <Property Name="QuoteId" Type="Int32" />
-          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="Header" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="WarrantyPeriodId" Type="Int32" />
-          <Property Name="CodeNumber" Type="Int32" />
-          <Property Name="ContactPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="ContactMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsVAT" Type="Boolean" Nullable="false" />
-          <Property Name="FrameworkWarrantyPeriod" Type="Int32" />
-          <Property Name="LetteringWarrantyPeriod" Type="Int32" />
-          <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
-          <Property Name="FileNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Client" Relationship="Self.FK_Order_Client" FromRole="Order" ToRole="Client" />
-          <NavigationProperty Name="Division" Relationship="Self.FK_Order_Division" FromRole="Order" ToRole="Division" />
-          <NavigationProperty Name="OrderType" Relationship="Self.FK_Order_OrderType" FromRole="Order" ToRole="OrderType" />
-          <NavigationProperty Name="PaperQuality" Relationship="Self.FK_Order_PaperQuality" FromRole="Order" ToRole="PaperQuality" />
-          <NavigationProperty Name="Printer" Relationship="Self.FK_Order_Printer" FromRole="Order" ToRole="Printer" />
-          <NavigationProperty Name="Quote" Relationship="Self.FK_Order_Quote" FromRole="Order" ToRole="Quote" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_Order_Status" FromRole="Order" ToRole="Status" />
-          <NavigationProperty Name="OrderItems" Relationship="Self.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
-        </EntityType>
         <EntityType Name="OrderItem">
           <Key>
             <PropertyRef Name="Id" />
@@ -1083,7 +1068,9 @@
           <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
           <Property Name="VisibilityId" Type="Int32" />
           <NavigationProperty Name="Category" Relationship="Self.FK_OrderItem_Category" FromRole="OrderItem" ToRole="Category" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_OrderItem_Order" FromRole="OrderItem" ToRole="Order" />
+          <Property Name="Illumination" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AditionalCharges" Relationship="DB_A4EFEA_stwfmModel.FK_AditionalCharges_OrderItem" FromRole="OrderItem" ToRole="AditionalCharge" />
+          <NavigationProperty Name="Order" Relationship="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" FromRole="OrderItem" ToRole="Order" />
         </EntityType>
         <EntityType Name="OrderTracking">
           <Key>
@@ -1109,7 +1096,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_OrderType" FromRole="OrderType" ToRole="Order" />
+          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_OrderType" FromRole="OrderType" ToRole="Order" />
         </EntityType>
         <EntityType Name="OrderWayForward">
           <Key>
@@ -1128,7 +1115,7 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_PaperQuality" FromRole="PaperQuality" ToRole="Order" />
+          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_PaperQuality" FromRole="PaperQuality" ToRole="Order" />
         </EntityType>
         <EntityType Name="Printer">
           <Key>
@@ -1138,7 +1125,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Printer" FromRole="Printer" ToRole="Order" />
+          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Printer" FromRole="Printer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Quote">
           <Key>
@@ -1177,13 +1164,12 @@
           <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
           <Property Name="FileNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Quote_Client" FromRole="Quote" ToRole="Client" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Quote" FromRole="Quote" ToRole="Order" />
           <NavigationProperty Name="QuoteItems" Relationship="Self.FK_QuoteItem_Quote" FromRole="Quote" ToRole="QuoteItem" />
-          <NavigationProperty Name="QuoteTermDetails" Relationship="Self.FK_QuoteTermDetail_Quote" FromRole="Quote" ToRole="QuoteTermDetail" />
           <Property Name="PowerSupplyAmp" Type="Int32" />
           <Property Name="AdvancePayment" Type="Int32" />
           <Property Name="ValidDays" Type="Int32" />
           <Property Name="DeliveryPeriod" Type="Int32" />
+          <NavigationProperty Name="QuoteTermDetails" Relationship="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_Quote" FromRole="Quote" ToRole="QuoteTermDetail" />
         </EntityType>
         <EntityType Name="QuoteItem">
           <Key>
@@ -1207,6 +1193,7 @@
           <Property Name="VisibilityId" Type="Int32" />
           <NavigationProperty Name="Category" Relationship="Self.FK_QuoteItem_Category" FromRole="QuoteItem" ToRole="Category" />
           <NavigationProperty Name="Quote" Relationship="Self.FK_QuoteItem_Quote" FromRole="QuoteItem" ToRole="Quote" />
+          <Property Name="Illumination" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="QuoteTerm">
           <Key>
@@ -1216,17 +1203,8 @@
           <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="QuoteTermDetails" Relationship="Self.FK_QuoteTermDetail_QuoteTerm" FromRole="QuoteTerm" ToRole="QuoteTermDetail" />
-        </EntityType>
-        <EntityType Name="QuoteTermDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QuoteId" Type="Int32" Nullable="false" />
-          <Property Name="QuoteTermId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Quote" Relationship="Self.FK_QuoteTermDetail_Quote" FromRole="QuoteTermDetail" ToRole="Quote" />
-          <NavigationProperty Name="QuoteTerm" Relationship="Self.FK_QuoteTermDetail_QuoteTerm" FromRole="QuoteTermDetail" ToRole="QuoteTerm" />
+          <Property Name="JqueryId" Type="Int32" />
+          <NavigationProperty Name="QuoteTermDetails" Relationship="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_QuoteTerm" FromRole="QuoteTerm" ToRole="QuoteTermDetail" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -1234,8 +1212,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Order_Status" FromRole="Status" ToRole="Order" />
           <NavigationProperty Name="OrderTrackings" Relationship="Self.FK_OrderTracking_Status" FromRole="Status" ToRole="OrderTracking" />
+          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Status" FromRole="Status" ToRole="Order" />
         </EntityType>
         <EntityType Name="Title">
           <Key>
@@ -1365,18 +1343,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_Client">
-          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Quote_Client">
           <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
           <End Role="Quote" Type="Self.Quote" Multiplicity="*" />
@@ -1410,18 +1376,6 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="DivisionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Division">
-          <End Role="Division" Type="Self.Division" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Division">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="CurrentDivisionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1461,78 +1415,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_OrderType">
-          <End Role="OrderType" Type="Self.OrderType" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="OrderType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="OrderTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_PaperQuality">
-          <End Role="PaperQuality" Type="Self.PaperQuality" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaperQuality">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="PaperQualityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Printer">
-          <End Role="Printer" Type="Self.Printer" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Printer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="PrinterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Quote">
-          <End Role="Quote" Type="Self.Quote" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Quote">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="QuoteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrderItem_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
-          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderItem">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderTracking_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
@@ -1557,30 +1439,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_QuoteTermDetail_Quote">
-          <End Role="Quote" Type="Self.Quote" Multiplicity="1" />
-          <End Role="QuoteTermDetail" Type="Self.QuoteTermDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Quote">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuoteTermDetail">
-              <PropertyRef Name="QuoteId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_QuoteTermDetail_QuoteTerm">
-          <End Role="QuoteTerm" Type="Self.QuoteTerm" Multiplicity="1" />
-          <End Role="QuoteTermDetail" Type="Self.QuoteTermDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QuoteTerm">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="QuoteTermDetail">
-              <PropertyRef Name="QuoteTermId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -1597,7 +1455,6 @@
           <EntitySet Name="Divisions" EntityType="Self.Division" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
           <EntitySet Name="LoginAudits" EntityType="Self.LoginAudit" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="OrderItems" EntityType="Self.OrderItem" />
           <EntitySet Name="OrderTrackings" EntityType="Self.OrderTracking" />
           <EntitySet Name="OrderTypes" EntityType="Self.OrderType" />
@@ -1607,7 +1464,6 @@
           <EntitySet Name="Quotes" EntityType="Self.Quote" />
           <EntitySet Name="QuoteItems" EntityType="Self.QuoteItem" />
           <EntitySet Name="QuoteTerms" EntityType="Self.QuoteTerm" />
-          <EntitySet Name="QuoteTermDetails" EntityType="Self.QuoteTermDetail" />
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="Titles" EntityType="Self.Title" />
           <EntitySet Name="WarrantyPeriods" EntityType="Self.WarrantyPeriod" />
@@ -1647,10 +1503,6 @@
             <End Role="Designation" EntitySet="Designations" />
             <End Role="Client" EntitySet="Clients" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_Client" Association="Self.FK_Order_Client">
-            <End Role="Client" EntitySet="Clients" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK_Quote_Client" Association="Self.FK_Quote_Client">
             <End Role="Client" EntitySet="Clients" />
             <End Role="Quote" EntitySet="Quotes" />
@@ -1662,10 +1514,6 @@
           <AssociationSet Name="FK_Employee_Division" Association="Self.FK_Employee_Division">
             <End Role="Division" EntitySet="Divisions" />
             <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Division" Association="Self.FK_Order_Division">
-            <End Role="Division" EntitySet="Divisions" />
-            <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderTracking_FromDivision" Association="Self.FK_OrderTracking_FromDivision">
             <End Role="Division" EntitySet="Divisions" />
@@ -1679,30 +1527,6 @@
             <End Role="Division" EntitySet="Divisions" />
             <End Role="OrderWayForward" EntitySet="OrderWayForwards" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_OrderType" Association="Self.FK_Order_OrderType">
-            <End Role="OrderType" EntitySet="OrderTypes" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_PaperQuality" Association="Self.FK_Order_PaperQuality">
-            <End Role="PaperQuality" EntitySet="PaperQualities" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Printer" Association="Self.FK_Order_Printer">
-            <End Role="Printer" EntitySet="Printers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Quote" Association="Self.FK_Order_Quote">
-            <End Role="Quote" EntitySet="Quotes" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderItem_Order" Association="Self.FK_OrderItem_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderItem" EntitySet="OrderItems" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderTracking_Status" Association="Self.FK_OrderTracking_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="OrderTracking" EntitySet="OrderTrackings" />
@@ -1711,19 +1535,259 @@
             <End Role="Quote" EntitySet="Quotes" />
             <End Role="QuoteItem" EntitySet="QuoteItems" />
           </AssociationSet>
-          <AssociationSet Name="FK_QuoteTermDetail_Quote" Association="Self.FK_QuoteTermDetail_Quote">
-            <End Role="Quote" EntitySet="Quotes" />
-            <End Role="QuoteTermDetail" EntitySet="QuoteTermDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_QuoteTermDetail_QuoteTerm" Association="Self.FK_QuoteTermDetail_QuoteTerm">
-            <End Role="QuoteTerm" EntitySet="QuoteTerms" />
-            <End Role="QuoteTermDetail" EntitySet="QuoteTermDetails" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="AditionalCharges" EntityType="DB_A4EFEA_stwfmModel.AditionalCharge" />
+          <AssociationSet Name="FK_AditionalCharges_OrderItem" Association="DB_A4EFEA_stwfmModel.FK_AditionalCharges_OrderItem">
+            <End Role="OrderItem" EntitySet="OrderItems" />
+            <End Role="AditionalCharge" EntitySet="AditionalCharges" />
+          </AssociationSet>
+          <EntitySet Name="Orders" EntityType="DB_A4EFEA_stwfmModel.Order" />
+          <AssociationSet Name="FK_Order_Client" Association="DB_A4EFEA_stwfmModel.FK_Order_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Division" Association="DB_A4EFEA_stwfmModel.FK_Order_Division">
+            <End Role="Division" EntitySet="Divisions" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_OrderType" Association="DB_A4EFEA_stwfmModel.FK_Order_OrderType">
+            <End Role="OrderType" EntitySet="OrderTypes" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_PaperQuality" Association="DB_A4EFEA_stwfmModel.FK_Order_PaperQuality">
+            <End Role="PaperQuality" EntitySet="PaperQualities" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Printer" Association="DB_A4EFEA_stwfmModel.FK_Order_Printer">
+            <End Role="Printer" EntitySet="Printers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="DB_A4EFEA_stwfmModel.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderItem_Order" Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <EntitySet Name="QuoteTermDetails" EntityType="DB_A4EFEA_stwfmModel.QuoteTermDetail" />
+          <AssociationSet Name="FK_QuoteTermDetail_Quote" Association="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_Quote">
+            <End Role="Quote" EntitySet="Quotes" />
+            <End Role="QuoteTermDetail" EntitySet="QuoteTermDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuoteTermDetail_QuoteTerm" Association="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_QuoteTerm">
+            <End Role="QuoteTerm" EntitySet="QuoteTerms" />
+            <End Role="QuoteTermDetail" EntitySet="QuoteTermDetails" />
+          </AssociationSet>
+          <EntitySet Name="OrderTermDetails" EntityType="DB_A4EFEA_stwfmModel.OrderTermDetail" />
+          <EntitySet Name="AdditionalCharges" EntityType="DB_A4EFEA_stwfmModel.AdditionalCharge" />
         </EntityContainer>
+        <EntityType Name="AditionalCharge">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="OrderItemId" Type="Int32" Nullable="false" />
+          <Property Name="ChargeType" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Cost" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="OrderItem" Relationship="DB_A4EFEA_stwfmModel.FK_AditionalCharges_OrderItem" FromRole="AditionalCharge" ToRole="OrderItem" />
+        </EntityType>
+        <Association Name="FK_AditionalCharges_OrderItem">
+          <End Type="DB_A4EFEA_stwfmModel.OrderItem" Role="OrderItem" Multiplicity="1" />
+          <End Type="DB_A4EFEA_stwfmModel.AditionalCharge" Role="AditionalCharge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AditionalCharge">
+              <PropertyRef Name="OrderItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Month" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ChanneledBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PaperQualityId" Type="Int32" />
+          <Property Name="PrinterId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovedDate" Type="DateTime" Precision="3" />
+          <Property Name="CurrentDivisionId" Type="Int32" />
+          <Property Name="LastTransferredDate" Type="DateTime" Precision="3" />
+          <Property Name="LastTransferredBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="OrderTypeId" Type="Int32" />
+          <Property Name="QuoteId" Type="Int32" />
+          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Header" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="WarrantyPeriodId" Type="Int32" />
+          <Property Name="CodeNumber" Type="Int32" />
+          <Property Name="ContactPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContactMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsVAT" Type="Boolean" Nullable="false" />
+          <Property Name="FrameworkWarrantyPeriod" Type="Int32" />
+          <Property Name="LetteringWarrantyPeriod" Type="Int32" />
+          <Property Name="IlluminationWarrantyPeriod" Type="Int32" />
+          <Property Name="FileNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Client" FromRole="Order" ToRole="Client" />
+          <NavigationProperty Name="Division" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Division" FromRole="Order" ToRole="Division" />
+          <NavigationProperty Name="OrderType" Relationship="DB_A4EFEA_stwfmModel.FK_Order_OrderType" FromRole="Order" ToRole="OrderType" />
+          <NavigationProperty Name="PaperQuality" Relationship="DB_A4EFEA_stwfmModel.FK_Order_PaperQuality" FromRole="Order" ToRole="PaperQuality" />
+          <NavigationProperty Name="Printer" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Printer" FromRole="Order" ToRole="Printer" />
+          <NavigationProperty Name="Status" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Status" FromRole="Order" ToRole="Status" />
+          <NavigationProperty Name="OrderItems" Relationship="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
+        </EntityType>
+        <Association Name="FK_Order_Client">
+          <End Type="DB_A4EFEA_stwfmModel.Client" Role="Client" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Division">
+          <End Type="DB_A4EFEA_stwfmModel.Division" Role="Division" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Division">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CurrentDivisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_OrderType">
+          <End Type="DB_A4EFEA_stwfmModel.OrderType" Role="OrderType" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="OrderTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_PaperQuality">
+          <End Type="DB_A4EFEA_stwfmModel.PaperQuality" Role="PaperQuality" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaperQuality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PaperQualityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Printer">
+          <End Type="DB_A4EFEA_stwfmModel.Printer" Role="Printer" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Printer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="PrinterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Type="DB_A4EFEA_stwfmModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderItem_Order">
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="QuoteTermDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuoteId" Type="Int32" Nullable="false" />
+          <Property Name="QuoteTermId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Quote" Relationship="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_Quote" FromRole="QuoteTermDetail" ToRole="Quote" />
+          <NavigationProperty Name="QuoteTerm" Relationship="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_QuoteTerm" FromRole="QuoteTermDetail" ToRole="QuoteTerm" />
+        </EntityType>
+        <Association Name="FK_QuoteTermDetail_Quote">
+          <End Type="DB_A4EFEA_stwfmModel.Quote" Role="Quote" Multiplicity="1" />
+          <End Type="DB_A4EFEA_stwfmModel.QuoteTermDetail" Role="QuoteTermDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quote">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteTermDetail">
+              <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuoteTermDetail_QuoteTerm">
+          <End Type="DB_A4EFEA_stwfmModel.QuoteTerm" Role="QuoteTerm" Multiplicity="1" />
+          <End Type="DB_A4EFEA_stwfmModel.QuoteTermDetail" Role="QuoteTermDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuoteTerm">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuoteTermDetail">
+              <PropertyRef Name="QuoteTermId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderTermDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="QuoteTermId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdditionalCharge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="AddChargeType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AddChargeAmount" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1870,49 +1934,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Order">
-              <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="ChanneledBy" ColumnName="ChanneledBy" />
-                <ScalarProperty Name="PaperQualityId" ColumnName="PaperQualityId" />
-                <ScalarProperty Name="PrinterId" ColumnName="PrinterId" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
-                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
-                <ScalarProperty Name="CurrentDivisionId" ColumnName="CurrentDivisionId" />
-                <ScalarProperty Name="LastTransferredDate" ColumnName="LastTransferredDate" />
-                <ScalarProperty Name="LastTransferredBy" ColumnName="LastTransferredBy" />
-                <ScalarProperty Name="OrderTypeId" ColumnName="OrderTypeId" />
-                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="Header" ColumnName="Header" />
-                <ScalarProperty Name="WarrantyPeriodId" ColumnName="WarrantyPeriodId" />
-                <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
-                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-                <ScalarProperty Name="ContactMobile" ColumnName="ContactMobile" />
-                <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
-                <ScalarProperty Name="FrameworkWarrantyPeriod" ColumnName="FrameworkWarrantyPeriod" />
-                <ScalarProperty Name="LetteringWarrantyPeriod" ColumnName="LetteringWarrantyPeriod" />
-                <ScalarProperty Name="IlluminationWarrantyPeriod" ColumnName="IlluminationWarrantyPeriod" />
-                <ScalarProperty Name="FileNumber" ColumnName="FileNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="OrderItems">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.OrderItem">
               <MappingFragment StoreEntitySet="OrderItem">
+                <ScalarProperty Name="Illumination" ColumnName="Illumination" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
@@ -2029,6 +2054,7 @@
           <EntitySetMapping Name="QuoteItems">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.QuoteItem">
               <MappingFragment StoreEntitySet="QuoteItem">
+                <ScalarProperty Name="Illumination" ColumnName="Illumination" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
@@ -2051,19 +2077,11 @@
           <EntitySetMapping Name="QuoteTerms">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.QuoteTerm">
               <MappingFragment StoreEntitySet="QuoteTerm">
+                <ScalarProperty Name="JqueryId" ColumnName="JqueryId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Details" ColumnName="Details" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="QuoteTermDetails">
-            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.QuoteTermDetail">
-              <MappingFragment StoreEntitySet="QuoteTermDetail">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
-                <ScalarProperty Name="QuoteTermId" ColumnName="QuoteTermId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2101,6 +2119,84 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="AditionalCharges">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.AditionalCharge">
+              <MappingFragment StoreEntitySet="AditionalCharges">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="ChargeType" ColumnName="ChargeType" />
+                <ScalarProperty Name="OrderItemId" ColumnName="OrderItemId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="FileNumber" ColumnName="FileNumber" />
+                <ScalarProperty Name="IlluminationWarrantyPeriod" ColumnName="IlluminationWarrantyPeriod" />
+                <ScalarProperty Name="LetteringWarrantyPeriod" ColumnName="LetteringWarrantyPeriod" />
+                <ScalarProperty Name="FrameworkWarrantyPeriod" ColumnName="FrameworkWarrantyPeriod" />
+                <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
+                <ScalarProperty Name="ContactMobile" ColumnName="ContactMobile" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
+                <ScalarProperty Name="WarrantyPeriodId" ColumnName="WarrantyPeriodId" />
+                <ScalarProperty Name="Header" ColumnName="Header" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
+                <ScalarProperty Name="OrderTypeId" ColumnName="OrderTypeId" />
+                <ScalarProperty Name="LastTransferredBy" ColumnName="LastTransferredBy" />
+                <ScalarProperty Name="LastTransferredDate" ColumnName="LastTransferredDate" />
+                <ScalarProperty Name="CurrentDivisionId" ColumnName="CurrentDivisionId" />
+                <ScalarProperty Name="ApprovedDate" ColumnName="ApprovedDate" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="PrinterId" ColumnName="PrinterId" />
+                <ScalarProperty Name="PaperQualityId" ColumnName="PaperQualityId" />
+                <ScalarProperty Name="ChanneledBy" ColumnName="ChanneledBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuoteTermDetails">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.QuoteTermDetail">
+              <MappingFragment StoreEntitySet="QuoteTermDetail">
+                <ScalarProperty Name="QuoteTermId" ColumnName="QuoteTermId" />
+                <ScalarProperty Name="QuoteId" ColumnName="QuoteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderTermDetails">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.OrderTermDetail">
+              <MappingFragment StoreEntitySet="OrderTermDetail">
+                <ScalarProperty Name="QuoteTermId" ColumnName="QuoteTermId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdditionalCharges">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.AdditionalCharge">
+              <MappingFragment StoreEntitySet="AdditionalCharge">
+                <ScalarProperty Name="AddChargeAmount" ColumnName="AddChargeAmount" />
+                <ScalarProperty Name="AddChargeType" ColumnName="AddChargeType" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

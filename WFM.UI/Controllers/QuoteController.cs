@@ -159,6 +159,7 @@ namespace WFM.UI.Controllers
                     CreatedDateString = item.CreatedDate.Value.ToString(),
                     IsApproved = item.IsApproved,
                     Header = item.Header
+                   
                 });
             }
 
@@ -223,6 +224,7 @@ namespace WFM.UI.Controllers
                         AdvancePayment = model.AdvancePayment,
                         ValidDays = model.ValidDays,
                         DeliveryPeriod = model.DeliveryPeriod,
+                        IsConverted =false,
                         // OrderTypeId = model.OrderTypeId
                     };
 
@@ -253,10 +255,10 @@ namespace WFM.UI.Controllers
                     quote.PowerSupplyAmp = model.PowerSupplyAmp;
                     quote.ValidDays = model.ValidDays;
                     quote.DeliveryPeriod = model.DeliveryPeriod;
-                    // quote.OrderTypeId = model.OrderTypeId;
-                    //quote.FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod;
-                    //quote.IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod;
-                    //quote.LetteringWarrantyPeriod = model.LetteringWarrantyPeriod;
+                    //quote.OrderTypeId = model.OrderTypeId;
+                    quote.FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod;
+                    quote.IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod;
+                    quote.LetteringWarrantyPeriod = model.LetteringWarrantyPeriod;
 
                     newData = new JavaScriptSerializer().Serialize(new Quote()
                     {

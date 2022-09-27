@@ -12,4 +12,5 @@ namespace WFM.UI.Models
         public string StatusName { get; set; }
         public string CreatedDateString { get; set; }
     }
+  
 }

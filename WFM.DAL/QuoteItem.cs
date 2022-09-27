@@ -30,6 +30,7 @@ namespace WFM.DAL
         public Nullable<int> LetteringWarrantyPeriod { get; set; }
         public Nullable<int> IlluminationWarrantyPeriod { get; set; }
         public Nullable<int> VisibilityId { get; set; }
+        public string Illumination { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Quote Quote { get; set; }

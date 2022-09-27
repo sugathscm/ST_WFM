@@ -9,7 +9,7 @@ namespace WFM.BAL.Services
     {
         public List<Category> GetCategoryList()
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Categories.Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
             }
@@ -17,7 +17,7 @@ namespace WFM.BAL.Services
 
         public Category GetCategoryById(int? id)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 return entities.Categories.Where(s => s.Id == id).SingleOrDefault();
             }
@@ -25,7 +25,7 @@ namespace WFM.BAL.Services
 
         public void SaveOrUpdate(Category category)
         {
-            using (DB_A4EFEA_stwfmEntities entities = new DB_A4EFEA_stwfmEntities())
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
                 if (category.Id == 0)
                 {
