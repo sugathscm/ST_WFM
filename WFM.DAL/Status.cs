@@ -18,7 +18,6 @@ namespace WFM.DAL
         public Status()
         {
             this.OrderTrackings = new HashSet<OrderTracking>();
-            this.Orders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
@@ -26,7 +25,5 @@ namespace WFM.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTracking> OrderTrackings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
     }
 }

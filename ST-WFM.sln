@@ -1,13 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1169
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFM.UI", "WFM.UI\WFM.UI.csproj", "{3E9BE2F1-F1EE-4118-B6DC-2D7C009279C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFM.DAL", "WFM.DAL\WFM.DAL.csproj", "{62E5528C-4244-488C-BADC-A9B71B99C15C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WFM.BAL", "WFM.BAL\WFM.BAL.csproj", "{C15A9776-79F3-472E-8EFA-6F0F552E8887}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Seeds", "Seeds", "{68067578-A2CD-4F46-96F9-43591418A094}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\galgo\Desktop\SQLQuery1.sql = C:\Users\galgo\Desktop\SQLQuery1.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

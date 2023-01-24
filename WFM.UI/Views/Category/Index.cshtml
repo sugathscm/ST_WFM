@@ -16,7 +16,7 @@
             "columns": [
                 { "data": "Name" },
                 { "data": "Description" },
-                { "data": "CategoryType" },
+                { "data": "CategoryType" },      
                 {
                     "data": "IsActive",
                     "render": function (data, type, full, meta) {
@@ -69,6 +69,38 @@
                             @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                            <label class="control-label" for="Size">Size</label>
+                            @Html.DropDownList("SizeId", new SelectList(ViewBag.SizeList, "Id", "Size1"), "Size", new { @class = "form-control selection" })
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                            <label class="control-label" for="Facia">Facia</label>
+                            @Html.DropDownList("FasiaId", new SelectList(ViewBag.FasiaList, "Id", "Facia"), "Facia", new { @class = "form-control selection" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                            <label class="control-label" for="Size">Framework</label>
+                            @Html.DropDownList("FrameworkId", new SelectList(ViewBag.FrameworkList, "Id", "Framework1"), "Framework", new { @class = "form-control selection" })
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                            <label class="control-label" for="Size">Illumination</label>
+                            @Html.DropDownList("IlluminationId", new SelectList(ViewBag.IlluminationList, "Id", "Name"), "Illumination", new { @class = "form-control selection" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                            <label class="control-label" for="Size">Lettering</label>
+                            @Html.DropDownList("LetteringId", new SelectList(ViewBag.LetteringList, "Id", "Lettering1"), "Lettering", new { @class = "form-control selection" })
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                            <label class="control-label" for="Size">Visibility</label>
+                            @Html.DropDownList("VisibilityId", new SelectList(ViewBag.VisibilityList, "Id", "Name"), "Visibility", new { @class = "form-control selection" })
+                        </div>
+                    </div>
                     <div class="form-row m-t-10">
                         <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
@@ -78,6 +110,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 mb-2 text-right">
                             <input type="submit" class="btn btn-success" value="Save" />
                         </div>
@@ -94,7 +127,7 @@
                             <thead>
                                 <tr>
                                     <th style="width:30%">Name</th>
-                                    <th style="width:40%">Description</th>
+                                    <th style="width:30%">Description</th>
                                     <th style="width:30%">Type</th>
                                     <th>Active</th>
                                     <th></th>

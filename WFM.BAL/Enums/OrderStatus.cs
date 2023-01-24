@@ -14,7 +14,7 @@ namespace WFM.BAL.Enums
         Ready_To_Invoice,
         Completed
     }
-    public enum Visibility
+    public enum EnumVisibility
     {
         [Display(Name = "Single Sided")]
         SingleSided = 1,

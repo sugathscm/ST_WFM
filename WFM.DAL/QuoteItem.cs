@@ -15,22 +15,22 @@ namespace WFM.DAL
     public partial class QuoteItem
     {
         public int Id { get; set; }
-        public Nullable<int> QuoteId { get; set; }
-        public Nullable<int> CategoryId { get; set; }
+        public int QuoteId { get; set; }
+        public int CategoryId { get; set; }
         public string Size { get; set; }
         public Nullable<double> Qty { get; set; }
         public Nullable<double> UnitCost { get; set; }
+        public Nullable<double> TotalCost { get; set; }
         public Nullable<double> VAT { get; set; }
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string CategoryType { get; set; }
         public string Installation { get; set; }
-        public string Visibility { get; set; }
         public Nullable<int> FrameworkWarrantyPeriod { get; set; }
         public Nullable<int> LetteringWarrantyPeriod { get; set; }
         public Nullable<int> IlluminationWarrantyPeriod { get; set; }
         public Nullable<int> VisibilityId { get; set; }
-        public string Illumination { get; set; }
+        public Nullable<int> IlluminationId { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Quote Quote { get; set; }

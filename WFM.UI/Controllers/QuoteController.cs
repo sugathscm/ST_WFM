@@ -77,26 +77,32 @@ namespace WFM.UI.Controllers
             var employeeList = employeeService.GetEmployeeList();
             var orderTypeList = orderTypeService.GetOrderTypeList();
             var quoteTermList = quoteTermService.GetQuoteTermList();
+            var qouteItemList = quoteService.GetQuoteById(id);
+            var VisibilityList = quoteService.GetVisibilityList();
+            var IlluminationList = quoteService.GetIlluminationList();
 
+            var WarrantyPeriodList = warrantyPeriodService.GetWarrantyPeriodList();
             ViewBag.QuoteTermList = quoteTermList;
             ViewBag.QuoteList = new SelectList(quoteList, "Id", "Code");
             ViewBag.ClientList = new SelectList(clientList, "Id", "Name");
             ViewBag.OrderTypeList = new SelectList(orderTypeList, "Id", "Name");
             ViewBag.ChanneledByList = new SelectList(employeeList, "Id", "Name");
+          
 
-            List<BaseViewModel> WarrantyPeriodList = new List<BaseViewModel>();
-            for (int i = 1; i < 10; i++)
-            {
-                WarrantyPeriodList.Add(new BaseViewModel() { Id = i, Name = i.ToString() });
-            }
+            //List<BaseViewModel> WarrantyPeriodList = new List<BaseViewModel>();
+            //for (int i = 1; i < 10; i++)
+            //{
+            //    WarrantyPeriodList.Add(new BaseViewModel() { Id = i, Name = i.ToString() });
+            //}
 
-            List<BaseViewModel> VisibilityList = new List<BaseViewModel>();
+            //List<BaseViewModel> VisibilityList = new List<BaseViewModel>();
 
-            VisibilityList.Add(new BaseViewModel() { Id = 1, Name = "Single Sided" });
-            VisibilityList.Add(new BaseViewModel() { Id = 2, Name = "Double Sided" });
+            //VisibilityList.Add(new BaseViewModel() { Id = 1, Name = "Single Sided" });
+            //VisibilityList.Add(new BaseViewModel() { Id = 2, Name = "Double Sided" });
 
             ViewBag.WarrantyPeriodList = WarrantyPeriodList;
             ViewBag.VisibilityList = VisibilityList;
+            ViewBag.IlluminationList = IlluminationList;
             ViewBag.CategoryList = categoryService.GetCategoryList();
             ViewBag.VATPercentage = WebConfigurationManager.AppSettings["WBU"];
 
@@ -180,6 +186,7 @@ namespace WFM.UI.Controllers
                 var qtyArray = formCollection["qtyArray"].Split(',');
                 var descriptionArray = formCollection["descriptionArray"].Split(',');
                 var costArray = formCollection["costArray"].Split(',');
+                var totcostArray = formCollection["totcostArray"].Split(',');
                 var vatArray = formCollection["vatArray"].Split(',');
                 var sizeArray = formCollection["sizeArray"].Split(',');
                 var categoryTypeArray = formCollection["categoryTypeArray"].Split(',');
@@ -204,7 +211,7 @@ namespace WFM.UI.Controllers
                         Year = DateTime.Now.Year.ToString(),
                         Month = DateTime.Now.Month.ToString("00"),
                         Version = 1,
-                        ChanneledBy = model.ChanneledBy,
+                        ChanneledById = model.ChanneledById,
                         Value = model.Value,
                         Comments = model.Comments,
                         CreatedDate = DateTime.Now,
@@ -243,7 +250,7 @@ namespace WFM.UI.Controllers
                     });
 
                     quote.ClientId = model.ClientId;
-                    quote.ChanneledBy = model.ChanneledBy;
+                    quote.ChanneledById = model.ChanneledById;
                     quote.Value = model.Value;
                     quote.Header = model.Header;
                     quote.Comments = model.Comments;
@@ -273,22 +280,30 @@ namespace WFM.UI.Controllers
                 quote.QuoteItems.Clear();
                 QuoteItem quoteItem = null;
 
+
                 foreach (var term in termsArray)
                 {
                     if (model.Id == 0)
                     {
-                        quote.QuoteTermDetails.Add(new QuoteTermDetail() { QuoteTermId = int.Parse(term) });
+                        if (term != "")
+                        {
+                            quote.QuoteTermDetails.Add(new QuoteTermDetail() { QuoteTermId = int.Parse(term) });
+                        }
                     }
                     else
                     {
-                        QuoteTermDetail quoteTermDetail =
+                        if (term != "")
+                        {
+
+                            QuoteTermDetail quoteTermDetail =
                             new QuoteTermDetail()
                             {
                                 QuoteTermId = int.Parse(term),
                                 QuoteId = model.Id
                             };
 
-                        quoteService.SaveOrUpdate(quoteTermDetail);
+                            quoteService.SaveOrUpdate(quoteTermDetail);
+                        }
                     }
                 }
 
@@ -302,15 +317,17 @@ namespace WFM.UI.Controllers
                             CategoryName = categoryService.GetCategoryById(int.Parse(item)).Name,
                             Qty = (qtyArray[i] == "") ? 0 : double.Parse(qtyArray[i]),
                             UnitCost = (costArray[i] == "") ? 0 : double.Parse(costArray[i]),
+                            TotalCost = (totcostArray[i] == "") ? 0 : double.Parse(totcostArray[i]),
                             VAT = (vatArray[i] == "") ? 0 : double.Parse(vatArray[i]),
                             Size = (sizeArray[i] == "") ? "" : sizeArray[i],
                             Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
                             Installation = (installationArray[i] == "") ? "" : installationArray[i],
                             CategoryType = (categoryTypeArray[i] == "") ? "" : categoryTypeArray[i],
-                            VisibilityId = int.Parse(visibilityArray[i]),
-                            FrameworkWarrantyPeriod = int.Parse(frameworkWarrantyPeriodArray[i]),
-                            LetteringWarrantyPeriod = int.Parse(letteringWarrantyPeriodArray[i]),
-                            IlluminationWarrantyPeriod = int.Parse(illuminationWarrantyPeriodArray[i]),
+                           
+                            VisibilityId = (visibilityArray[i] == "") ? 0 : int.Parse(visibilityArray[i]),
+                            FrameworkWarrantyPeriod = (frameworkWarrantyPeriodArray[i] == "") ? 0 : int.Parse(frameworkWarrantyPeriodArray[i]),
+                            LetteringWarrantyPeriod = (letteringWarrantyPeriodArray[i] == "") ? 0 : int.Parse(letteringWarrantyPeriodArray[i]),
+                            IlluminationWarrantyPeriod = (illuminationWarrantyPeriodArray[i] == "") ? 0 : int.Parse(illuminationWarrantyPeriodArray[i]),
                         };
 
                         quote.QuoteItems.Add(quoteItem);
@@ -323,15 +340,17 @@ namespace WFM.UI.Controllers
                             CategoryName = categoryService.GetCategoryById(int.Parse(item)).Name,
                             Qty = (qtyArray[i] == "") ? 0 : double.Parse(qtyArray[i]),
                             UnitCost = (costArray[i] == "") ? 0 : double.Parse(costArray[i]),
+                            TotalCost = (totcostArray[i] == "") ? 0 : double.Parse(totcostArray[i]),
                             VAT = (vatArray[i] == "") ? 0 : double.Parse(vatArray[i]),
                             Size = (sizeArray[i] == "") ? "" : sizeArray[i],
                             Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
                             Installation = (installationArray[i] == "") ? "" : installationArray[i],
                             CategoryType = (categoryTypeArray[i] == "") ? "" : categoryTypeArray[i],
-                            VisibilityId = int.Parse(visibilityArray[i]),
-                            FrameworkWarrantyPeriod = int.Parse(frameworkWarrantyPeriodArray[i]),
-                            LetteringWarrantyPeriod = int.Parse(letteringWarrantyPeriodArray[i]),
-                            IlluminationWarrantyPeriod = int.Parse(illuminationWarrantyPeriodArray[i]),
+
+                            VisibilityId = (visibilityArray[i] == "") ? 0 : int.Parse(visibilityArray[i]),
+                            FrameworkWarrantyPeriod = (frameworkWarrantyPeriodArray[i] == "") ? 0 : int.Parse(frameworkWarrantyPeriodArray[i]),
+                            LetteringWarrantyPeriod = (letteringWarrantyPeriodArray[i] == "") ? 0 : int.Parse(letteringWarrantyPeriodArray[i]),
+                            IlluminationWarrantyPeriod = (illuminationWarrantyPeriodArray[i] == "") ? 0 : int.Parse(illuminationWarrantyPeriodArray[i]),
                             QuoteId = model.Id
                         };
 

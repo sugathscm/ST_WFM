@@ -41,6 +41,29 @@ namespace WFM.UI.Controllers
         // GET: Category
         public ActionResult Index(int? id)
         {
+            IlluminationService illuminationService = new IlluminationService();
+            SizeService sizeService = new SizeService();
+            FrameworkService frameworkService = new FrameworkService();
+            LetteringService letteringService = new LetteringService();
+            VisibilityService visibilityService = new VisibilityService();
+            FasiaService fasiaService = new FasiaService(); 
+
+            var IlluminationList = illuminationService.GetIlluminationList();
+            var SizeList=sizeService.GetSizeList();
+            var FrameworkList=frameworkService.GetFrameworkList();
+            var LetteringList=letteringService.GetLetteringList();
+            var VisibilityList=visibilityService.GetVisibilityList();   
+            var FasiaList = fasiaService.GetFasiaList();
+          
+            ViewBag.IlluminationList = IlluminationList;
+            ViewBag.SizeList = SizeList;
+            ViewBag.FrameworkList = FrameworkList;
+            ViewBag.LetteringList = LetteringList;  
+            ViewBag.VisibilityList = VisibilityList;    
+            ViewBag.FasiaList = FasiaList;
+
+
+
             Category Category = new Category();
             if (id != null)
             {
@@ -62,7 +85,9 @@ namespace WFM.UI.Controllers
                     IsActive = item.IsActive,
                     Name = item.Name,
                     Description = item.Description,
-                    CategoryType = item.CategoryType
+                    CategoryType = item.CategoryType,
+                    
+                    
                 });
             }
 
@@ -88,7 +113,14 @@ namespace WFM.UI.Controllers
                         Name = model.Name,
                         Description = model.Description,
                         IsActive = true,
-                        CategoryType = model.CategoryType
+                        CategoryType = model.CategoryType,
+                       SizeId = model.SizeId,
+                       FrameworkId = model.FrameworkId,
+                       IlluminationId = model.IlluminationId,
+                       LetteringId = model.LetteringId,
+                       VisibilityId = model.VisibilityId,
+                       FasiaId = model.FasiaId,
+
                     };
 
                     oldCategory = new Category();
@@ -106,12 +138,25 @@ namespace WFM.UI.Controllers
                         Name = oldCategory.Name,
                         Description = oldCategory.Description,
                         IsActive = oldCategory.IsActive,
-                        CategoryType = oldCategory.CategoryType
+                        CategoryType = oldCategory.CategoryType,
+                        SizeId = model.SizeId,
+                        FrameworkId = model.FrameworkId,
+                        IlluminationId = model.IlluminationId,
+                        LetteringId = model.LetteringId,
+                        VisibilityId = model.VisibilityId,
+                        FasiaId = model.FasiaId,
                     });
 
                     category.Name = model.Name;
                     category.Description = model.Description;
                     category.CategoryType = model.CategoryType;
+                    category.SizeId = model.SizeId;
+                    category.FrameworkId = model.FrameworkId;
+                    category.IlluminationId = model.IlluminationId;
+                    category.LetteringId = model.LetteringId;
+                    category.VisibilityId = model.VisibilityId;
+                    category.FasiaId = model.FasiaId;
+
                     bool Example = Convert.ToBoolean(Request.Form["IsActive.Value"]);
                     category.IsActive = model.IsActive;
 
@@ -120,7 +165,13 @@ namespace WFM.UI.Controllers
                         Id = category.Id,
                         Name = category.Name,
                         Description = model.Description,
-                        IsActive = category.IsActive
+                        IsActive = category.IsActive,
+                        SizeId = model.SizeId,
+                        FrameworkId = model.FrameworkId,
+                        IlluminationId = model.IlluminationId,
+                        LetteringId = model.LetteringId,
+                        VisibilityId = model.VisibilityId,
+                        FasiaId = model.FasiaId,
                     });
                 }
 

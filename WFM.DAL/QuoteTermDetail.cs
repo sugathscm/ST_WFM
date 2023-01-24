@@ -18,7 +18,7 @@ namespace WFM.DAL
         public int QuoteId { get; set; }
         public int QuoteTermId { get; set; }
     
-        public virtual Quote Quote { get; set; }
         public virtual QuoteTerm QuoteTerm { get; set; }
+        public virtual Quote Quote { get; set; }
     }
 }

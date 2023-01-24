@@ -1,4 +1,4 @@
-﻿@model WFM.DAL.Quote
+﻿@model WFM.DAL.Order
 
 @{
     ViewBag.Title = "Order";
@@ -10,6 +10,12 @@
     @@media screen {
         #printSection {
             display: none;
+        }
+    }
+
+    @@media (min-width: 992px) {
+        .modal-dialog {
+            max-width: 60%;
         }
     }
 
@@ -27,6 +33,23 @@
             left: 10px;
             top: 0;
         }
+    }
+
+    table.report-container {
+        page-break-after: always;
+    }
+
+    thead.report-header {
+        display: table-header-group;
+    }
+
+    tfoot.report-footer {
+        display: table-footer-group;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto
     }
 </style>
 
@@ -48,8 +71,9 @@
                                 <th>Code</th>
                                 <th>Client</th>
                                 <th>Header</th>
-                                <th>Value</th>
-                                <th>Created Date (DD/MM/YYYY)</th>
+                                <th>Created Date (MM/DD/YYYY)</th>
+                                <th>Month</th>
+                                <th>Channeled By</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -139,10 +163,11 @@
             },
             "columns": [
                 { "data": "Code", "width": "10%" },
-                { "data": "ClientName", "width": "30%" },
-                { "data": "Header", "width": "20%" },
-                { "data": "Value", "width": "10%" },
-                { "data": "CreatedDateString", "width": "20%" },
+                { "data": "ClientName", "width": "20%" },
+                { "data": "Header", "width": "20%" },                
+                { "data": "CreatedDateString", "width": "15%" },
+                { "data": "Month", "width": "5%" },
+                { "data": "ChanneledBy", "width": "20%" },
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
@@ -154,7 +179,7 @@
                     "render": function (data, type, full, meta) {
                         return '<a class="btn btn-info btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>';
                     }
-                },
+                }
             ]
         });
 

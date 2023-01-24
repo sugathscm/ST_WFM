@@ -11,7 +11,7 @@ namespace WFM.BAL.Services
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                return entities.WarrantyPeriods.OrderBy(d => d.Name).ToList();
+                return entities.WarrantyPeriods.OrderBy(d => d.Duration).ToList();
             }
         }
 

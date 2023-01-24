@@ -2,7 +2,7 @@
 @using WFM.DAL
 @{
 
-    ViewBag.Title = "Quote Details";
+    ViewBag.Title = "Order Details";
 }
 
 <div class="dashboard-ecommerce">
@@ -16,26 +16,41 @@
         <!-- ============================================================== -->
         <div class="border border-primary bg-actual-white">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
-                @using (Html.BeginForm("SaveOrUpdate", "Order", FormMethod.Post, new { @class = "needs-validation", role = "form", enctype = "multipart/form-data", onsubmit = "return readValues();" }))
+                @using (Html.BeginForm("SaveOrUpdate", "Order", FormMethod.Post, new { id = "OrderForm", @class = "needs-validation", role = "form", enctype = "multipart/form-data", onsubmit = "return readValues();" }))
                 {
                     @*<form class="needs-validation" novalidate="">*@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary("", new { @class = "valFailure" })
                     @Html.HiddenFor(m => m.Id, new { @name = "Id" })
                     <input type="hidden" name="productIdArray" value="" id="productIdArray" />
-                    <input type="hidden" name="qtyArray" value="" id="qtyArray" />
+                    <input type="hidden" name="itmqtyArray" value="" id="itmqtyArray" />
                     <input type="hidden" name="descriptionArray" value="" id="descriptionArray" />
-                    <input type="hidden" name="costArray" value="" id="costArray" />
+                    <input type="hidden" name="SpecialInstructionsArray" value="" id="SpecialInstructionsArray" />
+                    <input type="hidden" name="installationArray" value="" id="installationArray" />
+                    <input type="hidden" name="channeledByArray" value="" id="channeledByArray" />
+                    <input type="hidden" name="itmcostArray" value="" id="itmcostArray" />
+                    <input type="hidden" name="itmtotCostArray" value="" id="itmtotCostArray" />
                     <input type="hidden" name="vatArray" value="" id="vatArray" />
                     <input type="hidden" name="sizeArray" value="" id="sizeArray" />
                     <input type="hidden" name="VATPercentage" value="@ViewBag.VATPercentage" id="VATPercentage" />
-
+                    <input type="hidden" name="chargeItemArray" value="" id="chargeItemArray" />
+                    <input type="hidden" name="chargeCostArray" value="" id="chargeCostArray" />
+                    <input type="hidden" name="chargeTotalCostArray" value="" id="chargeTotalCostArray" />
+                    <input type="hidden" name="chargeQtyArray" value="" id="chargeQtyArray" />
+                    <input type="hidden" name="visibilityArray" value="" id="visibilityArray" />
+                    <input type="hidden" name="illuminationArray" value="" id="illuminationArray" />
+                    <input type="hidden" name="frameworkWarrantyArray" value="" id="frameworkWarrantyArray" />
+                    <input type="hidden" name="letteringWarrantyArray" value="" id="letteringWarrantyArray" />
+                    <input type="hidden" name="illuminationWarrantyArray" value="" id="illuminationWarrantyArray" />
+                    <input type="hidden" name="item-count" value="1" id="item-count" />
+                    <input type="hidden" name="charge-count" value="1" id="charge-count" />
+                    <input type="hidden" name="OrdtotCost" value="" id="OrdtotCost" />
 
 
 
                     <ul id="tabstrip" class="nav nav-pills nav-justified " role="tablist">
-                        <li class="nav-item ">
-                            <a class="nav-link " href="#_FirstTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Order</b></a>
+                        <li class="nav-item active  ">
+                            <a class="nav-link" href="#_FirstTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Order</b></a>
 
                         </li>
 
@@ -46,7 +61,7 @@
 
                         <li class="nav-item">
 
-                            <a class="nav-link" href="#_ThirdTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Payment</b></a>
+                            <a class="nav-link" id="product" href="#_ThirdTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Payment</b></a>
                         </li>
 
 
@@ -56,12 +71,9 @@
 
 
                         @*---------------FIRSTTAB-------------*@
-                        <div class="tab-pane fade" id="_FirstTab">
+                        <div class="tab-pane active" id="_FirstTab">
                             <div class="form-row">
-                                @*<div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2">
-                                        <label class="control-label" for="BaseQuoteId">Base Quote</label>
-                                        @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })
-                                    </div>*@
+
                                 <div class="col-xl-1 col-lg-2 col-md-6 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="OrderTypeId">Type</label>
                                     @Html.DropDownList("OrderTypeId", (SelectList)ViewBag.OrderTypeList, "Select Type", new { @class = "form-control order-type" })
@@ -74,17 +86,20 @@
                                 <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="CreatedDate">Created Date</label>
                                     @Html.TextBoxFor(m => m.CreatedDate, new { @class = "form-control", @disabled = "disabled" })
+                                    @Html.ValidationMessageFor(m => m.CreatedDate)
                                 </div>
 
                                 <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2 m-t-5">
                                     <label class="control-label" for="ChanneledBy">Channeled By</label>
-                                    @Html.DropDownList("ChanneledBy", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control selection" })
+                                    @* @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Lettering", new { @class = "form-control selection" })*@
+                                    @Html.DropDownList("ChanneledById", (SelectList)ViewBag.ChanneledByList, "Select Channeled By", new { @class = "form-control selection" })
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="Client"><b>Client</b></label>
                                     @Html.DropDownList("ClientId", (SelectList)ViewBag.ClientList, "Select Client", new { @class = "form-control selection" })
+                                    @Html.ValidationMessageFor(model => model.ClientId)
                                 </div>
                                 <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="Client">&nbsp;</label><br />
@@ -94,36 +109,40 @@
                                 </div>
 
                                 @*<div  class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5 ">
-                                        <label class="control-label" for="Contact No.">Delivery Date</label>
-                                        @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "form-control" })
-                                    </div>*@
+                            <label class="control-label" for="Contact No.">Delivery Date</label>
+                            @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "form-control" })
+                        </div>*@
 
 
 
                             </div>
                             <div class="form-row">
                                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 m-t-5 ">
-                                    <label class="control-label" for="Contact Person">Contact Person</label>
+                                    <label class="control-label" for="ContactPerson">Contact Person</label>
                                     @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control" })
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
-                                    <label class="control-label" for="Contact No.">Contact No.</label>
+                                    <label class="control-label" for="ContactMobile">Contact No.</label>
                                     @Html.TextBoxFor(m => m.ContactMobile, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="Client"><b>Delivery</b></label>
-                                    @Html.DropDownList("ClientId", (SelectList)ViewBag.ClientList, "Delivery option", new { @class = "form-control selection" })
+                                    @Html.DropDownList("DeliveryTypeId", (SelectList)ViewBag.DeliveryTypeList, "Delivery option", new { @class = "form-control selection" })
                                 </div>
 
-                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
-                                    <label class="control-label" for="Contact No.">Delivery Date</label>
-                                    @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "form-control" })
-                                </div>
+
                                 <div class="col-xl-2 col-lg-3 col-md-12 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="Contact Person">Location</label>
                                     @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                                </div>
+                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
+
+                                    <label class="control-label" for="DeliveryDate">Delivery Date</label>
+
+                                    @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "datepicker" })
+
                                 </div>
                             </div>
 
@@ -131,41 +150,42 @@
                             <div class="form-row">
                                 <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="BaseQuoteId">Quote Number</label>
-                                    @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "", new { @class = "form-control" })
+                                    @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Quote Number", new { @class = "form-control" })
                                 </div>
                                 <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
-                                    <label class="control-label" for="BaseQuoteId">VAT Number</label>
-                                    <input type="text" id="VAT" placeholder="VAT" class="form-control " />
+                                    <label class="control-label" for="VATNo">VAT Number</label>
+                                    @Html.TextBoxFor(m => m.VATNo, new { @class = "form-control" })
+
                                 </div>
 
                                 <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="Designer">Designer</label>
-                                    <input type="text" id="Designer" placeholder="Designer" class="form-control " />
+                                    @Html.TextBoxFor(m => m.Designer, new { @class = "form-control" })
                                 </div>
 
                             </div>
-                            <div class="form-row">
-                                <div class="col-xl-10 col-lg-3 col-md-12 col-sm-12 col-12 m-t-5">
-                                    <label class="control-label" for="Contact No.">Remarks</label>
-                                    @Html.TextBoxFor(m => m.Comments, new { @class = "form-control" })
-                                </div>
+                            @*<div class="form-row">
+                        <div class="col-xl-10 col-lg-3 col-md-12 col-sm-12 col-12 m-t-5">
+                            <label class="control-label" for="Comments">Remarks</label>
+                            @Html.TextBoxFor(m => m.Comments, new { @class = "form-control" })
+                        </div>
 
 
 
-                            </div>
+                    </div>*@
                             <br />
                             <div class="form-row">
                                 <div class="m-t-5">
                                     <h5>Client Purchase Order</h5>
 
-                                    <input type="file" id="ClientPurchaseOrder" name="filename">
-                                    <input type="submit">
+                                    <input type="file" id=@Model.PurchaseOrder name="filename">
+
                                 </div>
                                 <div style="padding-left:2%" class="m-t-5">
                                     <h5>Artwork</h5>
 
-                                    <input type="file" id="Artwork" name="filename">
-                                    <input type="submit">
+                                    <input type="file" id=@Model.ArtWork name="filename" multiple>
+
                                 </div>
 
                             </div>
@@ -176,52 +196,41 @@
                         @*---------------SecondTAB---------------*@
                         <div class="tab-pane fade" id="_SecondTab">
                             <div id="items" class="m-t-10 m-b-10">
-                                <div id="items-header" class="m-t-10 m-b-10">
-                                    <div class="form-row m-t-10 m-b-10" id="header-row">
 
-                                        @*<div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                    <label class="control-label" for="Value"><b>Framework</b></label>
-                    @Html.DropDownList("FrameworkWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
-                </div>
-                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                    <label class="control-label" for="Value"><b>Lettering</b></label>
-                    @Html.DropDownList("LetteringWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
-                </div>
-                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                    <label class="control-label" for="Value"><b>Illumination</b></label>
-                    @Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
-                </div>*@
-                                    </div>
-                                </div>
                                 @if (Model.OrderItems.Count > 0)
                                 {
+
                                     foreach (var quoteItem in Model.OrderItems)
                                     {
                                         <div class="form-row item m-t-10 m-b-20" id="item-row">
                                             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="product">
-                                                @Html.DropDownListFor(m => quoteItem.CategoryId, new SelectList(ViewBag.CategoryList, "Id", "Name", quoteItem.CategoryId.Value), "Product ", new { @class = "form-control" })
+                                                <label class="control-label" for="product"><b>Product</b></label>
+                                                @Html.DropDownListFor(m => quoteItem.CategoryId, new SelectList(ViewBag.CategoryList, "Id", "Name", quoteItem.CategoryId), "Product", new { @class = "form-control" })
                                             </div>
 
-
-
-
                                             <div class="col-md-1 m-t-5">
+                                                <label class="control-label" for="Size"><b>Size</b></label>
                                                 <input type="text" id="Size" placeholder="Size" class="form-control" value="@quoteItem.Size" />
                                             </div>
                                             <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                                <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" value="@quoteItem.Qty" />
+                                                <label class="control-label" for="itmQty"><b>Qty</b></label>
+                                                <input type="text" id="itmQty" placeholder="Qty." class="form-control text-right" value="@quoteItem.Qty" />
                                             </div>
                                             <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                                <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" value="@quoteItem.UnitCost.Value.ToString("##0.00")" />
+                                                <label class="control-label" for="itmCost"><b>Cost</b></label>
+                                                <input type="text" id="itmCost" placeholder="Cost" class="form-control text-right" value="@quoteItem.UnitCost" />
                                             </div>
                                             <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                                <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" value="@((quoteItem.UnitCost.Value * quoteItem.Qty.Value).ToString("##0.00"))" />
+                                                <label class="control-label" for="TotalCost"><b>Total Cost</b></label>
+                                                <input type="text" id="itmTotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" value="@quoteItem.TotalCost" />
                                             </div>
                                             <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                                <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" value="@quoteItem.VAT.Value.ToString("##0.00")" />
+                                                <label class="control-label" for="VAT"><b>VAT</b></label>
+                                                <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" value="@quoteItem.VAT" />
                                             </div>
                                             <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
-                                                <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" value="@(((quoteItem.UnitCost.Value * quoteItem.Qty.Value) + quoteItem.VAT.Value).ToString("##0.00"))" />
+                                                <label class="control-label" for="TotalCostVAT"><b>Total Cost with VAT</b></label>
+                                                <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" value="@(((quoteItem.UnitCost * quoteItem.Qty) + quoteItem.VAT)?.ToString("##0.00"))" />
                                             </div>
                                             <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
                                                 <label class="control-label" for="Value"><b>Visibility</b></label>
@@ -229,79 +238,56 @@
                                             </div>
                                             <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
                                                 <label class="control-label" for="Value"><b>Illumination</b></label>
-                                                @Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Illumination", new { @class = "form-control selection" })
+                                                @*@Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Illumination", new { @class = "form-control selection" })*@
+
+                                                @Html.DropDownList("quoteItem_Illumination", new SelectList(ViewBag.IlluminationList, "Id", "Name", quoteItem.IlluminationId), "Illumination", new { @class = "form-control selection" })
+
                                             </div>
                                             <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
                                                 <label class="control-label" for="Value"><b>Framework</b></label>
-                                                @Html.DropDownList("FrameworkWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                                                @Html.DropDownListFor(m => quoteItem.FrameworkWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.FrameworkWarrantyPeriod), "Framework Warranty ", new { @class = "form-control" })
+                                                @*@Html.DropDownList("FrameworkWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
                                             </div>
                                             <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
                                                 <label class="control-label" for="Value"><b>Lettering</b></label>
-                                                @Html.DropDownList("LetteringWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                                                @*@Html.DropDownList("LetteringWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
+                                                @Html.DropDownListFor(m => quoteItem.LetteringWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.LetteringWarrantyPeriod), "Lettering Warranty ", new { @class = "form-control" })
                                             </div>
                                             <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
                                                 <label class="control-label" for="Value"><b>Illumination</b></label>
-                                                @Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                                                @*@Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
+
+                                                @Html.DropDownListFor(m => quoteItem.IlluminationWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.IlluminationWarrantyPeriod), "Illumination Warranty ", new { @class = "form-control" })
                                             </div>
-
-
-
-
                                             <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Description"><b>Description</b></label>
                                                 <input type="text" placeholder="Description" class="form-control" id="Description" value="@quoteItem.Description" />
                                             </div>
                                             <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-                                                <input type="text" placeholder="Special Instructions" class="form-control" id="SpecialInstructions" />
+                                                <label class="control-label" for="SpecialInstructions"><b>Special Instructions</b></label>
+                                                <input type="text" placeholder="Special Instructions" class="form-control" id="SpecialInstructions" value="@quoteItem.SpecialInstruction" />
                                             </div>
                                             <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Installation"><b>Installation</b></label>
                                                 <input type="text" placeholder="Installation" class="form-control" id="Installation" value="@quoteItem.Installation" />
-                                            </div>
-                                            @*DEPARTMENT*@
-                                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-                                                <label class="control-label" for="Value"><b>Department</b></label>
-                                                <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-
-                                                    <input type="checkbox" id="PrintingDepartment" value="True">
-                                                    <label for="PrintingDepartment"> Printing Department</label><br>
-
-                                                    <input type="checkbox" id="CuttingDepartment" name="CuttingDepartment" value="True">
-                                                    <label for="CuttingDepartment"> Cutting Department</label><br>
-
-                                                    <input type="checkbox" id="PlasticDepartment" name="PlasticDepartment" value="True">
-                                                    <label for="PlasticDepartment"> Plastic Department</label><br>
-
-                                                    <input type="checkbox" id="Claddingsection" name="Claddingsection" value="True">
-                                                    <label for="Claddingsection"> Cladding section</label><br>
-
-                                                    <input type="checkbox" id="ArtDepartment" name="ArtDepartment" value="True">
-                                                    <label for="ArtDepartment"> Art  Department</label><br>
-
-
-                                                    <input type="checkbox" id="steelDepartment" name="steelDepartment" value="True">
-                                                    <label for="steelDepartment"> S/steel Department</label><br>
-
-                                                    <input type="checkbox" id="ScreenPrintingDept" name="ScreenPrintingDept" value="True">
-                                                    <label for="ScreenPrintingDept"> Screen Printing Dept</label><br>
-
-                                                    <input type="checkbox" id="ProductionDepartment" name="ProductionDepartment" value="True">
-                                                    <label for="ProductionDepartment"> Production Department</label><br>
-
-                                                    <input type="checkbox" id="PackingDepartment" name="PackingDepartment" value="True">
-                                                    <label for="PackingDepartment"> Packing Department</label><br>
-
-                                                    <input type="checkbox" id="InstallationTeam" name="InstallationTeam" value="True">
-                                                    <label for="InstallationTeam"> Installation Team</label><br>
-                                                </div>
-
                                             </div>
                                             <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
                                                 <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
                                             </div>
                                         </div>
+
+                                        <br /> <br />
+
+
                                     }
+
+
+
+
                                 }
                                 else
                                 {
+
                                     <div class="form-row item m-t-10 m-b-20" id="item-row">
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="product">
                                             <label class="control-label" for="product"><b>Product</b></label>
@@ -315,16 +301,16 @@
                                             <input type="text" id="Size" placeholder="Size" class="form-control" />
                                         </div>
                                         <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                            <label class="control-label" for="Qty"><b>Qty</b></label>
-                                            <input type="text" id="Qty" placeholder="Qty." class="form-control " />
+                                            <label class="control-label" for="itmQty"><b>Qty</b></label>
+                                            <input type="text" id="itmQty" placeholder="Qty." class="form-control " />
                                         </div>
                                         <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                            <label class="control-label" for="Cost"><b>Cost</b></label>
-                                            <input type="text" id="Cost" placeholder="Cost" class="form-control " />
+                                            <label class="control-label" for="itmCost"><b>Cost</b></label>
+                                            <input type="text" id="itmCost" placeholder="Cost" onblur="CalTotalCost()" class="form-control " />
                                         </div>
                                         <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                            <label class="control-label" for="TotalCost"><b>Total Cost</b></label>
-                                            <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control " />
+                                            <label class="control-label" for="itmTotalCost"><b>Total Cost</b></label>
+                                            <input type="text" id="itmTotalCost" placeholder="Total Cost" class="form-control " readonly="readonly" />
                                         </div>
                                         <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
                                             <label class="control-label" for="VAT"><b>VAT</b></label>
@@ -332,7 +318,7 @@
                                         </div>
                                         <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
                                             <label class="control-label" for="TotalCostVAT"><b>Total Cost with VAT</b></label>
-                                            <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control" />
+                                            <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control" readonly="readonly" />
                                         </div>
                                         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Value"><b>Visibility</b></label>
@@ -340,7 +326,7 @@
                                         </div>
                                         <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Value"><b>Illumination</b></label>
-                                            @Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Illumination", new { @class = "form-control selection" })
+                                            @Html.DropDownList("quoteItem_Illumination", new SelectList(ViewBag.IlluminationList, "Id", "Name"), "Illumination", new { @class = "form-control selection" })
                                         </div>
 
 
@@ -362,16 +348,19 @@
                                         <br />
 
                                         <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                            <label class="control-label" for="Value"><b>Framework</b></label>
-                                            @Html.DropDownList("FrameworkWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                                            <label class="control-label" for="Value"><b>Framework Warranty</b></label>
+                                            @* @Html.DropDownList("IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", "Illumination", new { @class = "form-control selection" }))*@
+                                            @Html.DropDownList("quoteItem_FrameworkWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Framework", new { @class = "form-control selection" })
+
                                         </div>
                                         <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                            <label class="control-label" for="Value"><b>Lettering</b></label>
-                                            @Html.DropDownList("LetteringWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                                            <label class="control-label" for="Value"><b>Lettering Warranty</b></label>
+                                            @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Lettering", new { @class = "form-control selection" })
+
                                         </div>
                                         <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                            <label class="control-label" for="Value"><b>Illumination</b></label>
-                                            @Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })
+                                            <label class="control-label" for="Value"><b>Illumination Warranty</b></label>
+                                            @Html.DropDownList("quoteItem_IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Illumination", new { @class = "form-control selection" })
                                         </div>
 
                                         <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
@@ -379,108 +368,166 @@
 
                                             <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
                                         </div>
-
+                                        <br /> <br />
 
                                     </div>
 
-                                    <div>
-                                        <input type='button' id='add' value='+ Add item' class="btn btn-primary btn-xs" />
-                                    </div>
+
                                 }
-                                       
-                                @*DEPARTMENT*@
+                            </div>
+                            <div>
+                                <input type='button' id='add' value='+ Add item' class="btn btn-primary btn-xs" />
+                            </div>
+
+                            @*DEPARTMENT*@
+                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                <label class="control-label" for="Value"><b>Department</b></label>
                                 <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-                                    <label class="control-label" for="Value"><b>Department</b></label>
-                                    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
 
-                                        <input type="checkbox" id="PrintingDepartment" value="True">
-                                        <label for="PrintingDepartment"> Printing Department</label><br>
-
-                                        <input type="checkbox" id="CuttingDepartment" name="CuttingDepartment" value="True">
-                                        <label for="CuttingDepartment"> Cutting Department</label><br>
-
-                                        <input type="checkbox" id="PlasticDepartment" name="PlasticDepartment" value="True">
-                                        <label for="PlasticDepartment"> Plastic Department</label><br>
-
-                                        <input type="checkbox" id="Claddingsection" name="Claddingsection" value="True">
-                                        <label for="Claddingsection"> Cladding section</label><br>
-
-                                        <input type="checkbox" id="ArtDepartment" name="ArtDepartment" value="True">
-                                        <label for="ArtDepartment"> Art  Department</label><br>
+                                    @Html.CheckBoxFor(m => m.IsPrintingDepartment)
+                                    <label for="PrintingDepartment"> Printing Department</label><br>
 
 
-                                        <input type="checkbox" id="steelDepartment" name="steelDepartment" value="True">
-                                        <label for="steelDepartment"> S/steel Department</label><br>
+                                    @Html.CheckBoxFor(m => m.IsCuttingDepartment)
+                                    <label for="CuttingDepartment"> Cutting Department</label><br>
 
-                                        <input type="checkbox" id="ScreenPrintingDept" name="ScreenPrintingDept" value="True">
-                                        <label for="ScreenPrintingDept"> Screen Printing Dept</label><br>
+                                    @Html.CheckBoxFor(m => m.IsPlasticDepartment)
+                                    <label for="PlasticDepartment"> Plastic Department</label><br>
 
-                                        <input type="checkbox" id="ProductionDepartment" name="ProductionDepartment" value="True">
-                                        <label for="ProductionDepartment"> Production Department</label><br>
+                                    @Html.CheckBoxFor(m => m.IsCladdingsection)
+                                    <label for="Claddingsection"> Cladding section</label><br>
 
-                                        <input type="checkbox" id="PackingDepartment" name="PackingDepartment" value="True">
-                                        <label for="PackingDepartment"> Packing Department</label><br>
 
-                                        <input type="checkbox" id="InstallationTeam" name="InstallationTeam" value="True">
-                                        <label for="InstallationTeam"> Installation Team</label><br>
-                                    </div>
+                                    @Html.CheckBoxFor(m => m.IsArtDepartment)
+                                    <label for="ArtDepartment"> Art  Department</label><br>
 
+
+                                    @Html.CheckBoxFor(m => m.IsSteelDepartment)
+                                    <label for="steelDepartment"> Steel Department</label><br>
+
+                                    @Html.CheckBoxFor(m => m.IsScreenPrintingDept)
+                                    <label for="ScreenPrintingDept"> Screen Printing Dept</label><br>
+
+                                    @Html.CheckBoxFor(m => m.IsProductionDepartment)
+                                    <label for="ProductionDepartment"> Production Department</label><br>
+
+                                    @Html.CheckBoxFor(m => m.IsPackingDepartment)
+                                    <label for="PackingDepartment"> Packing Department</label><br>
+
+                                    @Html.CheckBoxFor(m => m.IsInstallationTeam)
+                                    <label for="InstallationTeam"> Installation Team</label><br>
                                 </div>
 
                             </div>
+
+
                         </div>
 
                         @*---------------THIRDTAB---------------*@
                         <div class="tab-pane fade" id="_ThirdTab">
 
-                            <div class="form-row">
-                                <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                    <label class="control-label" for="Item"><b>Item</b></label>
-                                    <input type="text" id="Item" placeholder="Item" class="form-control " />
-                                </div>
+                            @*<div class="form-row">
 
-                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                    <label class="control-label" for="Qty"><b>Qty</b></label>
-                                    <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" />
-                                </div>
-                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                    <label class="control-label" for="Cost"><b>Cost</b></label>
-                                    <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" />
-                                </div>
-                                <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                    <label class="control-label" for="TotalCost"><b>Total Cost</b></label>
-                                    <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" />
-                                </div>
+                        <h6 class="control-label" for="sumItem"><b>Item</b></h6>
 
+
+                        <h6 class="control-label" for="sumQty"><b>Qty</b></h6>
+
+
+                        <h6 class="control-label" for="sumCost"><b>Cost</b></h6>
+
+                        <hh63 class="control-label" for="sumTotalCost"><b>Total Cost</b></hh63>
+
+
+                    </div>>*@
+                            <div class="" id="summerydiv">
+                                <table class="table table-bordered" id="summerytble">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size: medium; color:black ">Item</th>
+                                            <th style="font-size: medium; color:black ">Quantity</th>
+                                            <th style="font-size: medium; color:black ">Cost</th>
+                                            <th style="font-size: medium; color:black ">Total Cost</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sumtdata" style="font:bolder; color:blue ">
+                                    </tbody>
+                                </table>
+                            </div>
+                            @*<div class="form-row summary">
+                            <div class="flex-column summerysection" id="summerysection">
 
                             </div>
-                            <div class="form-row">
-                                <div class="col-xl-2 col-lg-1 col-md-1 m-t-5" id="a">
-                                    <label class="control-label" for="Text1"><b>Additional charge</b></label>
-                                    <input type="text" id="Text1" placeholder="Additional charge" class="form-control" />
-                                </div>
-                                <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                    <label class="control-label" for="Item"><b>Item</b></label>
-                                    <input type="text" id="Item" placeholder="Item" class="form-control " />
-                                </div>
+                    </div>*@
 
-                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                    <label class="control-label" for="Qty"><b>Qty</b></label>
-                                    <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" />
+
+                            @*<div class="form-row addcharge">*@
+
+                            @if (Model.AdditionalCharges.Count > 0)
+                            {
+                                foreach (var adcharge in Model.AdditionalCharges)
+                                {<div class="form-row addcharge">
+                                        <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                            <label class="control-label" for="adchrItem"><b>Additional charge</b></label>
+                                            <input type="text" id="adchrItem" placeholder="Additional charge" value="@adcharge.AddCharge" class="form-control " />
+                                        </div>
+
+                                        <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                            <label class="control-label" for="adchrQty"><b>Qty</b></label>
+                                            <input type="text" id="adchrQty" placeholder="Qty." value="@adcharge.Qty" class="form-control text-right" />
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 m-t-5" id="a">
+                                            <label class="control-label" for="adchrCost"><b>Cost</b></label>
+                                            <input type="text" id="adchrCost" placeholder="Cost" value="@adcharge.Cost" class="form-control" />
+                                        </div>
+                                        <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                            <label class="control-label" for="adchrTotalCost"><b>Total Cost</b></label>
+                                            <input type="text" id="adchrTotalCost" placeholder="Total Cost" value="@adcharge.TotalCost" class="form-control text-right" readonly="readonly" />
+                                        </div>
+                                        <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                            <br />
+                                            <input type='button' id='removechrg' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeCharge(this);" />
+                                        </div>
+
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="form-row addcharge">
+                                    <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                        <label class="control-label" for="adchrItem"><b>Additional charge</b></label>
+                                        <input type="text" id="adchrItem" placeholder="Additional charge" class="form-control " />
+                                    </div>
+
+                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                        <label class="control-label" for="adchrQty"><b>Qty</b></label>
+                                        <input type="text" id="adchrQty" placeholder="Qty." class="form-control text-right" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5" id="a">
+                                        <label class="control-label" for="adchrCost"><b>Cost</b></label>
+                                        <input type="text" id="adchrCost" placeholder="Cost" onblur="CalAddTotalCost()" class="form-control" />
+                                    </div>
+                                    <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                        <label class="control-label" for="adchrTotalCost"><b>Total Cost</b></label>
+                                        <input type="text" id="adchrTotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" />
+                                    </div>
+                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                        <br />
+                                        <input type='button' id='removechrg' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeCharge(this);" />
+                                    </div>
                                 </div>
-                                <div class="col-xl-1 col-lg-1 col-md-1 m-t-5" id="a">
-                                    <label class="control-label" for="Text1"><b>Cost</b></label>
-                                    <input type="text" id="Text1" placeholder="" class="form-control" />
-                                </div>
-                                <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                    <label class="control-label" for="TotalCost"><b>Total Cost</b></label>
-                                    <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" />
-                                </div>
-                                <div>
-                                    <br />
-                                    <input id="btnAdd" type="button" value="AddCharge" class="btn btn-primary btn-xs full-width" />
-                                </div>
+                            }
+
+                            @*</div>*@
+                            @*<div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                        <input type='button' id='removechrg' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
+                    </div>*@
+                            <div>
+                                <br />
+                                <input id="AddChr" type="button" value="AddCharge" class="btn btn-primary btn-xs full-width" />
                             </div>
+
                             <div class="form-row">
                                 <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="OrderTotal"><b>Order Total</b></label>
@@ -488,11 +535,11 @@
                                 </div>
                                 <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
                                     <label class="control-label" for="VAT"><b>VAT</b></label>
-                                    <input type="text" id="VAT" placeholder="VAT" class="form-control" />
+                                    @Html.TextBoxFor(m => m.VAT, new { @class = "form-control" })
                                 </div>
                                 <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
-                                    <label class="control-label" for="TotalCostVAT"><b>Total Cost with VAT</b></label>
-                                    <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control" />
+                                    <label class="control-label" for="ordTotalCostVAT"><b>Total Cost with VAT</b></label>
+                                    <input type="text" id="ordTotalCostVAT" placeholder="Total Cost with VAT" class="form-control" readonly="readonly" />
                                 </div>
 
 
@@ -500,13 +547,13 @@
                             <div class="form-row">
                                 <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
                                     <label class="control-label" for="AdvancePayment"><b>Advance Payment</b></label>
-                                    <input type="text" id="AdvancePayment" placeholder="Advance Payment" class="form-control" />
+                                    @Html.TextBoxFor(m => m.AdvancePayment, new { @class = "form-control" })
                                 </div>
 
 
                                 <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
                                     <label class="control-label" for="BalancePayment"><b>Balance Payment</b></label>
-                                    <input type="text" id="BalancePayment" placeholder="Balance Payment" class="form-control " />
+                                    <input type="text" id="BalancePayment" placeholder="Balance Payment" class="form-control " readonly="readonly" />
                                 </div>
 
                             </div>
@@ -519,276 +566,724 @@
                             <div class="form-row">
                                 <div class="col-xl-10 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="Remarks"><b>Remarks</b></label>
-                                    <input type="text" id="Remarks" placeholder="Remarks" class="form-control " />
+                                    @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control" })
                                 </div>
 
                             </div>
-                            <div id="outer">
-                                <div class="inner"><input type="submit" class="btn btn-primary" value="Save" /></div>
+                            <div class="form-row">
+                                <div id="outer" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                    <div class="inner"><input type="submit" id="btnSave" class="btn btn-primary" value="Save" /></div>
+                                </div>
+                                <div id="cmdprint" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                    <div class="inner"><input type="button" class="btn btn-primary" value="Print" onclick="PrintOrder(model.id)" /></div>
+                                </div>
+                                <div id="cmdaprove" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                    <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>
+                                </div>
+
                             </div>
+
+
+
+
 
                         </div>
 
-                    </div>
 
+                    </div>
                 }
+            </div>
             </div>
         </div>
     </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Client</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_NewClientPartial", new Client())
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>*@
+        </div>
+    </div>
 </div>
-                        <script>
+<link href="~/Content/themes/base/datepicker.css" rel="stylesheet" />
+<script>
 
-                            function removeItem(elem) {
-                                if ($('#item-count').val() != "1") {
-                                    $('#item-count').val(parseInt($('#item-count').val()) - 1);
-                                    $(elem).parent().parent('div').remove();
-                                }
-                                else {
-                                    alert('Last item cannot be removed');
-                                }
-                            }
-                            $(document).ready(function () {
-                                $("#btnAdd").click(function () {
-                                    $("#a").append('<div class="con"> <label class="control-label" for="Text1"><b>Additional charge</b></label> <input type="text" id="Text1" value="" class="form-control"/> <>' + '<input type="button" class="btnRemove" value="Remove"/></div>');
+    function PrintOrder(id) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("PrintOrder", "Order")',
+            data: { id: id },
+            success: function (data) {
+                $('#Preview').html(data);
+                $('#reportModal').modal('show');
+            }
+        })
+    }
+    $(document).ready(function () {
+        $(".order-type").change(function () {
 
-                                });
-                                // delegating event here
-                                $('body').on('click', '.btnRemove', function () {
-                                    $(this).parent('div.con').remove()
+            if ($(this).val() == "2") {
+                $("#VATNo").attr("disabled", "disabled");
+                $("#VAT").attr("disabled", "disabled");
+               
+               
+                $("#TotalCostVAT").attr("disabled", "disabled");
+                $("#ordTotalCostVAT").attr("disabled", "disabled"); 
+            }
 
-                                });
-                            });
-                            $("#BaseQuoteId").change(function () {
-                                var qouteid = $('#BaseQuoteId').val();
-                                alert(qouteid)
-                                $.ajax({
-                                    url: '/Order/Convert',
-                                    //url: '/Order/Index',
-                                    data: { "qouteid": qouteid },
-                                    dataType: "json",
-                                    contentType: 'application/json',
-                                    method: 'GET',
-                                    success: function (data) {
+            else {
+                $("#VATNo").removeAttr('disabled');
+                $("#VAT").removeAttr('disabled');
+                $("#TotalCostVAT").removeAttr('disabled');
+                $("#ordTotalCostVAT").removeAttr('disabled');
+            }
+     
+    });
+    });
+    function removeItem(elem) {
+        if ($('#item-count').val() != "1") {
+            $('#item-count').val(parseInt($('#item-count').val()) - 1);
+            $(elem).parent().parent('div').remove();
+        }
+        else {
+            alert('Last item cannot be removed');
+        }
+    }
+    function removeCharge(elem) {
+        if ($('#charge-count').val() != "1") {
+            $('#charge-count').val(parseInt($('#charge-count').val()) - 1);
+            $(elem).parent().parent('div').remove();
+        }
+        else {
+            alert('Last item cannot be removed');
+        }
+    }
 
-                                        alert(data.ClientId);
-                                        var clientid = data.ClientId;
-                                        var header = data.Header;
-                                        var contactperson = data.ContactPerson;
-                                        var contactnum = data.ContactMobile;
-                                        var framework = data.FrameworkWarrantyPeriod
-                                        var warranty = data.LetteringWarrantyPeriod
-                                        var illumination = data.IlluminationWarrantyPeriod
+    function CalTotalCost(elem) {
 
+        elem = $(this);
+        setTotals(elem);
 
-                                        $('#ClientId').prop('selectedIndex', clientid);
-                                        $('#Header').val(header);
-                                        $('#ContactPerson').val(contactperson);
-                                        $('#ContactMobile').val(contactnum);
-                                        $('#FrameworkWarrantyPeriod').prop('selectedIndex', framework);
-                                        $('#LetteringWarrantyPeriod').prop('selectedIndex', warranty);
-                                        $('#IlluminationWarrantyPeriod').prop('selectedIndex', illumination);
+    }
+    function CalAddTotalCost(elem) {
 
-                                        /*   $('#ClientId').text(y);*/
-                                        //var employeeTable = $('#employee tbody');
-                                        //employeeTable.empty();
+        elem = $(this);
+        setAddTotals(elem);
 
-                                        //$(data).each(function (index, emp) {
-                                        //    employeeTable.append('<tr><td>' + emp.ID + '</td><td>'
-                                        //        + emp.Name + '</td><td>' + emp.Gender + '</td><td>'
-                                        //        + emp.Phone + '</td><td>' + emp.Email + '</td><td>'
-                                        //        + emp.Age + '</td><td>' + emp.Salary + '</td></tr>');
-                                        //});
-                                    },
-                                    error: function (err) {
-                                        alert("");
-                                        console.log(err);
-                                    }
-                                });
+    }
 
 
-                            });
-                            $(document).ready(function () {
-                                //$('.selection').select2();
+    function OrderTotal(total) {
 
-                                var d = new Date();
-                                var today = new Date((d.getFullYear(), d.getMonth(), d.getDate()) + 'T00:00:00Z');
-                                $("#Version").val("1");
-                                var formattedNumber = ("0" + (d.getMonth() + 1)).slice(-2);
-                                $("#Month").val(formattedNumber);
-                                var year = d.getFullYear().toString().substring(2, 4);
-                                $("#Year").val(year);
-                                $("#CreatedDate").val(d.getDate() + "-" + formattedNumber + "-" + year);
+        elem = $(this);
+        var itmtot = 0;
 
-                                $('#IsVAT').change(function () {
-                                    setTotals();
-                                    if ($(this).is(":checked")) {
-                                        $('#Code').val($('#Code').val().replace('STA/', 'ST/'));
-                                    }
-                                    else {
-                                        $('#Code').val($('#Code').val().replace('ST/', 'STA/'));
-                                    }
-                                });
+        //for (var i = 0; i < total.length; i++)
+        //{
+        //    itmtot += total[i];
+        //}
+        itmtot = parseFloat(total);
 
-                                $('#add').click(function () {
-                                    var n = $('.item').length + 1;
-                                    var temp = $('.item:first').clone();
-                                    //$('input:first', temp).attr('placeholder', '#' + n)
-                                    $('.item:last').after(temp);
-                                    $('#item-count').val(parseInt($('#item-count').val()) + 1);
-                                });
+        var chargeordTotalCostArray = [];
+        var chrg_list = document.querySelectorAll('[class*="form-row addcharge"]');
+        $.each(chrg_list, function (key, obj) {
+            chargeordTotalCostArray.push($(obj).find('input#adchrTotalCost').val());
+
+        });
+        if (chargeordTotalCostArray.length > 0 && chargeordTotalCostArray[0] != "") {
+            for (var i = 0; i < chargeordTotalCostArray.length; i++) {
+                itmtot += parseFloat(chargeordTotalCostArray[i].replace(",", ""));
+            }
+        }
+        else {
+            itmtot = parseFloat(total);
+        }
+
+
+        return itmtot.toFixed(2);
+
+    }
 
 
 
+    $(document).ready(function () {
 
 
 
-                                //Advanced payment
-                                $('#AdvancePayment').change(function () {
+        $("#btnSave").click(function () {
 
-                                    // alert($('#hidden-1005').val());
-                                    var y = $('#hidden-1005').val().replace("{payment}", $('#AdvancePayment').val());
-                                    $('#term-1005').text(y);
+            var clientidSelect = $("#ClientId option:selected").val();
+            var typeSelect = $("#OrderTypeId option:selected").val();
+            var ProductSelect = $("#quoteItem_CategoryId option:selected").val();
+            var DeliverySelect = $("#DeliveryTypeId option:selected").val();
+            var ChanneledBySelect = $("#ChanneledById option:selected").val();
+            var SizeSelect = $("#Size").val();
+            var DescriptionSelect = $("#Description").val();
+            var itmQTYSelect = $("#itmQty").val();
+            var itmCostSelect = $("#itmCost").val();
 
-                                    var y = $('#hidden-1').val().replace("{payment}", $('#AdvancePayment').val());
-                                    $('#term-1').text(y);
 
-                                });
+            if (SizeSelect == "") {
+                alert("Enter Size");
+                return false;
+            }
+            if (DescriptionSelect == "") {
+                alert("Enter Description");
+                return false;
+            }
 
-                                //power supply
-                                $('#PowerSupplyAmp').change(function () {
+            if (itmQTYSelect == "") {
+                alert("Enter Quantity");
+                return false;
+            }    
+            if (itmCostSelect == "") {
+                alert("Enter Cost");
+                return false;
+            }    
 
-                                    var y = $('#hidden-1003').val().replace("{amp}", $('#PowerSupplyAmp').val());
-                                    $('#term-1003').text(y);
+            if (clientidSelect == "") {
+                alert("select client");
+                return false;
+            }
+            if (ChanneledBySelect == "") {
+                alert("select Channeled By");
+                return false;
+            }
+            if (typeSelect == "") {
+                alert("select Order Type");
+                return false;
+            }
+            if (ProductSelect == "" ) {
+                alert("select Product");
+                return false;
+            }
+            if (DeliverySelect == "") {
+                alert("select Delivery");
+                return false;
+            }
 
-                                });
 
-                                //valid days
-                                $('#ValidDays').change(function () {
+        });
 
-                                    var y = $('#hidden-2').val().replace("{Validity}", $('#ValidDays').val());
-                                    $('#term-2').text(y);
 
-                                });
+    $("#tabstrip").tabs({
+        active: 1,
+        activate: function (event, ui) {
+            var active = $('#tabstrip').tabs('option', 'active');
+        }
+    });
+    });
 
-                                //delivery period
-                                $('#DeliveryPeriod').change(function () {
+    $('#itmCost').blur(function () {
+        elem = $(this);
+        setTotals();
 
-                                    var y = $('#hidden-1005').val().replace("{delivery}", $('#DeliveryPeriod').val());
-                                    $('#term-1005').text(y);
+    });
 
-                                });
 
-                                $(document).on("change", "select#quoteItem_CategoryId", function () {
-                                    elem = $(this);
-                                    var obj = { id: $(elem).val() };
-                                    AjaxCall('/Category/GetDescriptionById', JSON.stringify(obj), 'POST').done(function (response) {
-                                        if (response.length > 0) {
-                                            $(elem).parent().parent('div').find('input#Description').val(response);
-                                        }
-                                    }).fail(function (error) {
-                                        alert(error.StatusText);
-                                    });
-                                });
+    $('#adchrCost').blur(function () {
+        elem = $(this);
+        setAddTotals();
 
-                                $(document).on("change", "select#ClientId", function () {
-                                    elem = $(this);
-                                    var obj = { id: $(elem).val() };
-                                    AjaxCall('/Client/GetClientById', JSON.stringify(obj), 'POST').done(function (response) {
-                                        $('#ContactPerson').val(response.CPName);
-                                        $('#ContactMobile').val(response.CPMobile);
-                                    }).fail(function (error) {
-                                        alert(error.StatusText);
-                                    });
-                                });
+    });
+    $('#AdvancePayment').blur(function () {
+        var balpay;
+        if ($('#AdvancePayment').val() != "") {
+            balpay = parseFloat($('#OrderTotal').val().replace(",", "").replace(".00", "")) - parseFloat($('#AdvancePayment').val().replace(",", "").replace(".00", ""));
+        }
+        else {
+            balpay = parseFloat($('#OrderTotal').val().replace(",", "").replace(".00", ""))
+        }
 
-                                $(document).on("change", "input#Qty", function () {
-                                    elem = $(this);
-                                    setTotals();
-                                });
 
-                                $(document).on("change", "input#Cost", function () {
-                                    elem = $(this);
-                                    setTotals();
-                                });
-                            })
+        $('#BalancePayment').val(number_format(balpay, 2, '.', ','));
 
-                            function setTotals() {
-                                var qty = $(elem).parent().parent('div').find('input#Qty').val();
-                                var cost = $(elem).parent().parent('div').find('input#Cost').val();
-                                var VATPercentage = $("#VATPercentage").val();
-                                var Total = parseFloat(qty) * parseFloat(cost);
+    });
+    $('#BalancePayment').blur(function () {
+        var balpay;
+        if ($('#AdvancePayment').val() != "") {
+            balpay = parseFloat($('#OrderTotal').val().replace(",", "").replace(".00", "")) - parseFloat($('#AdvancePayment').val().replace(",", "").replace(".00", ""));
+        }
+        else {
+            balpay = parseFloat($('#OrderTotal').val().replace(",", "").replace(".00", ""))
+        }
 
-                                if (isNaN(Total)) {
-                                    Total = 0;
-                                }
 
-                                var VAT = 0;
+        $('#BalancePayment').val(number_format(balpay, 2, '.', ','));
 
-                                if ($('#IsVAT').is(":checked")) {
-                                    VAT = ((parseFloat(qty) * parseFloat(cost)) * parseFloat(VATPercentage)) / 100;
-                                }
-                                var TotalWithVAT = Total + VAT;
+    });
 
-                                $(elem).parent().parent('div').find('input#TotalCost').val(number_format(Total, 2, '.', ','));
-                                $(elem).parent().parent('div').find('input#VAT').val(number_format(VAT, 2, '.', ','));
-                                $(elem).parent().parent('div').find('input#TotalCostVAT').val(number_format(TotalWithVAT, 2, '.', ','));
-                            }
+    $("#OrderTotal").click(function () {
 
-                            function AjaxCall(url, data, type) {
-                                return $.ajax({
-                                    url: url,
-                                    type: type ? type : 'GET',
-                                    data: data,
-                                    contentType: 'application/json'
-                                });
-                            }
+        var ordtot = $('#OrdtotCost').val();
+        $('#OrderTotal').val(OrderTotal(ordtot)).toFixed(2);
 
-                            number_format = function (number, decimals, dec_point, thousands_sep) {
-                                number = number.toFixed(decimals);
+    });
 
-                                var nstr = number.toString();
-                                nstr += '';
-                                x = nstr.split('.');
-                                x1 = x[0];
-                                x2 = x.length > 1 ? dec_point + x[1] : '';
-                                var rgx = /(\d+)(\d{3})/;
+    $("#product").click(function (e) {
 
-                                while (rgx.test(x1))
-                                    x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
+        var productIdArray = [];
+        var qtyArray = [];
+        var  itmtotCostArray=[];
+        var costArray = [];
+        var totalcost=0;
 
-                                return x1 + x2;
-                            }
 
-                            function readValues() {
-                             
-                                var productIdArray = [];
-                                var qtyArray = [];
-                                var descriptionArray = [];
-                                var costArray = [];
-                                var vatArray = [];
-                                var sizeArray = [];
-                                var obj_list = document.querySelectorAll('[class*="form-row item m-t-10 m-b-20"]');
-                                $.each(obj_list, function (key, obj) {
-                                    productIdArray.push($(obj).find('select#quoteItem_CategoryId').val());
-                                    qtyArray.push($(obj).find('input#Qty').val());
-                                    descriptionArray.push($(obj).find('input#Description').val());
-                                    costArray.push($(obj).find('input#Cost').val());
-                                    vatArray.push($(obj).find('input#VAT').val());
-                                    vatArray.push($(obj).find('input#VAT').val());
-                                    sizeArray.push($(obj).find('input#Size').val());
-                                });
+        var obj_list = document.querySelectorAll('[class*="form-row item m-t-10 m-b-20"]');
 
-                                $('#productIdArray').val(productIdArray);
-                                $('#qtyArray').val(qtyArray);
-                                $('#descriptionArray').val(descriptionArray);
-                                $('#costArray').val(costArray);
-                                $('#vatArray').val(vatArray);
-                                $('#sizeArray').val(sizeArray);
+        $.each(obj_list, function (key, obj) {
+            productIdArray.push($(obj).find('select#quoteItem_CategoryId option:selected').text());
+            qtyArray.push($(obj).find('input#itmQty').val());
+            costArray.push($(obj).find('input#itmCost').val());
+            itmtotCostArray.push($(obj).find('input#itmTotalCost').val());
 
-                                return true;
-                            }
-                        </script>
 
-                        @section Scripts {
-                            @Scripts.Render("~/bundles/jqueryval")
-                        }
+
+        });
+
+        $('#sumtdata').empty();
+        for (var i = 0; i < productIdArray.length; i++)
+        {
+            
+
+            $('#sumtdata').append("<tr>" +
+                "<td>" + productIdArray[i] + "</td>" +
+                "<td>" + qtyArray[i] + "</td>" +
+                "<td>" + costArray[i] + "</td>" +
+                "<td>" + itmtotCostArray[i] + "</td>" + "<tr>"
+            );
+            totalcost = totalcost + parseFloat(itmtotCostArray[i].replace(",", "").replace(".00", ""));
+
+        }
+        $('#OrdtotCost').val(totalcost);
+    });
+
+
+
+
+
+
+
+
+
+    $(".order-type").change(function () {
+        var code = $(".order-type option:selected").text();
+
+        var sections = $('#Code').val().split("/");
+
+        $('#Code').val(code + "/" + sections[1] + "/" + sections[2] + "/" + sections[3]);
+    });
+
+
+
+    $("#BaseQuoteId").change(function () {
+        var qouteid = $('#BaseQuoteId').val();
+
+        $.ajax({
+            url: '/Order/Convert',
+            //url: '/Order/Index',
+            data: { "qouteid": qouteid },
+            dataType: "json",
+            contentType: 'application/json',
+            method: 'GET',
+            success: function (data) {
+
+
+
+                var clientid = data.ClientId;
+                var header = data.Header;
+                var contactperson = data.ContactPerson;
+                var contactnum = data.ContactMobile;
+                var framework = data.FrameworkWarrantyPeriod;
+                var warranty = data.LetteringWarrantyPeriod;
+                var illumination = data.IlluminationWarrantyPeriod;
+
+                var QuateItem = data.OrderItems;
+
+
+
+                $('#ClientId').prop('selectedIndex', clientid);
+                $('#Header').val(header);
+                $('#ContactPerson').val(contactperson);
+                $('#ContactMobile').val(contactnum);
+                //$('#FrameworkWarrantyPeriod').prop('selectedIndex', framework);
+                //$('#LetteringWarrantyPeriod').prop('selectedIndex', warranty);
+                //$('#IlluminationWarrantyPeriod').prop('selectedIndex', illumination);
+
+                //QuateItem.each(function (idx, li) {
+                //   alert($(li.id));
+                //});
+                $('#item-count').val(QuateItem.length);
+
+                for (var i = 0; i < QuateItem.length; i++)//see that I removed the $ preceeding the `for` keyword, it should not have been there
+                {
+                    if (i == 0) {
+
+
+                        $('#quoteItem_CategoryId').prop('selectedIndex', QuateItem[i].CategoryId);
+                        $('#quoteItem_VisibilityId').prop('selectedIndex', QuateItem[i].VisibilityId);
+                        $('#quoteItem_FrameworkWarrantyPeriod').prop('selectedIndex', QuateItem[i].FrameworkWarrantyPeriod);
+                        $('#quoteItem_LetteringWarrantyPeriod').prop('selectedIndex', QuateItem[i].LetteringWarrantyPeriod);
+                        $('#quoteItem_IlluminationWarrantyPeriod').prop('selectedIndex', QuateItem[i].IlluminationWarrantyPeriod);
+                        $('#itmQty').val(QuateItem[i].Qty);
+                        $('#itmCost').val(QuateItem[i].UnitCost);
+                        $('#itmTotalCost').val(QuateItem[i].TotalCost);
+                        $('#Size').val(QuateItem[i].Size);
+                        $('#Description').val(QuateItem[i].Description);
+                        $('#Installation').val(QuateItem[i].Installation);
+
+
+
+                    }
+                    else {
+                        var temp = $('.item:first').clone();
+                        temp.find('input#itmQty').val(QuateItem[i].Qty);
+                        temp.find('input#itmCost').val(QuateItem[i].UnitCost);
+                        temp.find('input#itmTotalCost').val(QuateItem[i].TotalCost);
+                        temp.find('input#Size').val(QuateItem[i].Size);
+                        temp.find('select#quoteItem_CategoryId').prop('selectedIndex', QuateItem[i].CategoryId);
+                        temp.find('select#quoteItem_VisibilityId').prop('selectedIndex', QuateItem[i].VisibilityId);
+                        temp.find('select#quoteItem_FrameworkWarrantyPeriod').prop('selectedIndex', QuateItem[i].FrameworkWarrantyPeriod);
+                        temp.find('select#quoteItem_LetteringWarrantyPeriod').prop('selectedIndex', QuateItem[i].LetteringWarrantyPeriod);
+                        temp.find('select#quoteItem_IlluminationWarrantyPeriod').prop('selectedIndex', QuateItem[i].IlluminationWarrantyPeriod);
+                       // $(i).find('input#Qty').val(QuateItem[i].Qty);
+                        $('.item:last').after(temp);
+                        //$('input:first', temp).attr('placeholder', '#' + n)
+
+                    }
+
+                }
+
+
+                /*   $('#ClientId').text(y);*/
+                //var employeeTable = $('#employee tbody');
+                //employeeTable.empty();
+
+                //$(data).each(function (index, emp) {
+                //    employeeTable.append('<tr><td>' + emp.ID + '</td><td>'
+                //        + emp.Name + '</td><td>' + emp.Gender + '</td><td>'
+                //        + emp.Phone + '</td><td>' + emp.Email + '</td><td>'
+                //        + emp.Age + '</td><td>' + emp.Salary + '</td></tr>');
+                //});
+            },
+            error: function (err) {
+                alert("error section");
+                console.log(err);
+            }
+        });
+
+
+    });
+    $(document).ready(function () {
+        //$('.selection').select2();
+        $(".datepicker").datepicker({
+            dateformat: "dd-mm-yy",
+            changemonth: true,
+            changeyear: true
+        });
+
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        var d = new Date();
+        var today = new Date((d.getFullYear(), d.getMonth(), d.getDate()) + 'T00:00:00Z');
+        $("#Version").val("1");
+        var formattedNumber = ("0" + (d.getMonth() + 1)).slice(-2);
+        $("#Month").val(formattedNumber);
+        var year = d.getFullYear().toString().substring(2, 4);
+        $("#Year").val(year);
+        $("#CreatedDate").val(d.getDate() + "-" + formattedNumber + "-" + year);
+
+        $('#IsVAT').change(function () {
+            setTotals();
+            if ($(this).is(":checked")) {
+                $('#Code').val($('#Code').val().replace('STA/', 'ST/'));
+            }
+            else {
+                $('#Code').val($('#Code').val().replace('ST/', 'STA/'));
+            }
+        });
+
+        $('#add').click(function () {
+            var n = $('.item').length + 1;
+            var temp = $('.item:first').clone();
+            //$('input:first', temp).attr('placeholder', '#' + n)
+            $('.item:last').after(temp);
+
+            $('#item-count').val(parseInt($('#item-count').val()) + 1);
+
+        });
+
+
+        $('#AddChr').click(function () {
+            var n = $('.addcharge').length + 1;
+            var temp = $('.addcharge:first').clone();
+            //$('input:first', temp).attr('placeholder', '#' + n)
+            $('.addcharge:last').after(temp);
+            $('#charge-count').val(parseInt($('#charge-count').val()) + 1);
+        });
+
+
+        //Advanced payment
+        $('#AdvancePayment').change(function () {
+
+            // alert($('#hidden-1005').val());
+            var y = $('#hidden-1005').val().replace("{payment}", $('#AdvancePayment').val());
+            $('#term-1005').text(y);
+
+            var y = $('#hidden-1').val().replace("{payment}", $('#AdvancePayment').val());
+            $('#term-1').text(y);
+
+        });
+
+        //power supply
+        $('#PowerSupplyAmp').change(function () {
+
+            var y = $('#hidden-1003').val().replace("{amp}", $('#PowerSupplyAmp').val());
+            $('#term-1003').text(y);
+
+        });
+
+        //valid days
+        $('#ValidDays').change(function () {
+
+            var y = $('#hidden-2').val().replace("{Validity}", $('#ValidDays').val());
+            $('#term-2').text(y);
+
+        });
+
+        //delivery period
+        $('#DeliveryPeriod').change(function () {
+
+            var y = $('#hidden-1005').val().replace("{delivery}", $('#DeliveryPeriod').val());
+            $('#term-1005').text(y);
+
+        });
+
+        $(document).on("change", "select#quoteItem_CategoryId", function () {
+            elem = $(this);
+            var obj = { id: $(elem).val() };
+            AjaxCall('/Category/GetDescriptionById', JSON.stringify(obj), 'POST').done(function (response) {
+                if (response.length > 0) {
+                    $(elem).parent().parent('div').find('input#Description').val(response);
+                }
+            }).fail(function (error) {
+                alert(error.StatusText);
+            });
+        });
+
+        $(document).on("change", "select#ClientId", function () {
+            elem = $(this);
+            var obj = { id: $(elem).val() };
+            AjaxCall('/Client/GetClientById', JSON.stringify(obj), 'POST').done(function (response) {
+                $('#ContactPerson').val(response.CPName);
+                $('#ContactMobile').val(response.CPMobile);
+            }).fail(function (error) {
+                alert(error.StatusText);
+            });
+        });
+
+        $(document).on("change", "input#itmQty", function () {
+            elem = $(this);
+            setTotals();
+        });
+
+        $(document).on("change", "input#itmCost", function () {
+            elem = $(this);
+            setTotals();
+        });
+
+
+        $(document).on("change", "input#adchrQty", function () {
+            elem = $(this);
+            setTotals();
+        });
+
+        $(document).on("change", "input#adchrCost", function () {
+            elem = $(this);
+            setTotals();
+        });
+
+
+
+
+
+
+
+
+    })
+
+    function setTotals() {
+        var qty = $(elem).parent().parent('div').find('input#itmQty').val();
+        var cost = $(elem).parent().parent('div').find('input#itmCost').val();
+        var VATPercentage = $("#VATPercentage").val();
+        var Total = parseFloat(qty) * parseFloat(cost);
+
+        if (isNaN(Total)) {
+            Total = 0;
+        }
+
+        var VAT = 0;
+
+        if ($('#IsVAT').is(":checked")) {
+            VAT = ((parseFloat(qty) * parseFloat(cost)) * parseFloat(VATPercentage)) / 100;
+        }
+        var TotalWithVAT = Total + VAT;
+
+        $(elem).parent().parent('div').find('input#itmTotalCost').val(number_format(Total, 2, '.', ','));
+        $(elem).parent().parent('div').find('input#VAT').val(number_format(VAT, 2, '.', ','));
+        $(elem).parent().parent('div').find('input#TotalCostVAT').val(number_format(TotalWithVAT, 2, '.', ','));
+    }
+
+    //----------------------------------------------
+    function setAddTotals() {
+        var qty = $(elem).parent().parent('div').find('input#adchrQty').val();
+        var cost = $(elem).parent().parent('div').find('input#adchrCost').val();
+
+        var Total = parseFloat(qty) * parseFloat(cost);
+
+        if (isNaN(Total)) {
+            Total = 0;
+        }
+
+        $(elem).parent().parent('div').find('input#adchrTotalCost').val(number_format(Total, 2, '.', ','));
+
+
+    }
+
+
+
+    function AjaxCall(url, data, type) {
+        return $.ajax({
+            url: url,
+            type: type ? type : 'GET',
+            data: data,
+            contentType: 'application/json'
+        });
+    }
+
+    number_format = function (number, decimals, dec_point, thousands_sep) {
+        number = number.toFixed(decimals);
+
+        var nstr = number.toString();
+        nstr += '';
+        x = nstr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? dec_point + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
+
+        return x1 + x2;
+    }
+
+
+
+    function readValues() {
+
+
+
+
+        var productIdArray = [];
+        var itmqtyArray = [];
+        var descriptionArray = [];
+        var itmcostArray = [];
+        var itmtotCostArray = [];
+        var vatArray = [];
+        var sizeArray = [];
+        var chargeItemArray = [];
+        var chargeQtyArray = [];
+        var chargeCostArray = [];
+        var illuminationArray = [];
+        var visibilityArray = [];
+        var frameworkWarrantyArray = [];
+        var letteringWarrantyArray = [];
+        var illuminationWarrantyArray = [];
+        var chargeTotalCostArray = [];
+        var SpecialInstructionsArray = [];
+        var installationArray = [];
+        var channeledByArray = [];
+
+
+        var obj_list = document.querySelectorAll('[class*="form-row item m-t-10 m-b-20"]');
+
+        $.each(obj_list, function (key, obj) {
+            productIdArray.push($(obj).find('select#quoteItem_CategoryId').val());
+            itmqtyArray.push($(obj).find('input#itmQty').val());
+            descriptionArray.push($(obj).find('input#Description').val());
+            SpecialInstructionsArray.push($(obj).find('input#SpecialInstructions').val());
+            installationArray.push($(obj).find('input#Installation').val());
+            itmcostArray.push($(obj).find('input#itmCost').val());
+            itmtotCostArray.push($(obj).find('input#itmTotalCost').val());
+            vatArray.push($(obj).find('input#VAT').val());
+            sizeArray.push($(obj).find('input#Size').val());
+            illuminationArray.push($(obj).find('select#quoteItem_Illumination').val());
+
+            visibilityArray.push($(obj).find('select#quoteItem_VisibilityId').val());
+            frameworkWarrantyArray.push($(obj).find('select#quoteItem_FrameworkWarrantyPeriod').val());
+            letteringWarrantyArray.push($(obj).find('select#quoteItem_LetteringWarrantyPeriod').val());
+            illuminationWarrantyArray.push($(obj).find('select#quoteItem_IlluminationWarrantyPeriod').val());
+            channeledByArray.push($(obj).find('select#ChanneledBy').val());
+           
+
+
+        });
+
+        $('#productIdArray').val(productIdArray);
+        $('#itmqtyArray').val(itmqtyArray);
+        $('#descriptionArray').val(descriptionArray);
+        $('#SpecialInstructionsArray').val(SpecialInstructionsArray);
+        $('#installationArray').val(installationArray);
+        $('#itmcostArray').val(itmcostArray);
+        $('#itmtotCostArray').val(itmtotCostArray);
+        $('#vatArray').val(vatArray);
+        $('#sizeArray').val(sizeArray);
+        $('#illuminationArray').val(illuminationArray);
+        $('#visibilityArray').val(visibilityArray);
+        $('#letteringWarrantyArray').val(letteringWarrantyArray);
+        $('#frameworkWarrantyArray').val(frameworkWarrantyArray);
+        $('#illuminationWarrantyArray').val(illuminationWarrantyArray);
+        $('#channeledByArray').val(channeledByArray);
+
+
+        var chrg_list = document.querySelectorAll('[class*="form-row addcharge"]');
+        $.each(chrg_list, function (key, obj) {
+            chargeItemArray.push($(obj).find('input#adchrItem').val());
+            chargeCostArray.push($(obj).find('input#adchrCost').val());
+            chargeQtyArray.push($(obj).find('input#adchrQty').val());
+            chargeTotalCostArray.push($(obj).find('input#adchrTotalCost').val());
+
+        });
+
+        $('#chargeTotalCostArray').val(chargeTotalCostArray);
+        $('#chargeItemArray').val(chargeItemArray);
+        $('#chargeCostArray').val(chargeCostArray);
+        $('#chargeQtyArray').val(chargeQtyArray);
+
+        return true;
+
+    }
+
+
+
+</script>
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery-ui-1.13.2.js"></script>
+}

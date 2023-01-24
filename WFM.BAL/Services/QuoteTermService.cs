@@ -15,7 +15,7 @@ namespace WFM.BAL.Services
                 return entities.QuoteTerms.Where(d => d.IsActive == true).OrderBy(d => d.Name).ToList();
             }
         }
-
+      
         public QuoteTerm GetQuoteTermById(int? id)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())

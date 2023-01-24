@@ -8,6 +8,7 @@ namespace WFM.BAL.Services
 {
     public class OrderService
     {
+        ErrorLogService errlog = new ErrorLogService();
         public List<Order> GetOrderList()
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
@@ -15,12 +16,37 @@ namespace WFM.BAL.Services
                 return entities.Orders.Include("Client").OrderBy(d => d.Id).ToList();
             }
         }
-
-        public List<Order> GetOrderActiveList()
+        public List<DeliveryType> GetDeliveryTypeList()
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                return entities.Orders.Include("Client").Where(o => o.StatusId != (int)OrderStatus.Completed).OrderBy(d => d.Id).ToList();
+                return entities.DeliveryTypes.ToList();
+            }
+        }
+
+        public List<Illumination> GetIlluminationList()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Illuminations.ToList();
+            }
+        }
+        public List<Order> GetOrderActiveList()
+        {
+            try
+            {
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
+                {
+                    return entities.Orders
+                        .Include("Client")
+                        .Include("DeliveryType")
+                        .Include("OrderType")
+                        .Include("Employee").Where(o => o.StatusId != (int)OrderStatus.Completed).OrderBy(d => d.Id).ToList();
+
+                }
+            } catch(Exception er) 
+            {
+                return null;
             }
         }
 
@@ -36,7 +62,13 @@ namespace WFM.BAL.Services
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                return entities.Orders.Include("OrderItems").Where(s => s.Id == id).SingleOrDefault();
+                return entities.Orders
+                    .Include("OrderItems")
+                    .Include("Client")
+                    .Include("OrderItems.Category")
+                    .Include("Employee")
+                     .Include("Quote")
+                    .Include("AdditionalCharges").Where(s => s.Id == id).SingleOrDefault();
             }
         }
 
@@ -46,7 +78,7 @@ namespace WFM.BAL.Services
             {
                 if (order.Id == 0)
                 {
-                    entities.Orders.Add(order);
+                    entities.Orders.Add(order); 
                     entities.SaveChanges();
                 }
                 else
@@ -68,6 +100,19 @@ namespace WFM.BAL.Services
                 }
             }
         }
+        public void SaveOrUpdate(AdditionalCharge additionalCharge)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                if (additionalCharge.Id != 0)
+                {
+                    entities.AdditionalCharges.Add(additionalCharge);
+                    entities.SaveChanges();
+                }
+               
+
+            }
+        }
 
         public void SaveOrUpdate(Quote model, string userId, string wayforward)
         {
@@ -84,12 +129,12 @@ namespace WFM.BAL.Services
 
                     order = new Order
                     {
-                        ClientId = model.ClientId,
+                        ClientId = (int)model.ClientId,
                         Code = OrderCode,
                         CodeNumber = int.Parse(OrderCode.Split('/')[3]),
                         Year = DateTime.Now.Year.ToString(),
                         Month = DateTime.Now.Month.ToString("00"),
-                        ChanneledBy = model.ChanneledBy,
+                        ChanneledById = (int)model.ChanneledById,
                         Value = model.Value,
                         Comments = model.Comments,
                         CreatedDate = DateTime.Now,
@@ -107,17 +152,18 @@ namespace WFM.BAL.Services
                         orderItem = new OrderItem
                         {
                             CategoryId = item.CategoryId,
-                            Qty = item.Qty,
-                            UnitCost = item.UnitCost,
-                            VAT = item.VAT,
+                            Qty = (int)item.Qty,
+                            UnitCost = (double)item.UnitCost,
+                            VAT = (double)item.VAT,
                             Size = item.Size,
                             Description = item.Description,
                             CategoryName = item.CategoryName,
                             CategoryType = item.CategoryType,
-                            FrameworkWarrantyPeriod = item.FrameworkWarrantyPeriod,
-                            IlluminationWarrantyPeriod = item.IlluminationWarrantyPeriod,
-                            LetteringWarrantyPeriod = item.LetteringWarrantyPeriod,
-                            VisibilityId = item.VisibilityId
+                            VisibilityId = item.VisibilityId,
+                            FrameworkWarrantyPeriod = (int)item.FrameworkWarrantyPeriod,
+                            IlluminationWarrantyPeriod = (int)item.IlluminationWarrantyPeriod,
+                            LetteringWarrantyPeriod = (int)item.LetteringWarrantyPeriod,
+                        
                         };
 
                         order.OrderItems.Add(orderItem);
@@ -141,6 +187,10 @@ namespace WFM.BAL.Services
             }
             catch (Exception ex)
             {
+                ErrorLog er = new ErrorLog();
+                er.Type = "Order";
+                er.Error = ex.Message;
+                errlog.SaveOrUpdate(er);
             }
         }
 

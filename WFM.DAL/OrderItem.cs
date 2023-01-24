@@ -14,33 +14,28 @@ namespace WFM.DAL
     
     public partial class OrderItem
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public OrderItem()
-        {
-            this.AditionalCharges = new HashSet<AditionalCharge>();
-        }
-    
         public int Id { get; set; }
-        public Nullable<int> OrderId { get; set; }
-        public Nullable<int> CategoryId { get; set; }
+        public int OrderId { get; set; }
+        public int CategoryId { get; set; }
         public string Size { get; set; }
-        public Nullable<double> Qty { get; set; }
+        public double Qty { get; set; }
         public Nullable<double> UnitCost { get; set; }
+        public Nullable<double> TotalCost { get; set; }
         public Nullable<double> VAT { get; set; }
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string CategoryType { get; set; }
         public string Installation { get; set; }
-        public string Visibility { get; set; }
+        public Nullable<int> VisibilityId { get; set; }
         public Nullable<int> FrameworkWarrantyPeriod { get; set; }
         public Nullable<int> LetteringWarrantyPeriod { get; set; }
         public Nullable<int> IlluminationWarrantyPeriod { get; set; }
-        public Nullable<int> VisibilityId { get; set; }
-        public string Illumination { get; set; }
+        public Nullable<int> IlluminationId { get; set; }
+        public string SpecialInstruction { get; set; }
     
         public virtual Category Category { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AditionalCharge> AditionalCharges { get; set; }
+        public virtual Illumination Illumination { get; set; }
+        public virtual Visibility Visibility { get; set; }
         public virtual Order Order { get; set; }
     }
 }

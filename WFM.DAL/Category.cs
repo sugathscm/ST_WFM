@@ -27,7 +27,21 @@ namespace WFM.DAL
         public bool IsActive { get; set; }
         public string Description { get; set; }
         public string CategoryType { get; set; }
+        public Nullable<int> SizeId { get; set; }
+        public Nullable<int> FrameworkId { get; set; }
+        public Nullable<int> IlluminationId { get; set; }
+        public Nullable<int> LetteringId { get; set; }
+        public Nullable<int> LogoId { get; set; }
+        public Nullable<int> VisibilityId { get; set; }
+        public Nullable<int> FasiaId { get; set; }
     
+        public virtual Fasia Fasia { get; set; }
+        public virtual Framework Framework { get; set; }
+        public virtual Illumination Illumination { get; set; }
+        public virtual Lettering Lettering { get; set; }
+        public virtual Logo Logo { get; set; }
+        public virtual Size Size { get; set; }
+        public virtual Visibility Visibility { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -30,6 +30,13 @@ namespace WFM.BAL.Services
                 return entities.Clients.Where(s => s.Id == id).SingleOrDefault();
             }
         }
+        public List<Visibility> GetVisibility()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Visibilities.OrderBy(b => b.Name).ToList();
+            }
+        }
 
         public void SaveOrUpdate(Client employee)
         {

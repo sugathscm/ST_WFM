@@ -26,6 +26,7 @@
                     <input type="hidden" name="qtyArray" value="" id="qtyArray" />
                     <input type="hidden" name="descriptionArray" value="" id="descriptionArray" />
                     <input type="hidden" name="costArray" value="" id="costArray" />
+                    <input type="hidden" name="totcostArray" value="" id="totcostArray" />
                     <input type="hidden" name="vatArray" value="" id="vatArray" />
                     <input type="hidden" name="sizeArray" value="" id="sizeArray" />
                     <input type="hidden" name="categoryTypeArray" value="" id="categoryTypeArray" />
@@ -42,9 +43,9 @@
                             @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Select Quote", new { @class = "form-control" })
                         </div>
                         @*<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                                <label class="control-label" for="IsVAT">Is VAT</label>
-                                @Html.CheckBoxFor(m => m.IsVAT, new { @class = "form-check-input m-l-10 m-b-20", @checked = Model.IsVAT })
-                            </div>*@
+                    <label class="control-label" for="IsVAT">Is VAT</label>
+                    @Html.CheckBoxFor(m => m.IsVAT, new { @class = "form-check-input m-l-10 m-b-20", @checked = Model.IsVAT })
+                </div>*@
                         <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2">
                             <label class="control-label" for="BaseQuoteId">Type</label>
                             @Html.DropDownList("OrderTypeId", (SelectList)ViewBag.OrderTypeList, "Select Type", new { @class = "form-control order-type" })
@@ -168,7 +169,7 @@
                             {
                                 <div class="form-row item m-t-10 m-b-20" id="item-row">
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="product">
-                                        @Html.DropDownListFor(m => quoteItem.CategoryId, new SelectList(ViewBag.CategoryList, "Id", "Name", quoteItem.CategoryId.Value), "Select Product Type", new { @class = "form-control" })
+                                        @Html.DropDownListFor(m => quoteItem.CategoryId, new SelectList(ViewBag.CategoryList, "Id", "Name", quoteItem.CategoryId), "Select Product Type", new { @class = "form-control" })
                                     </div>
                                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5">
                                         <input type="text" id="Size" placeholder="Size" class="form-control" value="@quoteItem.Size" />
@@ -177,34 +178,34 @@
                                         <input type="text" id="Qty" placeholder="Qty." class="form-control text-right" value="@quoteItem.Qty" />
                                     </div>
                                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5">
-                                        <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" value="@quoteItem.UnitCost.Value.ToString("##0.00")" />
+                                        <input type="text" id="Cost" placeholder="Cost" class="form-control text-right" value="@quoteItem.UnitCost?.ToString("##0.00")" />
                                     </div>
                                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 m-t-5">
-                                        <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" value="@((quoteItem.UnitCost.Value * quoteItem.Qty.Value).ToString("##0.00"))" />
+                                        <input type="text" id="TotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" value="@((quoteItem.UnitCost) * (quoteItem.Qty))" />
                                     </div>
                                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 m-t-5">
-                                        <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" value="@quoteItem.VAT.Value.ToString("##0.00")" />
+                                        <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" value="@quoteItem.VAT?.Value.ToString("##0.00")" />
                                     </div>
                                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 m-t-5">
-                                        <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" value="@(((quoteItem.UnitCost.Value * quoteItem.Qty.Value) + quoteItem.VAT.Value).ToString(" ##0.00"))" />
+                                        <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" value="@(((quoteItem.UnitCost) * (quoteItem.Qty) + (quoteItem.VAT))?.ToString(" ##0.00"))" />
                                     </div>
                                     <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 m-t-5">
                                         <input type="text" placeholder="Category Type" class="form-control" id="CategoryType" value="" />
                                     </div>
                                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 m-t-5">
-                                        @Html.DropDownListFor(m => quoteItem.VisibilityId, new SelectList(ViewBag.VisibilityList, "Id", "Name", quoteItem.VisibilityId.Value), "Visibility", new { @class = "form-control selection" })
+                                        @Html.DropDownListFor(m => quoteItem.VisibilityId, new SelectList(ViewBag.VisibilityList, "Id", "Name", quoteItem.VisibilityId), "Visibility", new { @class = "form-control selection" })
                                     </div>
                                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12 m-t-5">
                                         <input type="text" placeholder="Installation" class="form-control" id="Installation" value="" />
                                     </div>
                                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
-                                        @Html.DropDownListFor(m => quoteItem.FrameworkWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", quoteItem.FrameworkWarrantyPeriod.Value), "Framework", new { @class = "form-control selection" })
+                                        @Html.DropDownListFor(m => quoteItem.FrameworkWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.FrameworkWarrantyPeriod), "Framework", new { @class = "form-control selection" })
                                     </div>
                                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
-                                        @Html.DropDownListFor(m => quoteItem.LetteringWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", quoteItem.LetteringWarrantyPeriod.Value), "Lettering", new { @class = "form-control selection" })
+                                        @Html.DropDownListFor(m => quoteItem.LetteringWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.LetteringWarrantyPeriod), "Lettering", new { @class = "form-control selection" })
                                     </div>
                                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
-                                        @Html.DropDownListFor(m => quoteItem.IlluminationWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", quoteItem.IlluminationWarrantyPeriod.Value), "Illumination", new { @class = "form-control selection" })
+                                        @Html.DropDownListFor(m => quoteItem.IlluminationWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.IlluminationWarrantyPeriod), "Illumination", new { @class = "form-control selection" })
                                     </div>
                                     <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                         <input type="text" placeholder="Description" class="form-control" id="Description" value="@quoteItem.Description" />
@@ -249,13 +250,13 @@
                                     <input type="text" placeholder="Installation" class="form-control" id="Installation" value="" />
                                 </div>
                                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
-                                    @Html.DropDownList("quoteItem_FrameworkWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name"), "Framework", new { @class = "form-control selection" })
+                                    @Html.DropDownList("quoteItem_FrameworkWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Framework", new { @class = "form-control selection" })
                                 </div>
                                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
-                                    @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name"), "Lettering", new { @class = "form-control selection" })
+                                    @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Lettering", new { @class = "form-control selection" })
                                 </div>
                                 <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12 m-t-5">
-                                    @Html.DropDownList("quoteItem_IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name"), "Illumination", new { @class = "form-control selection" })
+                                    @Html.DropDownList("quoteItem_IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Illumination", new { @class = "form-control selection" })
                                 </div>
                                 <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                     <input type="text" placeholder="Description" class="form-control" id="Description" value="" />
@@ -349,7 +350,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
+<script>
         //$('select').select2({
         //    selectOnClose: true
         //});
@@ -363,6 +364,10 @@
                 alert('Last item cannot be removed');
             }
         };
+        @*$(function () {
+                $(".nav-item").removeClass("active");
+                $("#lnk" + "@ViewBag.View").closest(".nav-item").addClass("active");
+        });*@
 
         $(document).ready(function () {
             //$('.selection').select2();
@@ -442,17 +447,19 @@
             //    }
             //});
 
-            $(".order-type").change(function () {
-                var code = $(".order-type option:selected").text();
-                var sections = $('#Code').val().split("/");
-                $('#Code').val(code + "/" + sections[1] + "/" + sections[2] + "/" + sections[3]);
-            });
+            //$(".order-type").change(function () {
+            //    var code = $(".order-type option:selected").text();
+            //    alert(code);
+            //    var sections = $('#Code').val().split("/");
+            //    alert(sections);
+            //    $('#Code').val(code + "/" + sections[1] + "/" + sections[2] + "/" + sections[3]);
+            //});
 
-            $(".advance").change(function () {
-                console.log($(".advance").val());
-                console.log($(".term-1").html());
-                $(".term-1").html($(".term-1").html().replace("[AP_VAL]", $(".advance").val()));
-            });
+            //$(".advance").change(function () {
+            //    console.log($(".advance").val());
+            //    console.log($(".term-1").html());
+            //    $(".term-1").html($(".term-1").html().replace("[AP_VAL]", $(".advance").val()));
+            //});
 
             $('#add').click(function () {
                 var n = $('.item').length + 1;
@@ -548,6 +555,7 @@
             var descriptionArray = [];
             var categoryTypeArray = [];
             var visibilityArray = [];
+            var totcostArray = [];
             var costArray = [];
             var vatArray = [];
             var sizeArray = [];
@@ -564,6 +572,7 @@
                 qtyArray.push($(obj).find('input#Qty').val());
                 descriptionArray.push($(obj).find('input#Description').val());
                 costArray.push($(obj).find('input#Cost').val());
+                totcostArray.push($(obj).find('input#TotalCost').val());
                 vatArray.push($(obj).find('input#VAT').val());
                 vatArray.push($(obj).find('input#VAT').val());
                 sizeArray.push($(obj).find('input#Size').val());
@@ -574,13 +583,14 @@
                 illuminationWarrantyPeriodArray.push($(obj).find('select#quoteItem_IlluminationWarrantyPeriod').val());
                 installationArray.push($(obj).find('input#Installation').val());
 
-              
+
             });
 
             $('#productIdArray').val(productIdArray);
             $('#qtyArray').val(qtyArray);
             $('#descriptionArray').val(descriptionArray);
             $('#costArray').val(costArray);
+            $('#totcostArray').val(totcostArray);
             $('#vatArray').val(vatArray);
             $('#sizeArray').val(sizeArray);
             $('#categoryTypeArray').val(categoryTypeArray);
@@ -620,5 +630,5 @@
             });
             return false;
         }
-    </script>
+</script>
 }

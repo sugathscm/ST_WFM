@@ -16,6 +16,9 @@ namespace WFM.DAL
     {
         public int Id { get; set; }
         public int OrderId { get; set; }
-        public int QuoteTermId { get; set; }
+        public int QouteId { get; set; }
+    
+        public virtual Quote Quote { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

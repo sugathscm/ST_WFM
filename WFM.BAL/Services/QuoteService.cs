@@ -14,6 +14,27 @@ namespace WFM.BAL.Services
                 return entities.Quotes.Include("Client").Where(d => d.IsActive == true).OrderBy(d => d.Id).ToList();
             }
         }
+        //public List<WarrantyPeriod> GetWarrantyPeriodList()
+        //{
+        //    using (DB_stwfmEntities entities = new DB_stwfmEntities())
+        //    {
+        //        return entities.WarrantyPeriods.OrderBy(l => l.Duration).ToList();
+        //    }
+        //}
+        public List<Visibility> GetVisibilityList()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Visibilities.OrderBy(l => l.Name).ToList();
+            }
+        }
+        public List<Illumination> GetIlluminationList()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Illuminations.OrderBy(n => n.Name).ToList();
+            }
+        }
 
         public List<Quote> GetQuoteActiveList()
         {

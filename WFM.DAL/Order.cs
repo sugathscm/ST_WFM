@@ -17,7 +17,9 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Order()
         {
+            this.AdditionalCharges = new HashSet<AdditionalCharge>();
             this.OrderItems = new HashSet<OrderItem>();
+            this.OrderTermDetails = new HashSet<OrderTermDetail>();
         }
     
         public int Id { get; set; }
@@ -29,10 +31,10 @@ namespace WFM.DAL
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public string ChanneledBy { get; set; }
+        public int ChanneledById { get; set; }
         public Nullable<int> PaperQualityId { get; set; }
         public Nullable<int> PrinterId { get; set; }
-        public Nullable<int> ClientId { get; set; }
+        public int ClientId { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public string Location { get; set; }
         public string Comments { get; set; }
@@ -41,7 +43,7 @@ namespace WFM.DAL
         public Nullable<int> CurrentDivisionId { get; set; }
         public Nullable<System.DateTime> LastTransferredDate { get; set; }
         public string LastTransferredBy { get; set; }
-        public Nullable<int> OrderTypeId { get; set; }
+        public int OrderTypeId { get; set; }
         public Nullable<int> QuoteId { get; set; }
         public Nullable<decimal> Value { get; set; }
         public string Header { get; set; }
@@ -49,19 +51,38 @@ namespace WFM.DAL
         public Nullable<int> CodeNumber { get; set; }
         public string ContactPerson { get; set; }
         public string ContactMobile { get; set; }
-        public bool IsVAT { get; set; }
-        public Nullable<int> FrameworkWarrantyPeriod { get; set; }
-        public Nullable<int> LetteringWarrantyPeriod { get; set; }
-        public Nullable<int> IlluminationWarrantyPeriod { get; set; }
+        public Nullable<bool> IsVAT { get; set; }
         public string FileNumber { get; set; }
+        public Nullable<int> DeliveryTypeId { get; set; }
+        public string ArtWork { get; set; }
+        public string PurchaseOrder { get; set; }
+        public string Designer { get; set; }
+        public bool IsPrintingDepartment { get; set; }
+        public bool IsCuttingDepartment { get; set; }
+        public bool IsPlasticDepartment { get; set; }
+        public bool IsCladdingsection { get; set; }
+        public bool IsArtDepartment { get; set; }
+        public bool IsSteelDepartment { get; set; }
+        public bool IsScreenPrintingDept { get; set; }
+        public bool IsProductionDepartment { get; set; }
+        public bool IsPackingDepartment { get; set; }
+        public bool IsInstallationTeam { get; set; }
+        public string BaseQuoteId { get; set; }
+        public Nullable<int> AdvancePayment { get; set; }
+        public Nullable<int> VAT { get; set; }
+        public string Remarks { get; set; }
+        public Nullable<int> VATNo { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdditionalCharge> AdditionalCharges { get; set; }
         public virtual Client Client { get; set; }
-        public virtual Division Division { get; set; }
+        public virtual DeliveryType DeliveryType { get; set; }
+        public virtual Employee Employee { get; set; }
         public virtual OrderType OrderType { get; set; }
-        public virtual PaperQuality PaperQuality { get; set; }
-        public virtual Printer Printer { get; set; }
-        public virtual Status Status { get; set; }
+        public virtual Quote Quote { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
     }
 }

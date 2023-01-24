@@ -17,8 +17,10 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Quote()
         {
-            this.QuoteItems = new HashSet<QuoteItem>();
+            this.OrderTermDetails = new HashSet<OrderTermDetail>();
             this.QuoteTermDetails = new HashSet<QuoteTermDetail>();
+            this.QuoteItems = new HashSet<QuoteItem>();
+            this.Orders = new HashSet<Order>();
         }
     
         public int Id { get; set; }
@@ -30,7 +32,7 @@ namespace WFM.DAL
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public string ChanneledBy { get; set; }
+        public Nullable<int> ChanneledById { get; set; }
         public string Location { get; set; }
         public string Comments { get; set; }
         public string ApprovedBy { get; set; }
@@ -60,8 +62,12 @@ namespace WFM.DAL
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuoteItem> QuoteItems { get; set; }
+        public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuoteTermDetail> QuoteTermDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<QuoteItem> QuoteItems { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
