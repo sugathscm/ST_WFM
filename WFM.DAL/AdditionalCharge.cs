@@ -11,18 +11,15 @@ namespace WFM.DAL
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class AdditionalCharge
     {
         public int Id { get; set; }
         public string AddCharge { get; set; }
-        [System.ComponentModel.DataAnnotations.DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
         public double Cost { get; set; }
-        public Nullable<double> Qty { get; set; }
+        public double Qty { get; set; }
         public Nullable<int> OrderId { get; set; }
-        [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
-        public Nullable<double> TotalCost { get; set; }
+        public double TotalCost { get; set; }
     
         public virtual Order Order { get; set; }
     }

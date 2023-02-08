@@ -32,6 +32,7 @@
         border-right: solid 1px;
         font-size: 1.2em;
     }
+   
 
 
 </style>
@@ -76,26 +77,24 @@
                                 <div class="col-1 col-sm-2 text-left">
                                     <p style="font-size:1.3em"><b>PO No</b></p>
                                 </div>
-                                <div class="col-1 col-sm-1">
+                                <div class="col-2 col-sm-2">
                                     <p style="font-size:1.2em">:@Html.DisplayFor(q => q.Code)</p>
                                 </div>
 
-                                <div class="col-7 col-sm-7 text-right">
+                                <div class="col-6 col-sm-6 text-right">
                                     <p style="font-size:1.3em"> <b>Channeled By</b></p>
                                 </div>
                                 <div class="col-2 col-sm-2">
                                     <p style="font-size:1.2em">:@Html.DisplayFor(q => q.Employee.Name)</p>
-                                    @*@if (Model != null && Model.CreatedDate != null)
-        {
-            <p>:@Html.DisplayFor(q => q.CreatedDateString)</p>
-        }*@
+
+
                                 </div>
 
 
                             </div>
                             <div class="row justify-content-lg-start">
                                 <div class="col-2 col-sm-2 text-left">
-                                    
+
                                     <p style="font-size:1.3em"><b> Date</b></p>
                                 </div>
                                 <div class="col-2 col-sm-2">
@@ -103,7 +102,7 @@
                                     {
                                         <p style="font-size:1.2em">:@Html.DisplayFor(q => q.CreatedDateString)</p>
                                     }
-                                    
+
 
                                 </div>
                                 <div class="col-6 col-sm-6 text-right">
@@ -111,23 +110,20 @@
                                 </div>
                                 <div class="col-2 col-sm-2">
                                     <p style="font-size:1.2em">:@Html.DisplayFor(q => q.Quote.Code)</p>
-                                    @*@if (Model != null && Model.DeliveryDate != null)
-                                    {
-                                        <p>:@Html.DisplayFor(q => q.DeliveryDate)</p>
-                                    }*@
+
                                 </div>
                             </div>
                             <div class="row justify-content-lg-start">
                                 <div class="col-2 col-sm-2 text-left">
-                                    @*<p style="font-size:1.2em"> <b>Qoutation No</b></p>*@
+
                                     <p style="font-size:1.3em"><b>Delivery Date</b></p>
                                 </div>
                                 <div class="col-2 col-sm-2">
 
                                     @if (Model != null && Model.DeliveryDate != null)
                                     {
-                                       <p style="font-size:1.2em">:@Convert.ToString(string.Format("{0:dd/MM/yyyy}",Model.DeliveryDate))</p>
-                                        @*<p style="font-size:1.2em">:@Html.DisplayFor(q => q.DeliveryDate)</p>*@
+                                        <p style="font-size:1.2em">:@Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.DeliveryDate))</p>
+
                                     }
 
                                 </div>
@@ -153,28 +149,6 @@
                                 </div>
                             </div>
 
-                            @*<div class="row justify-content-lg-start">
-                                <div class="col-2 col-sm-2 text-left">
-                                    <p style="font-size:1.2em"> <b>Designer</b></p>
-                                </div>
-                                <div class="col-2 col-sm-2 ">
-
-                                    <p>:@Html.DisplayFor(q => q.Designer)</p>
-
-                                </div>
-
-                            </div>*@
-                            @*<div class="row justify-content-lg-start">
-                                <div class="col-2 col-sm-2 text-left">
-                                    <p style="font-size:1.2em"> <b>Remarks</b></p>
-                                </div>
-                                <div class="col-8 col-sm-8 ">
-
-                                    <p>:@Html.DisplayFor(q => q.Remarks)</p>
-
-                                </div>
-
-                            </div>*@
                         </div>
                         <br />
                     </div>
@@ -207,28 +181,18 @@
                                 <div class="col-2 col-sm-2 text-right boxR" style="border-top: solid 1px">
                                     <p> <b>Delivery</b></p>
                                 </div>
-                                <div class="col-2 col-sm-2 boxL"style="border-top: solid 1px">
-                                    @Html.DisplayFor(q => q.DeliveryType)
+                                <div class="col-2 col-sm-2 boxL" style="border-top: solid 1px">
+                                    @if (Model != null && Model.DeliveryTypeId != null)
+                                    {
+                                        var x = Model.GetDelivery(Model.DeliveryTypeId);
+                                        @Html.DisplayFor(q => x)
+                                    }
+
+
                                 </div>
 
                             </div>
-                            @*<div class="row">
-                                <div class="col-2 col-sm-2 text-left boxR">
-                                    <p> <b>Location</b></p>
-                                </div>
-                                <div class="col-3 col-sm-3 boxL">
-                                    @Html.DisplayFor(q => q.Location)
-                                </div>
-                            </div>*@
-                            @*<div class="row">
-                                <div class="col-2 col-sm-2 text-left boxR">
-                                    <p> <b>Delivery</b></p>
-                                </div>
-                                <div class="col-3 col-sm-3 boxL">
-                                    @Html.DisplayFor(q => q.Delivery)
-                                </div>
-                               
-                            </div>*@
+
                             <div class="row">
                                 <div class="col-2 col-sm-2 text-left boxR">
                                     <p> <b>Contact Person</b></p>
@@ -262,36 +226,6 @@
                 </td>
 
             </tr>
-
-
-            @*@if (Model != null)
-        {
-            foreach (var item in Model.OrderItems)
-            {
-                <tr>
-                    <td>
-                        <div class="main">
-                            <div class="col-12">
-                                <div class="row">
-
-                                    <div class="col-4 text-left">
-                                        @item.Category.Name
-                                    </div>
-
-                                    <div class="col-4">
-                                        @item.Qty
-                                    </div>
-                                    <div class="col-4">
-                                        @item.UnitCost.ToString("F")
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-
-        }*@
             <tr>
                 <td>
 
@@ -300,7 +234,7 @@
                         <div class="col-12">
                             <div style="border-top:groove" class="row">
                                 <div class="col-4 text-left">
-                                    <h5>  <b> <u>Production Intructions</u></b></h5>
+                                    <h5>  <b> <u>Production Instructions</u></b></h5>
                                 </div>
                             </div>
                         </div>
@@ -373,7 +307,8 @@
                                             Visibility
                                         </div>
                                         <div class="col-3 col-sm-3 text-left boxL">
-                                            @item.VisibilityId
+                                            @Model.Getvisibility(@item.VisibilityId == 0 ? 3 : @item.VisibilityId)
+
                                         </div>
                                         <div style="border-right:solid thin" class="col-6 col-sm-6 text-left">
 
@@ -385,7 +320,7 @@
                                             Illumination
                                         </div>
                                         <div class="col-3 col-sm-3 text-left boxL">
-                                            @item.IlluminationId
+                                            @Model.GetIllumination(@item.IlluminationId == 0 ? 7 : @item.IlluminationId)
                                         </div>
                                         <div class="col-6 col-sm-6 text-left boxL">
 
@@ -394,7 +329,7 @@
                                     <div class="row">
 
                                         <div class="col-3 col-sm-3 text-left boxR">
-                                            Special Intructions
+                                            Special Instructions
                                         </div>
                                         <div class="col-9 col-sm-9 text-left boxL">
                                             @item.SpecialInstruction
@@ -416,13 +351,34 @@
                                             Warranty for Framework
                                         </div>
                                         <div class="col-3 col-sm-3 text-left boxL">
-                                            @item.FrameworkWarrantyPeriod Years
+
+                                            @if (@Model.GetWarranty(@item.FrameworkWarrantyPeriod) != "N/A")
+                                            {
+                                                <p>@Model.GetWarranty(@item.FrameworkWarrantyPeriod) Years</p>
+                                            }
+                                            else
+                                            {
+                                                @Model.GetWarranty(@item.FrameworkWarrantyPeriod)
+                                            }
+
+
+
                                         </div>
                                         <div style="background-color:lightgrey" class="col-3 col-sm-3 text-left boxL">
                                             Warranty for Lettering
                                         </div>
                                         <div class="col-3 col-sm-3 text-left boxL">
-                                            @item.LetteringWarrantyPeriod Years
+
+                                            @if (@Model.GetWarranty(@item.LetteringWarrantyPeriod) != "N/A")
+                                            {
+                                                <p>@Model.GetWarranty(@item.LetteringWarrantyPeriod) Years</p>
+                                            }
+                                            else
+                                            {
+                                                @Model.GetWarranty(@item.LetteringWarrantyPeriod)
+                                            }
+
+
                                         </div>
 
                                     </div>
@@ -433,7 +389,17 @@
                                             Warranty for Illumination
                                         </div>
                                         <div class="col-3 col-sm-3 text-left boxL">
-                                            @item.IlluminationWarrantyPeriod Years
+                                            @*@Model.GetWarranty(@item.IlluminationWarrantyPeriod)*@
+
+                                            @if (@Model.GetWarranty(@item.IlluminationWarrantyPeriod) != "N/A")
+                                            {
+                                                <p>@Model.GetWarranty(@item.IlluminationWarrantyPeriod) Years</p>
+                                            }
+                                            else
+                                            {
+                                                @Model.GetWarranty(@item.IlluminationWarrantyPeriod)
+                                            }
+
                                         </div>
                                         <div class="col-6 col-sm-6 text-left boxL">
 
@@ -446,13 +412,13 @@
                                             Cost
                                         </div>
                                         <div class="col-3 col-sm-3 text-left boxL">
-                                            @item.UnitCost
+                                            @item.UnitCost.ToString("N2")
                                         </div>
                                         <div style="background-color:lightgrey" class="col-3 col-sm-3 text-left boxL">
-                                            VAT
+                                            VAT(%)
                                         </div>
                                         <div class="col-3 col-sm-3 text-left boxL">
-                                            @item.VAT
+                                            @item.VAT%
                                         </div>
                                     </div>
 
@@ -462,7 +428,7 @@
                                             Total Cost
                                         </div>
                                         <div class="col-3 col-sm-3 text-left boxL">
-                                            @item.TotalCost
+                                            @item.TotalCost.ToString("N2")
                                         </div>
                                         <div class="col-6 col-sm-6 text-left boxL">
 
@@ -603,31 +569,6 @@
                 </td>
 
             </tr>
-            @*@if (Model != null)
-        {
-
-            foreach (var item in Model.OrderItems)
-            {
-                <tr>
-                    <td>
-                        <div class="main">
-                            <div class="col-12">
-                                <div class="row">
-
-                                    <div class="col-10 text-left">
-                                        @item.SpecialInstruction
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-
-
-        }*@
 
             <tr>
                 <td>
@@ -643,7 +584,7 @@
 
 
                             </div>
-                         
+
                             <div class="row">
 
                                 <div class="col-4 col-sm-4 text-left">
@@ -660,7 +601,7 @@
                                 </div>
 
                             </div>
-                           
+
                         </div>
                     </div>
 
@@ -668,7 +609,7 @@
                 </td>
 
             </tr>
-
+            @*---------\Order Items/-------*@
             @if (Model != null)
             {
                 foreach (var item in Model.OrderItems)
@@ -685,10 +626,10 @@
                                             @item.Qty
                                         </div>
                                         <div style="border-top:solid 1px" class="col-3 text-left boxL">
-                                            LKR @item.UnitCost
+                                            LKR @item.UnitCost.ToString("N2")
                                         </div>
                                         <div style="border-top:solid 1px" class="col-3 text-left boxL">
-                                            LKR @item.TotalCost
+                                            LKR @item.TotalCost.ToString("N2")
                                         </div>
                                     </div>
 
@@ -699,6 +640,8 @@
                 }
 
             }
+
+            @*---------\Additional charges/-------*@
             @if (Model != null)
             {
                 //var x = 0;
@@ -719,10 +662,10 @@
                                                 @item.Qty
                                             </div>
                                             <div style="border-top:solid 1px" class="col-3 text-left boxL">
-                                                LKR @item.Cost
+                                                LKR @item.Cost.ToString("N2")
                                             </div>
                                             <div style="border-top:solid 1px" class="col-3 text-left boxL">
-                                                LKR @item.TotalCost
+                                                LKR @item.TotalCost.ToString("N2")
                                             </div>
                                         </div>
 
@@ -730,8 +673,8 @@
                                 </div>
                             </td>
                         </tr>
-                        }
                     }
+                }
 
             }
 
@@ -773,7 +716,13 @@
 
                                 </div>
                                 <div class="col-3 text-left boxL">
-                                    <b> LKR @Html.DisplayFor(q => q.OrderTotal)</b>
+
+
+                                    <b> LKR @Html.DisplayFor(q => q.TotalWithVat)</b>
+
+
+
+
                                 </div>
                             </div>
                             <div class="row">
@@ -807,28 +756,33 @@
             </tr>
             <tr>
                 <td>
-                    <div class="main">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
-                            <div style="border-top:groove" class="row">
-
-                                <div class="col-6 font-12 font-bold">                                 
-                               </div>
-
-                                <div class="col-2">
-                                    <h5>ORDER VALUE :</h5>
-                                </div>
-                                <div class="col-2">
-                                    <p style="font-size:1.25em"> @Html.DisplayFor(q => q.OrderTotal)</p>
-                                </div>
+                    <div>
+                        <div class="col-12">
+                            <br>
+                            <div class="row">
+                                <h5>  <b> <u>Attachments</u></b></h5>
                             </div>
-                        </div>
 
+                        </div>
+                        <div class="col-12">
+
+
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model.OrderAttachments)
+                                {
+                                    var url = "UploadedFiles\\" + @item.AttachmentName;
+                                    <div class="row">
+                                        <a href=@url><span style="font-weight:700" target="_blank">@item.ActualName</span></a>
+                                    </div>
+                                }
+                            }
+                        </div>
 
                     </div>
                 </td>
             </tr>
-
-
-        </tbody>
-                    </table>
-                    </div>
+        </tbody>          
+    </table>
+   
+</div>

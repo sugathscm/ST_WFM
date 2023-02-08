@@ -19,9 +19,9 @@ namespace WFM.DAL
         public int CategoryId { get; set; }
         public string Size { get; set; }
         public double Qty { get; set; }
-        public Nullable<double> UnitCost { get; set; }
-        public Nullable<double> TotalCost { get; set; }
-        public Nullable<double> VAT { get; set; }
+        public double UnitCost { get; set; }
+        public double TotalCost { get; set; }
+        public double VAT { get; set; }
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string CategoryType { get; set; }
@@ -34,8 +34,6 @@ namespace WFM.DAL
         public string SpecialInstruction { get; set; }
     
         public virtual Category Category { get; set; }
-        public virtual Illumination Illumination { get; set; }
-        public virtual Visibility Visibility { get; set; }
         public virtual Order Order { get; set; }
     }
 }

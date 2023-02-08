@@ -18,7 +18,6 @@ namespace WFM.DAL
         public Visibility()
         {
             this.Categories = new HashSet<Category>();
-            this.OrderItems = new HashSet<OrderItem>();
         }
     
         public int Id { get; set; }
@@ -26,7 +25,5 @@ namespace WFM.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Category> Categories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

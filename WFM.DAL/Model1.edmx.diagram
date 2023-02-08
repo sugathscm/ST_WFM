@@ -36,8 +36,6 @@
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderTermDetail" Width="1.5" PointX="8.25" PointY="16.25" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteTerm" Width="1.5" PointX="8.375" PointY="3.875" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_QuoteTerm" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.DeliveryType" Width="1.5" PointX="5.5" PointY="7.5" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Illumination" Width="1.5" PointX="11.25" PointY="4.625" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Visibility" Width="1.5" PointX="7.375" PointY="7.875" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.WarrantyPeriod" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.ErrorLog" Width="1.5" PointX="10.375" PointY="0.75" />
@@ -54,7 +52,6 @@
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Category" Width="1.5" PointX="16.625" PointY="5.125" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Category_Fasia" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Category_Framework" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Category_Illumination" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Category_Lettering" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Category_Logo" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Category_Size" />
@@ -63,15 +60,16 @@
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Quote_Client" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Quote" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_Quote" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AdditionalCharge" Width="1.5" PointX="8.25" PointY="45.375" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderItem" Width="1.5" PointX="21.875" PointY="11.25" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Categoty" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Illumination" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Visibility" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteItem" Width="1.5" PointX="18.875" PointY="13.25" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_QuoteItem_Category" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_QuoteItem_Quote" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Illumination" Width="1.5" PointX="5.375" PointY="4.875" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Category_Illumination" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.DeliveryType" Width="1.5" PointX="10.375" PointY="3.875" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderItem" Width="1.5" PointX="21.875" PointY="10.125" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Categoty" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AdditionalCharge" Width="1.5" PointX="14.875" PointY="14.75" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.875" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_AdditionalCharges_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Client" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType" />
@@ -80,6 +78,8 @@
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Qouate" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderAttachment" Width="1.5" PointX="14.875" PointY="18.125" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderAttachment_Order" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

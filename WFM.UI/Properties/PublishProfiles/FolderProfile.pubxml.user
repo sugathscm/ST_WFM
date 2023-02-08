@@ -7,7 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\project\Publish</_PublishTargetUrl>
-    <History>True|2023-01-03T05:34:58.1893544Z;True|2022-12-27T20:03:53.2133364+05:30;True|2022-10-26T16:48:23.7324754+05:30;True|2022-10-26T16:46:54.7464377+05:30;True|2022-10-15T08:51:27.0690547+05:30;True|2022-10-15T08:43:19.2785607+05:30;False|2022-10-15T08:41:04.5891531+05:30;False|2022-10-15T08:39:44.0443544+05:30;False|2022-10-15T08:39:23.2795393+05:30;False|2022-10-15T08:38:48.5107727+05:30;False|2022-10-15T08:37:12.0192933+05:30;False|2022-10-15T08:36:27.9797418+05:30;</History>
+    <History>True|2023-02-06T16:35:15.5049584Z;True|2023-01-26T14:29:04.5181693+05:30;True|2023-01-03T11:04:58.1893544+05:30;True|2022-12-27T20:03:53.2133364+05:30;True|2022-10-26T16:48:23.7324754+05:30;True|2022-10-26T16:46:54.7464377+05:30;True|2022-10-15T08:51:27.0690547+05:30;True|2022-10-15T08:43:19.2785607+05:30;False|2022-10-15T08:41:04.5891531+05:30;False|2022-10-15T08:39:44.0443544+05:30;False|2022-10-15T08:39:23.2795393+05:30;False|2022-10-15T08:38:48.5107727+05:30;False|2022-10-15T08:37:12.0192933+05:30;False|2022-10-15T08:36:27.9797418+05:30;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -1308,10 +1308,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:26</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>01/22/2023 12:59:38</publishTime>
+      <publishTime>02/07/2023 17:04:54</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>01/22/2023 12:59:38</publishTime>
+      <publishTime>02/07/2023 17:04:53</publishTime>
     </File>
     <File Include="bin/Aspose.Words.dll">
       <publishTime>08/30/2022 19:25:27</publishTime>
@@ -1548,25 +1548,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:30</publishTime>
     </File>
     <File Include="bin/WFM.BAL.dll">
-      <publishTime>01/22/2023 12:59:24</publishTime>
+      <publishTime>02/07/2023 17:04:40</publishTime>
+    </File>
+    <File Include="bin/WFM.BAL.dll.config">
+      <publishTime>02/07/2023 10:40:10</publishTime>
     </File>
     <File Include="bin/WFM.BAL.pdb">
-      <publishTime>01/22/2023 12:59:24</publishTime>
+      <publishTime>02/07/2023 17:04:40</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll">
-      <publishTime>01/22/2023 12:59:24</publishTime>
+      <publishTime>02/06/2023 22:04:44</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll.config">
       <publishTime>01/20/2023 13:55:54</publishTime>
     </File>
     <File Include="bin/WFM.DAL.pdb">
-      <publishTime>01/22/2023 12:59:24</publishTime>
+      <publishTime>02/06/2023 22:04:44</publishTime>
     </File>
     <File Include="bin/WFM.UI.dll">
-      <publishTime>01/22/2023 12:59:24</publishTime>
+      <publishTime>02/07/2023 17:04:40</publishTime>
     </File>
     <File Include="bin/WFM.UI.pdb">
-      <publishTime>01/22/2023 12:59:24</publishTime>
+      <publishTime>02/07/2023 17:04:40</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.css">
       <publishTime>08/30/2022 19:25:26</publishTime>
@@ -1767,7 +1770,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/29/2022 11:18:32</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>01/22/2023 12:59:27</publishTime>
+      <publishTime>02/07/2023 17:04:42</publishTime>
     </File>
     <File Include="Resources/print-logo.png">
       <publishTime>08/30/2022 19:25:26</publishTime>
@@ -2169,7 +2172,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/18/2023 20:17:33</publishTime>
     </File>
     <File Include="Views/Framework/Index.cshtml">
-      <publishTime>01/02/2023 20:18:55</publishTime>
+      <publishTime>01/24/2023 16:14:42</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>08/30/2022 19:25:26</publishTime>
@@ -2205,16 +2208,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:26</publishTime>
     </File>
     <File Include="Views/Order/Details.cshtml">
-      <publishTime>01/21/2023 23:31:12</publishTime>
+      <publishTime>02/07/2023 15:05:40</publishTime>
     </File>
     <File Include="Views/Order/Index.cshtml">
-      <publishTime>01/20/2023 14:56:10</publishTime>
+      <publishTime>01/24/2023 16:44:04</publishTime>
     </File>
     <File Include="Views/Order/_NewClientPartial.cshtml">
       <publishTime>01/03/2023 17:28:05</publishTime>
     </File>
     <File Include="Views/Order/_PrintOrder.cshtml">
-      <publishTime>01/22/2023 12:42:44</publishTime>
+      <publishTime>02/07/2023 11:40:45</publishTime>
     </File>
     <File Include="Views/OrderType/Index.cshtml">
       <publishTime>08/30/2022 19:25:26</publishTime>
@@ -2280,7 +2283,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:26</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/22/2023 12:59:25</publishTime>
+      <publishTime>02/07/2023 17:04:41</publishTime>
     </File>
   </ItemGroup>
 </Project>

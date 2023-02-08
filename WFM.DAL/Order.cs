@@ -20,6 +20,7 @@ namespace WFM.DAL
             this.AdditionalCharges = new HashSet<AdditionalCharge>();
             this.OrderItems = new HashSet<OrderItem>();
             this.OrderTermDetails = new HashSet<OrderTermDetail>();
+            this.OrderAttachments = new HashSet<OrderAttachment>();
         }
     
         public int Id { get; set; }
@@ -53,7 +54,7 @@ namespace WFM.DAL
         public string ContactMobile { get; set; }
         public Nullable<bool> IsVAT { get; set; }
         public string FileNumber { get; set; }
-        public Nullable<int> DeliveryTypeId { get; set; }
+        public int DeliveryTypeId { get; set; }
         public string ArtWork { get; set; }
         public string PurchaseOrder { get; set; }
         public string Designer { get; set; }
@@ -68,8 +69,8 @@ namespace WFM.DAL
         public bool IsPackingDepartment { get; set; }
         public bool IsInstallationTeam { get; set; }
         public string BaseQuoteId { get; set; }
-        public Nullable<int> AdvancePayment { get; set; }
-        public Nullable<int> VAT { get; set; }
+        public double AdvancePayment { get; set; }
+        public Nullable<double> OrderVAT { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> VATNo { get; set; }
     
@@ -84,5 +85,7 @@ namespace WFM.DAL
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderAttachment> OrderAttachments { get; set; }
     }
 }

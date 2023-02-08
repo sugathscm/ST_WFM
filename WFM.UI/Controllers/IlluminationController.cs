@@ -111,6 +111,7 @@ namespace WFM.UI.Controllers
                     });
                 }
 
+                
                 illuminationService.SaveOrUpdate(illumination);
 
                 CommonService.SaveDataAudit(new DataAudit()

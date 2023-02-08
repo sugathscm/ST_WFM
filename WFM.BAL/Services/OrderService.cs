@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using WFM.BAL.Enums;
 using WFM.DAL;
 
@@ -8,6 +10,83 @@ namespace WFM.BAL.Services
 {
     public class OrderService
     {
+        private readonly MemoryCache _memoryCache;
+
+        public OrderService()
+        {
+            _memoryCache = new MemoryCache("STWFM");
+        }
+
+        public string GetIllumination(int? Id=0)
+        {
+            if (_memoryCache.Get("luminatio") != null)
+            {
+                var ill = (List<Illumination>)_memoryCache.Get("luminatio");
+                var IllName = ill.Where(e => e.Id == Id).FirstOrDefault();
+                return IllName.Name == null ? "" : IllName.Name;
+
+            }
+            else
+            {
+
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
+                {
+                    var ill =(List<Illumination>)entities.Illuminations.ToList();
+                    _memoryCache.Add("luminatio", ill,null);
+                    var illName = ill.Where(e => e.Id == Id).FirstOrDefault();
+                    return illName.Name == null ? "" : illName.Name;
+                }
+            }
+
+        }
+
+        public string GetWarranty(int? Id = 4)
+        {
+            if (_memoryCache.Get("warranty") != null)
+            {
+                var war = (List<WarrantyPeriod>)_memoryCache.Get("warranty");
+                var warName = war.Where(e => e.Id == Id).FirstOrDefault();
+                return warName.Duration == null ? "" : warName.Duration;
+
+            }
+            else {
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
+                {
+                    var war = (List<WarrantyPeriod>)entities.WarrantyPeriods.ToList();
+                    _memoryCache.Add("warranty", war, null);
+                    var warName = war.Where(e => e.Id == Id).FirstOrDefault();
+                    return warName.Duration == null ? "" : warName.Duration;
+                }
+                
+            }
+                
+
+        }
+
+        public string Getvisibility(int? Id =3)
+        {
+            if (_memoryCache.Get("visibility") != null)
+            {
+                var war = (List<Visibility>)_memoryCache.Get("visibility");
+                var warName = war.Where(e => e.Id == Id).FirstOrDefault();
+                return warName.Name == null ? "" : warName.Name;
+
+            }
+            else
+            {
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
+                {
+                    var war = (List<Visibility>)entities.Visibilities.ToList();
+                    _memoryCache.Add("visibility", war, null);
+                    var warName = war.Where(e => e.Id == Id).FirstOrDefault();
+                    return warName.Name == null ? "" : warName.Name;
+                }
+
+            }
+           
+
+        }
+
         ErrorLogService errlog = new ErrorLogService();
         public List<Order> GetOrderList()
         {
@@ -23,7 +102,40 @@ namespace WFM.BAL.Services
                 return entities.DeliveryTypes.ToList();
             }
         }
+        public string GetDeliveryType(int Id)
+        {
+            if (_memoryCache.Get("deltype") != null)
+            {
+                var war = (List<DeliveryType>)_memoryCache.Get("deltype");
+                var warName = war.Where(e => e.Id == Id).FirstOrDefault();
+                return warName.Type == null ? "" : warName.Type;
 
+            }
+            else
+            {
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
+                {
+                    var war = (List<DeliveryType>)entities.DeliveryTypes.ToList();
+                    _memoryCache.Add("deltype", war, null);
+                    var warName = war.Where(e => e.Id == Id).FirstOrDefault();
+                    return warName.Type == null ? "" : warName.Type;
+                }
+
+            }
+            //using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            //{
+            //    var del=entities.DeliveryTypes.Where(e => e.Id == Id).FirstOrDefault();
+            //    return del.Type;
+            //}
+        }
+
+        public List<Visibility> GetVisibilityList()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Visibilities.OrderBy(l => l.Name).ToList();
+            }
+        }
         public List<Illumination> GetIlluminationList()
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
@@ -67,7 +179,8 @@ namespace WFM.BAL.Services
                     .Include("Client")
                     .Include("OrderItems.Category")
                     .Include("Employee")
-                     .Include("Quote")
+                    .Include("Quote")
+                    .Include("OrderAttachments")
                     .Include("AdditionalCharges").Where(s => s.Id == id).SingleOrDefault();
             }
         }
@@ -93,23 +206,44 @@ namespace WFM.BAL.Services
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                if (orderItem.OrderId != 0)
+                if (orderItem.Id == 0)
                 {
                     entities.OrderItems.Add(orderItem);
                     entities.SaveChanges();
                 }
+                else
+                {
+                    entities.Entry(orderItem).State = System.Data.Entity.EntityState.Modified;
+                    entities.SaveChanges();
+                }
+            }
+        }
+
+        public void SaveOrUpdate(OrderAttachment orderAttachment)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                
+                    entities.OrderAttachments.Add(orderAttachment);
+                    entities.SaveChanges();
+                
             }
         }
         public void SaveOrUpdate(AdditionalCharge additionalCharge)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                if (additionalCharge.Id != 0)
+                if (additionalCharge.Id == 0)
                 {
                     entities.AdditionalCharges.Add(additionalCharge);
                     entities.SaveChanges();
                 }
-               
+                else
+                {
+                    entities.Entry(additionalCharge).State = System.Data.Entity.EntityState.Modified;
+                    entities.SaveChanges();
+                }
+
 
             }
         }

@@ -325,9 +325,9 @@ namespace WFM.UI.Controllers
                             CategoryType = (categoryTypeArray[i] == "") ? "" : categoryTypeArray[i],
                            
                             VisibilityId = (visibilityArray[i] == "") ? 0 : int.Parse(visibilityArray[i]),
-                            FrameworkWarrantyPeriod = (frameworkWarrantyPeriodArray[i] == "") ? 0 : int.Parse(frameworkWarrantyPeriodArray[i]),
-                            LetteringWarrantyPeriod = (letteringWarrantyPeriodArray[i] == "") ? 0 : int.Parse(letteringWarrantyPeriodArray[i]),
-                            IlluminationWarrantyPeriod = (illuminationWarrantyPeriodArray[i] == "") ? 0 : int.Parse(illuminationWarrantyPeriodArray[i]),
+                            FrameworkWarrantyPeriod = (frameworkWarrantyPeriodArray[i] == "") ? 4 : int.Parse(frameworkWarrantyPeriodArray[i]),
+                            LetteringWarrantyPeriod = (letteringWarrantyPeriodArray[i] == "") ? 4 : int.Parse(letteringWarrantyPeriodArray[i]),
+                            IlluminationWarrantyPeriod = (illuminationWarrantyPeriodArray[i] == "") ? 4 : int.Parse(illuminationWarrantyPeriodArray[i]),
                         };
 
                         quote.QuoteItems.Add(quoteItem);
@@ -348,9 +348,9 @@ namespace WFM.UI.Controllers
                             CategoryType = (categoryTypeArray[i] == "") ? "" : categoryTypeArray[i],
 
                             VisibilityId = (visibilityArray[i] == "") ? 0 : int.Parse(visibilityArray[i]),
-                            FrameworkWarrantyPeriod = (frameworkWarrantyPeriodArray[i] == "") ? 0 : int.Parse(frameworkWarrantyPeriodArray[i]),
-                            LetteringWarrantyPeriod = (letteringWarrantyPeriodArray[i] == "") ? 0 : int.Parse(letteringWarrantyPeriodArray[i]),
-                            IlluminationWarrantyPeriod = (illuminationWarrantyPeriodArray[i] == "") ? 0 : int.Parse(illuminationWarrantyPeriodArray[i]),
+                            FrameworkWarrantyPeriod = (frameworkWarrantyPeriodArray[i] == "") ? 4 : int.Parse(frameworkWarrantyPeriodArray[i]),
+                            LetteringWarrantyPeriod = (letteringWarrantyPeriodArray[i] == "") ? 4 : int.Parse(letteringWarrantyPeriodArray[i]),
+                            IlluminationWarrantyPeriod = (illuminationWarrantyPeriodArray[i] == "") ? 4 : int.Parse(illuminationWarrantyPeriodArray[i]),
                             QuoteId = model.Id
                         };
 

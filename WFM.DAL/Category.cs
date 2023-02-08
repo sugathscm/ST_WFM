@@ -17,8 +17,8 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            this.OrderItems = new HashSet<OrderItem>();
             this.QuoteItems = new HashSet<QuoteItem>();
+            this.OrderItems = new HashSet<OrderItem>();
         }
     
         public int Id { get; set; }
@@ -37,14 +37,14 @@ namespace WFM.DAL
     
         public virtual Fasia Fasia { get; set; }
         public virtual Framework Framework { get; set; }
-        public virtual Illumination Illumination { get; set; }
         public virtual Lettering Lettering { get; set; }
         public virtual Logo Logo { get; set; }
         public virtual Size Size { get; set; }
         public virtual Visibility Visibility { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuoteItem> QuoteItems { get; set; }
+        public virtual Illumination Illumination { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

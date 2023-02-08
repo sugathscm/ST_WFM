@@ -226,6 +226,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderView.cs" />
     <Compile Include="Models\QuoteView.cs" />
+    <Compile Include="Models\UploadFile.cs" />
     <Compile Include="Models\UsersInRoleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceData.Designer.cs">

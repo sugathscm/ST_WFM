@@ -44,8 +44,6 @@ namespace WFM.DAL
         public virtual DbSet<QuoteTermDetail> QuoteTermDetails { get; set; }
         public virtual DbSet<OrderTermDetail> OrderTermDetails { get; set; }
         public virtual DbSet<QuoteTerm> QuoteTerms { get; set; }
-        public virtual DbSet<DeliveryType> DeliveryTypes { get; set; }
-        public virtual DbSet<Illumination> Illuminations { get; set; }
         public virtual DbSet<Visibility> Visibilities { get; set; }
         public virtual DbSet<WarrantyPeriod> WarrantyPeriods { get; set; }
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
@@ -58,9 +56,12 @@ namespace WFM.DAL
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Quote> Quotes { get; set; }
-        public virtual DbSet<AdditionalCharge> AdditionalCharges { get; set; }
-        public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<QuoteItem> QuoteItems { get; set; }
+        public virtual DbSet<Illumination> Illuminations { get; set; }
+        public virtual DbSet<DeliveryType> DeliveryTypes { get; set; }
+        public virtual DbSet<OrderItem> OrderItems { get; set; }
+        public virtual DbSet<AdditionalCharge> AdditionalCharges { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderAttachment> OrderAttachments { get; set; }
     }
 }
