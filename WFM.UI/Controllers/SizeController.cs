@@ -44,6 +44,7 @@ namespace WFM.UI.Controllers
             }
             return View(Size);
         }
+
         public ActionResult GetList()
         {
             List<Size> list = sizeService.GetSizeList();
@@ -66,6 +67,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult SaveOrUpdate(Size model)
         {
             string newData = string.Empty, oldData = string.Empty;

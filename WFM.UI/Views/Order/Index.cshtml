@@ -164,7 +164,7 @@
             "columns": [
                 { "data": "Code", "width": "10%" },
                 { "data": "ClientName", "width": "20%" },
-                { "data": "Header", "width": "20%" },                
+                { "data": "Header", "width": "20%" },
                 { "data": "CreatedDateString", "width": "15%" },
                 { "data": "Month", "width": "5%" },
                 { "data": "ChanneledBy", "width": "20%" },
@@ -177,7 +177,7 @@
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn btn-info btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>';
+                        return '@if (User.IsInRole("Administrator")||User.IsInRole("Factory")) {  <a class="btn btn-info btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>}';
                     }
                 }
             ]
@@ -187,6 +187,6 @@
 </script>
 
 
-@section Scripts {
+@section Scripts    {
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -14,7 +14,6 @@ using WFM.UI.Models;
 
 namespace WFM.UI.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -71,6 +70,7 @@ namespace WFM.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -139,7 +139,7 @@ namespace WFM.UI.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Register()
         {
             RegisterViewModel model = new RegisterViewModel();
@@ -155,38 +155,83 @@ namespace WFM.UI.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                try
                 {
-                    employeeService.SaveOrUpdate(new DAL.Employee
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+
+              
+                    if (result.Succeeded)
                     {
-                        Email = model.Email,
-                        Name = model.Email,
-                        AspNetUserId = user.Id
-                    });
+                        employeeService.SaveOrUpdate(new DAL.Employee
+                        {
+                            Email = model.Email,
+                            Name = model.Email,
+                            AspNetUserId = user.Id
+                        });
 
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
-                    var roleMngr = new RoleManager<IdentityRole>(roleStore);
-                    IdentityRole identityRole = roleMngr.FindById(model.RoleId);
-                    UserManager.AddToRole(user.Id, identityRole.Name);
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                        var roleMngr = new RoleManager<IdentityRole>(roleStore);
+                        IdentityRole identityRole = roleMngr.FindById(model.RoleId);
+                        UserManager.AddToRole(user.Id, identityRole.Name);
+                        
+                        return RedirectToAction("Index", "AccountUser");
+                    }
+                    else
+                    {
+                        if(result.Errors.Count()>0)
+                        ViewBag.ErrorMessage = result.Errors.ToList()[0].ToString();
 
-                    return RedirectToAction("Index", "AccountUser");
+                        var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                        var roleMngr = new RoleManager<IdentityRole>(roleStore);
+
+                        var roles = roleMngr.Roles.ToList();
+                        model.Roles = new SelectList(roles);
+
+                    }
                 }
-                AddErrors(result);
+                catch(Exception er)
+                {
+                    ViewBag.ErrorMessage = er;
+                }
+         
+                //if (result.Succeeded)
+                //{
+                //    employeeService.SaveOrUpdate(new DAL.Employee
+                //    {
+                //        Email = model.Email,
+                //        Name = model.Email,
+                //        AspNetUserId = user.Id
+                //    });
+
+                //    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                //    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                //    // Send an email with this link
+                //    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                //    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                //    var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                //    var roleMngr = new RoleManager<IdentityRole>(roleStore);
+                //    IdentityRole identityRole = roleMngr.FindById(model.RoleId);
+                //    UserManager.AddToRole(user.Id, identityRole.Name);
+
+                //    return RedirectToAction("Index", "AccountUser");
+                //}
+               
             }
 
             // If we got this far, something failed, redisplay form

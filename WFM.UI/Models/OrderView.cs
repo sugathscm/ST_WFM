@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using WFM.BAL.Services;
 using WFM.DAL;
+using WFM.UI.Models;
 
 namespace WFM.UI.Models
 {
@@ -26,7 +27,7 @@ namespace WFM.UI.Models
         public string DeliveryType { get; set; }
         public string DeliveryDateString { get; set; }
         public List<OrderItem> Items { get; set; }
-        public List<OrderAttachment> Attachments { get; set; }  
+        public List<OrderAttachment> Attachments { get; set; }
         public string BaseQoute { get; set; }
         [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
         public double VAT { get; set; }
@@ -51,7 +52,7 @@ namespace WFM.UI.Models
         {
             return orderService.GetWarranty(Id);
         }
-        public string Getvisibility(int? Id =3)
+        public string Getvisibility(int? Id = 3)
         {
             return orderService.Getvisibility(Id);
         }

@@ -98,6 +98,10 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Sales")]
+        [Authorize(Roles = "Design")]
         public ActionResult SaveOrUpdate(Client model)
         {
             string newData = string.Empty, oldData = string.Empty;
@@ -214,6 +218,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult Save(Client model)
         {
             string newData = string.Empty, oldData = string.Empty;

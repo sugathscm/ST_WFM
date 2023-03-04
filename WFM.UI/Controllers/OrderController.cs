@@ -25,6 +25,8 @@ using System.ComponentModel.Design;
 using Microsoft.Ajax.Utilities;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.InteropServices;
+using System.Web.Security;
+using System.Data;
 
 namespace WFM.UI.Controllers
 {
@@ -131,6 +133,7 @@ namespace WFM.UI.Controllers
             //t.Code= "dkskd";
 
             // return Json(order, JsonRequestBehavior.AllowGet);
+            // return Json(order, JsonRequestBehavior.AllowGet);
             // return Json(new { data = order }, JsonRequestBehavior.AllowGet);
             //return order;
 
@@ -142,6 +145,11 @@ namespace WFM.UI.Controllers
 
         }
 
+        //[Authorize]
+        //  [Authorize(Roles = "Administrator")]
+        //  [Authorize(Roles = "Sales")]
+        //  [Authorize(Roles = "Design")]
+        [Authorize(Roles = "Administrator,Management,Sales,Finance,Factory")]
         public ActionResult QouteDetails(int? QuoteId, string FromQuate)
         {
             Order order = new Order();
@@ -181,10 +189,16 @@ namespace WFM.UI.Controllers
         {
             return View();
         }
-
+      // [Authorize]
+       [Authorize(Roles = "Administrator,Management,Sales,Finace,Factory")]
         // GET: Order
         public ActionResult Details(int? id, int? qouteid)
         {
+            var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            //var roles = userManager.GetRoles(User.Identity.GetUserId());
+
+            //var role = User.IsInRole("Administrator");
             Order order = new Order();
              
             if (id != null)
@@ -256,6 +270,11 @@ namespace WFM.UI.Controllers
             return View(order);
         }
 
+        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Sales")]
+        //[Authorize(Roles = "Design")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design")]
         public ActionResult GetHistoryList()
         {
             var list = orderService.GetOrderHistoryList();
@@ -281,8 +300,12 @@ namespace WFM.UI.Controllers
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
+        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Sales")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory")]
         public ActionResult GetList()
-        {
+        {   
             var list = orderService.GetOrderActiveList();
 
             List<OrderView> modelList = new List<OrderView>();
@@ -311,7 +334,10 @@ namespace WFM.UI.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Sales")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory")]
         [ValidateAntiForgeryToken]
         public ActionResult SaveOrUpdate(Order model, FormCollection formCollection, HttpPostedFileBase[] file)
         {
@@ -590,8 +616,7 @@ namespace WFM.UI.Controllers
 
                 if (files!=null) { 
                     foreach (var item in files)
-                    {
-                        if (model.Id == 0)
+                    {  if (model.Id == 0)
                         {
                             orderAttachment = new OrderAttachment
                             {
@@ -653,6 +678,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         //[AllowAnonymous]
         //[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory")]
         public ActionResult FileUpload()
         {
             
@@ -667,7 +693,7 @@ namespace WFM.UI.Controllers
                     //Checking file is available to save.  
                     if (file != null)
                     {
-                        var InputFileName = Path.GetFileName(file.FileName);
+                        var InputFileName = Path.GetFileName(file.FileName.Replace(" ", ""));
                         var saveName = Guid.NewGuid().ToString() + InputFileName;
 
                         var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/") + saveName);
@@ -725,7 +751,7 @@ namespace WFM.UI.Controllers
         {
             return PartialView();
         }
-
+        [Authorize]
         public ActionResult PrintOrder(int id)
         {
             Order order = orderService.GetOrderById(id);

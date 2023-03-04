@@ -39,6 +39,7 @@ namespace WFM.UI.Controllers
         }
 
         // GET: Category
+
         public ActionResult Index(int? id)
         {
             IlluminationService illuminationService = new IlluminationService();
@@ -97,6 +98,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Management,Sales, Design")]
         public ActionResult SaveOrUpdate(Category model)
         {
             string newData = string.Empty, oldData = string.Empty;
@@ -204,5 +206,6 @@ namespace WFM.UI.Controllers
 
             return Json(new Category { Id = category.Id, CategoryType = category.CategoryType, Description = category.Description }, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

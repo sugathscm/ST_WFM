@@ -8,7 +8,7 @@ using WFM.UI.Models;
 
 namespace WFM.UI.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    
     public class AccountUserController : Controller
     {
         private ApplicationDbContext context;

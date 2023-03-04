@@ -21,7 +21,7 @@ namespace WFM.UI.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("LocalSqlServer", throwIfV1Schema: false)
         {
         }
 

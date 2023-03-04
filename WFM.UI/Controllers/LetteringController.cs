@@ -68,6 +68,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Management,Sales")]
         public ActionResult SaveOrUpdate(Lettering model)
         {
             string newData = string.Empty, oldData = string.Empty;
@@ -136,6 +137,7 @@ namespace WFM.UI.Controllers
             return RedirectToAction("Index", "Lettering");
         }
         [HttpPost]
+        [Authorize(Roles = "Administrator,Management,Sales")]
         public JsonResult GetletteringById(int? id)
         {
             var lettering = letteringService.GetLetteringById(id);

@@ -312,8 +312,8 @@
                                     <input type="text" id="itmTotalCost" placeholder="Total Cost" class="form-control " readonly="readonly" />
                                 </div>
                                 <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                    <label class="control-label" for="VAT"><b>VAT(%)</b></label>
-                                    <input type="text" id="VAT" placeholder="VAT" onblur="setTotals()" class="form-control" />
+                                    <label class="control-label" for="VAT"><b>VAT</b></label>
+                                    <input type="text" id="VAT" placeholder="VAT" readonly="readonly" onblur="setTotals()" class="form-control" />
                                 </div>
                                 <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
                                     <label class="control-label" for="TotalCostVAT"><b>Total Cost with VAT</b></label>
@@ -552,7 +552,7 @@
 
                             </div>
                             <hr />
-                            <div class="form-row">
+                            @*<div class="form-row">
                                 <div id="outer" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
                                     <div class="inner"><input type="submit" id="btnSave" class="btn btn-primary" value="Save" /></div>
                                 </div>
@@ -563,7 +563,7 @@
                                     <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>
                                 </div>
 
-                            </div>
+                            </div>*@
 
 
 
@@ -806,9 +806,9 @@
     }
     function CalVatTotal(elem) {
         elem = $(this);
-        setVatTotals(elem);
+       /* setVatTotals(elem);*/
     }
-
+        
 
     function OrderTotal(total) {
 
@@ -980,7 +980,7 @@
         var qtyArray = [];
         var  itmtotCostArray=[];
         var costArray = [];
-        var vatPerArray = [];
+        /*var vatPerArray = [];*/
 
         var totalcost=0;
         var TotVat = 0;
@@ -993,7 +993,7 @@
             qtyArray.push($(obj).find('input#itmQty').val());
             costArray.push($(obj).find('input#itmCost').val());
             itmtotCostArray.push($(obj).find('input#itmTotalCost').val());
-            vatPerArray.push($(obj).find('input#VAT').val());
+           /* vatPerArray.push($(obj).find('input#VAT').val());*/
 
 
 
@@ -1005,7 +1005,7 @@
         {
 
             totalcost = totalcost + parseFloat(itmtotCostArray[i].replace(",", "").replace(".00", ""));
-            vatAmountArray[i] = (parseFloat(itmtotCostArray[i].replace(",", "").replace(".00", "")) * parseFloat(vatPerArray[i])) / 100;
+            vatAmountArray[i] = (parseFloat(itmtotCostArray[i].replace(",", "").replace(".00", "")))*(0.15);
             TotVat += parseFloat(vatAmountArray[i]);
 
 
@@ -1289,28 +1289,29 @@
 
     })
 
+  
 
     function setTotals() {
         var qty = $(elem).parent().parent('div').find('input#itmQty').val();
         var cost = $(elem).parent().parent('div').find('input#itmCost').val();
-        var VATPercentage = $(elem).parent().parent('div').find('input#VAT').val();
+        var VATPercentage=15;
         var Total = parseFloat(qty) * parseFloat(cost);
 
         if (isNaN(Total)) {
             Total = 0;
         }
         if (isNaN(VATPercentage)) {
-            VATPercentage = 0;
+            VATPercentage = 15;
         }
         var VAT=0;
-
+         
 
         VAT = (parseFloat(Total)* parseFloat(VATPercentage)) / 100;
 
         var TotalWithVAT = parseFloat(Total) + parseFloat(VAT);
 
         $(elem).parent().parent('div').find('input#itmTotalCost').val(Total.toFixed(2));
-        (elem).parent().parent('div').find('input#VAT').val(number_format(parseFloat(VATPercentage), 2, '.', ','));
+        (elem).parent().parent('div').find('input#VAT').val(number_format(parseFloat(VAT), 2, '.', ','));
         $(elem).parent().parent('div').find('input#TotalCostVAT').val(number_format(TotalWithVAT, 2, '.', ','));
 
     }
@@ -1408,7 +1409,7 @@
             installationArray.push($(obj).find('input#Installation').val());
             itmcostArray.push($(obj).find('input#itmCost').val());
             itmtotCostArray.push($(obj).find('input#itmTotalCost').val());
-            vatArray.push($(obj).find('input#VAT').val());
+            vatArray.push($(obj).find('input#VAT').val().replace(",",""));
             sizeArray.push($(obj).find('input#Size').val());
             illuminationArray.push($(obj).find('select#quoteItem_Illumination').val());
 

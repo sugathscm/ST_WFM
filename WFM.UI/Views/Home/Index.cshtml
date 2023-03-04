@@ -1,23 +1,86 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
 }
-
+<sty>
 <div class="dashboard-ecommerce">
     <div class="container-fluid dashboard-content ">
         <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-8">
                 <div class="page-header">
                     <h2 class="pageheader-title">Dashboard</h2>
                 </div>
             </div>
+            @*<div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-6">
+                <div class="page-header ">
+                    <a class="btn btn-dark" href="/Quote/Details">New Quotation</a>
+
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-6">
+                <div class="page-header">
+                    <a class="btn btn-dark" href="/Quote">Quotation List</a>
+
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-6">
+                <div class="page-header">
+                    <a class="btn btn-dark" href="/Order/Details">New Production Order</a>
+
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
+                <div class="page-header">
+                    <a class="btn btn-dark" href="/Order">Production Order List</a>
+
+                </div>
+            </div>*@
+
         </div>
+
         <div class="border border-primary bg-actual-white">
             <input type="hidden" value="@ViewBag.Months" id="x-axis" />
             <input type="hidden" value="@ViewBag.TotalQuotes" id="total-quotes" />
             <input type="hidden" value="@ViewBag.TotalConvertedJobs" id="total-orders" />
             <div id="chart"></div>
         </div>
+        <br />
+        <div class="row">
+            @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")))
+            {
+                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-6">
+                    <div class="page-header ">
+                        <a class="btn btn-dark" href="/Quote/Details">New Quotation</a>
 
+                    </div>
+                </div>
+            }
+            @if (User.IsInRole("Administrator") || (User.IsInRole("Finance")))
+            {
+                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-6">
+                    <div class="page-header">
+                        <a class="btn btn-dark" href="/Quote">Quotation List</a>
+
+                    </div>
+                </div>
+            }
+            @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")))
+            {
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-6">
+                    <div class="page-header">
+                        <a class="btn btn-dark" href="/Order/Details">New Production Order</a>
+
+                    </div>
+                </div>
+            } @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")) || (User.IsInRole("Finance")))
+            {
+                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
+                    <div class="page-header">
+                        <a class="btn btn-dark" href="/Order">Production Order List</a>
+
+                    </div>
+                </div>
+            }
+        </div>
         <div class="border border-primary bg-actual-white m-t-20">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20  m-b-20">
                 <div class="table-responsive">
@@ -37,6 +100,7 @@
                         </thead>
                     </table>
                 </div>
+
             </div>
         </div>
 

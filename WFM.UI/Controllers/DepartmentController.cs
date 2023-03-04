@@ -66,6 +66,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult SaveOrUpdate(Division model)
         {
             string newData = string.Empty, oldData = string.Empty;

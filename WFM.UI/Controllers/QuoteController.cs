@@ -61,12 +61,13 @@ namespace WFM.UI.Controllers
             ViewBag.Divisions = divisionService.GetDivisionList();
             return View();
         }
-
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult History()
         {
             return View();
         }
 
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         // GET: Quote
         public ActionResult Details(int? id)
         {
@@ -118,7 +119,7 @@ namespace WFM.UI.Controllers
 
             return View(quote);
         }
-
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult GetHistoryList()
         {
             var list = quoteService.GetQuoteConvertedList();
@@ -144,7 +145,7 @@ namespace WFM.UI.Controllers
 
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
-
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult GetList()
         {
             var list = quoteService.GetQuoteActiveList();
@@ -175,6 +176,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult SaveOrUpdate(Quote model, FormCollection formCollection)
         {
             string newData = string.Empty, oldData = string.Empty;
@@ -385,7 +387,7 @@ namespace WFM.UI.Controllers
         {
             return PartialView();
         }
-
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult PrintQuote(int id)
         {
             Quote quote = quoteService.GetQuoteById(id);
@@ -406,13 +408,16 @@ namespace WFM.UI.Controllers
             return PartialView("_PrintQuote", quoteView);
         }
 
+        [Authorize(Roles = "Administrator,Management,Sales")]
         public ActionResult WayForwardQuote(int id)
         {
             Quote quote = quoteService.GetQuoteById(id);
             ViewBag.Divisions = divisionService.GetDivisionList();
+           
             return PartialView("_WayForwardQuote", quote);
         }
 
+        [Authorize(Roles = "Administrator,Management,Sales")]
         public ActionResult ApproveQuote(int id)
         {
             try
@@ -431,6 +436,7 @@ namespace WFM.UI.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrator,Management,Sales")]
         public ActionResult ConvertQuote(FormCollection formCollection)
         {
             try

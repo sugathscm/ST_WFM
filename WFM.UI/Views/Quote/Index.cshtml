@@ -314,30 +314,30 @@
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
                         if (full.IsApproved == true)
-                            return '<a class="btn btn-success btn-xs" onclick="#" >Approved</a>';
+                            return ' @if (User.IsInRole("Administrator")){<a class="btn btn-success btn-xs" onclick="#" >Approved</a>}';
                         else
-                            return '<a class="btn btn-warning btn-xs" onclick="ApproveQuote(' + data + ')" >&nbsp;Approve&nbsp;</a>';
+                            return '@if (User.IsInRole("Administrator")){<a class="btn btn-warning btn-xs" onclick="ApproveQuote(' + data + ')" >&nbsp;Approve&nbsp;</a>}';
                     }
                 },
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn btn-info btn-xs" onclick="PrintQuote(' + data + ')">View</a>';
+                        return '@if ((User.IsInRole("Administrator"))||(User.IsInRole("Finance"))){<a class="btn btn-info btn-xs" onclick="PrintQuote(' + data + ')">View</a>}';
                     }
                 },
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
                          if(full.IsApproved == false)
-                             return '<a class="btn btn-secondary btn-xs" href="/Quote/Details/' + data + '" target="_blank">&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;</a>';
+                             return '@if (User.IsInRole("Administrator")){<a class="btn btn-secondary btn-xs" href="/Quote/Details/' + data + '" target="_blank">&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;</a>}';
                         else
-                             return '<a class="btn btn-primary btn-xs" onclick="WayForwardQuote(' + data + ')" >Convert</a>';
+                             return '@if (User.IsInRole("Administrator")){<a class="btn btn-primary btn-xs" onclick="WayForwardQuote(' + data + ')" >Convert</a>}';
                     }
                 },
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn btn-danger btn-xs" href="/Quote/Archive/' + data + '" target="_blank">Archive</a>';
+                        return '@if (User.IsInRole("Administrator")){<a class="btn btn-danger btn-xs" href="/Quote/Archive/' + data + '" target="_blank">Archive</a>}';
                     }
                 },
             ]

@@ -48,6 +48,7 @@ namespace WFM.UI.Controllers
             return View(quoteTerm);
         }
 
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
         public ActionResult GetList()
         {
             List<QuoteTerm> list = quoteTermService.GetQuoteTermList();
@@ -65,6 +66,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator,Management,Sales")]
         public ActionResult SaveOrUpdate(QuoteTerm model)
         {
             string newData = string.Empty, oldData = string.Empty;

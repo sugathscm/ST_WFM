@@ -11,6 +11,7 @@ using WFM.UI.Models;
 namespace WFM.UI.Controllers
 {
     [Authorize]
+    [Authorize(Roles = "Administrator,Management")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

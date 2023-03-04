@@ -39,6 +39,7 @@ namespace WFM.UI.Controllers
         }
 
         // GET: OrderType
+
         public ActionResult Index(int? id)
         {
             OrderType orderType = new OrderType();
