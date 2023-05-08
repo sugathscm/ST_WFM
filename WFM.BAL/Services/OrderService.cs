@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Caching;
 using WFM.BAL.Enums;
 using WFM.DAL;
+using Attribute = WFM.DAL.Attribute;
 
 namespace WFM.BAL.Services
 {
@@ -102,6 +103,29 @@ namespace WFM.BAL.Services
                 return entities.DeliveryTypes.ToList();
             }
         }
+        public List<Material> GetMaterialList()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Materials.ToList();
+            }
+        } 
+        public List<Attribute> GetAttributeList()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Attributes.ToList();
+            }
+        }
+
+        public List<Supplier> GetSupplierList()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Suppliers.ToList();
+            }
+        }
+
         public string GetDeliveryType(int Id)
         {
             if (_memoryCache.Get("deltype") != null)
@@ -136,6 +160,8 @@ namespace WFM.BAL.Services
                 return entities.Visibilities.OrderBy(l => l.Name).ToList();
             }
         }
+
+
         public List<Illumination> GetIlluminationList()
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
@@ -153,7 +179,7 @@ namespace WFM.BAL.Services
                         .Include("Client")
                         .Include("DeliveryType")
                         .Include("OrderType")
-                        .Include("Employee").Where(o => o.StatusId != (int)OrderStatus.Completed).OrderBy(d => d.Id).ToList();
+                        .Include("Employee").Where(o => o.StatusId != (int)OrderStatus.Completed).OrderByDescending(d => d.CreatedDate).ToList();
 
                 }
             } catch(Exception er) 
@@ -180,7 +206,9 @@ namespace WFM.BAL.Services
                     .Include("OrderItems.Category")
                     .Include("Employee")
                     .Include("Quote")
+                    .Include("OrderMaterials")
                     .Include("OrderAttachments")
+                    .Include("InstallationAttachments")
                     .Include("AdditionalCharges").Where(s => s.Id == id).SingleOrDefault();
             }
         }
@@ -229,6 +257,16 @@ namespace WFM.BAL.Services
                 
             }
         }
+        public void SaveOrUpdate(InstallationAttachment installationAttachment)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                
+                    entities.InstallationAttachments.Add(installationAttachment);
+                    entities.SaveChanges();
+                
+            }
+        }
         public void SaveOrUpdate(AdditionalCharge additionalCharge)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
@@ -247,6 +285,26 @@ namespace WFM.BAL.Services
 
             }
         }
+
+        public void SaveOrUpdate(OrderMaterial ordermaterial)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                if (ordermaterial.Id == 0)
+                {
+                    entities.OrderMaterials.Add(ordermaterial);
+                    entities.SaveChanges();
+                }
+                else
+                {
+                    entities.Entry(ordermaterial).State = System.Data.Entity.EntityState.Modified;
+                    entities.SaveChanges();
+                }
+
+
+            }
+        }
+
 
         public void SaveOrUpdate(Quote model, string userId, string wayforward)
         {

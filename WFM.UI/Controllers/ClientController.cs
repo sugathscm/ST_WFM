@@ -219,12 +219,13 @@ namespace WFM.UI.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator,Management,Sales,Design")]
-        public ActionResult Save(Client model)
+        public ActionResult Save(Client model, FormCollection form)
         {
             string newData = string.Empty, oldData = string.Empty;
-
+            string FType = form["FType"];
             try
             {
+              
                 int id = model.Id;
                 Client client = null;
                 Client oldClient = null;
@@ -269,8 +270,10 @@ namespace WFM.UI.Controllers
             {
                 TempData["Message"] = string.Format(ResourceData.SaveErrorMessage, ex.InnerException);
             }
-
-            return RedirectToAction("Details", "Quote");
+            if(FType=="Order")
+            return RedirectToAction("Details", "Order");
+            else
+                return RedirectToAction("Details", "Quote");
         }
     }
 }

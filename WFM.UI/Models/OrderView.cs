@@ -60,6 +60,7 @@ namespace WFM.UI.Models
         {
             return orderService.GetDeliveryType(Id);
         }
+      
 
 
 

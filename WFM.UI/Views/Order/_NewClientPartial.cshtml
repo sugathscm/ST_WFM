@@ -1,12 +1,14 @@
 ﻿@model WFM.DAL.Client
 
 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-20">
-    @using (Html.BeginForm("Save", "Client", FormMethod.Post, new { @class = "needs-validation", role = "form" }))
+    @using (Html.BeginForm("Save", "Client", FormMethod.Post, new { FType = "OrderF", @class = "needs-validation", role = "form" }))
     {
         @*<form class="needs-validation" novalidate="">*@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary("", new { @class = "valFailure" })
         @Html.HiddenFor(m => m.Id, new { @name = "Id" })
+
+        <input type="hidden" name="FType" value="Order">
         <div class="form-row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
                 @Html.LabelFor(m => m.Name, new { @class = "control-label" })

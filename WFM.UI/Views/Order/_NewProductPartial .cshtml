@@ -1,0 +1,75 @@
+﻿@model WFM.DAL.Category
+
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
+    @using (Html.BeginForm("SaveOrUpdate", "Category", FormMethod.Post, new { @class = "needs-validation", role = "form" }))
+    {
+        @*<form class="needs-validation" novalidate="">*@
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "valFailure" })
+        @Html.HiddenFor(m => m.Id, new { @name = "Id" })
+        <div class="form-row">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 m-b-20">
+                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", required = "required" })
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 ">
+                <label class="control-label" for="CategoryType">Category Type</label>
+                @Html.TextBoxFor(m => m.CategoryType, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                <label class="control-label" for="Description">Description</label>
+                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                <label class="control-label" for="Size">Size</label>
+                @Html.DropDownList("SizeId", new SelectList(ViewBag.SizeList, "Id", "Size1"), "Size", new { @class = "form-control selection" })
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                <label class="control-label" for="Facia">Facia</label>
+                @Html.DropDownList("FasiaId", new SelectList(ViewBag.FasiaList, "Id", "Facia"), "Facia", new { @class = "form-control selection" })
+            </div>
+        </div>
+        <br />
+        <div class="form-row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                <label class="control-label" for="Size">Framework</label>
+                @Html.DropDownList("FrameworkId", new SelectList(ViewBag.FrameworkList, "Id", "Framework1"), "Framework", new { @class = "form-control selection" })
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                <label class="control-label" for="Size">Illumination</label>
+                @Html.DropDownList("IlluminationId", new SelectList(ViewBag.IlluminationList, "Id", "Name"), "Illumination", new { @class = "form-control selection" })
+            </div>
+        </div>
+        <br />
+        <div class="form-row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                <label class="control-label" for="Size">Lettering</label>
+                @Html.DropDownList("LetteringId", new SelectList(ViewBag.LetteringList, "Id", "Lettering1"), "Lettering", new { @class = "form-control selection" })
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 ">
+                <label class="control-label" for="Size">Visibility</label>
+                @Html.DropDownList("VisibilityId", new SelectList(ViewBag.VisibilityList, "Id", "Name"), "Visibility", new { @class = "form-control selection" })
+            </div>
+        </div>
+        <div class="form-row m-t-10">
+            <div class="col-xl-11 col-lg-11 col-md-12 col-sm-12 col-12">
+                <div class="form-group">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.IsActive, new { @class = "form-check-input", @checked = Model.IsActive })
+                        @Html.LabelFor(m => m.IsActive, new { @class = "col-md-2 control-label" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 mb-2 text-right">
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>
+        </div>
+
+    }
+</div>
+        </div>

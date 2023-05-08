@@ -15,6 +15,15 @@ namespace WFM.BAL.Services
             }
         }
 
+        public List<Status> GetOrderStatusList()
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                return entities.Status.OrderBy(d => d.Id).ToList();
+            }
+        }
+
+
         public WarrantyPeriod GetWarrantyPeriodById(int? id)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())

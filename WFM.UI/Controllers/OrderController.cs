@@ -174,6 +174,8 @@ namespace WFM.UI.Controllers
             var orderTermList = quoteTermService.GetQuoteTermList();
             var orderTypeList = orderTypeService.GetOrderTypeList();
             var warrantyPeriodList = warrantyPeriodService.GetWarrantyPeriodList();
+            var OrdStatus = warrantyPeriodService.GetOrderStatusList();
+
 
             ViewBag.OrderTermList = orderTermList;
             ViewBag.OrderTypeList = new SelectList(orderTypeList, "Id", "Name");
@@ -181,6 +183,8 @@ namespace WFM.UI.Controllers
             ViewBag.ClientList = new SelectList(clientList, "Id", "Name");
             ViewBag.ChanneledByList = new SelectList(employeeList, "Id", "Name");
             ViewBag.WarrantyPeriodList = new SelectList(warrantyPeriodList, "Id", "Duration");
+            ViewBag.Status = new SelectList(OrdStatus, "Id", "Name");
+
             ViewBag.CategoryList = categoryService.GetCategoryList();
             ViewBag.VATPercentage = WebConfigurationManager.AppSettings["WBU"];
             return View(order);
@@ -210,7 +214,7 @@ namespace WFM.UI.Controllers
                 var code = CommonService.GenerateQuoteCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false);//.Replace('-', '/');
                 order.Code = code;
             }
-            
+
             //ViewBag.UploadFile = null;
 
             // if (qouteid != null)
@@ -224,7 +228,11 @@ namespace WFM.UI.Controllers
             //    //var code = CommonService.GenerateOrderCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false).Replace('-', '/');
             //    //order.Code = code;
             //}
+            var OrdStatus = warrantyPeriodService.GetOrderStatusList();
 
+            var attributeList = orderService.GetAttributeList();
+            var materialList = orderService.GetMaterialList();
+            var supplierList = orderService.GetSupplierList();
             var quoteList = quoteService.GetQuoteList().Where(q => q.IsConverted == false).ToList();
             var clientList = clientService.GetClientList();
             var employeeList = employeeService.GetEmployeeList();
@@ -253,8 +261,10 @@ namespace WFM.UI.Controllers
             //    IlluminationList.Add(new BaseViewModel() { Id = i, Name = i.ToString() });
             //}
 
-
-
+            ViewBag.Status = new SelectList(OrdStatus, "Id", "Name");
+            ViewBag.AttributeList = attributeList;
+            ViewBag.SupplierList = supplierList;
+            ViewBag.MaterialList = materialList;
             ViewBag.DeliveryTypeList= new SelectList(DeliveryTypeList, "Id", "Type"); 
             ViewBag.IlluminationList = IlluminationList;
             ViewBag.WarrantyPeriodList = warrantyPeriodList;
@@ -355,6 +365,7 @@ namespace WFM.UI.Controllers
                 var sizeArray = formCollection["sizeArray"].Split(',');
                 var chargeItemArray = formCollection["chargeItemArray"].Split(',');
                 var AttachmentNameArray = formCollection["AttachmentNameArray"].Split(',');
+                var MatAttachmentNameArray = formCollection["MatAttachmentNameArray"].Split(',');
                 var channeledByArray = formCollection["channeledByArray"].Split(',');
                 var chargeCostArray = formCollection["chargeCostArray"].Split(',');
                 var chargeQtyArray = formCollection["chargeQtyArray"].Split(',');
@@ -369,9 +380,13 @@ namespace WFM.UI.Controllers
                 var illuminationWarrantyArray = formCollection["illuminationWarrantyArray"].Split(',');
                 var artworkFile =formCollection["Artwork"];
                 var itemIdArray = formCollection["itemIdArray"].Split(',');
-                var addchrgIdArray = formCollection["addchrgIdArray"].Split(',');
+                var addchrgIdArray = formCollection["addchrgIdArray"].Split(','); 
 
-
+                var ordmatIdArray = formCollection["ordmatIdArray"].Split(',');
+                var MaterialArr = formCollection["MaterialArr"].Split(',');
+                var SupplierArr = formCollection["SupplierArr"].Split(',');
+                var AttributeArr = formCollection["AttributeArr"].Split(',');
+                var ValueArr = formCollection["ValueArr"].Split(','); 
 
                 int id = model.Id;
 
@@ -414,6 +429,7 @@ namespace WFM.UI.Controllers
                         //LetteringWarrantyPeriod = model.LetteringWarrantyPeriod,
                         OrderItems = model.OrderItems,
                         OrderTypeId = model.OrderTypeId,
+                        StatusId= model.StatusId,
                       
                         ArtWork = artworkFile ,
                         //PurchaseOrder=PurchaseOrderFile,
@@ -464,7 +480,7 @@ namespace WFM.UI.Controllers
                     order.Location = model.Location;
                     order.BaseQuoteId = model.BaseQuoteId;
                     order.AdvancePayment = model.AdvancePayment;
-
+                    order.StatusId = model.StatusId;
                     //order.FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod;
                     //order.IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod;
                     //order.LetteringWarrantyPeriod = model.LetteringWarrantyPeriod;
@@ -490,6 +506,12 @@ namespace WFM.UI.Controllers
                     order.IsProductionDepartment = model.IsProductionDepartment;
                     order.IsScreenPrintingDept = model.IsScreenPrintingDept;
                     order.IsSteelDepartment = model.IsSteelDepartment;
+                    order.InstallationDate = model.InstallationDate;
+                    order.CompletionDate = model.CompletionDate;
+                    order.InstallationTeam= model.InstallationTeam;
+                    order.InstallationVehicleType = model.InstallationVehicleType;  
+                    order.Remarks= model.Remarks;
+
 
                     newData = new JavaScriptSerializer().Serialize(new Order()
                     {
@@ -566,7 +588,7 @@ namespace WFM.UI.Controllers
 
 
 
-
+                //Aditional charges save
                 foreach (var item in chargeItemArray)
                 {
                     if (model.Id == 0)
@@ -606,10 +628,54 @@ namespace WFM.UI.Controllers
                 }
 
 
+                OrderMaterial orderMaterial = null;
+                i = 0;
+                //Order materials save
+                foreach (var item in MaterialArr)
+                {
+
+                    if (MaterialArr[i] != "")
+                    {
+                        if (model.Id == 0)
+                        {
+
+                            orderMaterial = new OrderMaterial
+                            {
+
+                                OrderId = model.Id,
+                                MaterialId = (MaterialArr[i] == "") ? 0 : int.Parse(MaterialArr[i]),
+                                AttributeId = (AttributeArr[i] == "") ? 0 : int.Parse(AttributeArr[i]),
+                                SupplierId = (SupplierArr[i] == "") ? 0 : int.Parse(SupplierArr[i]),
+                                Value = ValueArr[i],
+
+
+                            };
+
+                        }
+                        else
+                        {
+                            orderMaterial = new OrderMaterial
+                            {
+                                Id = (ordmatIdArray[i] == "") ? 0 : int.Parse(ordmatIdArray[i]),
+                                OrderId = model.Id,
+                                MaterialId = (MaterialArr[i] == "") ? 0 : int.Parse(MaterialArr[i]),                               
+                                AttributeId = (AttributeArr[i] == "") ? 0 : int.Parse(AttributeArr[i]),
+                                SupplierId = (SupplierArr[i] == "") ? 0 : int.Parse(SupplierArr[i]),
+                                Value = ValueArr[i],
+
+
+                            };
+                        }
+                        orderService.SaveOrUpdate(orderMaterial);
+
+                    }
+                    i++;
+                }
+
                 // attachments----------------------------------------------------------------------------------------------------
 
 
-                j=0;
+                j =0;
                 OrderAttachment orderAttachment = null;
                 List<UploadFile> files = new List<UploadFile>();
                 files = (List<UploadFile>)HttpContext.Session["uploadfile"];
@@ -646,10 +712,56 @@ namespace WFM.UI.Controllers
                         }
                         j++;
                     }
-                }   
+                }
+
+
+                //Material Attachment 
+                InstallationAttachment installationAttachment = null;
+                List<UploadFile> matfiles = new List<UploadFile>();
+                matfiles = (List<UploadFile>)HttpContext.Session["matuploadfile"];
+
+                if (matfiles != null)
+                {
+                    foreach (var item in matfiles)
+                    {
+                        if (model.Id == 0)
+                        {
+                            installationAttachment = new InstallationAttachment
+                            {
+
+                                ActualName = item.FileName,
+                                AttachmentName = item.SaveFile
+
+
+                            };
+                            order.InstallationAttachments.Add(installationAttachment);
+                        }
+                        else
+                        {
+                            installationAttachment = new InstallationAttachment
+                            {
+
+
+                                OrderId = model.Id,
+                                ActualName = item.FileName,
+                                AttachmentName = item.SaveFile,
+
+
+
+                            };
+                            orderService.SaveOrUpdate(installationAttachment);
+                            //order.OrderAttachments.Add(orderAttachment);
+                        }
+                        j++;
+                    }
+                }
+
+
                 orderService.SaveOrUpdate(order);
 
                 HttpContext.Session["uploadfile"] = null;
+                HttpContext.Session["matuploadfile"] = null;
+
 
                 CommonService.SaveDataAudit(new DataAudit()
                 {
@@ -673,6 +785,54 @@ namespace WFM.UI.Controllers
            
 
             return RedirectToAction("Index", "Order");
+        }
+
+        [HttpPost]
+        public ActionResult UploadFiles()
+        {
+
+
+            if (Request.Files.Count > 0)
+            {
+                var files = Request.Files;
+
+                //iterating through multiple file collection   
+                foreach (string str in files)
+                {
+                    HttpPostedFileBase file = Request.Files[str] as HttpPostedFileBase;
+                    //Checking file is available to save.  
+                    if (file != null)
+                    {
+                        var InputFileName = Path.GetFileName(file.FileName.Replace(" ", ""));
+                        var saveName = Guid.NewGuid().ToString() + InputFileName;
+
+                        var ServerSavePath = Path.Combine(Server.MapPath("~/hardcopy/") + saveName);
+                        //Save file to server folder  
+                        UploadFile uploadFile = new UploadFile();
+                        uploadFile.FileName = InputFileName;
+                        uploadFile.SaveFile = saveName;
+                        file.SaveAs(ServerSavePath);
+
+                        SaveMatUpload(uploadFile);
+                    }
+
+                }
+                return Json("File Uploaded Successfully!");
+
+            }
+            else
+            {
+                return Json("No files to upload");
+            }
+            //string path = Server.MapPath("~/hardcopy/");
+            //HttpFileCollectionBase files = Request.Files;
+            //for (int i = 0; i < files.Count; i++)
+            //{
+            //    HttpPostedFileBase file = files[i];
+            //    file.SaveAs(path + file.FileName);
+            //    SaveMatUpload()
+            //}
+            //return Json(files.Count + " Files Uploaded!");
         }
 
         [HttpPost]
@@ -716,6 +876,7 @@ namespace WFM.UI.Controllers
             }
 
         }
+        //initial file upload done when creating a order
           private void SaveUpload(UploadFile uploadfile)
         {
             if (  (List<UploadFile>)HttpContext.Session["uploadfile"]  == null)
@@ -730,10 +891,29 @@ namespace WFM.UI.Controllers
                 files= (List<UploadFile>)HttpContext.Session["uploadfile"];
                 files.Add(uploadfile);
                 ViewBag.UploadFile = files;
-            
+                HttpContext.Session.Add("uploadfile", files);
             }
-          } 
-     
+          }
+
+        private void SaveMatUpload(UploadFile uploadfile)
+        {
+            if ((List<UploadFile>)HttpContext.Session["matuploadfile"] == null)
+            {
+                List<UploadFile> files = new List<UploadFile>();
+                files.Add(uploadfile);
+                HttpContext.Session.Add("matuploadfile", files);
+            }
+            else
+            {
+                List<UploadFile> files = new List<UploadFile>();
+                files = (List<UploadFile>)HttpContext.Session["matuploadfile"];
+                files.Add(uploadfile);
+                ViewBag.UploadFile = files;
+                HttpContext.Session.Add("matuploadfile", files);
+
+            }
+        }
+
         public Quote GetQuoteById(int? id)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())

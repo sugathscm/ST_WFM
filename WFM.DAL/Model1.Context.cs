@@ -61,7 +61,13 @@ namespace WFM.DAL
         public virtual DbSet<DeliveryType> DeliveryTypes { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<AdditionalCharge> AdditionalCharges { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderAttachment> OrderAttachments { get; set; }
+        public virtual DbSet<OrderMaterial> OrderMaterials { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<SupplierType> SupplierTypes { get; set; }
+        public virtual DbSet<Material> Materials { get; set; }
+        public virtual DbSet<Attribute> Attributes { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<InstallationAttachment> InstallationAttachments { get; set; }
     }
 }
