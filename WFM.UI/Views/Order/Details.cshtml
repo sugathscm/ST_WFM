@@ -4,7 +4,53 @@
 
     ViewBag.Title = "Order Details";
 }
+<style>
 
+    @@media screen {
+        #printSection {
+            display: none;
+        }
+    }
+
+    @@media (min-width: 992px) {
+        .modal-dialog {
+            max-width: 60%;
+        }
+    }
+
+    @@media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #printSection, #printSection * {
+            visibility: visible;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 10px;
+            top: 0;
+        }
+    }
+
+    table.report-container {
+        page-break-after: always;
+    }
+
+    thead.report-header {
+        display: table-header-group;
+    }
+
+    tfoot.report-footer {
+        display: table-footer-group;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto
+    }
+</style>
 <div class="dashboard-ecommerce">
     <div class="container-fluid dashboard-content ">
         <!-- ============================================================== -->
@@ -261,14 +307,14 @@
                                             @Html.DropDownListFor(m => quoteItem.VisibilityId, new SelectList(ViewBag.VisibilityList, "Id", "Name", quoteItem.VisibilityId.Value), "Visibility", new { @class = "form-control selection" })
                                         </div>
                                         <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                            <label class="control-label" for="Value"><b>Illumination</b></label>
+                                            <label class="control-label" for="Illumination"><b>Illumination</b></label>
                                             @*@Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Illumination", new { @class = "form-control selection" })*@
 
                                             @Html.DropDownList("quoteItem_Illumination", new SelectList(ViewBag.IlluminationList, "Id", "Name", quoteItem.IlluminationId), "Illumination", new { @class = "form-control selection" })
 
                                         </div>
                                         <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                            <label class="control-label" for="Value"><b>Framework</b></label>
+                                            <label class="control-label" for="Framework"><b>Framework</b></label>
                                             @Html.DropDownListFor(m => quoteItem.FrameworkWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.FrameworkWarrantyPeriod), "Framework Warranty ", new { @class = "form-control" })
                                             @*@Html.DropDownList("FrameworkWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
                                         </div>
@@ -285,7 +331,10 @@
                                         </div>
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Description"><b>Description</b></label>
-                                            <input type="text" placeholder="Description" class="form-control" id="Description" value="@quoteItem.Description" />
+                                       
+                                            
+                                            <textarea class="form-control" id="Description">@quoteItem.Description</textarea>
+                                            <!--<input type="text" placeholder="Description" class="form-control" id="Description" value="quoteItem.Description" />-->
                                         </div>
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="SpecialInstructions"><b>Special Instructions</b></label>
@@ -303,7 +352,7 @@
 
                                   
 
-
+                                        
                                 }
 
 
@@ -361,7 +410,8 @@
 
                                     <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                         <label class="control-label" for="Description"><b>Description</b></label>
-                                        <input type="text" placeholder="Description" class="form-control" id="Description" />
+                                        <textarea class="form-control" id="Description" rows="10"></textarea>
+                                        <!--<input type="text" placeholder="Description" class="form-control" id="Description" />-->
                                     </div>
 
                                     <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
@@ -675,7 +725,7 @@
                                         <div class="inner"><input type="button" class="btn btn-primary" value="Print" onclick="PrintOrder(@Model.Id)" /></div>
                                     </div>
                                     <div id="cmdaprove" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                        <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>
+                                       @* <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>*@
                                     </div>
 
                                 </div>
@@ -873,7 +923,7 @@
                                                 <div class="inner"><input type="button" class="btn btn-primary" value="Print" onclick="PrintOrder(@Model.Id)" /></div>
                                             </div>
                                             <div id="cmdaprove" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                                <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>
+                                               @* <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>*@
                                             </div>
 
                                         </div>
@@ -907,6 +957,28 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @* <h5 class="modal-title" id="exampleModalLabel">Medical Report</h5>*@
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="Preview">
+                @*@Html.Partial("_PrintOrder")*@
+            </div>
+            <div class="modal-footer">
+
+                <button id="btnPrint" type="button" class="btn btn-primary">Print</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -915,7 +987,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span> 
                 </button>
-            </div>
+            </div>f
             <div class="modal-body">
                
             </div>-->
@@ -934,6 +1006,7 @@
 
 
     function PrintOrder(id) {
+       
         $.ajax({
             type: "GET",
             url: '@Url.Action("PrintOrder", "Order")',
@@ -957,7 +1030,8 @@
 
     $(document).ready(function () {
         var selectedval = $('#OrderTypeId').val();
-        if ((selectedval == "2") || (selectedval == "3") || (selectedval == "4")) {
+        if (selectedval != "1") {
+            //(selectedval == "2") || (selectedval == "3") || (selectedval == "4")
             $("#VATNo").attr("disabled", "disabled");
             $("#VAT").attr("disabled", "disabled");
             $("#OrderVAT").attr("disabled", "disabled");
@@ -984,11 +1058,11 @@
 
         // Material File upload
         $('#btnFileuP2').click(function () {
-            alert("dsfgds");
+
 
             var fileUpload = $("#InstaltFilesUp").get(0);
             var files = fileUpload.files;
-            alert(files.count);
+          
 
             // Create  a FormData object
             var fileData = new FormData();
@@ -1052,11 +1126,11 @@
 
         //Order Attachement File upload
         $('#btnFileuP').click(function () {
-            alert("dsfgds");
+           
 
             var fileUpload = $("#FilesUp").get(0);
             var files = fileUpload.files;
-            alert(files.count);
+           
 
             // Create  a FormData object
             var fileData = new FormData();
@@ -1148,7 +1222,7 @@
         //====================================================================================================================
         $(".order-type").change(function () {
             var selectedval = $(this).val()
-            if ((selectedval == "2") || (selectedval == "3") || (selectedval == "4")) {
+            if (selectedval != "1")  {
                 $("#VATNo").attr("disabled", "disabled");
                 $("#VAT").attr("disabled", "disabled");
                 $("#OrderVAT").attr("disabled", "disabled");
@@ -1223,12 +1297,12 @@
         var chargeordTotalCostArray = [];
         var chrg_list = document.querySelectorAll('[class*="form-row addcharge"]');
         $.each(chrg_list, function (key, obj) {
-            chargeordTotalCostArray.push($(obj).find('input#adchrTotalCost').val().replace(",", "").replace(".00", ""));
+            chargeordTotalCostArray.push($(obj).find('input#adchrTotalCost').val().replaceAll(",", "").replace(".00", ""));
 
         });
         if (chargeordTotalCostArray.length > 0 && chargeordTotalCostArray[0] != "") {
             for (var i = 0; i < chargeordTotalCostArray.length; i++) {
-                itmtot += parseFloat(chargeordTotalCostArray[i].replace(",", "").replace(".00", ""));
+                itmtot += parseFloat(chargeordTotalCostArray[i].replaceAll(",", "").replace(".00", ""));
             }
         }
         else {
@@ -1326,24 +1400,31 @@
     });
     $('#AdvancePayment').blur(function () {
         var balpay;
+        var adpay;
         if ($('#AdvancePayment').val() != "") {
-            balpay = parseFloat($('#ordTotalCostVAT').val().replace(",", "").replace(".00", "")) - parseFloat($('#AdvancePayment').val().replace(",", "").replace(".00", ""));
+            adpay = parseFloat($('#AdvancePayment').val().replaceAll(",", ""));
+            balpay = parseFloat($('#ordTotalCostVAT').val().replaceAll(",", "")) - adpay;
+            console.log(balpay)
         }
         else {
-            balpay = parseFloat($('#ordTotalCostVAT').val().replace(",", "").replace(".00", ""))
+            balpay = parseFloat($('#ordTotalCostVAT').val().replaceAll(",", "").replace(".00", ""))
+            console.log(balpay)
         }
-
 
         $('#BalancePayment').val(number_format(balpay, 2, '.', ','));
 
     });
     $('#BalancePayment').blur(function () {
         var balpay;
+        var adpay;
         if ($('#AdvancePayment').val() != "") {
-            balpay = parseFloat($('#ordTotalCostVAT').val().replace(",", "").replace(".00", "")) - parseFloat($('#AdvancePayment').val().replace(",", "").replace(".00", ""));
+            adpay = parseFloat($('#AdvancePayment').val().replaceAll(",", ""));
+            balpay = parseFloat($('#ordTotalCostVAT').val().replaceAll(",", "")) - adpay;
+            console.log(balpay)
         }
         else {
-            balpay = parseFloat($('#ordTotalCostVAT').val().replace(",", "").replace(".00", ""))
+            balpay = parseFloat($('#ordTotalCostVAT').val().replaceAll(",", "").replace(".00", ""))
+            console.log(balpay)
         }
 
 
@@ -1389,8 +1470,8 @@
         $.each(obj_list, function (key, obj) {
             productIdArray.push($(obj).find('select#quoteItem_CategoryId option:selected').text());
             qtyArray.push($(obj).find('input#itmQty').val());
-            costArray.push($(obj).find('input#itmCost').val().replace(",", "").replace(".00",""));
-            itmtotCostArray.push($(obj).find('input#itmTotalCost').val().replace(",", "").replace(".00", ""));
+            costArray.push($(obj).find('input#itmCost').val().replaceAll(",", "").replace(".00",""));
+            itmtotCostArray.push($(obj).find('input#itmTotalCost').val().replaceAll(",", "").replace(".00", ""));
            /* vatPerArray.push($(obj).find('input#VAT').val());*/
 
         });
@@ -1399,14 +1480,14 @@
         for (var i = 0; i < productIdArray.length; i++)
         {
 
-            totalcost = totalcost + parseFloat(itmtotCostArray[i].replace(",", "").replace(".00", ""));
+            totalcost = totalcost + parseFloat(itmtotCostArray[i].replaceAll(",", "").replace(".00", ""));
             var attr = $("input#VAT").attr("disabled");
 
             if (typeof attr !== 'undefined' && attr !== false) {
                 vatAmountArray[i] = 0.00;
             } else {
 
-                vatAmountArray[i] = (parseFloat(itmtotCostArray[i].replace(",", "").replace(".00", ""))) * (0.15);
+                vatAmountArray[i] = (parseFloat(itmtotCostArray[i].replaceAll(",", "").replace(".00", ""))) * (0.15);
 
             }
             TotVat += parseFloat(vatAmountArray[i]);
@@ -1569,7 +1650,7 @@
         });
 
         $(window).keydown(function (event) {
-            if (event.keyCode == 13) {
+            if ((event.which == 13) && ($(event.target)[0] != $("textarea")[0])) {
                 event.preventDefault();
                 return false;
             }
@@ -1643,6 +1724,9 @@
         });
 
 
+        
+       
+
         //Advanced payment
         $('#AdvancePayment').change(function () {
 
@@ -1681,10 +1765,12 @@
 
         $(document).on("change", "select#quoteItem_CategoryId", function () {
             elem = $(this);
-            var obj = { id: $(elem).val() };
-            AjaxCall('/Category/GetDescriptionById', JSON.stringify(obj), 'POST').done(function (response) {
+            var des = $(elem).parent().parent('div').find('select#quoteItem_CategoryId option:selected').val();
+          
+            var obj = { Id: des };
+            AjaxCall('/Order/GetatDesc', JSON.stringify(obj), 'POST').done(function (response) {
                 if (response.length > 0) {
-                    $(elem).parent().parent('div').find('input#Description').val(response);
+                    $(elem).parent().parent('div').find('textarea#Description').val(response);
                 }
             }).fail(function (error) {
                 alert(error.StatusText);
@@ -1729,7 +1815,10 @@
             setAddTotals();
         });
 
-
+        //$(document).on("change", "select#quoteItem_CategoryId", function () {
+        //  elem = $(this);
+        //   productChange();
+        //});
 
 
 
@@ -1739,12 +1828,26 @@
     })
 
 
+    function productChange() {
+        var des = $(elem).parent().parent('div').find('select#quoteItem_CategoryId option:selected').val();
+
+        var des= $.ajax({
+            url: url,
+            type: type ? type : 'GET',
+            data: data,
+            contentType: 'application/json'
+        });
+      
+        $(elem).parent().parent('div').find('textarea#Description').val(des);
+            
+    }
+   
 
     function setTotals() {
         var qty = $(elem).parent().parent('div').find('input#itmQty').val();
-        var cost = $(elem).parent().parent('div').find('input#itmCost').val().replace(",", "").replace(".00","");
+        var cost = $(elem).parent().parent('div').find('input#itmCost').val().replaceAll(",", "").replace(".00","");
         var VATPercentage=15;
-        var Total = parseFloat(qty) * parseFloat(cost);
+        var Total = (parseFloat(qty)) * (parseFloat(cost));
 
         if (isNaN(Total)) {
             Total = 0;
@@ -1866,11 +1969,11 @@
 
             productIdArray.push($(obj).find('select#quoteItem_CategoryId').val());
             itmqtyArray.push($(obj).find('input#itmQty').val());
-            descriptionArray.push($(obj).find('input#Description').val());
+            descriptionArray.push($(obj).find('textarea#Description').val().replaceAll(",", ";"));
             SpecialInstructionsArray.push($(obj).find('input#SpecialInstructions').val());
             installationArray.push($(obj).find('input#Installation').val());
-            itmcostArray.push($(obj).find('input#itmCost').val().replace(",","").replace(".00",""));
-            itmtotCostArray.push($(obj).find('input#itmTotalCost').val().replace(",", "").replace(".00", ""));
+            itmcostArray.push($(obj).find('input#itmCost').val().replaceAll(",","").replace(".00",""));
+            itmtotCostArray.push($(obj).find('input#itmTotalCost').val().replaceAll(",", "").replace(".00", ""));
             vatArray.push($(obj).find('input#VAT').val().replace(",",""));
             sizeArray.push($(obj).find('input#Size').val());
             illuminationArray.push($(obj).find('select#quoteItem_Illumination').val());
@@ -1909,7 +2012,7 @@
             chargeItemArray.push($(obj).find('input#adchrItem').val());
             chargeCostArray.push($(obj).find('input#adchrCost').val().replace(",","").replace(".00",""));
             chargeQtyArray.push($(obj).find('input#adchrQty').val());
-            chargeTotalCostArray.push($(obj).find('input#adchrTotalCost').val().replace(",", "").replace(".00", ""));
+            chargeTotalCostArray.push($(obj).find('input#adchrTotalCost').val().replaceAll(",", "").replace(".00", ""));
 
         });
 

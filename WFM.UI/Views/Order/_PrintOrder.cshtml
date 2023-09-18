@@ -108,9 +108,11 @@
                                     <p style="font-size:1.3em"> <b>Quotation No</b></p>
                                 </div>
                                 <div class="col-2 col-sm-2">
-                                    <p style="font-size:1.2em">:@Html.DisplayFor(q => q.Quote.Code)</p>
-
-                                </div>
+                                    @if (Model != null && Model.Quote != null)
+                                    {
+                                        <p style="font-size:1.2em">:@Html.DisplayFor(q => q.Quote.Code)</p>
+                                    }
+                                    </div>
                             </div>
                             <div class="row justify-content-lg-start">
                                 <div class="col-2 col-sm-2 text-left">
@@ -272,7 +274,7 @@
                                         <div style="border-top: solid 1px" class="col-3 col-sm-3 text-left boxL">
                                             @item.Category.Name
                                         </div>
-                                        <div class="col-6 col-sm-6 text-left desbox">
+                                        <div class="col-6 col-sm-6 text-left desbox" style="overflow-wrap: break-word;">
                                             @item.Description
                                         </div>
                                     </div>

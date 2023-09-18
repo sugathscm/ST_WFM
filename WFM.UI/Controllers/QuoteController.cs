@@ -173,6 +173,35 @@ namespace WFM.UI.Controllers
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
+
+        [Authorize(Roles = "Administrator,Management,Sales,Design")]
+        public ActionResult GetDashboardList()
+        {
+            var list = quoteService.GetQuoteActiveList().Take(10);
+
+            List<QuoteView> modelList = new List<QuoteView>();
+
+            foreach (var item in list)
+            {
+                modelList.Add(new QuoteView()
+                {
+                    Id = item.Id,
+                    ClientName = item.Client.Name,
+                    Version = item.Version,
+                    Code = item.Code,
+                    Value = item.Value,
+                    FileAttched = item.FileAttched,
+                    CreatedDate = item.CreatedDate,
+                    CreatedDateString = item.CreatedDate.Value.ToString(),
+                    IsApproved = item.IsApproved,
+                    Header = item.Header
+
+                });
+            }
+
+            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -427,8 +456,9 @@ namespace WFM.UI.Controllers
                 quote.ApprovedDate = DateTime.Now;
                 quote.IsApproved = true;
                 quoteService.SaveOrUpdate(quote);
+                return null;
 
-                return RedirectToAction("Index", "Quote");
+              //  return RedirectToAction("Index", "Quote");
             }
             catch (Exception ex)
             {
