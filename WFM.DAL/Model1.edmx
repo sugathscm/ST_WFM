@@ -495,6 +495,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Access" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Supplier">
           <Key>
@@ -830,6 +831,18 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="QuoteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1203,6 +1216,10 @@
             <End Role="Quote" EntitySet="Quote" />
             <End Role="Order" EntitySet="Order" />
           </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderAttachment_Order" Association="Self.FK_OrderAttachment_Order">
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderAttachment" EntitySet="OrderAttachment" />
@@ -1424,7 +1441,7 @@
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_OrderTracking_AspNetUsers" FromRole="OrderTracking" ToRole="AspNetUsers" />
           <NavigationProperty Name="Division" Relationship="Self.FK_OrderTracking_FromDivision" FromRole="OrderTracking" ToRole="Division" />
           <NavigationProperty Name="Division1" Relationship="Self.FK_OrderTracking_ToDivision" FromRole="OrderTracking" ToRole="Division" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_OrderTracking_Status" FromRole="OrderTracking" ToRole="Status" />
+          <NavigationProperty Name="Status" Relationship="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status" FromRole="OrderTracking" ToRole="Status" />
         </EntityType>
         <EntityType Name="OrderType">
           <Key>
@@ -1461,14 +1478,6 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="Status">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="OrderTrackings" Relationship="Self.FK_OrderTracking_Status" FromRole="Status" ToRole="OrderTracking" />
         </EntityType>
         <EntityType Name="Title">
           <Key>
@@ -1591,18 +1600,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderTracking_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
-          <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderTracking">
-              <PropertyRef Name="FactoryStatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -1622,7 +1619,6 @@
           <EntitySet Name="OrderWayForwards" EntityType="Self.OrderWayForward" />
           <EntitySet Name="PaperQualities" EntityType="Self.PaperQuality" />
           <EntitySet Name="Printers" EntityType="Self.Printer" />
-          <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="Titles" EntityType="Self.Title" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1659,10 +1655,6 @@
           <AssociationSet Name="FK_OrderWayForward_Division" Association="Self.FK_OrderWayForward_Division">
             <End Role="Division" EntitySet="Divisions" />
             <End Role="OrderWayForward" EntitySet="OrderWayForwards" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrderTracking_Status" Association="Self.FK_OrderTracking_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="OrderTracking" EntitySet="OrderTrackings" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -1774,6 +1766,7 @@
             <End Role="Attribute" EntitySet="Attributes" />
             <End Role="OrderMaterial" EntitySet="OrderMaterials" />
           </AssociationSet>
+          <EntitySet Name="InstallationAttachments" EntityType="DB_A4EFEA_stwfmModel.InstallationAttachment" />
           <EntitySet Name="Orders" EntityType="DB_A4EFEA_stwfmModel.Order" />
           <AssociationSet Name="FK_AdditionalCharges_Order" Association="DB_A4EFEA_stwfmModel.FK_AdditionalCharges_Order">
             <End Role="Order" EntitySet="Orders" />
@@ -1790,6 +1783,10 @@
           <AssociationSet Name="FK_Order_employee" Association="DB_A4EFEA_stwfmModel.FK_Order_employee">
             <End Role="Employee" EntitySet="Employees" />
             <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InstallationAttachment_Order" Association="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="InstallationAttachment" EntitySet="InstallationAttachments" />
           </AssociationSet>
           <AssociationSet Name="FK_Order_OrderType" Association="DB_A4EFEA_stwfmModel.FK_Order_OrderType">
             <End Role="OrderType" EntitySet="OrderTypes" />
@@ -1815,10 +1812,14 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderTermDetail" EntitySet="OrderTermDetails" />
           </AssociationSet>
-          <EntitySet Name="InstallationAttachments" EntityType="DB_A4EFEA_stwfmModel.InstallationAttachment" />
-          <AssociationSet Name="FK_InstallationAttachment_Order" Association="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order">
+          <EntitySet Name="Status" EntityType="DB_A4EFEA_stwfmModel.Status" />
+          <AssociationSet Name="FK_Order_Status" Association="DB_A4EFEA_stwfmModel.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
             <End Role="Order" EntitySet="Orders" />
-            <End Role="InstallationAttachment" EntitySet="InstallationAttachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTracking_Status" Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="OrderTracking" EntitySet="OrderTrackings" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="QuoteTermDetail">
@@ -2393,6 +2394,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="InstallationAttachment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="AttachmentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ActualName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order" Relationship="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" FromRole="InstallationAttachment" ToRole="Order" />
+        </EntityType>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Id" />
@@ -2456,13 +2467,14 @@
           <NavigationProperty Name="Client" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Client" FromRole="Order" ToRole="Client" />
           <NavigationProperty Name="DeliveryType" Relationship="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType" FromRole="Order" ToRole="DeliveryType" />
           <NavigationProperty Name="Employee" Relationship="DB_A4EFEA_stwfmModel.FK_Order_employee" FromRole="Order" ToRole="Employee" />
+          <NavigationProperty Name="InstallationAttachments" Relationship="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" FromRole="Order" ToRole="InstallationAttachment" />
           <NavigationProperty Name="OrderType" Relationship="DB_A4EFEA_stwfmModel.FK_Order_OrderType" FromRole="Order" ToRole="OrderType" />
           <NavigationProperty Name="Quote" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Qouate" FromRole="Order" ToRole="Quote" />
           <NavigationProperty Name="OrderAttachments" Relationship="DB_A4EFEA_stwfmModel.FK_OrderAttachment_Order" FromRole="Order" ToRole="OrderAttachment" />
           <NavigationProperty Name="OrderItems" Relationship="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
           <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" FromRole="Order" ToRole="OrderMaterial" />
           <NavigationProperty Name="OrderTermDetails" Relationship="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" FromRole="Order" ToRole="OrderTermDetail" />
-          <NavigationProperty Name="InstallationAttachments" Relationship="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" FromRole="Order" ToRole="InstallationAttachment" />
+          <NavigationProperty Name="Status" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Status" FromRole="Order" ToRole="Status" />
         </EntityType>
         <Association Name="FK_AdditionalCharges_Order">
           <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="0..1" />
@@ -2509,6 +2521,18 @@
             </Principal>
             <Dependent Role="Order">
               <PropertyRef Name="ChanneledById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InstallationAttachment_Order">
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="DB_A4EFEA_stwfmModel.InstallationAttachment" Role="InstallationAttachment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InstallationAttachment">
+              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2584,25 +2608,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="InstallationAttachment">
+        <EntityType Name="Status">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="AttachmentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="ActualName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Order" Relationship="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" FromRole="InstallationAttachment" ToRole="Order" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Access" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Status" FromRole="Status" ToRole="Order" />
+          <NavigationProperty Name="OrderTrackings" Relationship="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status" FromRole="Status" ToRole="OrderTracking" />
         </EntityType>
-        <Association Name="FK_InstallationAttachment_Order">
-          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="1" />
-          <End Type="DB_A4EFEA_stwfmModel.InstallationAttachment" Role="InstallationAttachment" Multiplicity="*" />
+        <Association Name="FK_Order_Status">
+          <End Type="DB_A4EFEA_stwfmModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Order">
+            <Principal Role="Status">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="InstallationAttachment">
-              <PropertyRef Name="OrderId" />
+            <Dependent Role="Order">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTracking_Status">
+          <End Type="DB_A4EFEA_stwfmModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.OrderTracking" Role="OrderTracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderTracking">
+              <PropertyRef Name="FactoryStatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2772,14 +2808,6 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Status">
-            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Status">
-              <MappingFragment StoreEntitySet="Status">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3115,6 +3143,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="InstallationAttachments">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.InstallationAttachment">
+              <MappingFragment StoreEntitySet="InstallationAttachment">
+                <ScalarProperty Name="ActualName" ColumnName="ActualName" />
+                <ScalarProperty Name="AttachmentName" ColumnName="AttachmentName" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Order">
               <MappingFragment StoreEntitySet="Order">
@@ -3176,12 +3214,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="InstallationAttachments">
-            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.InstallationAttachment">
-              <MappingFragment StoreEntitySet="InstallationAttachment">
-                <ScalarProperty Name="ActualName" ColumnName="ActualName" />
-                <ScalarProperty Name="AttachmentName" ColumnName="AttachmentName" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Access" ColumnName="Access" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

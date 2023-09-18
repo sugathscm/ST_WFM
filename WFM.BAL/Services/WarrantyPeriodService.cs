@@ -19,7 +19,7 @@ namespace WFM.BAL.Services
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                return entities.Status.OrderBy(d => d.Id).ToList();
+                return entities.Status.Where(s=>s.Access=="U").OrderBy(d => d.Id).ToList();
             }
         }
 

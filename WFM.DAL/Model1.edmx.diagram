@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderWayForward" Width="1.5" PointX="3" PointY="29.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.PaperQuality" Width="1.5" PointX="3.75" PointY="24.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Printer" Width="1.5" PointX="3.75" PointY="15.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Status" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Title" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
@@ -30,7 +29,6 @@
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_FromDivision" ManuallyRouted="false" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_ToDivision" ManuallyRouted="false" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderWayForward_Division" ManuallyRouted="false" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status" ManuallyRouted="false" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.QuoteTermDetail" Width="1.5" PointX="6" PointY="37.625" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderTermDetail" Width="1.5" PointX="8.25" PointY="16.25" />
@@ -78,20 +76,22 @@
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Material" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Attribute" Width="1.5" PointX="15.375" PointY="11.875" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Attribute" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.25" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.InstallationAttachment" Width="1.5" PointX="14.875" PointY="24.125" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.125" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_AdditionalCharges_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Client" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_employee" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_OrderType" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Qouate" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderAttachment_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.InstallationAttachment" Width="1.5" PointX="14.875" PointY="24.125" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Status" Width="1.5" PointX="0.75" PointY="14.875" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Status" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

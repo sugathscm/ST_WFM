@@ -47,19 +47,44 @@ namespace WFM.BAL.Services
 
         public static string GenerateOrderCode(string year, string month, bool isVAT, string QuoteCode)
         {
-            var number = 1;
+             var number = 1;
+
+
 
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                var qordersInMonth = entities.Orders.Where(q => q.Month == month && q.Year == year).OrderBy(q => q.Id).ToList();
+                var OrdetypeId= entities.OrderTypes.Where(q=>q.Name == QuoteCode.Trim()).OrderBy(q => q.Id).ToList().FirstOrDefault();
+
+                var qordersInMonth = entities.Orders.Where(q => q.Month == month && q.Year == year && q.OrderTypeId== OrdetypeId.Id).OrderBy(q => q.Id).ToList();
                 if (qordersInMonth.Count > 0)
                 {
                     number = qordersInMonth.Last().CodeNumber.Value + 1;
                 }
             }
 
-            return string.Format("{0}/{1}/{2}/{3}", QuoteCode.Split('/')[0], year.Substring(2, 2), month, number.ToString("000"));
+            return string.Format("{0}-{1}-{2}-{3}", QuoteCode.Split('-')[0], year.Substring(2, 2), month, number.ToString("000"));
         }
+
+        public static string GenerateOrderCodeSave(string year, string month, bool isVAT, int OrdetypeId)
+        {
+            var number = 1;
+            string codestr = "";
+
+
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                 codestr = entities.OrderTypes.Where(q => q.Id == OrdetypeId).OrderBy(q => q.Id).ToList().FirstOrDefault().Name;
+
+                var qordersInMonth = entities.Orders.Where(q => q.Month == month && q.Year == year && q.OrderTypeId == OrdetypeId).OrderBy(q => q.Id).ToList();
+                if (qordersInMonth.Count > 0)
+                {
+                    number = qordersInMonth.Last().CodeNumber.Value + 1;
+                }
+            }
+
+            return string.Format("{0}-{1}-{2}-{3}", codestr.Split('-')[0], year.Substring(2, 2), month, number.ToString("000"));
+        }
+
 
         //public static List<GetDataAuditByUser_Result> GetDataAuditByUser(Guid userId)
         //{

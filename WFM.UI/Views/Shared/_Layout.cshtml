@@ -59,6 +59,7 @@
                 </div>
             </div>
         </div>*@
+
     <!-- ============================================================== -->
     <!-- main wrapper -->
     <!-- ============================================================== -->
@@ -69,16 +70,24 @@
         <div class="dashboard-header">
             <nav class="navbar navbar-expand-lg bg-white fixed-top">
                 <a class="navbar-brand" href="~/home"><img src="~/Resources/header_logo.png" width="230" /></a>
+                @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")) || (User.IsInRole("Finance")))
+                {
+                    <a class="nav-link" href="~/Order/Details"> <img src="~/assets/images/add-file.svg" style="width:35px;height:35px;" /> </a>
+                    <a class="nav-link" href="~/Order"> <img src="~/assets/images/completed-order.svg" style="width:35px;height:35px;" /> </a>
+                    <a class="nav-link" href="~/Quote"> <img src="~/assets/images/list-center.svg" style="width:35px;height:35px;" /></a>
+                    <a class="nav-link" href="~/Quote/Details"> <img src="~/assets/images/queue-svg.svg" style="width:35px;height:35px;" /></a>
+                }
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <span style="margin-right: .5rem;" class="navbar-toggler-icon"><img src="~/assets/images/burger-menu.svg" style="width:35px;height:35px;" /></span>
                 </button>
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-right-top">
                         @*<li class="nav-item">
-                                <div id="custom-search" class="top-search-bar">
-                                    <input class="form-control" type="text" placeholder="Search..">
-                                </div>
-                            </li>*@
+                    <div id="custom-search" class="top-search-bar">
+                        <input class="form-control" type="text" placeholder="Search..">
+                    </div>
+                </li>*@
                         <li class="nav-item dropdown nav-user">
                             @Html.Partial("_LoginPartial")
                         </li>
@@ -93,7 +102,7 @@
             <div class="menu-list">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     @*<a class="d-xl-none d-lg-none" href="#">Dashboard</a>*@
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button style="margin-top: 1rem;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
@@ -194,7 +203,7 @@
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#quote" aria-controls="master"><i class="fa fa-fw fa-suitcase"></i>Quotations</a>
                                 <div id="quote" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
-                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Finance")))
+                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Finance")) )
                                         {
                                             <li class="nav-item">
                                                 <a class="nav-link" href="~/Quote">Quotation List</a>
@@ -216,7 +225,7 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="~/Order">Job Order List</a>
                                         </li>
-                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")))
+                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")) )
                                         {
                                             <li class="nav-item">
                                                 <a class="nav-link" href="~/Order/Details">New Job Order</a>

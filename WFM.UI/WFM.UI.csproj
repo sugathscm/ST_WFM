@@ -901,6 +901,7 @@
     <Content Include="Views\Order\_NewClientPartial.cshtml" />
     <Content Include="Views\DeliveryType\Index.cshtml" />
     <Content Include="Views\Order\_NewProductPartial .cshtml" />
+    <Content Include="Views\Home\_PrintOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -911,6 +912,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="hardcopy\" />
+    <Folder Include="InstallationUploadedFiles\" />
     <Folder Include="Quotes\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>

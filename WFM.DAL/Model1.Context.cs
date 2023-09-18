@@ -39,7 +39,6 @@ namespace WFM.DAL
         public virtual DbSet<OrderWayForward> OrderWayForwards { get; set; }
         public virtual DbSet<PaperQuality> PaperQualities { get; set; }
         public virtual DbSet<Printer> Printers { get; set; }
-        public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Title> Titles { get; set; }
         public virtual DbSet<QuoteTermDetail> QuoteTermDetails { get; set; }
         public virtual DbSet<OrderTermDetail> OrderTermDetails { get; set; }
@@ -67,7 +66,8 @@ namespace WFM.DAL
         public virtual DbSet<SupplierType> SupplierTypes { get; set; }
         public virtual DbSet<Material> Materials { get; set; }
         public virtual DbSet<Attribute> Attributes { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<InstallationAttachment> InstallationAttachments { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
     }
 }

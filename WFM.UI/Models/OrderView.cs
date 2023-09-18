@@ -38,7 +38,7 @@ namespace WFM.UI.Models
         public int OrderCount { get; set; }
         public int OrderTypeId { get; set; }
         public string ChanneledBy { get; set; }
-
+        public bool IsApproved { get; set; }
         [DisplayFormat(DataFormatString = "{0:N}")]
         public double BalancePayment { get; set; }
 

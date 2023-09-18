@@ -145,6 +145,12 @@ namespace WFM.UI.Controllers
 
         }
 
+
+        public string GetatDesc(int Id)
+        {
+
+            return categoryService.GetCategoryDescription(Id);
+        }
         //[Authorize]
         //  [Authorize(Roles = "Administrator")]
         //  [Authorize(Roles = "Sales")]
@@ -211,7 +217,7 @@ namespace WFM.UI.Controllers
             }
             else
             {
-                var code = CommonService.GenerateQuoteCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false);//.Replace('-', '/');
+                var code = CommonService.GenerateOrderCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false,"ST");//.Replace('-', '/');
                 order.Code = code;
             }
 
@@ -328,6 +334,8 @@ namespace WFM.UI.Controllers
                     ClientName = item.Client.Name,
                     Code = item.Code,
                     Month= item.CreatedDate.Value.Month.ToString(),
+                    StatusName= item.Status.Name,
+                    IsApproved=item.StatusId== 6?false:true,
                    // DeliveryType=item.DeliveryType.Type,
                     CreatedDate = item.CreatedDate,
                     CreatedDateString = item.CreatedDate.Value.ToString(),
@@ -337,6 +345,38 @@ namespace WFM.UI.Controllers
                     //DeliveryDateString = item.DeliveryDate.Value.ToString(),
                     Header = item.Header,
                     OrderTypeId=(int)item.OrderTypeId
+                });
+            }
+
+            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrator,Management,Sales,Factory")]
+        public ActionResult GetDashboardList()
+        {
+            var list = orderService.GetOrderActiveList().Take(10);
+
+            List<OrderView> modelList = new List<OrderView>();
+
+            foreach (var item in list)
+            {
+                modelList.Add(new OrderView(orderService)
+                {
+                    Id = item.Id,
+                    ClientName = item.Client.Name,
+                    Code = item.Code,
+                    Month = item.CreatedDate.Value.Month.ToString(),
+                    StatusName = item.Status.Name,
+                    IsApproved = item.StatusId == 6 ? false : true,
+                    // DeliveryType=item.DeliveryType.Type,
+                    CreatedDate = item.CreatedDate,
+                    CreatedDateString = item.CreatedDate.Value.ToString(),
+                    BaseQoute = item.BaseQuoteId,
+                    ChanneledBy = item.Employee.Name,
+                    //DeliveryDate = item.DeliveryDate,
+                    //DeliveryDateString = item.DeliveryDate.Value.ToString(),
+                    Header = item.Header,
+                    OrderTypeId = (int)item.OrderTypeId
                 });
             }
 
@@ -393,16 +433,17 @@ namespace WFM.UI.Controllers
                 Order order = null;
                 Order oldOrder = null;
 
-                
+                string ordCode = CommonService.GenerateOrderCodeSave(System.DateTime.Now.Year.ToString(),System.DateTime.Now.Month.ToString("00"),false,model.OrderTypeId);
 
 
                 if (model.Id == 0)
-                {   
+                {
+                   
                     order = new Order
                     {
                         ClientId = model.ClientId,
-                        Code = model.Code,
-                        CodeNumber = int.Parse(model.Code.Split('-')[3]),
+                        Code = ordCode,// model.Code,
+                        CodeNumber = int.Parse(ordCode.Split('-')[3]),
                         Year = DateTime.Now.Year.ToString(),
                         Month = DateTime.Now.Month.ToString("00"),
                         ChanneledById = model.ChanneledById,
@@ -429,8 +470,8 @@ namespace WFM.UI.Controllers
                         //LetteringWarrantyPeriod = model.LetteringWarrantyPeriod,
                         OrderItems = model.OrderItems,
                         OrderTypeId = model.OrderTypeId,
-                        StatusId= model.StatusId,
-                      
+                        StatusId= model.StatusId != null ? model.StatusId : 1,
+
                         ArtWork = artworkFile ,
                         //PurchaseOrder=PurchaseOrderFile,
                         IsArtDepartment = model.IsArtDepartment,    
@@ -456,6 +497,8 @@ namespace WFM.UI.Controllers
                 }
                 else
                 {
+                  //  string ordCode = CommonService.GenerateOrderCodeSave(System.DateTime.Now.Year.ToString(), System.DateTime.Now.Month.ToString(), false, model.OrderTypeId);
+
                     order = orderService.GetOrderById(model.Id);
                     oldOrder = orderService.GetOrderById(model.Id);
 
@@ -480,7 +523,8 @@ namespace WFM.UI.Controllers
                     order.Location = model.Location;
                     order.BaseQuoteId = model.BaseQuoteId;
                     order.AdvancePayment = model.AdvancePayment;
-                    order.StatusId = model.StatusId;
+                    order.StatusId = model.StatusId != null ? model.StatusId : 1;
+                  
                     //order.FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod;
                     //order.IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod;
                     //order.LetteringWarrantyPeriod = model.LetteringWarrantyPeriod;
@@ -972,11 +1016,23 @@ namespace WFM.UI.Controllers
         }
 
         private double CalculateOrdItmVatTotal(Order order)
-        { 
+        {
+            double? TotalVat = 0;
             //double? Cost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
-            double? TotalVat = order.OrderItems.Sum(x =>((x.Qty*x.UnitCost)/100)* x.VAT);
+            if (order.OrderTypeId == 1)
+             TotalVat = order.OrderItems.Sum(x =>((x.Qty*x.UnitCost)/100)* 15);
+           
+
             
             return TotalVat.HasValue ? TotalVat.Value : 0;
+        }
+
+        public void Approve(int id)
+        {
+         var order=   orderService.GetOrderById(id);
+            order.StatusId = 6;
+            orderService.SaveOrUpdate(order);
+
         }
 
         

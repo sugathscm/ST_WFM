@@ -70,12 +70,14 @@
                             <tr>
                                 <th>PO No</th>
                                 <th>Client</th>
-                                <th>Header</th>
+                                <th>Status</th>
                                 <th>Created Date (MM/DD/YYYY)</th>
                                 <th>Month</th>
                                 <th>Channeled By</th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
+
                             </tr>
                         </thead>
                     </table>
@@ -94,9 +96,10 @@
                 </button>
             </div>
             <div class="modal-body" id="Preview">
-                @Html.Partial("_PrintOrder")
+                @*Html.Partial("_PrintOrder")*@
             </div>
             <div class="modal-footer">
+              
                 <button id="btnPrint" type="button" class="btn btn-primary">Print</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
@@ -113,6 +116,8 @@
     document.getElementById("btnPrint").onclick = function () {
         printElement(document.getElementById("printThis"));
     }
+
+
 
     function printElement(elem) {
         var domClone = elem.cloneNode(true);
@@ -142,6 +147,19 @@
         })
     }
 
+      function ApproveOrder(id) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Approve", "Order")',
+            data: { id: id },
+            success: function (data) {
+                alert("Order has been aproved");
+                LoadOrders();
+
+            }
+        })
+    }
+
     function LoadOrders() {
 
         if ($.fn.dataTable.isDataTable('#List')) {
@@ -150,11 +168,9 @@
         }
 
         $('#List').DataTable({
+            "ordering": false,
             "createdRow": function (row, data, dataIndex) {
-                //console.log(data);
-                if (data.IsApproved == true) {
 
-                }
             },
             "ajax": {
                 "url": "/Order/GetList",
@@ -162,12 +178,12 @@
                 "datatype": "json"
             },
             "columns": [
-                { "data": "Code", "width": "10%" },
-                { "data": "ClientName", "width": "20%" },
-                { "data": "Header", "width": "20%" },
-                { "data": "CreatedDateString", "width": "15%" },
-                { "data": "Month", "width": "5%" },
-                { "data": "ChanneledBy", "width": "20%" },
+                { "data": "Code", "width": "10%" ,"ordering": false, "sorting": false },
+                { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
+                { "data": "StatusName", "width": "20%", "ordering": false, "sorting": false },
+                { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
+                { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
+                { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
@@ -177,9 +193,28 @@
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
-                        return '@if (User.IsInRole("Administrator")||User.IsInRole("Factory")) {  <a class="btn btn-info btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>}';
+
+                            return '@if (User.IsInRole("Administrator")||User.IsInRole("Factory")) {  <a class="btn btn-info btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>}';
+
+                    }
+                },
+
+                {
+                    "data": "Id",  "searchable": false, "ordering": false, "sorting": false,
+                    "render": function (data, type, full, meta)
+                    {
+                        var rowvalue = full.IsApproved;
+                        if (rowvalue == true) {
+                            return '@if (User.IsInRole("Administrator")||User.IsInRole("Factory")) {  <a class="btn btn-info btn-xs" onclick="ApproveOrder(' + data + ')" >Aprove</a>}';
+                        }
+                        else {
+
+                             return '';
+                        }
+
                     }
                 }
+
             ]
         });
 

@@ -18,11 +18,11 @@ namespace WFM.DAL
         public Order()
         {
             this.AdditionalCharges = new HashSet<AdditionalCharge>();
+            this.InstallationAttachments = new HashSet<InstallationAttachment>();
             this.OrderAttachments = new HashSet<OrderAttachment>();
             this.OrderItems = new HashSet<OrderItem>();
             this.OrderMaterials = new HashSet<OrderMaterial>();
             this.OrderTermDetails = new HashSet<OrderTermDetail>();
-            this.InstallationAttachments = new HashSet<InstallationAttachment>();
         }
     
         public int Id { get; set; }
@@ -86,6 +86,8 @@ namespace WFM.DAL
         public virtual Client Client { get; set; }
         public virtual DeliveryType DeliveryType { get; set; }
         public virtual Employee Employee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InstallationAttachment> InstallationAttachments { get; set; }
         public virtual OrderType OrderType { get; set; }
         public virtual Quote Quote { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -96,7 +98,6 @@ namespace WFM.DAL
         public virtual ICollection<OrderMaterial> OrderMaterials { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InstallationAttachment> InstallationAttachments { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

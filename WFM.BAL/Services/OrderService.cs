@@ -178,6 +178,7 @@ namespace WFM.BAL.Services
                     return entities.Orders
                         .Include("Client")
                         .Include("DeliveryType")
+                        .Include("Status")
                         .Include("OrderType")
                         .Include("Employee").Where(o => o.StatusId != (int)OrderStatus.Completed).OrderByDescending(d => d.CreatedDate).ToList();
 

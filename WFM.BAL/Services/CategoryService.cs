@@ -23,6 +23,17 @@ namespace WFM.BAL.Services
             }
         }
 
+        public string GetCategoryDescription(int? id)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                if (id != null & id != 0)
+                    return entities.Categories.Where(s => s.Id == id).SingleOrDefault().Description;
+                else
+                    return string.Empty;
+            }
+        }
+
         public void SaveOrUpdate(Category category)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
