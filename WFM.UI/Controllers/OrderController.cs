@@ -32,7 +32,7 @@ namespace WFM.UI.Controllers
 {
     public class test
     {
-        public string name { get; set;}
+        public string name { get; set; }
         public string name1 { get; set; }
         public string name2 { get; set; }
 
@@ -50,7 +50,7 @@ namespace WFM.UI.Controllers
         private readonly WarrantyPeriodService warrantyPeriodService = new WarrantyPeriodService();
         private readonly OrderTypeService orderTypeService = new OrderTypeService();
         private readonly ErrorLogService errlog = new ErrorLogService();
-        
+
 
         public OrderController()
         {
@@ -89,7 +89,7 @@ namespace WFM.UI.Controllers
             order.Year = qoute.Year;
 
             order.CreatedDate = qoute.CreatedDate;
-            
+
             order.QuoteId = qoute.Id;
             order.ClientId = (int)qoute.ClientId;
 
@@ -102,26 +102,26 @@ namespace WFM.UI.Controllers
             //order.FrameworkWarrantyPeriod = qoute.FrameworkWarrantyPeriod;
             //order.IlluminationWarrantyPeriod = qoute.IlluminationWarrantyPeriod;
             //order.LetteringWarrantyPeriod = qoute.LetteringWarrantyPeriod;
-            
+
             List<OrderItem> orItem = new List<OrderItem>();
             foreach (QuoteItem qitm in qoute.QuoteItems)
             {
                 OrderItem otm = new OrderItem();
                 otm.UnitCost = (double)qitm.UnitCost;
                 otm.Qty = (int)qitm.Qty;
-                otm.Size=qitm.Size;
+                otm.Size = qitm.Size;
                 otm.VAT = (double)qitm.VAT;
-                otm.TotalCost= (double)qitm.TotalCost;
+                otm.TotalCost = (double)qitm.TotalCost;
                 otm.Installation = qitm.Installation;
-                otm.Description=qitm.Description;
-                otm.VisibilityId= qitm.VisibilityId;
+                otm.Description = qitm.Description;
+                otm.VisibilityId = qitm.VisibilityId;
                 otm.FrameworkWarrantyPeriod = (int)qitm.FrameworkWarrantyPeriod;
-                otm.LetteringWarrantyPeriod= (int)qitm.LetteringWarrantyPeriod;
-                otm.IlluminationWarrantyPeriod=(int)qitm.IlluminationWarrantyPeriod;
-                
+                otm.LetteringWarrantyPeriod = (int)qitm.LetteringWarrantyPeriod;
+                otm.IlluminationWarrantyPeriod = (int)qitm.IlluminationWarrantyPeriod;
 
 
-                otm.CategoryId = qitm.CategoryId;                
+
+                otm.CategoryId = qitm.CategoryId;
                 orItem.Add(otm);
 
             }
@@ -164,8 +164,8 @@ namespace WFM.UI.Controllers
 
             if (qoute != null)
             {
-               // order = ConvertQuotetoOrder(qoute);
-                
+                // order = ConvertQuotetoOrder(qoute);
+
             }
             else
             {
@@ -174,7 +174,7 @@ namespace WFM.UI.Controllers
             }
 
             var quoteList = quoteService.GetQuoteList().Where(q => q.IsConverted == false).ToList();
-          
+
             var clientList = clientService.GetClientList();
             var employeeList = employeeService.GetEmployeeList();
             var orderTermList = quoteTermService.GetQuoteTermList();
@@ -199,8 +199,8 @@ namespace WFM.UI.Controllers
         {
             return View();
         }
-      // [Authorize]
-       [Authorize(Roles = "Administrator,Management,Sales,Finace,Factory")]
+        // [Authorize]
+        [Authorize(Roles = "Administrator,Management,Sales,Finace,Factory")]
         // GET: Order
         public ActionResult Details(int? id, int? qouteid)
         {
@@ -210,14 +210,14 @@ namespace WFM.UI.Controllers
 
             //var role = User.IsInRole("Administrator");
             Order order = new Order();
-             
+
             if (id != null)
             {
                 order = orderService.GetOrderById(id);
             }
             else
             {
-                var code = CommonService.GenerateOrderCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false,"ST");//.Replace('-', '/');
+                var code = CommonService.GenerateOrderCode(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString("00"), false, "ST");//.Replace('-', '/');
                 order.Code = code;
             }
 
@@ -245,7 +245,7 @@ namespace WFM.UI.Controllers
             var orderTermList = quoteTermService.GetQuoteTermList();
             var orderTypeList = orderTypeService.GetOrderTypeList();
             var IlluminationList = orderService.GetIlluminationList();
-            var DeliveryTypeList=orderService.GetDeliveryTypeList();
+            var DeliveryTypeList = orderService.GetDeliveryTypeList();
             var warrantyPeriodList = warrantyPeriodService.GetWarrantyPeriodList();
             var VisibilityList = orderService.GetVisibilityList();
             //List<BaseViewModel> VisibilityList = new List<BaseViewModel>();
@@ -271,7 +271,7 @@ namespace WFM.UI.Controllers
             ViewBag.AttributeList = attributeList;
             ViewBag.SupplierList = supplierList;
             ViewBag.MaterialList = materialList;
-            ViewBag.DeliveryTypeList= new SelectList(DeliveryTypeList, "Id", "Type"); 
+            ViewBag.DeliveryTypeList = new SelectList(DeliveryTypeList, "Id", "Type");
             ViewBag.IlluminationList = IlluminationList;
             ViewBag.WarrantyPeriodList = warrantyPeriodList;
             ViewBag.VisibilityList = VisibilityList;
@@ -290,7 +290,7 @@ namespace WFM.UI.Controllers
         //[Authorize(Roles = "Administrator")]
         //[Authorize(Roles = "Sales")]
         //[Authorize(Roles = "Design")]
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
         public ActionResult GetHistoryList()
         {
             var list = orderService.GetOrderHistoryList();
@@ -309,7 +309,7 @@ namespace WFM.UI.Controllers
                     CreatedDateString = item.CreatedDate.Value.ToString(),
                     //DeliveryDateString = item.DeliveryDate.Value.ToString(),
                     Header = item.Header,
-              
+
                 });
             }
 
@@ -319,9 +319,9 @@ namespace WFM.UI.Controllers
         //[Authorize]
         //[Authorize(Roles = "Administrator")]
         //[Authorize(Roles = "Sales")]
-        [Authorize(Roles = "Administrator,Management,Sales,Factory")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
         public ActionResult GetList()
-        {   
+        {
             var list = orderService.GetOrderActiveList();
 
             List<OrderView> modelList = new List<OrderView>();
@@ -333,25 +333,25 @@ namespace WFM.UI.Controllers
                     Id = item.Id,
                     ClientName = item.Client.Name,
                     Code = item.Code,
-                    Month= item.CreatedDate.Value.Month.ToString(),
-                    StatusName= item.Status.Name,
-                    IsApproved=item.StatusId== 6?false:true,
-                   // DeliveryType=item.DeliveryType.Type,
+                    Month = item.CreatedDate.Value.Month.ToString(),
+                    StatusName = item.Status.Name,
+                    IsApproved = item.StatusId == 6 ? false : true,
+                    // DeliveryType=item.DeliveryType.Type,
                     CreatedDate = item.CreatedDate,
                     CreatedDateString = item.CreatedDate.Value.ToString(),
-                    BaseQoute = item.BaseQuoteId, 
-                    ChanneledBy=item.Employee.Name,
+                    BaseQoute = item.BaseQuoteId,
+                    ChanneledBy = item.Employee.Name,
                     //DeliveryDate = item.DeliveryDate,
                     //DeliveryDateString = item.DeliveryDate.Value.ToString(),
                     Header = item.Header,
-                    OrderTypeId=(int)item.OrderTypeId
+                    OrderTypeId = (int)item.OrderTypeId
                 });
             }
 
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Administrator,Management,Sales,Factory")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
         public ActionResult GetDashboardList()
         {
             var list = orderService.GetOrderActiveList().Take(10);
@@ -410,7 +410,7 @@ namespace WFM.UI.Controllers
                 var chargeCostArray = formCollection["chargeCostArray"].Split(',');
                 var chargeQtyArray = formCollection["chargeQtyArray"].Split(',');
                 var chargeTotalCostArray = formCollection["chargeTotalCostArray"].Split(',');
-                
+
                 var installationArray = formCollection["installationArray"].Split(',');
                 //var categoryTypeArray = formCollection["categoryTypeArray"].Split(',');
                 var visibilityArray = formCollection["visibilityArray"].Split(',');
@@ -418,27 +418,31 @@ namespace WFM.UI.Controllers
                 var frameworkWarrantyArray = formCollection["frameworkWarrantyArray"].Split(',');
                 var letteringWarrantyArray = formCollection["letteringWarrantyArray"].Split(',');
                 var illuminationWarrantyArray = formCollection["illuminationWarrantyArray"].Split(',');
-                var artworkFile =formCollection["Artwork"];
+                var artworkFile = formCollection["Artwork"];
                 var itemIdArray = formCollection["itemIdArray"].Split(',');
-                var addchrgIdArray = formCollection["addchrgIdArray"].Split(','); 
+                var addchrgIdArray = formCollection["addchrgIdArray"].Split(',');
 
                 var ordmatIdArray = formCollection["ordmatIdArray"].Split(',');
                 var MaterialArr = formCollection["MaterialArr"].Split(',');
                 var SupplierArr = formCollection["SupplierArr"].Split(',');
                 var AttributeArr = formCollection["AttributeArr"].Split(',');
-                var ValueArr = formCollection["ValueArr"].Split(','); 
+                var ValueArr = formCollection["ValueArr"].Split(',');
 
                 int id = model.Id;
 
                 Order order = null;
                 Order oldOrder = null;
-
-                string ordCode = CommonService.GenerateOrderCodeSave(System.DateTime.Now.Year.ToString(),System.DateTime.Now.Month.ToString("00"),false,model.OrderTypeId);
-
-
-                if (model.Id == 0)
+                string ordCode = "";
+                if (!(User.IsInRole("Factory")))
                 {
-                   
+                    ordCode = CommonService.GenerateOrderCodeSave(System.DateTime.Now.Year.ToString(), System.DateTime.Now.Month.ToString("00"), false, model.OrderTypeId);
+
+                }
+
+
+                if (model.Id == 0 && (!User.IsInRole("Factory")))
+                {
+
                     order = new Order
                     {
                         ClientId = model.ClientId,
@@ -456,39 +460,39 @@ namespace WFM.UI.Controllers
                         OrderVAT = model.OrderVAT,
                         Location = model.Location,
                         BaseQuoteId = model.BaseQuoteId,
-                        AdvancePayment = model.AdvancePayment != null ? model.AdvancePayment :0,
+                        AdvancePayment = model.AdvancePayment != null ? model.AdvancePayment : 0,
                         //WarrantyPeriodId = model.WarrantyPeriodId,
                         ContactPerson = model.ContactPerson,
                         ContactMobile = model.ContactMobile,
                         DeliveryDate = model.DeliveryDate,
                         DeliveryTypeId = model.DeliveryTypeId,
                         QuoteId = model.QuoteId,
-                        Designer=model.Designer,
-                        Remarks=model.Remarks,
+                        Designer = model.Designer,
+                        Remarks = model.Remarks,
                         //FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod,
                         //IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod,
                         //LetteringWarrantyPeriod = model.LetteringWarrantyPeriod,
                         OrderItems = model.OrderItems,
                         OrderTypeId = model.OrderTypeId,
-                        StatusId= model.StatusId != null ? model.StatusId : 1,
+                        StatusId = model.StatusId != null ? model.StatusId : 1,
 
-                        ArtWork = artworkFile ,
+                        ArtWork = artworkFile,
                         //PurchaseOrder=PurchaseOrderFile,
-                        IsArtDepartment = model.IsArtDepartment,    
-                        IsCladdingsection = model.IsCladdingsection,    
+                        IsArtDepartment = model.IsArtDepartment,
+                        IsCladdingsection = model.IsCladdingsection,
                         IsCuttingDepartment = model.IsCuttingDepartment,
-                        IsInstallationTeam = model.IsInstallationTeam,  
-                        IsPackingDepartment = model.IsPackingDepartment,    
+                        IsInstallationTeam = model.IsInstallationTeam,
+                        IsPackingDepartment = model.IsPackingDepartment,
                         IsPlasticDepartment = model.IsPlasticDepartment,
-                        IsPrintingDepartment = model.IsPrintingDepartment,  
+                        IsPrintingDepartment = model.IsPrintingDepartment,
                         IsProductionDepartment = model.IsProductionDepartment,
-                        IsScreenPrintingDept =model.IsScreenPrintingDept,
+                        IsScreenPrintingDept = model.IsScreenPrintingDept,
                         IsSteelDepartment = model.IsSteelDepartment,
-                        
-                        
-                      
-                      
-                       
+
+
+
+
+
                     };
 
                     oldOrder = new Order();
@@ -497,7 +501,7 @@ namespace WFM.UI.Controllers
                 }
                 else
                 {
-                  //  string ordCode = CommonService.GenerateOrderCodeSave(System.DateTime.Now.Year.ToString(), System.DateTime.Now.Month.ToString(), false, model.OrderTypeId);
+                    //  string ordCode = CommonService.GenerateOrderCodeSave(System.DateTime.Now.Year.ToString(), System.DateTime.Now.Month.ToString(), false, model.OrderTypeId);
 
                     order = orderService.GetOrderById(model.Id);
                     oldOrder = orderService.GetOrderById(model.Id);
@@ -516,7 +520,7 @@ namespace WFM.UI.Controllers
                     order.UpdatedDate = DateTime.Now;
                     order.ContactPerson = model.ContactPerson;
                     order.ContactMobile = model.ContactMobile;
-                    order.ChanneledById=model.ChanneledById;
+                    order.ChanneledById = model.ChanneledById;
 
                     order.IsVAT = model.IsVAT;
                     order.OrderVAT = model.OrderVAT;
@@ -524,12 +528,12 @@ namespace WFM.UI.Controllers
                     order.BaseQuoteId = model.BaseQuoteId;
                     order.AdvancePayment = model.AdvancePayment;
                     order.StatusId = model.StatusId != null ? model.StatusId : 1;
-                  
+
                     //order.FrameworkWarrantyPeriod = model.FrameworkWarrantyPeriod;
                     //order.IlluminationWarrantyPeriod = model.IlluminationWarrantyPeriod;
                     //order.LetteringWarrantyPeriod = model.LetteringWarrantyPeriod;
                     order.DeliveryDate = model.DeliveryDate;
-                  
+
                     order.QuoteId = model.QuoteId;
                     order.Designer = model.Designer;
                     order.Remarks = model.Remarks;
@@ -540,11 +544,11 @@ namespace WFM.UI.Controllers
                     order.OrderTypeId = model.OrderTypeId;
 
 
-                    order.IsArtDepartment = model.IsArtDepartment;    
-                    order.IsCladdingsection = model.IsCladdingsection;    
+                    order.IsArtDepartment = model.IsArtDepartment;
+                    order.IsCladdingsection = model.IsCladdingsection;
                     order.IsCuttingDepartment = model.IsCuttingDepartment;
                     order.IsInstallationTeam = model.IsInstallationTeam;
-                    order.IsPackingDepartment = model.IsPackingDepartment;    
+                    order.IsPackingDepartment = model.IsPackingDepartment;
                     order.IsPlasticDepartment = model.IsPlasticDepartment;
                     order.IsPrintingDepartment = model.IsPrintingDepartment;
                     order.IsProductionDepartment = model.IsProductionDepartment;
@@ -552,9 +556,9 @@ namespace WFM.UI.Controllers
                     order.IsSteelDepartment = model.IsSteelDepartment;
                     order.InstallationDate = model.InstallationDate;
                     order.CompletionDate = model.CompletionDate;
-                    order.InstallationTeam= model.InstallationTeam;
-                    order.InstallationVehicleType = model.InstallationVehicleType;  
-                    order.Remarks= model.Remarks;
+                    order.InstallationTeam = model.InstallationTeam;
+                    order.InstallationVehicleType = model.InstallationVehicleType;
+                    order.Remarks = model.Remarks;
 
 
                     newData = new JavaScriptSerializer().Serialize(new Order()
@@ -564,113 +568,116 @@ namespace WFM.UI.Controllers
 
                     //orderService.RemoveItems(order);
                 }
-
                 int i = 0;
-                //order.OrderItems.Clear();
-                OrderItem orderItem = null;
-
-                foreach (var item in productIdArray)
-                {
-                    if (model.Id == 0)
-                    {
-                        orderItem = new OrderItem
-                        {
-                            CategoryId = int.Parse(item),
-                            Qty = (itmqtyArray[i] == "") ? 0 : double.Parse(itmqtyArray[i]),
-                            UnitCost = (itmcostArray[i] == "") ? 0.00 : double.Parse(itmcostArray[i]),
-                            TotalCost = (itmtotcostArray[i] == "") ? 0.00 : double.Parse(itmtotcostArray[i]),
-                            VAT = (vatArray[i] == "") ? 0.00 : double.Parse(vatArray[i]),
-                            Size = (sizeArray[i] == "") ? "" : sizeArray[i],
-                            Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
-                            FrameworkWarrantyPeriod = (frameworkWarrantyArray[i] == "") ? 4 : int.Parse(frameworkWarrantyArray[i]),
-                            IlluminationWarrantyPeriod = (illuminationWarrantyArray[i] == "") ? 4 : int.Parse(illuminationWarrantyArray[i]),
-                            LetteringWarrantyPeriod = (letteringWarrantyArray[i] == "") ? 4 : int.Parse(letteringWarrantyArray[i]),
-                            VisibilityId = (visibilityArray[i] == "") ? 3 : int.Parse(visibilityArray[i]),
-                            IlluminationId = (illuminationArray[i] == "") ? 7 : int.Parse(illuminationArray[i]),
-                            Installation = (installationArray[i] == "") ? "" : installationArray[i],
-                            //  CategoryType = (categoryTypeArray[i] == "") ? "" : categoryTypeArray[i],                           
-                            SpecialInstruction = (specialInstructionsArray[i] == "") ? "" : specialInstructionsArray[i]
-
-
-
-                        };
-                        order.OrderItems.Add(orderItem);
-                    }
-                    else
-                    {
-                        orderItem = new OrderItem
-                        {
-                            Id = (itemIdArray[i] == "") ? 0 : int.Parse(itemIdArray[i]),
-                            CategoryId = int.Parse(item),
-                            Qty = (itmqtyArray[i] == "") ? 0 : double.Parse(itmqtyArray[i]),
-                            UnitCost = (itmcostArray[i] == "") ? 0.00 : double.Parse(itmcostArray[i]),
-                            TotalCost = (itmtotcostArray[i] == "") ? 0.00 : double.Parse(itmtotcostArray[i]),
-                            VAT = (vatArray[i] == "") ? 0.00 : double.Parse(vatArray[i]),
-                            Size = (sizeArray[i] == "") ? "" : sizeArray[i],
-                            Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
-                            OrderId = model.Id,
-                            FrameworkWarrantyPeriod = (frameworkWarrantyArray[i] == "") ? 4 : int.Parse(frameworkWarrantyArray[i]),
-                            IlluminationWarrantyPeriod = (illuminationWarrantyArray[i] == "") ? 4 : int.Parse(illuminationWarrantyArray[i]),
-                            LetteringWarrantyPeriod = (letteringWarrantyArray[i] == "") ? 4 : int.Parse(letteringWarrantyArray[i]),
-                            VisibilityId = (visibilityArray[i] == "") ? 3 : int.Parse(visibilityArray[i]),
-                            IlluminationId = (illuminationArray[i] == "") ? 7 : int.Parse(illuminationArray[i]),
-                            SpecialInstruction = (specialInstructionsArray[i] == "") ? "" : specialInstructionsArray[i],
-                            Installation = (installationArray[i] == "") ? "" : installationArray[i]
-                        };
-
-                        orderService.SaveOrUpdate(orderItem);
-                    }
-
-                    i++;
-                }
-
-
                 int j = 0;
-                //order.AdditionalCharges.Clear();
-                AdditionalCharge additionalCharge = null;
-
-
-
-
-                //Aditional charges save
-                foreach (var item in chargeItemArray)
+                if (!User.IsInRole("Factory"))
                 {
-                    if (model.Id == 0)
+                    
+                    //order.OrderItems.Clear();
+                    OrderItem orderItem = null;
+
+                    foreach (var item in productIdArray)
                     {
-                        additionalCharge = new AdditionalCharge
+                        if (model.Id == 0)
                         {
-                            
-                            AddCharge = (chargeItemArray[j] == "") ? "" : chargeItemArray[j],
-                            Cost= (chargeCostArray[j] == "") ? 0.00 : double.Parse(chargeCostArray[j]),
-                            Qty = (chargeQtyArray[j] == "") ? 0.00 : double.Parse(chargeQtyArray[j]),
-                            OrderId = model.Id,
-                            TotalCost = (chargeTotalCostArray[j] == "") ? 0.00 : double.Parse(chargeTotalCostArray[j])
+                            orderItem = new OrderItem
+                            {
+                                CategoryId = int.Parse(item),
+                                Qty = (itmqtyArray[i] == "") ? 0 : double.Parse(itmqtyArray[i]),
+                                UnitCost = (itmcostArray[i] == "") ? 0.00 : double.Parse(itmcostArray[i]),
+                                TotalCost = (itmtotcostArray[i] == "") ? 0.00 : double.Parse(itmtotcostArray[i]),
+                                VAT = (vatArray[i] == "") ? 0.00 : double.Parse(vatArray[i]),
+                                Size = (sizeArray[i] == "") ? "" : sizeArray[i],
+                                Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
+                                FrameworkWarrantyPeriod = (frameworkWarrantyArray[i] == "") ? 4 : int.Parse(frameworkWarrantyArray[i]),
+                                IlluminationWarrantyPeriod = (illuminationWarrantyArray[i] == "") ? 4 : int.Parse(illuminationWarrantyArray[i]),
+                                LetteringWarrantyPeriod = (letteringWarrantyArray[i] == "") ? 4 : int.Parse(letteringWarrantyArray[i]),
+                                VisibilityId = (visibilityArray[i] == "") ? 3 : int.Parse(visibilityArray[i]),
+                                IlluminationId = (illuminationArray[i] == "") ? 7 : int.Parse(illuminationArray[i]),
+                                Installation = (installationArray[i] == "") ? "" : installationArray[i],
+                                //  CategoryType = (categoryTypeArray[i] == "") ? "" : categoryTypeArray[i],                           
+                                SpecialInstruction = (specialInstructionsArray[i] == "") ? "" : specialInstructionsArray[i]
 
-                        };
-                        order.AdditionalCharges.Add(additionalCharge);
+
+
+                            };
+                            order.OrderItems.Add(orderItem);
+                        }
+                        else
+                        {
+                            orderItem = new OrderItem
+                            {
+                                Id = (itemIdArray[i] == "") ? 0 : int.Parse(itemIdArray[i]),
+                                CategoryId = int.Parse(item),
+                                Qty = (itmqtyArray[i] == "") ? 0 : double.Parse(itmqtyArray[i]),
+                                UnitCost = (itmcostArray[i] == "") ? 0.00 : double.Parse(itmcostArray[i]),
+                                TotalCost = (itmtotcostArray[i] == "") ? 0.00 : double.Parse(itmtotcostArray[i]),
+                                VAT = (vatArray[i] == "") ? 0.00 : double.Parse(vatArray[i]),
+                                Size = (sizeArray[i] == "") ? "" : sizeArray[i],
+                                Description = (descriptionArray[i] == "") ? "" : descriptionArray[i],
+                                OrderId = model.Id,
+                                FrameworkWarrantyPeriod = (frameworkWarrantyArray[i] == "") ? 4 : int.Parse(frameworkWarrantyArray[i]),
+                                IlluminationWarrantyPeriod = (illuminationWarrantyArray[i] == "") ? 4 : int.Parse(illuminationWarrantyArray[i]),
+                                LetteringWarrantyPeriod = (letteringWarrantyArray[i] == "") ? 4 : int.Parse(letteringWarrantyArray[i]),
+                                VisibilityId = (visibilityArray[i] == "") ? 3 : int.Parse(visibilityArray[i]),
+                                IlluminationId = (illuminationArray[i] == "") ? 7 : int.Parse(illuminationArray[i]),
+                                SpecialInstruction = (specialInstructionsArray[i] == "") ? "" : specialInstructionsArray[i],
+                                Installation = (installationArray[i] == "") ? "" : installationArray[i]
+                            };
+
+                            orderService.SaveOrUpdate(orderItem);
+                        }
+
+                        i++;
                     }
-                    else
+
+
+                    
+                    //order.AdditionalCharges.Clear();
+                    AdditionalCharge additionalCharge = null;
+
+
+
+
+                    //Aditional charges save
+                    foreach (var item in chargeItemArray)
                     {
-                        additionalCharge = new AdditionalCharge
+                        if (model.Id == 0)
                         {
-                            Id= (addchrgIdArray[j] == "") ? 0 : int.Parse(addchrgIdArray[j]),
-                            AddCharge = (chargeItemArray[j] == "") ? "" : chargeItemArray[j],
-                            Cost = (chargeCostArray[j] == "") ? 0.00 : double.Parse(chargeCostArray[j]),
-                            Qty = (chargeQtyArray[j] == "") ? 0.00 : double.Parse(chargeQtyArray[j]),
-                            OrderId = model.Id,
-                            TotalCost = (chargeTotalCostArray[j] == "") ? 0.00 : double.Parse(chargeTotalCostArray[j])
-                            
+                            additionalCharge = new AdditionalCharge
+                            {
+
+                                AddCharge = (chargeItemArray[j] == "") ? "" : chargeItemArray[j],
+                                Cost = (chargeCostArray[j] == "") ? 0.00 : double.Parse(chargeCostArray[j]),
+                                Qty = (chargeQtyArray[j] == "") ? 0.00 : double.Parse(chargeQtyArray[j]),
+                                OrderId = model.Id,
+                                TotalCost = (chargeTotalCostArray[j] == "") ? 0.00 : double.Parse(chargeTotalCostArray[j])
+
+                            };
+                            order.AdditionalCharges.Add(additionalCharge);
+                        }
+                        else
+                        {
+                            additionalCharge = new AdditionalCharge
+                            {
+                                Id = (addchrgIdArray[j] == "") ? 0 : int.Parse(addchrgIdArray[j]),
+                                AddCharge = (chargeItemArray[j] == "") ? "" : chargeItemArray[j],
+                                Cost = (chargeCostArray[j] == "") ? 0.00 : double.Parse(chargeCostArray[j]),
+                                Qty = (chargeQtyArray[j] == "") ? 0.00 : double.Parse(chargeQtyArray[j]),
+                                OrderId = model.Id,
+                                TotalCost = (chargeTotalCostArray[j] == "") ? 0.00 : double.Parse(chargeTotalCostArray[j])
 
 
-                        };
-                        orderService.SaveOrUpdate(additionalCharge);
-                        //order.AdditionalCharges.Add(additionalCharge);
-                       
+
+                            };
+                            orderService.SaveOrUpdate(additionalCharge);
+                            //order.AdditionalCharges.Add(additionalCharge);
+
+                        }
+
+                        j++;
                     }
-
-                    j++;
                 }
-
 
                 OrderMaterial orderMaterial = null;
                 i = 0;
@@ -702,7 +709,7 @@ namespace WFM.UI.Controllers
                             {
                                 Id = (ordmatIdArray[i] == "") ? 0 : int.Parse(ordmatIdArray[i]),
                                 OrderId = model.Id,
-                                MaterialId = (MaterialArr[i] == "") ? 0 : int.Parse(MaterialArr[i]),                               
+                                MaterialId = (MaterialArr[i] == "") ? 0 : int.Parse(MaterialArr[i]),
                                 AttributeId = (AttributeArr[i] == "") ? 0 : int.Parse(AttributeArr[i]),
                                 SupplierId = (SupplierArr[i] == "") ? 0 : int.Parse(SupplierArr[i]),
                                 Value = ValueArr[i],
@@ -719,22 +726,24 @@ namespace WFM.UI.Controllers
                 // attachments----------------------------------------------------------------------------------------------------
 
 
-                j =0;
+                j = 0;
                 OrderAttachment orderAttachment = null;
                 List<UploadFile> files = new List<UploadFile>();
                 files = (List<UploadFile>)HttpContext.Session["uploadfile"];
 
-                if (files!=null) { 
+                if (files != null)
+                {
                     foreach (var item in files)
-                    {  if (model.Id == 0)
+                    {
+                        if (model.Id == 0)
                         {
                             orderAttachment = new OrderAttachment
                             {
-                           
+
                                 ActualName = item.FileName,
-                                AttachmentName= item.SaveFile
-                           
-                            
+                                AttachmentName = item.SaveFile
+
+
                             };
                             order.OrderAttachments.Add(orderAttachment);
                         }
@@ -747,7 +756,7 @@ namespace WFM.UI.Controllers
                                 OrderId = model.Id,
                                 ActualName = item.FileName,
                                 AttachmentName = item.SaveFile,
-                                
+
 
 
                             };
@@ -826,7 +835,7 @@ namespace WFM.UI.Controllers
                 errlog.SaveOrUpdate(er);
                 TempData["Message"] = string.Format(ResourceData.SaveErrorMessage, ex.InnerException);
             }
-           
+
 
             return RedirectToAction("Index", "Order");
         }
@@ -885,15 +894,15 @@ namespace WFM.UI.Controllers
         [Authorize(Roles = "Administrator,Management,Sales,Factory")]
         public ActionResult FileUpload()
         {
-            
+
             if (Request.Files.Count > 0)
             {
                 var files = Request.Files;
-                
+
                 //iterating through multiple file collection   
                 foreach (string str in files)
                 {
-                   HttpPostedFileBase file = Request.Files[str] as HttpPostedFileBase;
+                    HttpPostedFileBase file = Request.Files[str] as HttpPostedFileBase;
                     //Checking file is available to save.  
                     if (file != null)
                     {
@@ -906,7 +915,7 @@ namespace WFM.UI.Controllers
                         uploadFile.FileName = InputFileName;
                         uploadFile.SaveFile = saveName;
                         file.SaveAs(ServerSavePath);
-                        
+
                         SaveUpload(uploadFile);
                     }
 
@@ -921,23 +930,23 @@ namespace WFM.UI.Controllers
 
         }
         //initial file upload done when creating a order
-          private void SaveUpload(UploadFile uploadfile)
+        private void SaveUpload(UploadFile uploadfile)
         {
-            if (  (List<UploadFile>)HttpContext.Session["uploadfile"]  == null)
+            if ((List<UploadFile>)HttpContext.Session["uploadfile"] == null)
             {
                 List<UploadFile> files = new List<UploadFile>();
                 files.Add(uploadfile);
                 HttpContext.Session.Add("uploadfile", files);
-             }
+            }
             else
             {
                 List<UploadFile> files = new List<UploadFile>();
-                files= (List<UploadFile>)HttpContext.Session["uploadfile"];
+                files = (List<UploadFile>)HttpContext.Session["uploadfile"];
                 files.Add(uploadfile);
                 ViewBag.UploadFile = files;
                 HttpContext.Session.Add("uploadfile", files);
             }
-          }
+        }
 
         private void SaveMatUpload(UploadFile uploadfile)
         {
@@ -981,7 +990,7 @@ namespace WFM.UI.Controllers
             Order order = orderService.GetOrderById(id);
 
             OrderView orderView = new OrderView(orderService);
-           
+
 
             PropertyCopier<Order, OrderView>.Copy(order, orderView);
             ViewBag.VATPercentage = WebConfigurationManager.AppSettings["WBU"];
@@ -989,23 +998,23 @@ namespace WFM.UI.Controllers
             ViewBag.Name = ResourceData.Name;
             ViewBag.AuthorizedPersonName = ResourceData.AuthorizedPersonName;
             ViewBag.AuthorizedPersonDesignation = ResourceData.AuthorizedPersonDesignation;
-          
-     
+
+
 
             orderView.CreatedDateString = orderView.CreatedDate.Value.ToString("dd/MM/yyyy");
             orderView.OrderTotal = CalculateOrdItmTotal(order) + CalculateAdnChargeTotal(order);
             orderView.VAT = CalculateOrdItmVatTotal(order);          //  orderView.OrderTermDetails = orderService.get.GetQuoteTermsByQuoteId(quote.Id);
-            orderView.BalancePayment = (double)((orderView.OrderTotal + orderView.VAT) - (orderView.AdvancePayment != null ? orderView.AdvancePayment: 0));
-            orderView.TotalWithVat = (double)(orderView.OrderTotal + orderView.VAT );
+            orderView.BalancePayment = (double)((orderView.OrderTotal + orderView.VAT) - (orderView.AdvancePayment != null ? orderView.AdvancePayment : 0));
+            orderView.TotalWithVat = (double)(orderView.OrderTotal + orderView.VAT);
 
             return PartialView("_PrintOrder", orderView);
         }
 
-        
+
 
         private double CalculateOrdItmTotal(Order order)
         {
-            double? TotalCost = order.OrderItems.Sum(x => x.Qty* x.UnitCost);
+            double? TotalCost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
             return TotalCost.HasValue ? TotalCost.Value : 0;
         }
 
@@ -1020,22 +1029,22 @@ namespace WFM.UI.Controllers
             double? TotalVat = 0;
             //double? Cost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
             if (order.OrderTypeId == 1)
-             TotalVat = order.OrderItems.Sum(x =>((x.Qty*x.UnitCost)/100)* 15);
-           
+                TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * 15);
 
-            
+
+
             return TotalVat.HasValue ? TotalVat.Value : 0;
         }
 
         public void Approve(int id)
         {
-         var order=   orderService.GetOrderById(id);
+            var order = orderService.GetOrderById(id);
             order.StatusId = 6;
             orderService.SaveOrUpdate(order);
 
         }
 
-        
+
 
     }
 }

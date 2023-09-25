@@ -4,6 +4,10 @@
 
     ViewBag.Title = "Order Details";
 }
+@{
+    string IsFactory = (User.IsInRole("Factory")) ? "active show" : "";
+    string IsOtherRole = (User.IsInRole("Factory")) ? "" : "active show";
+}
 <style>
 
     @@media screen {
@@ -117,28 +121,29 @@
                     //Page Start
 
                     <ul id="tabstrip" class="nav nav-pills nav-justified " role="tablist">
-                        <li class="nav-item active  ">
-                            <a class="nav-link" href="#_FirstTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Order</b></a>
+                        @if (!(User.IsInRole("Factory")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#_FirstTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Order</b></a>
+                            </li>
 
-                        </li>
+                            <li class="nav-item">
 
-                        <li class="nav-item">
+                                <a class="nav-link" href="#_SecondTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Production Details</b></a>
+                            </li>
 
-                            <a class="nav-link" href="#_SecondTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Production Details</b></a>
-                        </li>
+                            <li class="nav-item">
 
-                        <li class="nav-item">
+                                <a class="nav-link" id="product" href="#_ThirdTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Payment</b></a>
+                            </li>
 
-                            <a class="nav-link" id="product" href="#_ThirdTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Payment</b></a>
-                        </li>
+                            <li class="nav-item">
 
-                        <li class="nav-item">
+                                <a class="nav-link" id="FileAttactment" href="#_FourthTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Attachment</b></a>
+                            </li>
+                        }
 
-                            <a class="nav-link" id="FileAttactment" href="#_FourthTab" role="tab" data-toggle="tab" style="font-size:medium"><b>Attachment</b></a>
-                        </li>
-
-
-                        @if (Model.OrderItems.Count > 0)
+                        @if (Model.OrderItems.Count > 0 && (User.IsInRole("Administrator") || User.IsInRole("Factory")))
                         {
                             <li class="nav-item">
 
@@ -154,11 +159,14 @@
 
                     </ul>
 
+
+
                     <div class="tab-content">
 
+                        @*-&& (User.IsInRole("Design"))-*@
 
                         @*---------------FIRSTTAB-------------*@
-                        <div class="tab-pane active" id="_FirstTab">
+                        <div class="tab-pane @(IsOtherRole)" id="_FirstTab">
                             <div class="form-row">
 
                                 <div class="col-xl-1 col-lg-2 col-md-6 col-sm-12 col-12 m-t-5">
@@ -202,9 +210,6 @@
                                     </button>
                                 </div>
 
-
-
-
                             </div>
                             <div class="form-row">
                                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 m-t-5 ">
@@ -235,8 +240,6 @@
 
                                 </div>
                             </div>
-
-
                             <div class="form-row">
                                 <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="BaseQuoteId">Quote Number</label>
@@ -254,257 +257,252 @@
                                 </div>
 
                             </div>
-
-
-
-
-
                         </div>
                         @*---------------SecondTAB---------------*@
-                    <div class="tab-pane fade" id="_SecondTab">
-                        <div id="items" class="m-t-10 m-b-10">
+                        <div class="tab-pane fade" id="_SecondTab">
+                            <div id="items" class="m-t-10 m-b-10">
 
-                            @if (Model.OrderItems.Count > 0)
-                            {
-
-                                foreach (var quoteItem in Model.OrderItems)
+                                @if (Model.OrderItems.Count > 0)
                                 {
-                                    var totwithvat = (quoteItem.UnitCost * quoteItem.Qty) + quoteItem.VAT;
+
+                                    foreach (var quoteItem in Model.OrderItems)
+                                    {
+                                        var totwithvat = (quoteItem.UnitCost * quoteItem.Qty) + quoteItem.VAT;
+                                        <div class="form-row item m-t-10 m-b-20">
+                                            <input type="hidden" id="itemId" class="form-control" value="@quoteItem.Id" />
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="HiddenId">
+
+                                                <label class="control-label" for="product"><b>Product</b></label>
+                                                @Html.DropDownListFor(m => quoteItem.CategoryId, new SelectList(ViewBag.CategoryList, "Id", "Name", quoteItem.CategoryId), "Product", new { @class = "form-control" })
+                                            </div>
+
+                                            <div class="col-md-1 m-t-5">
+                                                <label class="control-label" for="Size"><b>Size</b></label>
+                                                <input type="text" id="Size" placeholder="Size" class="form-control" value="@quoteItem.Size" />
+                                            </div>
+                                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                                <label class="control-label" for="itmQty"><b>Qty</b></label>
+                                                <input type="text" id="itmQty" placeholder="Qty." class="form-control text-right" value="@quoteItem.Qty" />
+                                            </div>
+                                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                                <label class="control-label" for="itmCost"><b>Cost</b></label>
+                                                <input type="text" id="itmCost" placeholder="0.00" class="form-control text-right" value="@quoteItem.UnitCost.ToString("#,###,##0.00")" data-type="currency" />
+                                            </div>
+                                            <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                                <label class="control-label" for="TotalCost"><b>Total Cost</b></label>
+                                                <input type="text" id="itmTotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" value="@quoteItem.TotalCost.ToString("#,###,##0.00")" />
+                                            </div>
+                                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                                <label class="control-label" for="VAT"><b>VAT</b></label>
+                                                <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" value="@quoteItem.VAT.ToString("#,###,##0.00")" />
+                                            </div>
+                                            <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
+                                                <label class="control-label" for="TotalCostVAT"><b>Total Cost with VAT</b></label>
+                                                <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" value="@totwithvat.ToString("#,###,##0.00")" />
+                                            </div>
+                                            <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Value"><b>Visibility</b></label>
+                                                @Html.DropDownListFor(m => quoteItem.VisibilityId, new SelectList(ViewBag.VisibilityList, "Id", "Name", quoteItem.VisibilityId.Value), "Visibility", new { @class = "form-control selection" })
+                                            </div>
+                                            <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Illumination"><b>Illumination</b></label>
+                                                @*@Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Illumination", new { @class = "form-control selection" })*@
+
+                                                @Html.DropDownList("quoteItem_Illumination", new SelectList(ViewBag.IlluminationList, "Id", "Name", quoteItem.IlluminationId), "Illumination", new { @class = "form-control selection" })
+
+                                            </div>
+                                            <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Framework"><b>Framework</b></label>
+                                                @Html.DropDownListFor(m => quoteItem.FrameworkWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.FrameworkWarrantyPeriod), "Framework Warranty ", new { @class = "form-control" })
+                                                @*@Html.DropDownList("FrameworkWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
+                                            </div>
+                                            <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Value"><b>Lettering</b></label>
+                                                @*@Html.DropDownList("LetteringWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
+                                                @Html.DropDownListFor(m => quoteItem.LetteringWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.LetteringWarrantyPeriod), "Lettering Warranty ", new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Value"><b>Illumination</b></label>
+                                                @*@Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
+
+                                                @Html.DropDownListFor(m => quoteItem.IlluminationWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.IlluminationWarrantyPeriod), "Illumination Warranty ", new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Description"><b>Description</b></label>
+
+
+                                                <textarea class="form-control" id="Description">@quoteItem.Description</textarea>
+                                                <!--<input type="text" placeholder="Description" class="form-control" id="Description" value="quoteItem.Description" />-->
+                                            </div>
+                                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="SpecialInstructions"><b>Special Instructions</b></label>
+                                                <input type="text" placeholder="Special Instructions" class="form-control" id="SpecialInstructions" value="@quoteItem.SpecialInstruction" />
+                                            </div>
+                                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                                <label class="control-label" for="Installation"><b>Installation</b></label>
+                                                <input type="text" placeholder="Installation" class="form-control" id="Installation" value="@quoteItem.Installation" />
+                                            </div>
+                                            <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
+                                                <br />
+                                                <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
+                                            </div>
+                                        </div>
+
+
+
+
+                                    }
+
+
+
+
+                                }
+                                else
+                                {
+
                                     <div class="form-row item m-t-10 m-b-20">
-                                        <input type="hidden" id="itemId" class="form-control" value="@quoteItem.Id" />
+                                        <input type="hidden" id="itemId" class="form-control" />
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="HiddenId">
 
                                             <label class="control-label" for="product"><b>Product</b></label>
-                                            @Html.DropDownListFor(m => quoteItem.CategoryId, new SelectList(ViewBag.CategoryList, "Id", "Name", quoteItem.CategoryId), "Product", new { @class = "form-control" })
+                                            @Html.DropDownList("quoteItem_CategoryId", new SelectList(ViewBag.CategoryList, "Id", "Name"), "Product ", new { @class = "form-control" })
                                         </div>
+
+
 
                                         <div class="col-md-1 m-t-5">
                                             <label class="control-label" for="Size"><b>Size</b></label>
-                                            <input type="text" id="Size" placeholder="Size" class="form-control" value="@quoteItem.Size" />
+                                            <input type="text" id="Size" placeholder="Size" class="form-control" />
                                         </div>
                                         <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
                                             <label class="control-label" for="itmQty"><b>Qty</b></label>
-                                            <input type="text" id="itmQty" placeholder="Qty." class="form-control text-right" value="@quoteItem.Qty" />
+                                            <input type="text" id="itmQty" placeholder="Qty." class="form-control " />
                                         </div>
                                         <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
                                             <label class="control-label" for="itmCost"><b>Cost</b></label>
-                                            <input type="text" id="itmCost" placeholder="0.00" class="form-control text-right" value="@quoteItem.UnitCost.ToString("#,###,##0.00")" data-type="currency" />
+                                            <input type="text" id="itmCost" placeholder="0.00" onblur="CalTotalCost()" class="form-control " />
                                         </div>
                                         <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                            <label class="control-label" for="TotalCost"><b>Total Cost</b></label>
-                                            <input type="text" id="itmTotalCost" placeholder="Total Cost" class="form-control text-right" readonly="readonly" value="@quoteItem.TotalCost.ToString("#,###,##0.00")" />
+                                            <label class="control-label" for="itmTotalCost"><b>Total Cost</b></label>
+                                            <input type="text" id="itmTotalCost" placeholder="Total Cost" class="form-control " readonly="readonly" />
                                         </div>
                                         <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
                                             <label class="control-label" for="VAT"><b>VAT</b></label>
-                                            <input type="text" id="VAT" placeholder="VAT" class="form-control text-right" readonly="readonly" value="@quoteItem.VAT.ToString("#,###,##0.00")" />
+                                            <input type="text" id="VAT" placeholder="VAT" readonly="readonly" onblur="setTotals()" class="form-control" />
                                         </div>
                                         <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
                                             <label class="control-label" for="TotalCostVAT"><b>Total Cost with VAT</b></label>
-                                            <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control text-right" readonly="readonly" value="@totwithvat.ToString("#,###,##0.00")" />
+                                            <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control" readonly="readonly" />
                                         </div>
-                                        <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Value"><b>Visibility</b></label>
-                                            @Html.DropDownListFor(m => quoteItem.VisibilityId, new SelectList(ViewBag.VisibilityList, "Id", "Name", quoteItem.VisibilityId.Value), "Visibility", new { @class = "form-control selection" })
+                                            @Html.DropDownList("quoteItem_VisibilityId", new SelectList(ViewBag.VisibilityList, "Id", "Name"), "Visibility", new { @class = "form-control selection" })
                                         </div>
                                         <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                            <label class="control-label" for="Illumination"><b>Illumination</b></label>
-                                            @*@Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Illumination", new { @class = "form-control selection" })*@
-
-                                            @Html.DropDownList("quoteItem_Illumination", new SelectList(ViewBag.IlluminationList, "Id", "Name", quoteItem.IlluminationId), "Illumination", new { @class = "form-control selection" })
-
-                                        </div>
-                                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                            <label class="control-label" for="Framework"><b>Framework</b></label>
-                                            @Html.DropDownListFor(m => quoteItem.FrameworkWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.FrameworkWarrantyPeriod), "Framework Warranty ", new { @class = "form-control" })
-                                            @*@Html.DropDownList("FrameworkWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
-                                        </div>
-                                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                            <label class="control-label" for="Value"><b>Lettering</b></label>
-                                            @*@Html.DropDownList("LetteringWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
-                                            @Html.DropDownListFor(m => quoteItem.LetteringWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.LetteringWarrantyPeriod), "Lettering Warranty ", new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Value"><b>Illumination</b></label>
-                                            @*@Html.DropDownList("IlluminationWarrantyPeriod", (SelectList)ViewBag.WarrantyPeriodList, "Select Warranty", new { @class = "form-control selection" })*@
-
-                                            @Html.DropDownListFor(m => quoteItem.IlluminationWarrantyPeriod, new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration", quoteItem.IlluminationWarrantyPeriod), "Illumination Warranty ", new { @class = "form-control" })
+                                            @Html.DropDownList("quoteItem_Illumination", new SelectList(ViewBag.IlluminationList, "Id", "Name"), "Illumination", new { @class = "form-control selection" })
                                         </div>
+
+
+
+
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Description"><b>Description</b></label>
-                                       
-                                            
-                                            <textarea class="form-control" id="Description">@quoteItem.Description</textarea>
-                                            <!--<input type="text" placeholder="Description" class="form-control" id="Description" value="quoteItem.Description" />-->
+                                            <textarea class="form-control" id="Description" rows="10"></textarea>
+                                            <!--<input type="text" placeholder="Description" class="form-control" id="Description" />-->
                                         </div>
+
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="SpecialInstructions"><b>Special Instructions</b></label>
-                                            <input type="text" placeholder="Special Instructions" class="form-control" id="SpecialInstructions" value="@quoteItem.SpecialInstruction" />
+                                            <input type="text" placeholder="Special Instructions" class="form-control" id="SpecialInstructions" />
                                         </div>
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Installation"><b>Installation</b></label>
-                                            <input type="text" placeholder="Installation" class="form-control" id="Installation" value="@quoteItem.Installation" />
+                                            <input type="text" placeholder="Installation" class="form-control" id="Installation" />
                                         </div>
-                                        <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                            <br/>
+                                        <br />
+
+                                        <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                            <label class="control-label" for="Value"><b>Framework Warranty</b></label>
+                                            @* @Html.DropDownList("IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", "Illumination", new { @class = "form-control selection" }))*@
+                                            @Html.DropDownList("quoteItem_FrameworkWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Framework", new { @class = "form-control selection" })
+
+                                        </div>
+                                        <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                            <label class="control-label" for="Value"><b>Lettering Warranty</b></label>
+                                            @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Lettering", new { @class = "form-control selection" })
+
+                                        </div>
+                                        <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                            <label class="control-label" for="Value"><b>Illumination Warranty</b></label>
+                                            @Html.DropDownList("quoteItem_IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Illumination", new { @class = "form-control selection" })
+                                        </div>
+
+                                        <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                            <br />
                                             <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
                                         </div>
+
+
                                     </div>
 
-                                  
 
-                                        
                                 }
+                            </div>
+                            <div class="form-row">
+                                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
+                                    <input type='button' id='add' value='+ Add item' class="btn btn-primary btn-xs" />
+                                </div>
+                                <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
+
+                                    <a class="btn btn-primary btn-xs full-width" href="~/Category">New Product</a>
+                                </div>
+                            </div>
 
 
+                            @*DEPARTMENT*@
+                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+                                <label class="control-label" for="Value"><b>Department</b></label>
+                                <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
+
+                                    @Html.CheckBoxFor(m => m.IsPrintingDepartment)
+                                    <label for="PrintingDepartment"> Printing Department</label><br>
 
 
-                            }
-                            else
-                            {
+                                    @Html.CheckBoxFor(m => m.IsCuttingDepartment)
+                                    <label for="CuttingDepartment"> Cutting Department</label><br>
 
-                                <div class="form-row item m-t-10 m-b-20">
-                                    <input type="hidden" id="itemId" class="form-control" />
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5" id="HiddenId">
+                                    @Html.CheckBoxFor(m => m.IsPlasticDepartment)
+                                    <label for="PlasticDepartment"> Plastic Department</label><br>
 
-                                        <label class="control-label" for="product"><b>Product</b></label>
-                                        @Html.DropDownList("quoteItem_CategoryId", new SelectList(ViewBag.CategoryList, "Id", "Name"), "Product ", new { @class = "form-control" })
-                                    </div>
+                                    @Html.CheckBoxFor(m => m.IsCladdingsection)
+                                    <label for="Claddingsection"> Cladding section</label><br>
 
 
-
-                                    <div class="col-md-1 m-t-5">
-                                        <label class="control-label" for="Size"><b>Size</b></label>
-                                        <input type="text" id="Size" placeholder="Size" class="form-control" />
-                                    </div>
-                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                        <label class="control-label" for="itmQty"><b>Qty</b></label>
-                                        <input type="text" id="itmQty" placeholder="Qty." class="form-control " />
-                                    </div>
-                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                        <label class="control-label" for="itmCost"><b>Cost</b></label>
-                                        <input type="text" id="itmCost" placeholder="0.00" onblur="CalTotalCost()" class="form-control " />
-                                    </div>
-                                    <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                        <label class="control-label" for="itmTotalCost"><b>Total Cost</b></label>
-                                        <input type="text" id="itmTotalCost" placeholder="Total Cost" class="form-control " readonly="readonly" />
-                                    </div>
-                                    <div class="col-xl-1 col-lg-1 col-md-1 m-t-5">
-                                        <label class="control-label" for="VAT"><b>VAT</b></label>
-                                        <input type="text" id="VAT" placeholder="VAT" readonly="readonly" onblur="setTotals()" class="form-control" />
-                                    </div>
-                                    <div class="col-xl-2 col-lg-13 col-md-1 m-t-5">
-                                        <label class="control-label" for="TotalCostVAT"><b>Total Cost with VAT</b></label>
-                                        <input type="text" id="TotalCostVAT" placeholder="Total Cost with VAT" class="form-control" readonly="readonly" />
-                                    </div>
-                                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 m-t-5">
-                                        <label class="control-label" for="Value"><b>Visibility</b></label>
-                                        @Html.DropDownList("quoteItem_VisibilityId", new SelectList(ViewBag.VisibilityList, "Id", "Name"), "Visibility", new { @class = "form-control selection" })
-                                    </div>
-                                    <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                        <label class="control-label" for="Value"><b>Illumination</b></label>
-                                        @Html.DropDownList("quoteItem_Illumination", new SelectList(ViewBag.IlluminationList, "Id", "Name"), "Illumination", new { @class = "form-control selection" })
-                                    </div>
+                                    @Html.CheckBoxFor(m => m.IsArtDepartment)
+                                    <label for="ArtDepartment"> Art  Department</label><br>
 
 
+                                    @Html.CheckBoxFor(m => m.IsSteelDepartment)
+                                    <label for="steelDepartment"> Steel Department</label><br>
 
+                                    @Html.CheckBoxFor(m => m.IsScreenPrintingDept)
+                                    <label for="ScreenPrintingDept"> Screen Printing Dept</label><br>
 
-                                    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-                                        <label class="control-label" for="Description"><b>Description</b></label>
-                                        <textarea class="form-control" id="Description" rows="10"></textarea>
-                                        <!--<input type="text" placeholder="Description" class="form-control" id="Description" />-->
-                                    </div>
+                                    @Html.CheckBoxFor(m => m.IsProductionDepartment)
+                                    <label for="ProductionDepartment"> Production Department</label><br>
 
-                                    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-                                        <label class="control-label" for="SpecialInstructions"><b>Special Instructions</b></label>
-                                        <input type="text" placeholder="Special Instructions" class="form-control" id="SpecialInstructions" />
-                                    </div>
-                                    <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-                                        <label class="control-label" for="Installation"><b>Installation</b></label>
-                                        <input type="text" placeholder="Installation" class="form-control" id="Installation" />
-                                    </div>
-                                    <br />
+                                    @Html.CheckBoxFor(m => m.IsPackingDepartment)
+                                    <label for="PackingDepartment"> Packing Department</label><br>
 
-                                    <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                        <label class="control-label" for="Value"><b>Framework Warranty</b></label>
-                                        @* @Html.DropDownList("IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Name", "Illumination", new { @class = "form-control selection" }))*@
-                                        @Html.DropDownList("quoteItem_FrameworkWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Framework", new { @class = "form-control selection" })
-
-                                    </div>
-                                    <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                        <label class="control-label" for="Value"><b>Lettering Warranty</b></label>
-                                        @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Lettering", new { @class = "form-control selection" })
-
-                                    </div>
-                                    <div class="col-xl-2 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                        <label class="control-label" for="Value"><b>Illumination Warranty</b></label>
-                                        @Html.DropDownList("quoteItem_IlluminationWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Illumination", new { @class = "form-control selection" })
-                                    </div>
-
-                                    <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                        <br />
-                                        <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
-                                    </div>
-                                   
-
+                                    @Html.CheckBoxFor(m => m.IsInstallationTeam)
+                                    <label for="InstallationTeam"> Installation Team</label><br>
                                 </div>
 
-
-                            }
-                        </div>
-                        <div class="form-row">
-                            <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12 col-12 m-t-5">
-                                <input type='button' id='add' value='+ Add item' class="btn btn-primary btn-xs" />
-                            </div> 
-                            <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12 col-12 m-t-5">
-                                
-                                <a class="btn btn-primary btn-xs full-width" href="~/Category">New Product</a>
-                            </div>
-                        </div>
-                        
-
-                        @*DEPARTMENT*@
-                        <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-                            <label class="control-label" for="Value"><b>Department</b></label>
-                            <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
-
-                                @Html.CheckBoxFor(m => m.IsPrintingDepartment)
-                                <label for="PrintingDepartment"> Printing Department</label><br>
-
-
-                                @Html.CheckBoxFor(m => m.IsCuttingDepartment)
-                                <label for="CuttingDepartment"> Cutting Department</label><br>
-
-                                @Html.CheckBoxFor(m => m.IsPlasticDepartment)
-                                <label for="PlasticDepartment"> Plastic Department</label><br>
-
-                                @Html.CheckBoxFor(m => m.IsCladdingsection)
-                                <label for="Claddingsection"> Cladding section</label><br>
-
-
-                                @Html.CheckBoxFor(m => m.IsArtDepartment)
-                                <label for="ArtDepartment"> Art  Department</label><br>
-
-
-                                @Html.CheckBoxFor(m => m.IsSteelDepartment)
-                                <label for="steelDepartment"> Steel Department</label><br>
-
-                                @Html.CheckBoxFor(m => m.IsScreenPrintingDept)
-                                <label for="ScreenPrintingDept"> Screen Printing Dept</label><br>
-
-                                @Html.CheckBoxFor(m => m.IsProductionDepartment)
-                                <label for="ProductionDepartment"> Production Department</label><br>
-
-                                @Html.CheckBoxFor(m => m.IsPackingDepartment)
-                                <label for="PackingDepartment"> Packing Department</label><br>
-
-                                @Html.CheckBoxFor(m => m.IsInstallationTeam)
-                                <label for="InstallationTeam"> Installation Team</label><br>
                             </div>
 
+
                         </div>
-
-
-                    </div>
 
                         @*---------------THIRDTAB---------------*@
                         <div class="tab-pane fade" id="_ThirdTab">
@@ -725,7 +723,7 @@
                                         <div class="inner"><input type="button" class="btn btn-primary" value="Print" onclick="PrintOrder(@Model.Id)" /></div>
                                     </div>
                                     <div id="cmdaprove" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                       @* <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>*@
+                                        @* <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>*@
                                     </div>
 
                                 </div>
@@ -735,11 +733,11 @@
 
 
 
-                        @if (Model.Id > 0)
+                        @if (Model.Id > 0 && (User.IsInRole("Administrator") || User.IsInRole("Factory")))
                         {
 
                             @*---------------Fifth-----------------------------*@
-                            <div id="_FifthTab" class="tab-pane fade">
+                            <div id="_FifthTab" class="tab-pane fade @(IsFactory)">
                                 @if (Model.OrderMaterials.Count > 0)
 
                                 {
@@ -749,7 +747,7 @@
 
                                         <div class="form-row materials">
                                             <div class="col-xl-5  col-lg-5 col-md-5 col-sm-12 col-12 m-t-5" id="withHidden">
-                                                <input type="hidden" id="ordmatrId" class="form-control"  value="@ordermat.Id"/>
+                                                <input type="hidden" id="ordmatrId" class="form-control" value="@ordermat.Id" />
                                                 <label class="control-label" for="OrderMaterial"><b>Material</b></label>
                                                 @*@Html.DropDownList("OrderMaterial", new SelectList(ViewBag.MaterialList, "Id", "Name"), "Materials", new { @class = "form-control selection" })*@
                                                 @Html.DropDownListFor(m => ordermat.MaterialId, new SelectList(ViewBag.MaterialList, "Id", "Name", ordermat.MaterialId.Value), "Materials", new { @class = "form-control selection" })
@@ -763,7 +761,7 @@
                                             </div>
 
                                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 m-t-5">
-                                              
+
                                                 <label class="control-label" for="ordmatId"><b>Attributes</b></label>
                                                 @Html.DropDownListFor(m => ordermat.AttributeId, new SelectList(ViewBag.AttributeList, "Id", "Attribute1", ordermat.AttributeId.Value), "Attribute", new { @class = "form-control selection" })
                                                 @*@Html.DropDownList("OrderMaterialAttribute", new SelectList(ViewBag.AttributeList, "Id", "Attribute1"), "Attribute", new { @class = "form-control selection" })*@
@@ -799,7 +797,7 @@
 
 
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5">
-                                           
+
                                             <label class="control-label" for="ordermat_AttributeId"><b>Attributes</b></label>
                                             @Html.DropDownList("ordermat_AttributeId", new SelectList(ViewBag.AttributeList, "Id", "Attribute1"), "Attribute", new { @class = "form-control selection" })
                                         </div>
@@ -842,12 +840,12 @@
 
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Installation"><b>Installation Team</b></label>
-                                           @* <input type="text" placeholder="Installation Team" class="form-control" id="InstallationTeam" />*@
+                                            @* <input type="text" placeholder="Installation Team" class="form-control" id="InstallationTeam" />*@
                                             @Html.TextBoxFor(m => m.InstallationTeam, new { @class = "form-control" })
                                         </div>
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="InstallationVehicleType"><b>Installation Vehicle Type</b></label>
-                                           @* <input type="text" placeholder="Installation Vehicle Type" class="form-control" id="InstallationVehicleType" />*@
+                                            @* <input type="text" placeholder="Installation Vehicle Type" class="form-control" id="InstallationVehicleType" />*@
                                             @Html.TextBoxFor(m => m.InstallationVehicleType, new { @class = "form-control" })
                                         </div>
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
@@ -903,7 +901,7 @@
                                             <div class="form-row attachement" id="installationdivattachment">
                                                 <div class="col-xl-2 col-lg-1 col-md-1 m-t-5" id="InstalAttachmentChild">
                                                     <br>
-                                                    <input type="text" id="InstalActfilename"  class="form-control " disabled="disabled" />
+                                                    <input type="text" id="InstalActfilename" class="form-control " disabled="disabled" />
                                                     <input type="hidden" id="InstalSavefilename" class="form-control text-right" />
                                                 </div>
                                             </div>
@@ -923,7 +921,7 @@
                                                 <div class="inner"><input type="button" class="btn btn-primary" value="Print" onclick="PrintOrder(@Model.Id)" /></div>
                                             </div>
                                             <div id="cmdaprove" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
-                                               @* <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>*@
+                                                @* <div class="inner"><input type="button" class="btn btn-primary" value="Aprove" /></div>*@
                                             </div>
 
                                         </div>
@@ -985,16 +983,16 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="productModalLabel">New Client</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span> 
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>f
             <div class="modal-body">
-               
+
             </div>-->
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>*@
-        <!--</div>
+@*<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>*@
+<!--</div>
     </div>
 </div>-->
 <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" />
@@ -1004,9 +1002,8 @@
 
 
 
-
     function PrintOrder(id) {
-       
+
         $.ajax({
             type: "GET",
             url: '@Url.Action("PrintOrder", "Order")',
@@ -1062,7 +1059,7 @@
 
             var fileUpload = $("#InstaltFilesUp").get(0);
             var files = fileUpload.files;
-          
+
 
             // Create  a FormData object
             var fileData = new FormData();
@@ -1126,11 +1123,11 @@
 
         //Order Attachement File upload
         $('#btnFileuP').click(function () {
-           
+
 
             var fileUpload = $("#FilesUp").get(0);
             var files = fileUpload.files;
-           
+
 
             // Create  a FormData object
             var fileData = new FormData();
@@ -1252,7 +1249,7 @@
     }
 
     function removeCharge(elem) {
-        
+
         if ($('#charge-count').val() != "1") {
             $('#charge-count').val(parseInt($('#charge-count').val()) - 1);
             $(elem).parent().parent('div').remove();
@@ -1618,7 +1615,7 @@
     });
     $(document).ready(function () {
 
-        //Order Attachment 
+        //Order Attachment
         $("#fileButton").click(function () {
             var files = $("#fileInput").get(0).files;
             var fileData = new FormData();
@@ -1724,8 +1721,8 @@
         });
 
 
-        
-       
+
+
 
         //Advanced payment
         $('#AdvancePayment').change(function () {
@@ -1766,7 +1763,7 @@
         $(document).on("change", "select#quoteItem_CategoryId", function () {
             elem = $(this);
             var des = $(elem).parent().parent('div').find('select#quoteItem_CategoryId option:selected').val();
-          
+
             var obj = { Id: des };
             AjaxCall('/Order/GetatDesc', JSON.stringify(obj), 'POST').done(function (response) {
                 if (response.length > 0) {
@@ -1837,11 +1834,11 @@
             data: data,
             contentType: 'application/json'
         });
-      
+
         $(elem).parent().parent('div').find('textarea#Description').val(des);
-            
+
     }
-   
+
 
     function setTotals() {
         var qty = $(elem).parent().parent('div').find('input#itmQty').val();

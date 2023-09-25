@@ -290,8 +290,7 @@
 
                                         </div>
                                     </div>
-                                    @if ((User.IsInRole("Administrator")) || (User.IsInRole("Sales")) || (User.IsInRole("Finance")))
-                                    {
+                                   
                                         <div class="row">
 
                                             <div class="col-3 col-sm-3 text-left boxR">
@@ -304,7 +303,7 @@
 
                                             </div>
                                         </div>
-                                     }
+                                    
                                     <div class="row">
 
                                         <div class="col-3 col-sm-3 text-left boxR">
@@ -776,7 +775,7 @@
                         </td>
                     </tr>
                 }
-                @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")) || (User.IsInRole("Design")))
+                @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")) || (User.IsInRole("Design")) || (User.IsInRole("Factory")) || (User.IsInRole("Design")))
                 {
                     <tr>
                         <td>
