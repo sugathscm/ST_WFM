@@ -27,6 +27,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Runtime.InteropServices;
 using System.Web.Security;
 using System.Data;
+using System.Web.Services.Protocols;
 
 namespace WFM.UI.Controllers
 {
@@ -383,6 +384,9 @@ namespace WFM.UI.Controllers
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
+       
+
+
         [HttpPost]
         //[Authorize]
         //[Authorize(Roles = "Administrator")]
@@ -395,6 +399,7 @@ namespace WFM.UI.Controllers
 
             try
             {
+                var utcTime = DateTime.Now.ToUniversalTime();
                 var productIdArray = formCollection["productIdArray"].Split(',');
                 var itmqtyArray = formCollection["itmqtyArray"].Split(',');
                 var descriptionArray = formCollection["descriptionArray"].Split(',');
@@ -435,14 +440,14 @@ namespace WFM.UI.Controllers
                 string ordCode = "";
                 if (!(User.IsInRole("Factory")))
                 {
-                    ordCode = CommonService.GenerateOrderCodeSave(System.DateTime.Now.Year.ToString(), System.DateTime.Now.Month.ToString("00"), false, model.OrderTypeId);
+                    ordCode = CommonService.GenerateOrderCodeSave(DateTime.Now.Year.ToString(), System.DateTime.Now.Month.ToString("00"), false, model.OrderTypeId);
 
                 }
 
 
                 if (model.Id == 0 && (!User.IsInRole("Factory")))
                 {
-
+                    
                     order = new Order
                     {
                         ClientId = model.ClientId,
@@ -453,7 +458,7 @@ namespace WFM.UI.Controllers
                         ChanneledById = model.ChanneledById,
                         Value = model.Value,
                         Comments = model.Comments,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(utcTime, TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time")),
                         CreatedBy = User.Identity.GetUserId(),
                         Header = model.Header,
                         IsVAT = model.IsVAT,
@@ -517,7 +522,7 @@ namespace WFM.UI.Controllers
                     order.Header = model.Header;
                     order.Comments = model.Comments;
                     order.UpdatedBy = User.Identity.GetUserId();
-                    order.UpdatedDate = DateTime.Now;
+                    order.UpdatedDate = TimeZoneInfo.ConvertTimeFromUtc(utcTime, TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time"));
                     order.ContactPerson = model.ContactPerson;
                     order.ContactMobile = model.ContactMobile;
                     order.ChanneledById = model.ChanneledById;

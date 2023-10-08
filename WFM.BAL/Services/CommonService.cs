@@ -83,7 +83,7 @@ namespace WFM.BAL.Services
             }
 
             return string.Format("{0}-{1}-{2}-{3}", codestr.Split('-')[0], year.Substring(2, 2), month, number.ToString("000"));
-        }
+        }  
 
 
         //public static List<GetDataAuditByUser_Result> GetDataAuditByUser(Guid userId)
