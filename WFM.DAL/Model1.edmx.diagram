@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="990db2ee35624643b39ccf12e52f5117" Name="Diagram1" ZoomLevel="29">
+      <Diagram DiagramId="990db2ee35624643b39ccf12e52f5117" Name="Diagram1" ZoomLevel="63">
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetRole" Width="1.5" PointX="1.5" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="45.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="48.125" IsExpanded="true" />
@@ -77,7 +77,9 @@
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Attribute" Width="1.5" PointX="15.375" PointY="11.875" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Attribute" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.InstallationAttachment" Width="1.5" PointX="14.875" PointY="24.125" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.125" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Status" Width="1.5" PointX="0.75" PointY="14.875" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.875" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_AdditionalCharges_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Client" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType" />
@@ -85,13 +87,11 @@
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_OrderType" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Qouate" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Status" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderAttachment_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Status" Width="1.5" PointX="0.75" PointY="14.875" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Status" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

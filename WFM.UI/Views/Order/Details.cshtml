@@ -192,8 +192,16 @@
 
                                 <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2 m-t-5">
                                     <label class="control-label" for="ChanneledBy">Order Status</label>
+                                    @if (User.IsInRole("Administrator"))
+                                    {
+                                        @Html.DropDownList("StatusId", (SelectList)ViewBag.Status, "Select Status", new { @class = "form-control selection" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("StatusId", (SelectList)ViewBag.Status, "Select Status", new { @class = "form-control selection", @disabled = "disabled", @value = "1" })
+                                    }
                                     @* @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Lettering", new { @class = "form-control selection" })*@
-                                    @Html.DropDownList("StatusId", (SelectList)ViewBag.Status, "Select Status", new { @class = "form-control selection" })
+
                                 </div>
 
                             </div>
@@ -408,7 +416,7 @@
 
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Description"><b>Description</b></label>
-                                            <textarea class="form-control" id="Description" rows="10"></textarea>
+                                            <textarea style="white-space: pre-wrap;" class="form-control" id="Description" rows="10"></textarea>
                                             <!--<input type="text" placeholder="Description" class="form-control" id="Description" />-->
                                         </div>
 
@@ -442,8 +450,6 @@
                                             <br />
                                             <input type='button' id='remove' value='- Remove' class="btn btn-primary btn-xs full-width" onclick="removeItem(this);" />
                                         </div>
-
-
                                     </div>
 
 
@@ -679,12 +685,19 @@
                                 foreach (var attachment in Model.OrderAttachments)
                                 {
                                     <div id="attachmentParent">
-                                        <div class="form-row attachement" id="divattachment">
+                                        <div class="form-row attachement" id="divattachment-@attachment.Id">
                                             <div class="col-xl-2 col-lg-1 col-md-1 m-t-5" id="attachmentChild">
+
                                                 <br>
                                                 <input type="text" id="actfilename" class="form-control " value="@attachment.ActualName" disabled="disabled" />
                                                 <input type="hidden" id="savefilename" value="@attachment.ActualName" class="form-control text-right" />
+
                                             </div>
+                                            <div class="col-xl-2 col-lg-1 col-md-1 m-t-5 d-flex align-items-end">
+                                                <button type="button" class="btn btn-danger btn-sm DelF" value="@attachment.Id" id="DelF">Delete</button>
+                                                <!-- <input type="button" id="DelF" value="@attachment.Id" class="btn btn-danger btn-sm DelF"/>              -->
+                                            </div>
+
                                         </div>
 
                                     </div>
@@ -715,10 +728,23 @@
                             }
                             @if (!(Model.OrderAttachments.Count > 0))
                             {
+
+
                                 <div class="form-row">
                                     <div id="outer" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
                                         <div class="inner"><input type="submit" id="btnSave" class="btn btn-primary" value="Save" /></div>
                                     </div>
+                                    @if (Model.Id > 0 && User.IsInRole("Administrator"))
+                                    {
+
+                                        <div id="outer" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+
+                                            <div class="inner">
+                                                <button type="button" class="btn btn-danger btn-sm cancelOrd" value="@Model.Id" id="cancelOrd">Cancel Order</button>
+                                            </div>
+                                        </div>
+
+                                    }
                                     <div id="cmdprint" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
                                         <div class="inner"><input type="button" class="btn btn-primary" value="Print" onclick="PrintOrder(@Model.Id)" /></div>
                                     </div>
@@ -875,11 +901,15 @@
                                         foreach (var attachment in Model.InstallationAttachments)
                                         {
                                             <div id="installationAttachmentParent">
-                                                <div class="form-row attachement" id="installationdivattachment">
+                                                <div class="form-row attachement" id="installationdivattachment-@attachment.Id">
                                                     <div class="col-xl-2 col-lg-1 col-md-1 m-t-5" id="InstalAttachmentChild">
                                                         <br>
                                                         <input type="text" id="InstalActfilename" value="@attachment.ActualName" class="form-control " disabled="disabled" />
                                                         <input type="hidden" id="InstalSavefilename" value="@attachment.ActualName" class="form-control text-right" />
+                                                    </div>
+                                                    <div class="col-xl-2 col-lg-1 col-md-1 m-t-5 d-flex align-items-end">
+                                                        <button type="button" class="btn btn-danger btn-sm DelInstF" value="@attachment.Id" id="DelInstF">Delete</button>
+                                                        <!-- <input type="button" id="DelF" value="@attachment.Id" class="btn btn-danger btn-sm DelF"/>              -->
                                                     </div>
                                                 </div>
 
@@ -913,10 +943,21 @@
                                     <hr />
                                     @if (Model.Id > 0)
                                     {
+
+
                                         <div class="form-row">
                                             <div id="outer" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
                                                 <div class="inner"><input type="submit" id="btnSave" class="btn btn-primary" value="Save" /></div>
                                             </div>
+                                            @if (User.IsInRole("Administrator"))
+                                            {
+                                                <div id="outer" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+
+                                                    <div class="inner">
+                                                        <button type="button" class="btn btn-danger btn-sm cancelOrd" value="@Model.Id" id="cancelOrd">Cancel Order</button>
+                                                    </div>
+                                                </div>
+                                            }
                                             <div id="cmdprint" class="col-xl-2 col-lg-1 col-md-1 m-t-5">
                                                 <div class="inner"><input type="button" class="btn btn-primary" value="Print" onclick="PrintOrder(@Model.Id)" /></div>
                                             </div>
@@ -1000,10 +1041,7 @@
 
 
 
-
-
     function PrintOrder(id) {
-
         $.ajax({
             type: "GET",
             url: '@Url.Action("PrintOrder", "Order")',
@@ -1024,8 +1062,106 @@
 
 
 
-
     $(document).ready(function () {
+
+
+
+        $('.DelInstF').click(function (e) {
+            var Attid = e.target.value
+            var fileDiv = "#installationdivattachment-" + Attid;
+
+            var parentDiv = document.querySelectorAll('#InstalAttachmentChild');
+
+
+            var elem = document.querySelector(fileDiv);
+            $(elem).remove();
+            var h = parentDiv.length;
+            if (h <= 1) {
+                var htmlToAppend = `
+      <div class="form-row attachement" id="installationdivattachment">
+    <div class="col-xl-2 col-lg-1 col-md-1 m-t-5" id="InstalAttachmentChild">
+        <br>
+        <input type="text" id="InstalActfilename" class="form-control " disabled="disabled" />
+        <input type="hidden" id="InstalSavefilename" class="form-control text-right" />
+    </div>
+</div>
+    `;
+                $('#installationAttachmentParent').append(htmlToAppend);
+            }
+
+            $.ajax({
+                url: '/Order/DeleteInstallationAttachment',
+                dataType: "text json",
+                type: "POST",
+                data: { id: Attid },
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+            e.preventDefault();
+        });
+
+
+        $('.cancelOrd').click(function (e) {
+            var Attid = e.target.value
+            $.ajax({
+                url: '/Order/CancelOrder',
+                type: "POST",
+                data: { id: Attid },
+                success: function (result) {
+                    window.location.href = '/Order'
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+            e.preventDefault();
+        });
+
+
+
+        $('.DelF').click(function (e) {
+            var Attid = e.target.value
+            var fileDiv = "#divattachment-" + Attid;
+
+            var parentDiv = document.querySelectorAll('#attachmentChild');
+
+
+                var elem = document.querySelector(fileDiv);
+            $(elem).remove();
+            var h = parentDiv.length;
+            if(h<=1) {
+                var htmlToAppend = `
+      <div class="form-row attachment" id="divattachment">
+        <div class="col-xl-2 col-lg-1 col-md-1 m-t-5" id="attachmentChild">
+          <br>
+          <input type="text" id="actfilename" class="form-control" disabled="disabled" />
+          <input type="hidden" id="savefilename" class="form-control text-right" />
+        </div>
+      </div>
+    `;
+                $('#attachmentParent').append(htmlToAppend);
+            }
+
+            $.ajax({
+                url:'/Order/DeleteOrderAttachment',
+                dataType: "text json",
+                type: "POST",
+                data: {id:Attid},
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+            e.preventDefault();
+        });
+
+
         var selectedval = $('#OrderTypeId').val();
         if (selectedval != "1") {
             //(selectedval == "2") || (selectedval == "3") || (selectedval == "4")
@@ -1824,6 +1960,14 @@
 
     })
 
+    function AjaxCall(url, data, type) {
+        return $.ajax({
+            url: url,
+            type: type ? type : 'GET',
+            data: data,
+            contentType: 'application/json'
+        });
+    }
 
     function productChange() {
         var des = $(elem).parent().parent('div').find('select#quoteItem_CategoryId option:selected').val();
@@ -1897,14 +2041,6 @@
 
 
 
-    function AjaxCall(url, data, type) {
-        return $.ajax({
-            url: url,
-            type: type ? type : 'GET',
-            data: data,
-            contentType: 'application/json'
-        });
-    }
 
     number_format = function (number, decimals, dec_point, thousands_sep) {
         number = number.toFixed(decimals);

@@ -11,8 +11,7 @@ namespace WFM.DAL
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class OrderItem
     {
         public int Id { get; set; }
@@ -23,7 +22,6 @@ namespace WFM.DAL
         public double UnitCost { get; set; }
         public double TotalCost { get; set; }
         public double VAT { get; set; }
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string CategoryType { get; set; }

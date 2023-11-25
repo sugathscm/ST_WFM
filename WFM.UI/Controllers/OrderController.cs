@@ -28,6 +28,7 @@ using System.Runtime.InteropServices;
 using System.Web.Security;
 using System.Data;
 using System.Web.Services.Protocols;
+using System.Web.ApplicationServices;
 
 namespace WFM.UI.Controllers
 {
@@ -345,7 +346,71 @@ namespace WFM.UI.Controllers
                     //DeliveryDate = item.DeliveryDate,
                     //DeliveryDateString = item.DeliveryDate.Value.ToString(),
                     Header = item.Header,
-                    OrderTypeId = (int)item.OrderTypeId
+                    OrderTypeId = (int)item.OrderTypeId,
+                    Location=item.Location,
+                });
+            }
+
+            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //get completed orders
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        public ActionResult GetCompletedList()
+        {
+            var list = orderService.GetOrderCompleteList();
+
+            List<OrderView> modelList = new List<OrderView>();
+
+            foreach (var item in list)
+            {
+                modelList.Add(new OrderView(orderService)
+                {
+                    Id = item.Id,
+                    ClientName = item.Client.Name,
+                    Code = item.Code,
+                    Month = item.CreatedDate.Value.Month.ToString(),
+                    StatusName = item.Status.Name,
+                    IsApproved = item.StatusId == 6 ? false : true,
+                    CreatedDate = item.CreatedDate,
+                    CreatedDateString = item.CreatedDate.Value.ToString(),
+                    BaseQoute = item.BaseQuoteId,
+                    ChanneledBy = item.Employee.Name,
+                    Header = item.Header,
+                    OrderTypeId = (int)item.OrderTypeId,
+                    Location = item.Location
+                });
+            }
+
+            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
+        }
+
+        //get completed orders
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        public ActionResult GetCancelledList()
+        {
+            var list = orderService.GetOrderCancelledList();
+
+            List<OrderView> modelList = new List<OrderView>();
+
+            foreach (var item in list)
+            {
+                modelList.Add(new OrderView(orderService)
+                {
+                    Id = item.Id,
+                    ClientName = item.Client.Name,
+                    Code = item.Code,
+                    Month = item.CreatedDate.Value.Month.ToString(),
+                    StatusName = item.Status.Name,
+                    IsApproved = item.StatusId == 6 ? false : true,
+                    CreatedDate = item.CreatedDate,
+                    CreatedDateString = item.CreatedDate.Value.ToString(),
+                    BaseQoute = item.BaseQuoteId,
+                    ChanneledBy = item.Employee.Name,
+                    Header = item.Header,
+                    OrderTypeId = (int)item.OrderTypeId,
+                    Location = item.Location
                 });
             }
 
@@ -438,23 +503,24 @@ namespace WFM.UI.Controllers
                 Order order = null;
                 Order oldOrder = null;
                 string ordCode = "";
+                DateTime today = TimeZoneInfo.ConvertTimeFromUtc(utcTime, TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time"));
                 if (!(User.IsInRole("Factory")))
                 {
-                    ordCode = CommonService.GenerateOrderCodeSave(DateTime.Now.Year.ToString(), System.DateTime.Now.Month.ToString("00"), false, model.OrderTypeId);
+                    ordCode = CommonService.GenerateOrderCodeSave(today.Year.ToString(), today.Month.ToString("00"), false, model.OrderTypeId);
 
                 }
 
 
                 if (model.Id == 0 && (!User.IsInRole("Factory")))
                 {
-                    
+
                     order = new Order
                     {
                         ClientId = model.ClientId,
                         Code = ordCode,// model.Code,
                         CodeNumber = int.Parse(ordCode.Split('-')[3]),
-                        Year = DateTime.Now.Year.ToString(),
-                        Month = DateTime.Now.Month.ToString("00"),
+                        Year = today.Year.ToString(),
+                        Month = today.Month.ToString("00"),
                         ChanneledById = model.ChanneledById,
                         Value = model.Value,
                         Comments = model.Comments,
@@ -493,7 +559,7 @@ namespace WFM.UI.Controllers
                         IsProductionDepartment = model.IsProductionDepartment,
                         IsScreenPrintingDept = model.IsScreenPrintingDept,
                         IsSteelDepartment = model.IsSteelDepartment,
-
+                        isCancelled = false
 
 
 
@@ -563,7 +629,9 @@ namespace WFM.UI.Controllers
                     order.CompletionDate = model.CompletionDate;
                     order.InstallationTeam = model.InstallationTeam;
                     order.InstallationVehicleType = model.InstallationVehicleType;
+                    order.InstallationLocation = model.InstallationLocation;
                     order.Remarks = model.Remarks;
+                    order.isCancelled =false;
 
 
                     newData = new JavaScriptSerializer().Serialize(new Order()
@@ -872,6 +940,7 @@ namespace WFM.UI.Controllers
                         file.SaveAs(ServerSavePath);
 
                         SaveMatUpload(uploadFile);
+
                     }
 
                 }
@@ -891,6 +960,33 @@ namespace WFM.UI.Controllers
             //    SaveMatUpload()
             //}
             //return Json(files.Count + " Files Uploaded!");
+        }
+
+       public ActionResult DeleteOrderAttachment(int id)
+        {
+            // Assuming you have a service to handle file operations
+            var orderService = new OrderService();
+            orderService.DeleteOrderAttachment(id);
+            // Redirect to the action that displays the files
+            return Json("Deleted"); 
+        }
+        public ActionResult DeleteInstallationAttachment(int id)
+        {
+            // Assuming you have a service to handle file operations
+            var orderService = new OrderService();
+            orderService.DeleteInstallationAttachment(id);
+            // Redirect to the action that displays the files
+            return Json("Deleted");
+        }
+        public ActionResult CancelOrder(int id)
+        {
+            
+            var orderService = new OrderService();
+            orderService.CancelOrder(id);
+            // return Json("Deleted");
+            // Redirect to the action that displays the files
+            //return Redirect("/Order");
+            return RedirectToAction("Index", "Order");
         }
 
         [HttpPost]

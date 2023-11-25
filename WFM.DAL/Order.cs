@@ -80,6 +80,8 @@ namespace WFM.DAL
         public Nullable<System.DateTime> InstallationDate { get; set; }
         public string InstallationVehicleType { get; set; }
         public string InstallationRemark { get; set; }
+        public string InstallationLocation { get; set; }
+        public Nullable<bool> isCancelled { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdditionalCharge> AdditionalCharges { get; set; }
@@ -90,6 +92,7 @@ namespace WFM.DAL
         public virtual ICollection<InstallationAttachment> InstallationAttachments { get; set; }
         public virtual OrderType OrderType { get; set; }
         public virtual Quote Quote { get; set; }
+        public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderAttachment> OrderAttachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -98,6 +101,5 @@ namespace WFM.DAL
         public virtual ICollection<OrderMaterial> OrderMaterials { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
-        public virtual Status Status { get; set; }
     }
 }

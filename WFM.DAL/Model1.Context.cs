@@ -67,7 +67,7 @@ namespace WFM.DAL
         public virtual DbSet<Material> Materials { get; set; }
         public virtual DbSet<Attribute> Attributes { get; set; }
         public virtual DbSet<InstallationAttachment> InstallationAttachments { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
     }
 }

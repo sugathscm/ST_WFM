@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
+using System.Runtime.Remoting.Contexts;
 using WFM.BAL.Enums;
 using WFM.DAL;
 using Attribute = WFM.DAL.Attribute;
@@ -125,6 +126,44 @@ namespace WFM.BAL.Services
                 return entities.Suppliers.ToList();
             }
         }
+        public void DeleteOrderAttachment(int id)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                var orderAttachment = entities.OrderAttachments.Include("Order").FirstOrDefault(o => o.Id == id);
+
+                if (orderAttachment != null)
+                {
+                  
+                    entities.OrderAttachments.Remove(orderAttachment);
+                    entities.SaveChanges();
+                }
+            }
+        }
+        public void DeleteInstallationAttachment(int id)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                var orderAttachment = entities.InstallationAttachments.Include("Order").FirstOrDefault(o => o.Id == id);
+
+                if (orderAttachment != null)
+                {
+
+                    entities.InstallationAttachments.Remove(orderAttachment);
+                    entities.SaveChanges();
+                }
+            }
+        }
+        public void CancelOrder(int id)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                
+                var order = entities.Orders.FirstOrDefault(x => x.Id == id);
+                order.isCancelled = true;
+                entities.SaveChanges();
+            }
+        }
 
         public string GetDeliveryType(int Id)
         {
@@ -180,10 +219,52 @@ namespace WFM.BAL.Services
                         .Include("DeliveryType")
                         .Include("Status")
                         .Include("OrderType")
-                        .Include("Employee").Where(o => o.StatusId != (int)OrderStatus.Completed).OrderByDescending(d => d.CreatedDate).ToList();
+                        .Include("Employee").Where(o => o.StatusId != (int)OrderStatus.Completed && o.isCancelled == false).OrderByDescending(d => d.CreatedDate).ToList();
 
                 }
             } catch(Exception er) 
+            {
+                return null;
+            }
+        }
+
+
+        public List<Order> GetOrderCompleteList()
+        {
+            try
+            {
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
+                {
+                    return entities.Orders
+                        .Include("Client")
+                        .Include("DeliveryType")
+                        .Include("Status")
+                        .Include("OrderType")
+                        .Include("Employee").Where(  o => o.StatusId == (int)OrderStatus.Completed && o.isCancelled==false).OrderByDescending(d => d.CreatedDate).ToList();
+
+                }
+            }
+            catch (Exception er)
+            {
+                return null;
+            }
+        }
+        public List<Order> GetOrderCancelledList()
+        {
+            try
+            {
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
+                {
+                    return entities.Orders
+                        .Include("Client")
+                        .Include("DeliveryType")
+                        .Include("Status")
+                        .Include("OrderType")
+                        .Include("Employee").Where(o =>o.isCancelled == true).OrderByDescending(d => d.CreatedDate).ToList();
+
+                }
+            }
+            catch (Exception er)
             {
                 return null;
             }
