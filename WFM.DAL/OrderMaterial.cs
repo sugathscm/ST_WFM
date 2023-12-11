@@ -17,13 +17,12 @@ namespace WFM.DAL
         public int Id { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<int> MaterialId { get; set; }
-        public Nullable<int> AttributeId { get; set; }
         public Nullable<int> SupplierId { get; set; }
         public string Value { get; set; }
+        public string Attribute { get; set; }
     
-        public virtual Supplier Supplier { get; set; }
         public virtual Material Material { get; set; }
-        public virtual Attribute Attribute { get; set; }
         public virtual Order Order { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }

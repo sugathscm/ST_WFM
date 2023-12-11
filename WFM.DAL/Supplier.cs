@@ -29,5 +29,6 @@ namespace WFM.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaterial> OrderMaterials { get; set; }
+        public virtual SupplierType SupplierType { get; set; }
     }
 }

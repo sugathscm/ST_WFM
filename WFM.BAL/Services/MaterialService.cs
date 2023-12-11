@@ -18,7 +18,7 @@ namespace WFM.BAL.Services
             }
         }
 
-        public Material GetMaterialId(int? id)
+        public Material GetMaterialById(int? id)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {

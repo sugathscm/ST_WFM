@@ -337,7 +337,7 @@ namespace WFM.UI.Controllers
                     Code = item.Code,
                     Month = item.CreatedDate.Value.Month.ToString(),
                     StatusName = item.Status.Name,
-                    IsApproved = item.StatusId == 6 ? false : true,
+                    IsApproved = item.StatusId == 6 ? false : true, 
                     // DeliveryType=item.DeliveryType.Type,
                     CreatedDate = item.CreatedDate,
                     CreatedDateString = item.CreatedDate.Value.ToString(),
@@ -630,6 +630,7 @@ namespace WFM.UI.Controllers
                     order.InstallationTeam = model.InstallationTeam;
                     order.InstallationVehicleType = model.InstallationVehicleType;
                     order.InstallationLocation = model.InstallationLocation;
+                    order.InstallationRemark = model.InstallationRemark;
                     order.Remarks = model.Remarks;
                     order.isCancelled =false;
 
@@ -768,7 +769,8 @@ namespace WFM.UI.Controllers
 
                                 OrderId = model.Id,
                                 MaterialId = (MaterialArr[i] == "") ? 0 : int.Parse(MaterialArr[i]),
-                                AttributeId = (AttributeArr[i] == "") ? 0 : int.Parse(AttributeArr[i]),
+                                Attribute = AttributeArr[i],
+                                //AttributeId = (AttributeArr[i] == "") ? 0 : int.Parse(AttributeArr[i]),
                                 SupplierId = (SupplierArr[i] == "") ? 0 : int.Parse(SupplierArr[i]),
                                 Value = ValueArr[i],
 
@@ -783,7 +785,8 @@ namespace WFM.UI.Controllers
                                 Id = (ordmatIdArray[i] == "") ? 0 : int.Parse(ordmatIdArray[i]),
                                 OrderId = model.Id,
                                 MaterialId = (MaterialArr[i] == "") ? 0 : int.Parse(MaterialArr[i]),
-                                AttributeId = (AttributeArr[i] == "") ? 0 : int.Parse(AttributeArr[i]),
+                                Attribute = AttributeArr[i],
+                                //AttributeId = (AttributeArr[i] == "") ? 0 : int.Parse(AttributeArr[i]),
                                 SupplierId = (SupplierArr[i] == "") ? 0 : int.Parse(SupplierArr[i]),
                                 Value = ValueArr[i],
 

@@ -218,7 +218,7 @@ namespace WFM.BAL.Services
                         .Include("Client")
                         .Include("DeliveryType")
                         .Include("Status")
-                        .Include("OrderType")
+                        .Include("OrderType") 
                         .Include("Employee").Where(o => o.StatusId != (int)OrderStatus.Completed && o.isCancelled == false).OrderByDescending(d => d.CreatedDate).ToList();
 
                 }
@@ -288,7 +288,8 @@ namespace WFM.BAL.Services
                     .Include("OrderItems.Category")
                     .Include("Employee")
                     .Include("Quote")
-                    .Include("OrderMaterials")
+                    .Include("OrderMaterials.Supplier")
+                    .Include("OrderMaterials.Material")
                     .Include("OrderAttachments")
                     .Include("InstallationAttachments")
                     .Include("AdditionalCharges").Where(s => s.Id == id).SingleOrDefault();
@@ -324,6 +325,22 @@ namespace WFM.BAL.Services
                 else
                 {
                     entities.Entry(orderItem).State = System.Data.Entity.EntityState.Modified;
+                    entities.SaveChanges();
+                }
+            }
+        }
+        public void SaveOrUpdate(OrderMaterial orderMaterial)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                if (orderMaterial.Id == 0)
+                {
+                    entities.OrderMaterials.Add(orderMaterial);
+                    entities.SaveChanges();
+                }
+                else
+                {
+                    entities.Entry(orderMaterial).State = System.Data.Entity.EntityState.Modified;
                     entities.SaveChanges();
                 }
             }
@@ -368,24 +385,7 @@ namespace WFM.BAL.Services
             }
         }
 
-        public void SaveOrUpdate(OrderMaterial ordermaterial)
-        {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
-            {
-                if (ordermaterial.Id == 0)
-                {
-                    entities.OrderMaterials.Add(ordermaterial);
-                    entities.SaveChanges();
-                }
-                else
-                {
-                    entities.Entry(ordermaterial).State = System.Data.Entity.EntityState.Modified;
-                    entities.SaveChanges();
-                }
 
-
-            }
-        }
 
 
         public void SaveOrUpdate(Quote model, string userId, string wayforward)

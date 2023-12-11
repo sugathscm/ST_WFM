@@ -714,7 +714,7 @@
 
                                 </div>
                                 <div id="attachmentParent">
-                                    <div class="form-row attachement" id="divattachment">
+                                    <div class="form-row attachement invisible" id="divattachment">
                                         <div class="col-xl-2 col-lg-1 col-md-1 m-t-5" id="attachmentChild">
                                             <br>
                                             <input type="text" id="actfilename" class="form-control " disabled="disabled" />
@@ -788,13 +788,14 @@
 
                                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 m-t-5">
 
-                                                <label class="control-label" for="ordmatId"><b>Attributes</b></label>
-                                                @Html.DropDownListFor(m => ordermat.AttributeId, new SelectList(ViewBag.AttributeList, "Id", "Attribute1", ordermat.AttributeId.Value), "Attribute", new { @class = "form-control selection" })
+                                                <label class="control-label" for="ordermat_AttributeId"><b>Attributes</b></label>
+                                                <input type="text" id="ordermat_AttributeId" placeholder="Attribute." value="@ordermat.Attribute" class="form-control text-left" />
+                                                @*Html.DropDownListFor(m => ordermat.AttributeId, new SelectList(ViewBag.AttributeList, "Id", "Attribute1", ordermat.AttributeId.Value), "Attribute", new { @class = "form-control selection" })*@
                                                 @*@Html.DropDownList("OrderMaterialAttribute", new SelectList(ViewBag.AttributeList, "Id", "Attribute1"), "Attribute", new { @class = "form-control selection" })*@
                                             </div>
                                             <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12 m-t-5">
                                                 <label class="control-label" for="ordmatVal"><b>Value</b></label>
-                                                <input type="text" id="ordmatVal" placeholder="Value." value="@ordermat.Value" class="form-control text-right" />
+                                                <input type="text" id="ordmatVal" placeholder="Value." value="@ordermat.Value" class="form-control text-left" />
                                                 @*<input type="text" id="ordmatVal" placeholder="Value" class="form-control text-right" />*@
                                             </div>
                                         </div>
@@ -825,11 +826,11 @@
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5">
 
                                             <label class="control-label" for="ordermat_AttributeId"><b>Attributes</b></label>
-                                            @Html.DropDownList("ordermat_AttributeId", new SelectList(ViewBag.AttributeList, "Id", "Attribute1"), "Attribute", new { @class = "form-control selection" })
+                                            <input type="text" id="ordermat_AttributeId" placeholder="Attribute" class="form-control text-left" />
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="ordmatVal"><b>Value</b></label>
-                                            <input type="text" id="ordmatVal" placeholder="Value" class="form-control text-right" />
+                                            <input type="text" id="ordmatVal" placeholder="Value" class="form-control text-left" />
                                         </div>
 
                                     </div>
@@ -876,11 +877,22 @@
                                         </div>
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="Contact Person">Location</label>
-                                            @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                                            @Html.TextBoxFor(m => m.InstallationLocation, new { @class = "form-control" })
                                         </div>
                                         <div class="col-xl-11 col-lg-11 col-md-11 col-sm-12 col-12 m-t-5">
                                             <label class="control-label" for="InstallationRemarks"><b>Installation Remarks</b></label>
                                             @Html.TextBoxFor(m => m.InstallationRemark, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12 mb-2 m-t-5">
+
+                                            @if (User.IsInRole("Factory"))
+                                            {
+                                                <label class="control-label" for="ChanneledBy">Order Status</label>
+                                                @Html.DropDownList("StatusId", (SelectList)ViewBag.Status, "Select Status", new { @class = "form-control selection" })
+                                            }
+
+                                            @* @Html.DropDownList("quoteItem_LetteringWarrantyPeriod", new SelectList(ViewBag.WarrantyPeriodList, "Id", "Duration"), "Lettering", new { @class = "form-control selection" })*@
+
                                         </div>
                                     </div>
                                     <br />
@@ -928,14 +940,13 @@
 
                                         </div>
                                         <div id="installationAttachmentParent">
-                                            <div class="form-row attachement" id="installationdivattachment">
+                                            <div class="form-row attachement invisible" id="installationdivattachment">
                                                 <div class="col-xl-2 col-lg-1 col-md-1 m-t-5" id="InstalAttachmentChild">
                                                     <br>
                                                     <input type="text" id="InstalActfilename" class="form-control " disabled="disabled" />
                                                     <input type="hidden" id="InstalSavefilename" class="form-control text-right" />
                                                 </div>
                                             </div>
-
                                         </div>
                                     }
 
@@ -1238,6 +1249,7 @@
                 var elem = document.querySelector('#installationdivattachment');
                 var clone = elem.cloneNode(true);
                 clone.id = "installationdivattachment" + n;
+                clone.className ="form-row attachement"
                 elem.parentElement.insertBefore(clone, elem.parentElement.children[elem.parentElement.length - 1]);
                 var label = clone.querySelector("input");
                 label.value = files[0].name;
@@ -1306,6 +1318,7 @@
                 var elem = document.querySelector('#divattachment');
                 var clone = elem.cloneNode(true);
                 clone.id = "divattachment" + n;
+                clone.className ="form-row attachement"
                 elem.parentElement.insertBefore(clone, elem.parentElement.children[elem.parentElement.length - 1]);
                 var label = clone.querySelector("input");
                 label.value = files[0].name;
@@ -2178,7 +2191,7 @@
             MaterialIdArray.push($(obj).find('input#ordmatrId').val());
             MaterialArr.push($(obj).find('select#ordermat_MaterialId').val());
             SupplierArr.push($(obj).find('select#ordermat_SupplierId').val());
-            AttributeArr.push($(obj).find('select#ordermat_AttributeId').val());
+            AttributeArr.push($(obj).find('input#ordermat_AttributeId').val());
             ValueArr.push($(obj).find('input#ordmatVal').val());
 
         });

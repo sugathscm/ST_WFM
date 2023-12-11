@@ -1,0 +1,81 @@
+﻿@model WFM.DAL.Material
+@{
+    ViewBag.Title = "Material";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#List').DataTable({
+            "paging": true,
+
+            "ajax": {
+                "url": "/Material/GetList",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Material" },
+
+                {
+                    "data": "Id", "searchable": false, "ordering": false, sorting: false,
+                    "render": function (data, type, full, meta) {
+                        return '<a class="btn btn-info btn-xs" href="/Material/Index/' + data + '">Edit</a>';
+                    }
+                },
+            ]
+        });
+    });
+</script>
+<div class="dashboard-ecommerce">
+    <div class="container-fluid dashboard-content ">
+        <!-- ============================================================== -->
+        <!-- pageheader  -->
+        <!-- ============================================================== -->
+        @Html.Partial("_PageHeaderPartial")
+        <!-- ============================================================== -->
+        <!-- end pageheader  -->
+        <!-- ============================================================== -->
+        <div class="border border-primary bg-actual-white  m-b-10">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-10">
+                @using (Html.BeginForm("SaveOrUpdate", "Material", FormMethod.Post, new { @class = "needs-validation", role = "form" }))
+                {
+                    @*<form class="needs-validation" novalidate="">*@
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "valFailure" })
+                    @Html.HiddenFor(m => m.Id, new { @name = "Id" })
+                    <div class="form-row">
+                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 m-b-20">
+                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", required = "required" })
+                        </div>
+                       
+                        <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 mb-2 text-right">
+                            <input type="submit" class="btn btn-success" value="Save" />
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+        <div class="border border-primary bg-actual-white">
+            <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-20">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
+                    <div class="table-responsive">
+                        <table id="List" class="table table-striped table-bordered first">
+                            <thead>
+                                <tr>
+                                    <th style="width:30%">Material1</th>                                   
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

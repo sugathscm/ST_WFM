@@ -209,6 +209,7 @@
     <Compile Include="Controllers\IlluminationController.cs" />
     <Compile Include="Controllers\LetteringController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\OrderTypeController.cs" />
     <Compile Include="Controllers\PaperQualityController.cs" />
@@ -216,6 +217,8 @@
     <Compile Include="Controllers\QuoteController.cs" />
     <Compile Include="Controllers\QuoteTermController.cs" />
     <Compile Include="Controllers\SizeController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\SupplierTypeController.cs" />
     <Compile Include="Controllers\VisibilityController.cs" />
     <Compile Include="Controllers\WarrantyPeriodController.cs" />
     <Compile Include="Global.asax.cs">
@@ -902,6 +905,8 @@
     <Content Include="Views\DeliveryType\Index.cshtml" />
     <Content Include="Views\Order\_NewProductPartial .cshtml" />
     <Content Include="Views\Home\_PrintOrder.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Material\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

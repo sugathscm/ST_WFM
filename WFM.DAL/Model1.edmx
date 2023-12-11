@@ -344,9 +344,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="int" />
           <Property Name="MaterialId" Type="int" />
-          <Property Name="AttributeId" Type="int" />
           <Property Name="SupplierId" Type="int" />
           <Property Name="Value" Type="varchar" MaxLength="50" />
+          <Property Name="Attribute" Type="varchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="OrderTermDetail">
           <Key>
@@ -503,7 +503,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="150" />
           <Property Name="Address" Type="varchar" MaxLength="250" />
           <Property Name="ContactNo" Type="varchar" MaxLength="50" />
@@ -884,18 +884,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderMaterial_Attribute">
-          <End Role="Attribute" Type="Self.Attribute" Multiplicity="0..1" />
-          <End Role="OrderMaterial" Type="Self.OrderMaterial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Attribute">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderMaterial">
-              <PropertyRef Name="AttributeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderMaterial_Material">
           <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
           <End Role="OrderMaterial" Type="Self.OrderMaterial" Multiplicity="*" />
@@ -1076,6 +1064,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Supplier_SupplierType">
+          <End Role="SupplierType" Type="Self.SupplierType" Multiplicity="0..1" />
+          <End Role="Supplier" Type="Self.Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="SupplierTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DB_A4EFEA_stwfmModelStoreContainer">
           <EntitySet Name="AdditionalCharges" EntityType="Self.AdditionalCharges" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -1234,10 +1234,6 @@
             <End Role="Order" EntitySet="Order" />
             <End Role="OrderItem" EntitySet="OrderItem" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderMaterial_Attribute" Association="Self.FK_OrderMaterial_Attribute">
-            <End Role="Attribute" EntitySet="Attribute" />
-            <End Role="OrderMaterial" EntitySet="OrderMaterial" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderMaterial_Material" Association="Self.FK_OrderMaterial_Material">
             <End Role="Material" EntitySet="Material" />
             <End Role="OrderMaterial" EntitySet="OrderMaterial" />
@@ -1297,6 +1293,10 @@
           <AssociationSet Name="FK_QuoteTermDetail_QuoteTerm" Association="Self.FK_QuoteTermDetail_QuoteTerm">
             <End Role="QuoteTerm" EntitySet="QuoteTerm" />
             <End Role="QuoteTermDetail" EntitySet="QuoteTermDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supplier_SupplierType" Association="Self.FK_Supplier_SupplierType">
+            <End Role="SupplierType" EntitySet="SupplierType" />
+            <End Role="Supplier" EntitySet="Supplier" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -1751,23 +1751,8 @@
           </AssociationSet>
           <EntitySet Name="AdditionalCharges" EntityType="DB_A4EFEA_stwfmModel.AdditionalCharge" />
           <EntitySet Name="OrderAttachments" EntityType="DB_A4EFEA_stwfmModel.OrderAttachment" />
-          <EntitySet Name="OrderMaterials" EntityType="DB_A4EFEA_stwfmModel.OrderMaterial" />
-          <EntitySet Name="Suppliers" EntityType="DB_A4EFEA_stwfmModel.Supplier" />
-          <EntitySet Name="SupplierTypes" EntityType="DB_A4EFEA_stwfmModel.SupplierType" />
-          <AssociationSet Name="FK_OrderMaterial_Supplier" Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier">
-            <End Role="Supplier" EntitySet="Suppliers" />
-            <End Role="OrderMaterial" EntitySet="OrderMaterials" />
-          </AssociationSet>
           <EntitySet Name="Materials" EntityType="DB_A4EFEA_stwfmModel.Material" />
-          <AssociationSet Name="FK_OrderMaterial_Material" Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Material">
-            <End Role="Material" EntitySet="Materials" />
-            <End Role="OrderMaterial" EntitySet="OrderMaterials" />
-          </AssociationSet>
           <EntitySet Name="Attributes" EntityType="DB_A4EFEA_stwfmModel.Attribute" />
-          <AssociationSet Name="FK_OrderMaterial_Attribute" Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Attribute">
-            <End Role="Attribute" EntitySet="Attributes" />
-            <End Role="OrderMaterial" EntitySet="OrderMaterials" />
-          </AssociationSet>
           <EntitySet Name="InstallationAttachments" EntityType="DB_A4EFEA_stwfmModel.InstallationAttachment" />
           <EntitySet Name="Status" EntityType="DB_A4EFEA_stwfmModel.Status" />
           <AssociationSet Name="FK_OrderTracking_Status" Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status">
@@ -1815,13 +1800,28 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderItem" EntitySet="OrderItems" />
           </AssociationSet>
+          <AssociationSet Name="FK_OrderTermDetail_Order" Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderTermDetail" EntitySet="OrderTermDetails" />
+          </AssociationSet>
+          <EntitySet Name="OrderMaterials" EntityType="DB_A4EFEA_stwfmModel.OrderMaterial" />
+          <AssociationSet Name="FK_OrderMaterial_Material" Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Material">
+            <End Role="Material" EntitySet="Materials" />
+            <End Role="OrderMaterial" EntitySet="OrderMaterials" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderMaterial_Order" Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order">
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderMaterial" EntitySet="OrderMaterials" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrderTermDetail_Order" Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderTermDetail" EntitySet="OrderTermDetails" />
+          <EntitySet Name="Suppliers" EntityType="DB_A4EFEA_stwfmModel.Supplier" />
+          <EntitySet Name="SupplierTypes" EntityType="DB_A4EFEA_stwfmModel.SupplierType" />
+          <AssociationSet Name="FK_OrderMaterial_Supplier" Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="OrderMaterial" EntitySet="OrderMaterials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supplier_SupplierType" Association="DB_A4EFEA_stwfmModel.FK_Supplier_SupplierType">
+            <End Role="SupplierType" EntitySet="SupplierTypes" />
+            <End Role="Supplier" EntitySet="Suppliers" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="QuoteTermDetail">
@@ -2310,52 +2310,6 @@
           <Property Name="ActualName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Order" Relationship="DB_A4EFEA_stwfmModel.FK_OrderAttachment_Order" FromRole="OrderAttachment" ToRole="Order" />
         </EntityType>
-        <EntityType Name="OrderMaterial">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" />
-          <Property Name="MaterialId" Type="Int32" />
-          <Property Name="AttributeId" Type="Int32" />
-          <Property Name="SupplierId" Type="Int32" />
-          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Supplier" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier" FromRole="OrderMaterial" ToRole="Supplier" />
-          <NavigationProperty Name="Material" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Material" FromRole="OrderMaterial" ToRole="Material" />
-          <NavigationProperty Name="Attribute" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Attribute" FromRole="OrderMaterial" ToRole="Attribute" />
-          <NavigationProperty Name="Order" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" FromRole="OrderMaterial" ToRole="Order" />
-        </EntityType>
-        <EntityType Name="Supplier">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="ContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SupplierTypeId" Type="Int32" />
-          <Property Name="ContactPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier" FromRole="Supplier" ToRole="OrderMaterial" />
-        </EntityType>
-        <EntityType Name="SupplierType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <Association Name="FK_OrderMaterial_Supplier">
-          <End Type="DB_A4EFEA_stwfmModel.Supplier" Role="Supplier" Multiplicity="0..1" />
-          <End Type="DB_A4EFEA_stwfmModel.OrderMaterial" Role="OrderMaterial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supplier">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderMaterial">
-              <PropertyRef Name="SupplierId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Material">
           <Key>
             <PropertyRef Name="Id" />
@@ -2364,38 +2318,13 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Material" FromRole="Material" ToRole="OrderMaterial" />
         </EntityType>
-        <Association Name="FK_OrderMaterial_Material">
-          <End Type="DB_A4EFEA_stwfmModel.Material" Role="Material" Multiplicity="0..1" />
-          <End Type="DB_A4EFEA_stwfmModel.OrderMaterial" Role="OrderMaterial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Material">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderMaterial">
-              <PropertyRef Name="MaterialId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Attribute">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Attribute1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Attribute" FromRole="Attribute" ToRole="OrderMaterial" />
         </EntityType>
-        <Association Name="FK_OrderMaterial_Attribute">
-          <End Type="DB_A4EFEA_stwfmModel.Attribute" Role="Attribute" Multiplicity="0..1" />
-          <End Type="DB_A4EFEA_stwfmModel.OrderMaterial" Role="OrderMaterial" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Attribute">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderMaterial">
-              <PropertyRef Name="AttributeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="InstallationAttachment">
           <Key>
             <PropertyRef Name="Id" />
@@ -2499,8 +2428,8 @@
           <NavigationProperty Name="Status" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Status" FromRole="Order" ToRole="Status" />
           <NavigationProperty Name="OrderAttachments" Relationship="DB_A4EFEA_stwfmModel.FK_OrderAttachment_Order" FromRole="Order" ToRole="OrderAttachment" />
           <NavigationProperty Name="OrderItems" Relationship="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
-          <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" FromRole="Order" ToRole="OrderMaterial" />
           <NavigationProperty Name="OrderTermDetails" Relationship="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" FromRole="Order" ToRole="OrderTermDetail" />
+          <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" FromRole="Order" ToRole="OrderMaterial" />
         </EntityType>
         <Association Name="FK_AdditionalCharges_Order">
           <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="0..1" />
@@ -2622,6 +2551,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OrderTermDetail_Order">
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="DB_A4EFEA_stwfmModel.OrderTermDetail" Role="OrderTermDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderTermDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderMaterial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="MaterialId" Type="Int32" />
+          <Property Name="SupplierId" Type="Int32" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Attribute" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Material" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Material" FromRole="OrderMaterial" ToRole="Material" />
+          <NavigationProperty Name="Order" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" FromRole="OrderMaterial" ToRole="Order" />
+          <NavigationProperty Name="Supplier" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier" FromRole="OrderMaterial" ToRole="Supplier" />
+        </EntityType>
+        <Association Name="FK_OrderMaterial_Material">
+          <End Type="DB_A4EFEA_stwfmModel.Material" Role="Material" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.OrderMaterial" Role="OrderMaterial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderMaterial">
+              <PropertyRef Name="MaterialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_OrderMaterial_Order">
           <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="0..1" />
           <End Type="DB_A4EFEA_stwfmModel.OrderMaterial" Role="OrderMaterial" Multiplicity="*" />
@@ -2634,15 +2601,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrderTermDetail_Order">
-          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="1" />
-          <End Type="DB_A4EFEA_stwfmModel.OrderTermDetail" Role="OrderTermDetail" Multiplicity="*" />
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SupplierTypeId" Type="Int32" />
+          <Property Name="ContactPerson" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier" FromRole="Supplier" ToRole="OrderMaterial" />
+          <NavigationProperty Name="SupplierType" Relationship="DB_A4EFEA_stwfmModel.FK_Supplier_SupplierType" FromRole="Supplier" ToRole="SupplierType" />
+        </EntityType>
+        <EntityType Name="SupplierType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Suppliers" Relationship="DB_A4EFEA_stwfmModel.FK_Supplier_SupplierType" FromRole="SupplierType" ToRole="Supplier" />
+        </EntityType>
+        <Association Name="FK_OrderMaterial_Supplier">
+          <End Type="DB_A4EFEA_stwfmModel.Supplier" Role="Supplier" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.OrderMaterial" Role="OrderMaterial" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Order">
+            <Principal Role="Supplier">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="OrderTermDetail">
-              <PropertyRef Name="OrderId" />
+            <Dependent Role="OrderMaterial">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supplier_SupplierType">
+          <End Type="DB_A4EFEA_stwfmModel.SupplierType" Role="SupplierType" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Supplier" Role="Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SupplierType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="SupplierTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3099,38 +3099,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="OrderMaterials">
-            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.OrderMaterial">
-              <MappingFragment StoreEntitySet="OrderMaterial">
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
-                <ScalarProperty Name="AttributeId" ColumnName="AttributeId" />
-                <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Suppliers">
-            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Supplier">
-              <MappingFragment StoreEntitySet="Supplier">
-                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
-                <ScalarProperty Name="SupplierTypeId" ColumnName="SupplierTypeId" />
-                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SupplierTypes">
-            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.SupplierType">
-              <MappingFragment StoreEntitySet="SupplierType">
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Materials">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Material">
               <MappingFragment StoreEntitySet="Material">
@@ -3225,6 +3193,38 @@
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderMaterials">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.OrderMaterial">
+              <MappingFragment StoreEntitySet="OrderMaterial">
+                <ScalarProperty Name="Attribute" ColumnName="Attribute" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="SupplierTypeId" ColumnName="SupplierTypeId" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplierTypes">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.SupplierType">
+              <MappingFragment StoreEntitySet="SupplierType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

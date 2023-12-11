@@ -97,6 +97,7 @@
     <Compile Include="Services\QuoteTermService.cs" />
     <Compile Include="Services\SizeService.cs" />
     <Compile Include="Services\SupplierService.cs" />
+    <Compile Include="Services\SupplierTypeService.cs" />
     <Compile Include="Services\VisibilityService.cs" />
     <Compile Include="Services\WarrantyPeriodService.cs" />
   </ItemGroup>

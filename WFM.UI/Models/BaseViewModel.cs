@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
+using WFM.DAL;
 
 namespace WFM.UI.Models
 {
@@ -30,10 +32,37 @@ namespace WFM.UI.Models
         public string Size { get; set; }
       
     }
+    public class SupplierViewModel : BaseViewModel
+    {
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+        [Display(Name = "ContactNo")]
+        public string ContactNo { get; set; }
+
+        [Display(Name = "Contact Person")]
+        public string ContactPerson { get; set; }
+
+        public string SupplierType { get; set; }
+
+    }
     public class FasiaViewModel : BaseViewModel
     {
         [Display(Name = "Fasia")]
         public string Fasia { get; set; }
+
+    }
+    public class SupplierTypeViewModel : BaseViewModel
+    {
+        [Display(Name = "Supplier Type")]
+        public string Type { get; set; }
+
+    }
+    public class MaterialViewModel : BaseViewModel
+    {
+        [Display(Name = "Material")]
+        public string Material { get; set; }
 
     }
     public class FrameworkViewModel : BaseViewModel

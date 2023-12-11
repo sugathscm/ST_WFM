@@ -14,15 +14,15 @@ namespace WFM.BAL.Services
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                return entities.Suppliers.OrderBy(d => d.Name).ToList();
+                return entities.Suppliers.Include("SupplierType").OrderBy(d => d.Name).ToList();
             }
         }
 
-        public Supplier GetSupplierId(int? id)
+        public Supplier GetSupplierById(int? id)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                return entities.Suppliers.Where(s => s.Id == id).SingleOrDefault();
+                return entities.Suppliers.Include("SupplierType").Where(s => s.Id == id).SingleOrDefault();
             }
         }
 
