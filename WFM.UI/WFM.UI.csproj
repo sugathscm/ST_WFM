@@ -207,6 +207,7 @@
     <Compile Include="Controllers\FrameworkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IlluminationController.cs" />
+    <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controllers\LetteringController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
@@ -907,6 +908,7 @@
     <Content Include="Views\Home\_PrintOrder.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
+    <Content Include="Views\Invoice\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

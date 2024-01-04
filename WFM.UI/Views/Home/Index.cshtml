@@ -58,30 +58,6 @@
                         <h2 class="pageheader-title">Dashboard</h2>
                     </div>
                 </div>
-                @*<div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-6">
-                        <div class="page-header ">
-                            <a class="btn btn-dark" href="/Quote/Details">New Quotation</a>
-
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-6">
-                        <div class="page-header">
-                            <a class="btn btn-dark" href="/Quote">Quotation List</a>
-
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-6">
-                        <div class="page-header">
-                            <a class="btn btn-dark" href="/Order/Details">New Production Order</a>
-
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
-                        <div class="page-header">
-                            <a class="btn btn-dark" href="/Order">Production Order List</a>
-
-                        </div>
-                    </div>*@
 
             </div>
 
@@ -89,46 +65,10 @@
                 <input type="hidden" value="@ViewBag.Months" id="x-axis" />
                 <input type="hidden" value="@ViewBag.TotalQuotes" id="total-quotes" />
                 <input type="hidden" value="@ViewBag.TotalConvertedJobs" id="total-orders" />
-                @*<div id="chart"></div>*@
+          
             </div>
             <br />
-            @*<div class="row">
-                    @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")))
-                    {
-                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-6">
-                            <div class="page-header ">
-                                <a class="btn btn-dark" href="/Quote/Details">New Quotation</a>
-
-                            </div>
-                        </div>
-                    }
-                    @if (User.IsInRole("Administrator") || (User.IsInRole("Finance")))
-                    {
-                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-6">
-                            <div class="page-header">
-                                <a class="btn btn-dark" href="/Quote">Quotation List</a>
-
-                            </div>
-                        </div>
-                    }
-                    @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")))
-                    {
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-3 col-6">
-                            <div class="page-header">
-                                <a class="btn btn-dark" href="/Order/Details">New Production Order</a>
-
-                            </div>
-                        </div>
-                    } @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")) || (User.IsInRole("Finance")))
-                    {
-                        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-6">
-                            <div class="page-header">
-                                <a class="btn btn-dark" href="/Order">Production Order List</a>
-
-                            </div>
-                        </div>
-                    }
-                </div>*@
+         
             @if (User.IsInRole("Administrator") || User.IsInRole("Factory") || User.IsInRole("Sales") || User.IsInRole("Management") || User.IsInRole("Design") || User.IsInRole("Department"))
             {<br />
                 <h3>Recent Jobs</h3>
@@ -207,31 +147,11 @@
         </div>
     </div>
 
-    @*<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLabel">Medical Report</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="Preview">
-                        Html.Partial("_PrintOrder")
-                    </div>
-                    <div class="modal-footer">
-
-                        <button id="btnPrint" type="button" class="btn btn-primary">Print</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>*@
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    @* <h5 class="modal-title" id="exampleModalLabel">Medical Report</h5>*@
+                  
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

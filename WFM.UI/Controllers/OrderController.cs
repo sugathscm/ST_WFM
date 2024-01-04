@@ -1133,7 +1133,7 @@ namespace WFM.UI.Controllers
             double? TotalVat = 0;
             //double? Cost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
             if (order.OrderTypeId == 1)
-                TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * 15);
+                TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * 18);
 
 
 
