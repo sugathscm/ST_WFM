@@ -21,8 +21,8 @@ namespace WFM.DAL
             this.InstallationAttachments = new HashSet<InstallationAttachment>();
             this.OrderAttachments = new HashSet<OrderAttachment>();
             this.OrderItems = new HashSet<OrderItem>();
-            this.OrderTermDetails = new HashSet<OrderTermDetail>();
             this.OrderMaterials = new HashSet<OrderMaterial>();
+            this.OrderTermDetails = new HashSet<OrderTermDetail>();
         }
     
         public int Id { get; set; }
@@ -82,6 +82,7 @@ namespace WFM.DAL
         public string InstallationRemark { get; set; }
         public string InstallationLocation { get; set; }
         public Nullable<bool> isCancelled { get; set; }
+        public Nullable<double> VatPercentage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdditionalCharge> AdditionalCharges { get; set; }
@@ -98,8 +99,8 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMaterial> OrderMaterials { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
     }
 }

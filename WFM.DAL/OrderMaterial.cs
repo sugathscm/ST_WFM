@@ -22,7 +22,7 @@ namespace WFM.DAL
         public string Attribute { get; set; }
     
         public virtual Material Material { get; set; }
-        public virtual Order Order { get; set; }
         public virtual Supplier Supplier { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

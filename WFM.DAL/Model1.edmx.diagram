@@ -73,7 +73,13 @@
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.InstallationAttachment" Width="1.5" PointX="14.875" PointY="24.125" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Status" Width="1.5" PointX="0.75" PointY="14.875" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTracking_Status" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.875" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderMaterial" Width="1.5" PointX="24.875" PointY="7.125" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Material" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Supplier" Width="1.5" PointX="18.625" PointY="1" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.SupplierType" Width="1.5" PointX="16.375" PointY="1.375" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Supplier_SupplierType" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.75" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_AdditionalCharges_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Client" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType" />
@@ -84,14 +90,8 @@
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Status" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderAttachment_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.OrderMaterial" Width="1.5" PointX="24.875" PointY="7.125" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Material" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Supplier" Width="1.5" PointX="18.625" PointY="1" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.SupplierType" Width="1.5" PointX="16.375" PointY="1.375" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Supplier_SupplierType" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

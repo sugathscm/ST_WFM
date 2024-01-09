@@ -559,7 +559,8 @@ namespace WFM.UI.Controllers
                         IsProductionDepartment = model.IsProductionDepartment,
                         IsScreenPrintingDept = model.IsScreenPrintingDept,
                         IsSteelDepartment = model.IsSteelDepartment,
-                        isCancelled = false
+                        isCancelled = false,
+                        VatPercentage = 18
 
 
 
@@ -1133,10 +1134,7 @@ namespace WFM.UI.Controllers
             double? TotalVat = 0;
             //double? Cost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
             if (order.OrderTypeId == 1)
-                TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * 18);
-
-
-
+                TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * order.VatPercentage);
             return TotalVat.HasValue ? TotalVat.Value : 0;
         }
 
