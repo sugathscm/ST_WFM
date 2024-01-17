@@ -23,6 +23,7 @@ namespace WFM.DAL
             this.OrderItems = new HashSet<OrderItem>();
             this.OrderMaterials = new HashSet<OrderMaterial>();
             this.OrderTermDetails = new HashSet<OrderTermDetail>();
+            this.Invoices = new HashSet<Invoice>();
         }
     
         public int Id { get; set; }
@@ -102,5 +103,7 @@ namespace WFM.DAL
         public virtual ICollection<OrderMaterial> OrderMaterials { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

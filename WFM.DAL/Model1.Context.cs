@@ -69,5 +69,6 @@ namespace WFM.DAL
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierType> SupplierTypes { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
     }
 }

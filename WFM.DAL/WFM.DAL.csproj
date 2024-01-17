@@ -108,6 +108,9 @@
     <Compile Include="InstallationAttachment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Invoice.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Lettering.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

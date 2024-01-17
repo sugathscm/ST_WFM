@@ -230,6 +230,7 @@
     <Compile Include="Models\ClientView.cs" />
     <Compile Include="Models\EmployeeView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InvoiceView.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderView.cs" />
     <Compile Include="Models\QuoteView.cs" />
@@ -909,6 +910,7 @@
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Invoice\Index.cshtml" />
+    <Content Include="Views\Invoice\_PrintInvoice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

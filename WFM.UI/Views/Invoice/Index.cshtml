@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Dashboard";
+    ViewBag.Title = "Invoice";
 }
 
 <style>
@@ -62,44 +62,26 @@
             </div>
 
             <div class="border border-primary bg-actual-white">
-                <input type="hidden" value="@ViewBag.Months" id="x-axis" />
-                <input type="hidden" value="@ViewBag.TotalQuotes" id="total-quotes" />
-                <input type="hidden" value="@ViewBag.TotalConvertedJobs" id="total-orders" />
-          
+             
             </div>
             <br />
          
             @if (User.IsInRole("Administrator") || User.IsInRole("Factory") || User.IsInRole("Sales") || User.IsInRole("Management") || User.IsInRole("Design") || User.IsInRole("Department"))
             {<br />
-                <h3>Jobs</h3>
+                <h3>Invoices</h3>
                 <div class="border border-primary bg-actual-white m-t-20">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20  m-b-20">
-                        <div class="form-check form-check-inline pb-2">
-                            <input class="btn btn-primary active" type="button" id="AllOrders" value="All">
-                        </div>
-                        <div class="form-check form-check-inline pb-2">
-                            <input class="btn btn-primary" type="button" id="CompleteOrders" value="Completed">
-                        </div>
-                        <div class="form-check form-check-inline pb-2">
-                            <input class="btn btn-secondary" type="button" id="CancelledOrders" value="Cancelled">
-                        </div>
-
+                      
                         <div class="table-responsive">
 
                             <table id="List" class="table table-striped table-bordered first">
                                 <thead>
                                     <tr>
-                                        <th>PO No</th>
+                                        <th>Invoice No</th>
+                                        <th>Order No</th>
                                         <th>Client</th>
-                                        <th>Location</th>
-                                        <th>Status</th>
-                                        <th>Created Date (MM/DD//YYYY)</th>
-                                        <th>Month</th>
-                                        <th>Channeled By</th>
+                                        <th>Created Date</th>
                                         <th></th>
-                                        <th></th>
-                                        <th></th>
-
                                     </tr>
                                 </thead>
                             </table>
@@ -115,35 +97,7 @@
                     <h2 style="font-size:3rem;">Please Login to the system.</h2>
                 </div>
             }
-            @if (User.IsInRole("Administrator") ||  User.IsInRole("Sales") || User.IsInRole("Management"))
-            {<br />
-                <h3>Recent Qoutes</h3>
-                <div class="border border-primary bg-actual-white  m-b-10">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-t-20">
-                        <div class="table-responsive">
-
-                            <table id="ListQ" class="table table-striped table-bordered first">
-                                <thead>
-                                    <tr>
-                                        <th>Code</th>
-                                        <th>Client</th>    
-                                        <th>Header</th>
-                                        <th>Value</th>
-                                        <th>Created Date (MM/DD//YYYY)</th>
-                                        @*<th></th>*@
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            }
-
+        
         </div>
     </div>
 
@@ -170,9 +124,7 @@
     <script>
     $(document).ready(function () {
 
-            LoadOrders();
-            LoadQuotes();
-
+            LoadInvoices();
 
     });
 
@@ -184,28 +136,7 @@
             printElement(document.getElementById("printThis"));
         }
 
-        const allOrdersButton = document.getElementById("AllOrders");
-        const completeOrdersButton = document.getElementById("CompleteOrders");
-        const cancelledOrdersButton = document.getElementById("CancelledOrders");
-
-        cancelledOrdersButton.addEventListener("click", function () {
-            completeOrdersButton.classList.remove("active")
-            allOrdersButton.classList.remove("active")
-            cancelledOrdersButton.classList.add("active")
-            LoadCancelledOrders();
-        });
-
-        allOrdersButton.addEventListener("click", function () {
-            completeOrdersButton.classList.remove("active")
-            allOrdersButton.classList.add("active")
-            LoadOrders();
-        });
-
-        completeOrdersButton.addEventListener("click", function () {
-            completeOrdersButton.classList.add("active")
-            allOrdersButton.classList.remove("active")
-            LoadCompleteOrders();
-        });
+      
 
     function printElement(elem) {
         var domClone = elem.cloneNode(true);
@@ -224,35 +155,10 @@
         }
 
 
-    function PrintQuote(id) {
+    function PrintInvoice(id) {
         $.ajax({
             type: "GET",
-            url: '@Url.Action("PrintQuote", "Quote")',
-            data: { id: id },
-            success: function (data) {
-                $('#Preview').html(data);
-                $('#reportModal').modal('show');
-            }
-        })
-        }
-
-     function ApproveQuote(id) {
-        if (confirm("Are you sure?")) {
-            $.ajax({
-                type: "GET",
-                url: '@Url.Action("ApproveQuote", "Quote")',
-                data: { id: id },
-                success: function (data) {
-                    LoadQuotes();
-                }
-            })
-        }
-    }
-
-    function PrintOrder(id) {
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("PrintOrder", "Order")',
+            url: '@Url.Action("PrintInvoice", "Invoice")',
             data: { id: id },
             success: function (data) {
                 $('#Preview').html(data);
@@ -261,19 +167,7 @@
         })
     }
 
-      function ApproveOrder(id) {
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("Approve", "Order")',
-            data: { id: id },
-            success: function (data) {
-                alert("Order has been approved");
-                LoadOrders();
-
-            }
-        })
-    }
-     function LoadOrders() {
+     function LoadInvoices() {
 
         if ($.fn.dataTable.isDataTable('#List')) {
             table = $('#List').DataTable();
@@ -286,255 +180,27 @@
 
             },
             "ajax": {
-                "url": "/Order/GetList",
+                "url": "/Invoice/GetList",
                 "type": "POST",
                 "datatype": "json"
             },
             "columns": [
-                { "data": "Code", "width": "10%" ,"ordering": false, "sorting": false },
+                { "data": "Code", "width": "20%", "ordering": false, "sorting": false },
+                { "data": "OrderCode", "width": "20%", "ordering": false, "sorting": false },
                 { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
-                { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
-                { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
-                { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
+                { "data": "CreatedDateString", "width": "20%", "ordering": false, "sorting": false },
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn btn-secondary btn-xs" onclick="PrintOrder(' + data + ')">View</a>';
+                        return '<a class="btn btn-secondary btn-xs" onclick="PrintInvoice(' + data + ')">View</a>';
                     }
                 },
-                {
-                    "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                    "render": function (data, type, full, meta) {
+              
 
-                            return '@if (User.IsInRole("Administrator") || User.IsInRole("Factory")) {  <a class="btn btn-info btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>}';
-                            //|| User.IsInRole("Factory")
-                    }
-                },
-
-                {
-                    "data": "Id",  "searchable": false, "ordering": false, "sorting": false,
-                    "render": function (data, type, full, meta)
-                    {
-                        var rowvalue = full.IsApproved;
-                        if (rowvalue == true) {
-                            return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-info btn-xs" onclick="ApproveOrder(' + data + ')" >Approve</a>}';
-                        }//||User.IsInRole("Factory")
-                        else {
-
-                             return '';
-                        }
-
-                    }
-                }
+                
 
             ]
         });
 
     }
-
-        //Load Comleted orders
-        function LoadCompleteOrders() {
-
-            if ($.fn.dataTable.isDataTable('#List')) {
-                table = $('#List').DataTable();
-                table.destroy();
-            }
-
-            $('#List').DataTable({
-                "ordering": false,
-                "createdRow": function (row, data, dataIndex) {
-
-                },
-                "ajax": {
-                    "url": "/Order/GetCompletedList",
-                    "type": "POST",
-                    "datatype": "json"
-                },
-                "columns": [
-                    { "data": "Code", "width": "10%", "ordering": false, "sorting": false },
-                    { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                    { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
-                    { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
-                    { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
-                    { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                    { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
-                    {
-                        "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                        "render": function (data, type, full, meta) {
-                            return '<a class="btn btn-secondary btn-xs" onclick="PrintOrder(' + data + ')">View</a>';
-                        }
-                    },
-                    {
-                        "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                        "render": function (data, type, full, meta) {
-
-                            return '@if (User.IsInRole("Administrator") || User.IsInRole("Factory")) {  <a class="btn btn-info btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>}';
-                            //||User.IsInRole("Factory")
-                        }
-                    },
-
-                    {
-                        "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                        "render": function (data, type, full, meta) {
-                            var rowvalue = full.IsApproved;
-                            if (rowvalue == true) {
-                                return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-info btn-xs" onclick="ApproveOrder(' + data + ')" >Approve</a>}';
-                            }//||User.IsInRole("Factory")
-                            else {
-
-                                return '';
-                            }
-
-                        }
-                    }
-
-                ]
-            });
-        }
-
-
-        function LoadCancelledOrders() {
-
-            if ($.fn.dataTable.isDataTable('#List')) {
-                table = $('#List').DataTable();
-                table.destroy();
-            }
-
-            $('#List').DataTable({
-                "ordering": false,
-                "createdRow": function (row, data, dataIndex) {
-
-                },
-                "ajax": {
-                    "url": "/Order/GetCancelledList",
-                    "type": "POST",
-                    "datatype": "json"
-                },
-                "columns": [
-                    { "data": "Code", "width": "10%", "ordering": false, "sorting": false },
-                    { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                    { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
-                    { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
-                    { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
-                    { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                    { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
-                    {
-                        "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                        "render": function (data, type, full, meta) {
-                            return '';
-                        }
-                    },
-                    {
-                        "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                        "render": function (data, type, full, meta) {
-
-                            return '';
-                            //||User.IsInRole("Factory")
-                        }
-                    },
-
-                    {
-                        "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                        "render": function (data, type, full, meta) {
-                            var rowvalue = full.IsApproved;
-                            if (rowvalue == true) {
-                                return '';
-                            }//||User.IsInRole("Factory")
-                            else {
-
-                                return '';
-                            }
-
-                        }
-                    }
-
-                ]
-            });
-
-        }
-
-
-
-      function LoadQuotes() {
-
-          if ($.fn.dataTable.isDataTable('#ListQ')) {
-              table = $('#ListQ').DataTable();
-            table.destroy();
-        }
-
-          $('#ListQ').DataTable({
-            "ajax": {
-                "url": "/Quote/GetDashboardList",
-                "type": "POST",
-                "datatype": "json"
-            },
-            "columnDefs": [
-                { "className": "dt-center", "targets": "_all" }
-            ],
-            "columns": [
-                { "data": "Code", "width": "10%" },
-                { "data": "ClientName", "width": "30%" },
-                { "data": "Header", "width": "20%" },
-                { "data": "Value", "width": "10%" },
-                { "data": "CreatedDateString", "width": "20%" },
-                {
-                    "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                    "render": function (data, type, full, meta) {
-                        if (full.IsApproved == true)
-                            return ' @if (User.IsInRole("Administrator")){<a class="btn btn-success btn-xs" onclick="#" >Approved</a>}';
-                        else
-                            return '@if (User.IsInRole("Administrator")){<a class="btn btn-warning btn-xs" onclick="ApproveQuote(' + data + ')" >&nbsp;Approve&nbsp;</a>}';
-                    }
-                },
-                {
-                    "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                    "render": function (data, type, full, meta) {
-                        return '@if ((User.IsInRole("Administrator"))||(User.IsInRole("Finance"))){<a class="btn btn-info btn-xs" onclick="PrintQuote(' + data + ')">View</a>}';
-                    }
-                },
-                {
-                    "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                    "render": function (data, type, full, meta) {
-                         if(full.IsApproved == false)
-                             return '@if (User.IsInRole("Administrator")){<a class="btn btn-secondary btn-xs" href="/Quote/Details/' + data + '" target="_blank">&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;</a>}';
-                        else
-                             return '@if (User.IsInRole("Administrator")){<a class="btn btn-primary btn-xs" onclick="WayForwardQuote(' + data + ')" >Convert</a>}';
-                    }
-                },
-                {
-                    "data": "Id", "searchable": false, "ordering": false, "sorting": false,
-                    "render": function (data, type, full, meta) {
-                        return '@if (User.IsInRole("Administrator")){<a class="btn btn-danger btn-xs" href="/Quote/Archive/' + data + '" target="_blank">Archive</a>}';
-                    }
-                },
-            ]
-        });
-
-    }
-
-    var xaxis = $('#x-axis').val().split(',');
-    var totalquotes = $('#total-quotes').val().split(',');
-    var totalorders = $('#total-orders').val().split(',');
-
-    var chart = c3.generate({
-        bindto: '#chart',
-        data: {
-            columns: [
-                totalquotes,
-                totalorders
-            ],
-            axes: {
-                data2: 'y2'
-            },
-            type: 'bar'
-        },
-        axis: {
-            x: {
-                type: 'category',
-                categories: xaxis
-            }
-        }
-    });
     </script>

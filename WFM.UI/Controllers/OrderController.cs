@@ -506,7 +506,7 @@ namespace WFM.UI.Controllers
                 DateTime today = TimeZoneInfo.ConvertTimeFromUtc(utcTime, TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time"));
                 if (!(User.IsInRole("Factory")))
                 {
-                    ordCode = CommonService.GenerateOrderCodeSave(today.Year.ToString(), today.Month.ToString("00"), false, model.OrderTypeId);
+                    ordCode = CommonService.GenerateOrderCodeSave(today.Year.ToString(), today.Month.ToString("00"), model.OrderTypeId);
 
                 }
 
