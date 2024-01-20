@@ -118,6 +118,7 @@ namespace WFM.UI.Controllers
             invoiceView.VatNo=invoice.Order.VATNo.ToString();
             invoiceView.Items=invoice.Order.OrderItems.ToList();
             invoiceView.AdvancePayment = invoice.Order.AdvancePayment;
+            //invoiceView.isVat = invoice.Order.OrderType.Name =="" ? true : false;
             //orderView.CreatedDateString = orderView.CreatedDate.Value.ToString("dd/MM/yyyy");
             invoiceView.orderTotal = CalculateOrdItmTotal(order) + CalculateAdnChargeTotal(order);
             invoiceView.vatAmount = CalculateOrdItmVatTotal(order);         

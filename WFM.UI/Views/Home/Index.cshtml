@@ -281,8 +281,6 @@
             data: { id: id },
             success: function (data) {
                 alert("Invoice Genrated");
-                LoadOrders();
-
             }
         })
     }
@@ -306,7 +304,7 @@
             "columns": [
                 { "data": "Code", "width": "10%" ,"ordering": false, "sorting": false },
                 { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
+                { "data": "Location", "width": "25%", "ordering": false, "sorting": false },
                 { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
                 { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
                 { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
@@ -342,21 +340,12 @@
                     }
                 },
                 {
-                    "data": "Id",  "searchable": false, "ordering": false, "sorting": false,
-                    "render": function (data, type, full, meta)
-                    {
-                        var rowvalue = full.IsApproved;
-                        if (rowvalue == true) {
-                            return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-success btn-xs" onclick="GenerateInvoice(' + data + ')" >Invoice</a>}';
-                        }//||User.IsInRole("Factory")
-                        else {
-
-                             return '';
-                        }
-
+                    "data": "Id", "searchable": false, "ordering": false, "sorting": false,
+                    "render": function (data, type, full, meta) {
+                        return '';
                     }
-                }
-
+                },
+       
             ]
         });
 
@@ -383,11 +372,11 @@
                 "columns": [
                     { "data": "Code", "width": "10%", "ordering": false, "sorting": false },
                     { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                    { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
+                    { "data": "Location", "width": "25%", "ordering": false, "sorting": false },
                     { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
                     { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
                     { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                    { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
+                    { "data": "ChanneledBy", "width": "15%", "ordering": false, "sorting": false },
                     {
                         "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                         "render": function (data, type, full, meta) {
@@ -458,11 +447,11 @@
                 "columns": [
                     { "data": "Code", "width": "10%", "ordering": false, "sorting": false },
                     { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                    { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
+                    { "data": "Location", "width": "25%", "ordering": false, "sorting": false },
                     { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
                     { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
                     { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                    { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
+                    { "data": "ChanneledBy", "width": "15%", "ordering": false, "sorting": false },
                     {
                         "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                         "render": function (data, type, full, meta) {
@@ -493,21 +482,13 @@
                         }
                     },
                     {
-                    "data": "Id",  "searchable": false, "ordering": false, "sorting": false,
-                    "render": function (data, type, full, meta)
-                    {
-                        var rowvalue = full.IsApproved;
-                        if (rowvalue == true) {
-                            return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-success btn-xs" onclick="GenerateInvoice(' + data + ')" >Invoice</a>}';
-                        }//||User.IsInRole("Factory")
-                        else {
-
-                             return '';
+                        "data": "Id", "searchable": false, "ordering": false, "sorting": false,
+                        "render": function (data, type, full, meta) {
+                            return '';
                         }
+                    },
 
-                    }
-                }
-
+                 
                 ]
             });
 

@@ -37,6 +37,8 @@ namespace WFM.UI.Models
         [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
         public double BalancePayment { get; set; }
 
+        public bool isVat { get; set; }
+
 
 
 
