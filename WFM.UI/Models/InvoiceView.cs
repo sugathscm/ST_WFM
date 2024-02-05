@@ -21,6 +21,7 @@ namespace WFM.UI.Models
         public string ClientAddress { get; set; }
         public string CreatedDateString { get; set; }
         public string OrderCode { get; set; }
+        public string OrderType { get; set; }
 
         public string VatNo { get; set; }
         public string ClientVatNo { get; set; }

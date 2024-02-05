@@ -111,11 +111,12 @@ namespace WFM.UI.Controllers
             ViewBag.Name = ResourceData.Name;
             ViewBag.AuthorizedPersonName = ResourceData.AuthorizedPersonName;
             ViewBag.AuthorizedPersonDesignation = ResourceData.AuthorizedPersonDesignation;
-               
+            invoiceView.OrderType = invoice.Order.OrderType.Name.ToString();   
             invoiceView.ClientName = invoice.Order.Client.Name.ToString();
             invoiceView.CreatedDateString = invoice.CreatedDate.Value.ToString("dd/MM/yyyy");
             invoiceView.ClientAddress = invoice.Order.Client.AddressLine1.ToString();
             invoiceView.VatNo=invoice.Order.VATNo.ToString();
+            invoiceView.ClientVatNo=invoice.Order.Client.VATNumber ==null ?"": invoice.Order.Client.VATNumber.ToString();
             invoiceView.Items=invoice.Order.OrderItems.ToList();
             invoiceView.AdvancePayment = invoice.Order.AdvancePayment;
             //invoiceView.isVat = invoice.Order.OrderType.Name =="" ? true : false;

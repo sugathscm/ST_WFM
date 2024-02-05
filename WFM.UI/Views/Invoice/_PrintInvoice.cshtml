@@ -16,7 +16,21 @@
 
                         </div>
                         <div class="header-info col-6 text-right ">
-                            <img src="~/Resources/print-logo.png" width="230" />
+                            @switch (Model.OrderType)
+                            {
+                                case "ST":
+                                    <img src="~/Resources/ST-print-logo.png" width="250" />
+                                    break;
+
+                                case "STA":
+                                    <img src="~/Resources/print-logo.png" width="230" />
+                                    break;
+                                case "STB":
+                                    <img src="~/Resources/STB-print-logo.png" width="250" />
+                                    break;
+                                default: <img src="~/Resources/ST-print-logo.png" width="250" />break;
+                            }
+                            @*<p>@Model.Order.OrderType</p>*@
 
                         </div>
                     </div>
@@ -25,6 +39,7 @@
 
             </tr>
         </thead>
+
 
         <tbody class="report-content position-relative">
 
@@ -63,6 +78,58 @@
                                     </p>
                                 </div>
                             </div>
+                            @*Client vat number*@
+                            @if (Model.OrderType == "STA")
+                            {
+                                <div class="row mt-2">
+                                    <div class="col-7 text-left flex-row">
+                                        <p>
+                                            <span>
+                                                <span class="font-14 font-weight-bold">
+                                                    Client VAT NO:
+                                                </span>
+                                                @*@Html.DisplayFor(q => q.ClientName)*@
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-4 text-left mr-5 flex-row">
+                                        <p>
+                                            <span>
+                                                <span class="font-14 font-weight-bold">
+                                                    VAT NO:
+                                                </span>
+                                                @Html.DisplayFor(q => q.ClientVatNo)
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-7 text-left flex-row">
+                                        <p>
+                                            <span>
+                                                <span class="font-14 font-weight-bold">
+                                                    Client SVAT NO:
+                                                </span>
+                                                @*@Html.DisplayFor(q => q.ClientName)*@
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-4 text-left mr-5 flex-row">
+                                        <p>
+                                            <span>
+                                                <span class="font-14 font-weight-bold">
+                                                    SVAT NO:
+                                                </span>
+                                                @*@Html.DisplayFor(q => q.VatNo)*@
+                                            </span>
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                            }
+
                             <div class="row mt-2">
                                 <div class="col-7 text-left flex-row">
                                     <p>
@@ -70,7 +137,7 @@
                                             <span class="font-14 font-weight-bold">
                                                 P.O NO:
                                             </span>
-                                            @Html.DisplayFor(q => q.ClientName)
+                                            @*@Html.DisplayFor(q => q.ClientName)*@
                                         </span>
                                     </p>
                                 </div>
@@ -136,20 +203,23 @@
                                     <td class="text-right font-bold font-14 pr-2">Total</td>
                                     <td class="text-center font-bold font-14">@Html.DisplayFor(q => q.orderTotal)</td>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-right font-bold font-14 pr-2">VAT(@Html.DisplayFor(q => q.Order.VatPercentage)%)</td>
-                                    <td class="text-center font-bold font-14">@Html.DisplayFor(q => q.vatAmount)</td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-right font-bold font-14 pr-2">TOTAL WITH VAT</td>
-                                    <td class="text-center font-bold font-14">@Html.DisplayFor(q => q.TotalWithVat)</td>
-                                </tr>
+                                @if (Model.OrderType == "STA")
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-right font-bold font-14 pr-2">VAT(@Html.DisplayFor(q => q.Order.VatPercentage)%)</td>
+                                        <td class="text-center font-bold font-14">@Html.DisplayFor(q => q.vatAmount)</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="text-right font-bold font-14 pr-2">TOTAL WITH VAT</td>
+                                        <td class="text-center font-bold font-14">@Html.DisplayFor(q => q.TotalWithVat)</td>
+                                    </tr>
+                                }
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -187,9 +257,32 @@
                                 <p class="mb-1">BRANCH CODE</p>
                                 <p class="mb-1">SWIFT CODE</p>
                             </div>
+
                             <div class="col-9 py-3">
-                                <p class="mb-1">: Sign Tech Advertising Services (Pvt) Ltd</p>
-                                <p class="mb-1">: 0075379404</p>
+                                @switch (Model.OrderType)
+                                {
+                                    case "STA":
+                                        <p class="mb-1">: Sign Tech Advertising Services (Pvt) Ltd</p>
+                                        <p class="mb-1">: 0075379404</p>
+                                        break;
+                                    case "ST":
+                                        <p class="mb-1">: Sign Tech (Pvt) Ltd</p>
+                                        <p class="mb-1">: 85358292</p>
+                                        break;
+                                    case "STB":
+                                        <p class="mb-1">: Sign Tech Branding Solutions (Pvt) Ltd</p>
+                                        <p class="mb-1">: 0090561404</p>
+                                        break;
+                                    case "STP":
+                                        <p class="mb-1">: Sign Tech Project (Pvt) Ltd</p>
+                                        <p class="mb-1">: 0090561404</p>
+                                        break;
+                                    default: <p class="mb-1">: Sign Tech Advertising Services (Pvt) Ltd</p>
+                                        <p class="mb-1">: 0075379404</p>
+                                        break;
+                                }
+
+
                                 <p class="mb-1">: Bank of Ceylon</p>
                                 <p class="mb-1">: Battaramulla</p>
                                 <p class="mb-1">: 75A, Main Street, Sethsiripaya Circular Road, Battaramulla</p>
@@ -199,12 +292,34 @@
                             </div>
                         </div>
                         <div class="col-8 mt-2">
-                            <p class="font-bold">Cheques to be drawn in favour of SIGN TECH ADVERTISING SERVICES (PVT) LTD.</p>
+                            <span class="font-bold">
+                                Cheques to be drawn in favour of SIGN TECH
+                                @switch (Model.OrderType)
+                                {
+                                    case "STA":<span> ADVERTISING SERVICES(PVT) LTD.</span>break;
+                                    case "STB": <span> BRANDING SERVICES(PVT) LTD.</span>break;
+                                    case "ST": <span> SERVICES(PVT) LTD.</span>break;
+                                    case "STP": <span> SERVICES(PVT) LTD.</span>break;
+                                    default: <span> SERVICES(PVT) LTD.</span>break;
+                                }
+                            </span>
                         </div>
 
+
                     </div>
+
                 </td>
+
             </tr>
+            @*<tr class="align-bottom">
+                    <td>
+                        <div class="">
+                            <img src="~/Resources/bottom invoice.png" />
+                        </div>
+
+                    </td>
+                </tr>*@
+
         </tbody>
 
 
