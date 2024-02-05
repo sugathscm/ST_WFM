@@ -99,7 +99,7 @@
                                         <th></th>
                                         <th></th>
                                         <th></th>
-
+                                        <th></th>
                                     </tr>
                                 </thead>
                             </table>
@@ -272,6 +272,17 @@
 
             }
         })
+        }
+
+        function GenerateInvoice(id) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GenerateInvoice", "Invoice")',
+            data: { id: id },
+            success: function (data) {
+                alert("Invoice Genrated");
+            }
+        })
     }
      function LoadOrders() {
 
@@ -293,22 +304,22 @@
             "columns": [
                 { "data": "Code", "width": "10%" ,"ordering": false, "sorting": false },
                 { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
+                { "data": "Location", "width": "25%", "ordering": false, "sorting": false },
                 { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
                 { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
                 { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
+                { "data": "ChanneledBy", "width": "15%", "ordering": false, "sorting": false },
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn btn-secondary btn-xs" onclick="PrintOrder(' + data + ')">View</a>';
+                        return '<a class="btn btn-info btn-xs" onclick="PrintOrder(' + data + ')">View</a>';
                     }
                 },
                 {
                     "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                     "render": function (data, type, full, meta) {
 
-                            return '@if (User.IsInRole("Administrator") || User.IsInRole("Factory")) {  <a class="btn btn-info btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>}';
+                            return '@if (User.IsInRole("Administrator") || User.IsInRole("Factory")) {  <a class="btn btn-secondary btn-xs" href="/Order/Details/' + data + '" target="_blank">Edit</a>}';
                             //|| User.IsInRole("Factory")
                     }
                 },
@@ -319,7 +330,7 @@
                     {
                         var rowvalue = full.IsApproved;
                         if (rowvalue == true) {
-                            return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-info btn-xs" onclick="ApproveOrder(' + data + ')" >Approve</a>}';
+                            return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-warning btn-xs" onclick="ApproveOrder(' + data + ')" >Approve</a>}';
                         }//||User.IsInRole("Factory")
                         else {
 
@@ -327,8 +338,14 @@
                         }
 
                     }
-                }
-
+                },
+                {
+                    "data": "Id", "searchable": false, "ordering": false, "sorting": false,
+                    "render": function (data, type, full, meta) {
+                        return '';
+                    }
+                },
+       
             ]
         });
 
@@ -355,11 +372,11 @@
                 "columns": [
                     { "data": "Code", "width": "10%", "ordering": false, "sorting": false },
                     { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                    { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
+                    { "data": "Location", "width": "25%", "ordering": false, "sorting": false },
                     { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
                     { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
                     { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                    { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
+                    { "data": "ChanneledBy", "width": "15%", "ordering": false, "sorting": false },
                     {
                         "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                         "render": function (data, type, full, meta) {
@@ -388,7 +405,22 @@
                             }
 
                         }
+                    },
+                    {
+                    "data": "Id",  "searchable": false, "ordering": false, "sorting": false,
+                    "render": function (data, type, full, meta)
+                    {
+                        var rowvalue = full.IsApproved;
+                        if (rowvalue == true) {
+                            return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-success btn-xs" onclick="GenerateInvoice(' + data + ')" >Invoice</a>}';
+                        }//||User.IsInRole("Factory")
+                        else {
+
+                             return '';
+                        }
+
                     }
+                }
 
                 ]
             });
@@ -415,11 +447,11 @@
                 "columns": [
                     { "data": "Code", "width": "10%", "ordering": false, "sorting": false },
                     { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                    { "data": "Location", "width": "10%", "ordering": false, "sorting": false },
+                    { "data": "Location", "width": "25%", "ordering": false, "sorting": false },
                     { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
                     { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
                     { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                    { "data": "ChanneledBy", "width": "20%", "ordering": false, "sorting": false },
+                    { "data": "ChanneledBy", "width": "15%", "ordering": false, "sorting": false },
                     {
                         "data": "Id", "searchable": false, "ordering": false, "sorting": false,
                         "render": function (data, type, full, meta) {
@@ -448,8 +480,15 @@
                             }
 
                         }
-                    }
+                    },
+                    {
+                        "data": "Id", "searchable": false, "ordering": false, "sorting": false,
+                        "render": function (data, type, full, meta) {
+                            return '';
+                        }
+                    },
 
+                 
                 ]
             });
 

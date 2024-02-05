@@ -213,6 +213,16 @@
           <Property Name="AttachmentName" Type="varchar(max)" />
           <Property Name="ActualName" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="CodeNumber" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Lettering">
           <Key>
             <PropertyRef Name="Id" />
@@ -765,6 +775,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Invoice_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LoginAudit_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="LoginAudit" Type="Self.LoginAudit" Multiplicity="*" />
@@ -1098,6 +1120,7 @@
           <EntitySet Name="Illumination" EntityType="Self.Illumination" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Installation" EntityType="Self.Installation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InstallationAttachment" EntityType="Self.InstallationAttachment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lettering" EntityType="Self.Lettering" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginAudit" EntityType="Self.LoginAudit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logo" EntityType="Self.Logo" Schema="dbo" store:Type="Tables" />
@@ -1194,6 +1217,10 @@
           <AssociationSet Name="FK_InstallationAttachment_Order" Association="Self.FK_InstallationAttachment_Order">
             <End Role="Order" EntitySet="Order" />
             <End Role="InstallationAttachment" EntitySet="InstallationAttachment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_Order" Association="Self.FK_Invoice_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Invoice" EntitySet="Invoice" />
           </AssociationSet>
           <AssociationSet Name="FK_LoginAudit_AspNetUsers" Association="Self.FK_LoginAudit_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1823,6 +1850,11 @@
           <AssociationSet Name="FK_OrderTermDetail_Order" Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order">
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderTermDetail" EntitySet="OrderTermDetails" />
+          </AssociationSet>
+          <EntitySet Name="Invoices" EntityType="DB_A4EFEA_stwfmModel.Invoice" />
+          <AssociationSet Name="FK_Invoice_Order" Association="DB_A4EFEA_stwfmModel.FK_Invoice_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Invoice" EntitySet="Invoices" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="QuoteTermDetail">
@@ -2503,6 +2535,7 @@
           <NavigationProperty Name="OrderItems" Relationship="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" FromRole="Order" ToRole="OrderItem" />
           <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" FromRole="Order" ToRole="OrderMaterial" />
           <NavigationProperty Name="OrderTermDetails" Relationship="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" FromRole="Order" ToRole="OrderTermDetail" />
+          <NavigationProperty Name="Invoices" Relationship="DB_A4EFEA_stwfmModel.FK_Invoice_Order" FromRole="Order" ToRole="Invoice" />
         </EntityType>
         <Association Name="FK_AdditionalCharges_Order">
           <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="0..1" />
@@ -2644,6 +2677,29 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrderTermDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodeNumber" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Order" Relationship="DB_A4EFEA_stwfmModel.FK_Invoice_Order" FromRole="Invoice" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Invoice_Order">
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Invoice" Role="Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoice">
               <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
@@ -3228,6 +3284,17 @@
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

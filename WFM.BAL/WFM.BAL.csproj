@@ -87,6 +87,7 @@
     <Compile Include="Services\FasiaService.cs" />
     <Compile Include="Services\FrameworkService.cs" />
     <Compile Include="Services\IlluminationService.cs" />
+    <Compile Include="Services\InvoiceService.cs" />
     <Compile Include="Services\LetteringService.cs" />
     <Compile Include="Services\MaterialService.cs" />
     <Compile Include="Services\OrderService.cs" />
