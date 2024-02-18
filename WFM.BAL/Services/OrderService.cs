@@ -19,7 +19,7 @@ namespace WFM.BAL.Services
             _memoryCache = new MemoryCache("STWFM");
         }
 
-        public string GetIllumination(int? Id=0)
+        public string GetIllumination(int? Id = 0)
         {
             if (_memoryCache.Get("luminatio") != null)
             {
@@ -33,8 +33,8 @@ namespace WFM.BAL.Services
 
                 using (DB_stwfmEntities entities = new DB_stwfmEntities())
                 {
-                    var ill =(List<Illumination>)entities.Illuminations.ToList();
-                    _memoryCache.Add("luminatio", ill,null);
+                    var ill = (List<Illumination>)entities.Illuminations.ToList();
+                    _memoryCache.Add("luminatio", ill, null);
                     var illName = ill.Where(e => e.Id == Id).FirstOrDefault();
                     return illName.Name == null ? "" : illName.Name;
                 }
@@ -51,7 +51,8 @@ namespace WFM.BAL.Services
                 return warName.Duration == null ? "" : warName.Duration;
 
             }
-            else {
+            else
+            {
                 using (DB_stwfmEntities entities = new DB_stwfmEntities())
                 {
                     var war = (List<WarrantyPeriod>)entities.WarrantyPeriods.ToList();
@@ -59,13 +60,13 @@ namespace WFM.BAL.Services
                     var warName = war.Where(e => e.Id == Id).FirstOrDefault();
                     return warName.Duration == null ? "" : warName.Duration;
                 }
-                
+
             }
-                
+
 
         }
 
-        public string Getvisibility(int? Id =3)
+        public string Getvisibility(int? Id = 3)
         {
             if (_memoryCache.Get("visibility") != null)
             {
@@ -85,18 +86,12 @@ namespace WFM.BAL.Services
                 }
 
             }
-           
+
 
         }
 
         ErrorLogService errlog = new ErrorLogService();
-        public List<Order> GetOrderList()
-        {
-            using (DB_stwfmEntities entities = new DB_stwfmEntities())
-            {
-                return entities.Orders.Include("Client").OrderBy(d => d.Id).ToList();
-            }
-        }
+     
         public List<DeliveryType> GetDeliveryTypeList()
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
@@ -110,7 +105,7 @@ namespace WFM.BAL.Services
             {
                 return entities.Materials.ToList();
             }
-        } 
+        }
         public List<Attribute> GetAttributeList()
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
@@ -134,7 +129,7 @@ namespace WFM.BAL.Services
 
                 if (orderAttachment != null)
                 {
-                  
+
                     entities.OrderAttachments.Remove(orderAttachment);
                     entities.SaveChanges();
                 }
@@ -158,7 +153,7 @@ namespace WFM.BAL.Services
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                
+
                 var order = entities.Orders.FirstOrDefault(x => x.Id == id);
                 order.isCancelled = true;
                 entities.SaveChanges();
@@ -208,6 +203,26 @@ namespace WFM.BAL.Services
                 return entities.Illuminations.ToList();
             }
         }
+        public List<Order> GetOrderList()
+        {
+            try
+            {
+                using (DB_stwfmEntities entities = new DB_stwfmEntities())
+                {
+                    return entities.Orders
+                        .Include("Client")
+                        .Include("DeliveryType")
+                        .Include("Status")
+                        .Include("OrderType")
+                        .Include("Employee").Where(o => o.isCancelled == false).OrderByDescending(d => d.CreatedDate).ToList();
+
+                }
+            }
+            catch (Exception er)
+            {
+                return null;
+            }
+        }
         public List<Order> GetOrderActiveList()
         {
             try
@@ -218,16 +233,16 @@ namespace WFM.BAL.Services
                         .Include("Client")
                         .Include("DeliveryType")
                         .Include("Status")
-                        .Include("OrderType") 
+                        .Include("OrderType")
                         .Include("Employee").Where(o => o.StatusId != (int)OrderStatus.Completed && o.isCancelled == false).OrderByDescending(d => d.CreatedDate).ToList();
 
                 }
-            } catch(Exception er) 
+            }
+            catch (Exception er)
             {
                 return null;
             }
         }
-
 
         public List<Order> GetOrderCompleteList()
         {
@@ -240,7 +255,7 @@ namespace WFM.BAL.Services
                         .Include("DeliveryType")
                         .Include("Status")
                         .Include("OrderType")
-                        .Include("Employee").Where(  o => o.StatusId == (int)OrderStatus.Completed && o.isCancelled==false).OrderByDescending(d => d.CreatedDate).ToList();
+                        .Include("Employee").Where(o => o.StatusId == (int)OrderStatus.Completed && o.isCancelled == false).OrderByDescending(d => d.CreatedDate).ToList();
 
                 }
             }
@@ -260,7 +275,7 @@ namespace WFM.BAL.Services
                         .Include("DeliveryType")
                         .Include("Status")
                         .Include("OrderType")
-                        .Include("Employee").Where(o =>o.isCancelled == true).OrderByDescending(d => d.CreatedDate).ToList();
+                        .Include("Employee").Where(o => o.isCancelled == true).OrderByDescending(d => d.CreatedDate).ToList();
 
                 }
             }
@@ -302,7 +317,7 @@ namespace WFM.BAL.Services
             {
                 if (order.Id == 0)
                 {
-                    entities.Orders.Add(order); 
+                    entities.Orders.Add(order);
                     entities.SaveChanges();
                 }
                 else
@@ -350,20 +365,20 @@ namespace WFM.BAL.Services
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                
-                    entities.OrderAttachments.Add(orderAttachment);
-                    entities.SaveChanges();
-                
+
+                entities.OrderAttachments.Add(orderAttachment);
+                entities.SaveChanges();
+
             }
         }
         public void SaveOrUpdate(InstallationAttachment installationAttachment)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
             {
-                
-                    entities.InstallationAttachments.Add(installationAttachment);
-                    entities.SaveChanges();
-                
+
+                entities.InstallationAttachments.Add(installationAttachment);
+                entities.SaveChanges();
+
             }
         }
         public void SaveOrUpdate(AdditionalCharge additionalCharge)
@@ -437,7 +452,7 @@ namespace WFM.BAL.Services
                             FrameworkWarrantyPeriod = (int)item.FrameworkWarrantyPeriod,
                             IlluminationWarrantyPeriod = (int)item.IlluminationWarrantyPeriod,
                             LetteringWarrantyPeriod = (int)item.LetteringWarrantyPeriod,
-                        
+
                         };
 
                         order.OrderItems.Add(orderItem);
