@@ -24,6 +24,7 @@ namespace WFM.UI.Models
         public string OrderType { get; set; }
 
         public string VatNo { get; set; }
+        public string ClientSVatNo { get; set; }
         public string ClientVatNo { get; set; }
         public List<OrderItem> Items { get; set; }
 

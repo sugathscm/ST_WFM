@@ -75,7 +75,7 @@ namespace WFM.UI.Controllers
         public ActionResult GenerateInvoice(int id)
         {
             Order order = orderService.GetOrderById(id);
-            if (invoiceService.InvoiceExists(order.Id))
+            if (invoiceService.InvoiceExists(order.Id) || order.OrderType.Name == "STC" || order.OrderType.Name == "STR")
             {
                 return RedirectToAction("Index", "Invoice");
             }
@@ -107,12 +107,15 @@ namespace WFM.UI.Controllers
 
 
             PropertyCopier<Invoice, InvoiceView>.Copy(invoice, invoiceView);
-            ViewBag.VATNo = ResourceData.VATNo;
+            
             ViewBag.Name = ResourceData.Name;
             ViewBag.AuthorizedPersonName = ResourceData.AuthorizedPersonName;
             ViewBag.AuthorizedPersonDesignation = ResourceData.AuthorizedPersonDesignation;
-            invoiceView.OrderType = invoice.Order.OrderType.Name.ToString();   
+            invoiceView.OrderType = invoice.Order.OrderType.Name.ToString();
+            invoiceView.OrderCode = invoice.Order.Code.ToString();
+            invoiceView.ClientSVatNo = invoice.Order.Client.SVATNumber.ToString();
             invoiceView.ClientName = invoice.Order.Client.Name.ToString();
+            invoiceView.VatNo=invoice.Order.VATNo.ToString();               
             invoiceView.CreatedDateString = invoice.CreatedDate.Value.ToString("dd/MM/yyyy");
             invoiceView.ClientAddress = invoice.Order.Client.AddressLine1.ToString();
             invoiceView.VatNo=invoice.Order.VATNo.ToString();

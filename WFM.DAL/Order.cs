@@ -87,7 +87,6 @@ namespace WFM.DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdditionalCharge> AdditionalCharges { get; set; }
-        public virtual Client Client { get; set; }
         public virtual DeliveryType DeliveryType { get; set; }
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -105,5 +104,6 @@ namespace WFM.DAL
         public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

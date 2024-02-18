@@ -19,16 +19,22 @@
                             @switch (Model.OrderType)
                             {
                                 case "ST":
-                                    <img src="~/Resources/ST-print-logo.png" width="250" />
+                                    <img src="~/Resources/ST-print-invoice.png" width="250" />
                                     break;
 
                                 case "STA":
                                     <img src="~/Resources/print-logo.png" width="230" />
                                     break;
                                 case "STB":
-                                    <img src="~/Resources/STB-print-logo.png" width="250" />
+                                    <img src="~/Resources/STB-print-invoice.png" width="250" />
                                     break;
-                                default: <img src="~/Resources/ST-print-logo.png" width="250" />break;
+                                case "STW":
+                                    <img src="~/Resources/print-logo.png" width="250" />
+                                    break;
+                                case "STI":
+                                    <img src="~/Resources/print-logo.png" width="250" />
+                                    break;
+                                default: <img src="~/Resources/ST-print-invoice.png" width="250" />break;
                             }
                             @*<p>@Model.Order.OrderType</p>*@
 
@@ -79,7 +85,7 @@
                                 </div>
                             </div>
                             @*Client vat number*@
-                            @if (Model.OrderType == "STA")
+                            @if (Model.OrderType == "STA" || Model.OrderType == "STCW"|| Model.OrderType == "STI")
                             {
                                 <div class="row mt-2">
                                     <div class="col-7 text-left flex-row">
@@ -88,7 +94,7 @@
                                                 <span class="font-14 font-weight-bold">
                                                     Client VAT NO:
                                                 </span>
-                                                @*@Html.DisplayFor(q => q.ClientName)*@
+                                                @Html.DisplayFor(q => q.ClientVatNo)
                                             </span>
                                         </p>
                                     </div>
@@ -98,7 +104,7 @@
                                                 <span class="font-14 font-weight-bold">
                                                     VAT NO:
                                                 </span>
-                                                @Html.DisplayFor(q => q.ClientVatNo)
+                                                @Html.DisplayFor(q => q.VatNo)
                                             </span>
                                         </p>
                                     </div>
@@ -111,7 +117,7 @@
                                                 <span class="font-14 font-weight-bold">
                                                     Client SVAT NO:
                                                 </span>
-                                                @*@Html.DisplayFor(q => q.ClientName)*@
+                                                @Html.DisplayFor(q => q.ClientSVatNo)
                                             </span>
                                         </p>
                                     </div>
@@ -275,7 +281,15 @@
                                         break;
                                     case "STP":
                                         <p class="mb-1">: Sign Tech Project (Pvt) Ltd</p>
-                                        <p class="mb-1">: 0090561404</p>
+                                        <p class="mb-1">: 0075379404</p>
+                                        break;
+                                    case "STCW":
+                                        <p class="mb-1">: Sign Tech Advertising Services (Pvt) Ltd</p>
+                                        <p class="mb-1">: 0075379404</p>
+                                        break;
+                                    case "STI":
+                                        <p class="mb-1">: Sign Tech Advertising Services (Pvt) Ltd</p>
+                                        <p class="mb-1">: 0075379404</p>
                                         break;
                                     default: <p class="mb-1">: Sign Tech Advertising Services (Pvt) Ltd</p>
                                         <p class="mb-1">: 0075379404</p>
@@ -296,11 +310,11 @@
                                 Cheques to be drawn in favour of SIGN TECH
                                 @switch (Model.OrderType)
                                 {
-                                    case "STA":<span> ADVERTISING SERVICES(PVT) LTD.</span>break;
-                                    case "STB": <span> BRANDING SERVICES(PVT) LTD.</span>break;
-                                    case "ST": <span> SERVICES(PVT) LTD.</span>break;
-                                    case "STP": <span> SERVICES(PVT) LTD.</span>break;
-                                    default: <span> SERVICES(PVT) LTD.</span>break;
+                                    case "STA":<span> ADVERTISING SERVICES (PVT) LTD.</span>break;
+                                    case "STB": <span> BRANDING SOLUTIONS (PVT) LTD.</span>break;
+                                    case "ST": <span> SERVICES (PVT) LTD.</span>break;
+                                    case "STP": <span> PROJECT (PVT) LTD.</span>break;
+                                    default: <span> ADVERTISING1 SERVICES(PVT) LTD.</span>break;
                                 }
                             </span>
                         </div>

@@ -19,6 +19,8 @@ namespace WFM.DAL
         public string Code { get; set; }
         public Nullable<int> CodeNumber { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string status { get; set; }
+        public string remark { get; set; }
     
         public virtual Order Order { get; set; }
     }

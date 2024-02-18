@@ -128,7 +128,8 @@ namespace WFM.UI.Controllers
                         CPName = model.CPName,
                         CPMobile = model.CPMobile,
                         CPDesignationId = model.CPDesignationId,
-                        VATNumber = model.VATNumber
+                        VATNumber = model.VATNumber,
+                        SVATNumber = model.SVATNumber
                     };
 
                     oldClient = new Client();
@@ -156,7 +157,8 @@ namespace WFM.UI.Controllers
                         CPName = oldClient.CPName,
                         CPMobile = oldClient.CPMobile,
                         CPDesignationId = oldClient.CPDesignationId,
-                        VATNumber = oldClient.VATNumber
+                        VATNumber = oldClient.VATNumber,
+                        SVATNumber = oldClient.SVATNumber
                     });
 
                     client.Name = model.Name;
@@ -173,6 +175,7 @@ namespace WFM.UI.Controllers
                     client.CPDesignationId = model.CPDesignationId;
                     client.IsActive = model.IsActive;
                     client.VATNumber = model.VATNumber;
+                    client.SVATNumber = model.SVATNumber;
 
                     newData = new JavaScriptSerializer().Serialize(new Client()
                     {
@@ -190,7 +193,8 @@ namespace WFM.UI.Controllers
                         CPName = client.CPName,
                         CPMobile = client.CPMobile,
                         CPDesignationId = client.CPDesignationId,
-                        VATNumber = client.VATNumber
+                        VATNumber = client.VATNumber,
+                        SVATNumber = client.SVATNumber
                     });
                 }
 
@@ -245,7 +249,8 @@ namespace WFM.UI.Controllers
                         CPTitle = model.CPTitle,
                         CPName = model.CPName,
                         CPMobile = model.CPMobile,
-                        CPDesignationId = model.CPDesignationId
+                        CPDesignationId = model.CPDesignationId,
+                        SVATNumber = model.SVATNumber
                     };
 
                     oldClient = new Client();

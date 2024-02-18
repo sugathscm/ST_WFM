@@ -60,7 +60,6 @@ namespace WFM.DAL
         public Nullable<int> ValidDays { get; set; }
         public Nullable<int> DeliveryPeriod { get; set; }
     
-        public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -69,5 +68,6 @@ namespace WFM.DAL
         public virtual ICollection<QuoteItem> QuoteItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

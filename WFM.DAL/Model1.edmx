@@ -114,6 +114,7 @@
           <Property Name="CPTitle" Type="nvarchar" MaxLength="5" />
           <Property Name="IsVAT" Type="bit" Nullable="false" />
           <Property Name="VATNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="SVATNumber" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DataAudit">
           <Key>
@@ -222,6 +223,8 @@
           <Property Name="Code" Type="varchar" MaxLength="50" />
           <Property Name="CodeNumber" Type="int" />
           <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="status" Type="varchar" MaxLength="50" />
+          <Property Name="remark" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Lettering">
           <Key>
@@ -1384,32 +1387,6 @@
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Employees" Relationship="DB_A4EFEA_stwfmModel.FK_Employee_AspNetUsers" FromRole="AspNetUser" ToRole="Employee" />
         </EntityType>
-        <EntityType Name="Client">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AddressLine1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="AddressLine2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="PostCode" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LandLine" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FixedLine" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CPDesignationId" Type="Int32" />
-          <Property Name="CPName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="CPMobile" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="CPTitle" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="IsVAT" Type="Boolean" Nullable="false" />
-          <Property Name="VATNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Designation" Relationship="Self.FK_Client_Designation" FromRole="Client" ToRole="Designation" />
-          <NavigationProperty Name="Quotes" Relationship="DB_A4EFEA_stwfmModel.FK_Quote_Client" FromRole="Client" ToRole="Quote" />
-          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Client" FromRole="Client" ToRole="Order" />
-        </EntityType>
         <EntityType Name="DataAudit">
           <Key>
             <PropertyRef Name="Id" />
@@ -1430,8 +1407,8 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Clients" Relationship="Self.FK_Client_Designation" FromRole="Designation" ToRole="Client" />
           <NavigationProperty Name="Employees" Relationship="DB_A4EFEA_stwfmModel.FK_Employee_Designation" FromRole="Designation" ToRole="Employee" />
+          <NavigationProperty Name="Clients" Relationship="DB_A4EFEA_stwfmModel.FK_Client_Designation" FromRole="Designation" ToRole="Client" />
         </EntityType>
         <EntityType Name="Division">
           <Key>
@@ -1582,18 +1559,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Client_Designation">
-          <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="CPDesignationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderTracking_FromDivision">
           <End Role="Division" Type="Self.Division" Multiplicity="0..1" />
           <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
@@ -1639,7 +1604,6 @@
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="Clients" EntityType="Self.Client" />
           <EntitySet Name="DataAudits" EntityType="Self.DataAudit" />
           <EntitySet Name="Designations" EntityType="Self.Designation" />
           <EntitySet Name="Divisions" EntityType="Self.Division" />
@@ -1669,10 +1633,6 @@
           <AssociationSet Name="FK_OrderTracking_AspNetUsers" Association="Self.FK_OrderTracking_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="OrderTracking" EntitySet="OrderTrackings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Client_Designation" Association="Self.FK_Client_Designation">
-            <End Role="Designation" EntitySet="Designations" />
-            <End Role="Client" EntitySet="Clients" />
           </AssociationSet>
           <AssociationSet Name="FK_OrderTracking_FromDivision" Association="Self.FK_OrderTracking_FromDivision">
             <End Role="Division" EntitySet="Divisions" />
@@ -1745,10 +1705,6 @@
             <End Role="Category" EntitySet="Categories" />
           </AssociationSet>
           <EntitySet Name="Quotes" EntityType="DB_A4EFEA_stwfmModel.Quote" />
-          <AssociationSet Name="FK_Quote_Client" Association="DB_A4EFEA_stwfmModel.FK_Quote_Client">
-            <End Role="Client" EntitySet="Clients" />
-            <End Role="Quote" EntitySet="Quotes" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderTermDetail_Quote" Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Quote">
             <End Role="Quote" EntitySet="Quotes" />
             <End Role="OrderTermDetail" EntitySet="OrderTermDetails" />
@@ -1807,10 +1763,6 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="AdditionalCharge" EntitySet="AdditionalCharges" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_Client" Association="DB_A4EFEA_stwfmModel.FK_Order_Client">
-            <End Role="Client" EntitySet="Clients" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK_Order_DeliveryType" Association="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType">
             <End Role="DeliveryType" EntitySet="DeliveryTypes" />
             <End Role="Order" EntitySet="Orders" />
@@ -1855,6 +1807,19 @@
           <AssociationSet Name="FK_Invoice_Order" Association="DB_A4EFEA_stwfmModel.FK_Invoice_Order">
             <End Role="Order" EntitySet="Orders" />
             <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <EntitySet Name="Clients" EntityType="DB_A4EFEA_stwfmModel.Client" />
+          <AssociationSet Name="FK_Client_Designation" Association="DB_A4EFEA_stwfmModel.FK_Client_Designation">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Client" Association="DB_A4EFEA_stwfmModel.FK_Order_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Quote_Client" Association="DB_A4EFEA_stwfmModel.FK_Quote_Client">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Quote" EntitySet="Quotes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="QuoteTermDetail">
@@ -2166,24 +2131,12 @@
           <Property Name="AdvancePayment" Type="Int32" />
           <Property Name="ValidDays" Type="Int32" />
           <Property Name="DeliveryPeriod" Type="Int32" />
-          <NavigationProperty Name="Client" Relationship="DB_A4EFEA_stwfmModel.FK_Quote_Client" FromRole="Quote" ToRole="Client" />
           <NavigationProperty Name="OrderTermDetails" Relationship="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Quote" FromRole="Quote" ToRole="OrderTermDetail" />
           <NavigationProperty Name="QuoteTermDetails" Relationship="DB_A4EFEA_stwfmModel.FK_QuoteTermDetail_Quote" FromRole="Quote" ToRole="QuoteTermDetail" />
           <NavigationProperty Name="QuoteItems" Relationship="DB_A4EFEA_stwfmModel.FK_QuoteItem_Quote" FromRole="Quote" ToRole="QuoteItem" />
           <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Qouate" FromRole="Quote" ToRole="Order" />
+          <NavigationProperty Name="Client" Relationship="DB_A4EFEA_stwfmModel.FK_Quote_Client" FromRole="Quote" ToRole="Client" />
         </EntityType>
-        <Association Name="FK_Quote_Client">
-          <End Type="DB_A4EFEA_stwfmModel.Client" Role="Client" Multiplicity="0..1" />
-          <End Type="DB_A4EFEA_stwfmModel.Quote" Role="Quote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Quote">
-              <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_OrderTermDetail_Quote">
           <End Type="DB_A4EFEA_stwfmModel.Quote" Role="Quote" Multiplicity="1" />
           <End Type="DB_A4EFEA_stwfmModel.OrderTermDetail" Role="OrderTermDetail" Multiplicity="*" />
@@ -2524,7 +2477,6 @@
           <Property Name="isCancelled" Type="Boolean" />
           <Property Name="VatPercentage" Type="Double" />
           <NavigationProperty Name="AdditionalCharges" Relationship="DB_A4EFEA_stwfmModel.FK_AdditionalCharges_Order" FromRole="Order" ToRole="AdditionalCharge" />
-          <NavigationProperty Name="Client" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Client" FromRole="Order" ToRole="Client" />
           <NavigationProperty Name="DeliveryType" Relationship="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType" FromRole="Order" ToRole="DeliveryType" />
           <NavigationProperty Name="Employee" Relationship="DB_A4EFEA_stwfmModel.FK_Order_employee" FromRole="Order" ToRole="Employee" />
           <NavigationProperty Name="InstallationAttachments" Relationship="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" FromRole="Order" ToRole="InstallationAttachment" />
@@ -2536,6 +2488,7 @@
           <NavigationProperty Name="OrderMaterials" Relationship="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" FromRole="Order" ToRole="OrderMaterial" />
           <NavigationProperty Name="OrderTermDetails" Relationship="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" FromRole="Order" ToRole="OrderTermDetail" />
           <NavigationProperty Name="Invoices" Relationship="DB_A4EFEA_stwfmModel.FK_Invoice_Order" FromRole="Order" ToRole="Invoice" />
+          <NavigationProperty Name="Client" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Client" FromRole="Order" ToRole="Client" />
         </EntityType>
         <Association Name="FK_AdditionalCharges_Order">
           <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="0..1" />
@@ -2546,18 +2499,6 @@
             </Principal>
             <Dependent Role="AdditionalCharge">
               <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Client">
-          <End Type="DB_A4EFEA_stwfmModel.Client" Role="Client" Multiplicity="1" />
-          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2691,6 +2632,8 @@
           <Property Name="CodeNumber" Type="Int32" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Order" Relationship="DB_A4EFEA_stwfmModel.FK_Invoice_Order" FromRole="Invoice" ToRole="Order" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="remark" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Invoice_Order">
           <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="0..1" />
@@ -2701,6 +2644,69 @@
             </Principal>
             <Dependent Role="Invoice">
               <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="PostCode" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LandLine" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FixedLine" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CPDesignationId" Type="Int32" />
+          <Property Name="CPName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CPMobile" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CPTitle" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="IsVAT" Type="Boolean" Nullable="false" />
+          <Property Name="VATNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SVATNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Designation" Relationship="DB_A4EFEA_stwfmModel.FK_Client_Designation" FromRole="Client" ToRole="Designation" />
+          <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Client" FromRole="Client" ToRole="Order" />
+          <NavigationProperty Name="Quotes" Relationship="DB_A4EFEA_stwfmModel.FK_Quote_Client" FromRole="Client" ToRole="Quote" />
+        </EntityType>
+        <Association Name="FK_Client_Designation">
+          <End Type="DB_A4EFEA_stwfmModel.Designation" Role="Designation" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="CPDesignationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Client">
+          <End Type="DB_A4EFEA_stwfmModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="DB_A4EFEA_stwfmModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Quote_Client">
+          <End Type="DB_A4EFEA_stwfmModel.Client" Role="Client" Multiplicity="0..1" />
+          <End Type="DB_A4EFEA_stwfmModel.Quote" Role="Quote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Quote">
+              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2752,30 +2758,6 @@
                 <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
                 <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Clients">
-            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Client">
-              <MappingFragment StoreEntitySet="Client">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
-                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="LandLine" ColumnName="LandLine" />
-                <ScalarProperty Name="FixedLine" ColumnName="FixedLine" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CPDesignationId" ColumnName="CPDesignationId" />
-                <ScalarProperty Name="CPName" ColumnName="CPName" />
-                <ScalarProperty Name="CPMobile" ColumnName="CPMobile" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CPTitle" ColumnName="CPTitle" />
-                <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
-                <ScalarProperty Name="VATNumber" ColumnName="VATNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3291,10 +3273,37 @@
           <EntitySetMapping Name="Invoices">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Invoice">
               <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CodeNumber" ColumnName="CodeNumber" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="SVATNumber" ColumnName="SVATNumber" />
+                <ScalarProperty Name="VATNumber" ColumnName="VATNumber" />
+                <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
+                <ScalarProperty Name="CPTitle" ColumnName="CPTitle" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CPMobile" ColumnName="CPMobile" />
+                <ScalarProperty Name="CPName" ColumnName="CPName" />
+                <ScalarProperty Name="CPDesignationId" ColumnName="CPDesignationId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="FixedLine" ColumnName="FixedLine" />
+                <ScalarProperty Name="LandLine" ColumnName="LandLine" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PostCode" ColumnName="PostCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

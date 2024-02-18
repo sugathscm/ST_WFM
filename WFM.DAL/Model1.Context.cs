@@ -29,7 +29,6 @@ namespace WFM.DAL
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<DataAudit> DataAudits { get; set; }
         public virtual DbSet<Designation> Designations { get; set; }
         public virtual DbSet<Division> Divisions { get; set; }
@@ -70,5 +69,6 @@ namespace WFM.DAL
         public virtual DbSet<SupplierType> SupplierTypes { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<Client> Clients { get; set; }
     }
 }
