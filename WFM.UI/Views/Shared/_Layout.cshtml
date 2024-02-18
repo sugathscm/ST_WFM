@@ -131,8 +131,8 @@
                                             </li>
                                         }
                                         @*<li class="nav-item">
-                                                <a class="nav-link" href="#">Message Centre</a>
-                                            </li>*@
+                        <a class="nav-link" href="#">Message Centre</a>
+                    </li>*@
                                     </ul>
                                 </div>
                             </li>
@@ -146,11 +146,11 @@
                                                 <a class="nav-link" href="~/Category">Product</a>
                                             </li>
                                             @*<li class="nav-item">
-            <a class="nav-link" href="~/Size">Size</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="~/Fasia">Fasia</a>
-        </li>*@
+                            <a class="nav-link" href="~/Size">Size</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Fasia">Fasia</a>
+                        </li>*@
                                             <li class="nav-item">
                                                 <a class="nav-link" href="~/Designation">Designation</a>
                                             </li>
@@ -171,14 +171,14 @@
                                             </li>
 
                                             @*<li class="nav-item">
-            <a class="nav-link" href="~/Framework">Framework</a>
-        </li>*@
+                            <a class="nav-link" href="~/Framework">Framework</a>
+                        </li>*@
                                             <li class="nav-item">
                                                 <a class="nav-link" href="~/Illumination">Illumination</a>
                                             </li>
                                             @*<li class="nav-item">
-            <a class="nav-link" href="~/Lettering">Lettering</a>
-        </li>*@
+                            <a class="nav-link" href="~/Lettering">Lettering</a>
+                        </li>*@
                                             <li class="nav-item">
                                                 <a class="nav-link" href="~/DeliveryType">DeliveryType</a>
                                             </li>
@@ -209,7 +209,7 @@
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#quote" aria-controls="master"><i class="fa fa-fw fa-suitcase"></i>Quotations</a>
                                 <div id="quote" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
-                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Finance")) )
+                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Finance")))
                                         {
                                             <li class="nav-item">
                                                 <a class="nav-link" href="~/Quote">Quotation List</a>
@@ -231,7 +231,7 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="~/Order">Job Order List</a>
                                         </li>
-                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")) )
+                                        @if (User.IsInRole("Administrator") || (User.IsInRole("Sales")))
                                         {
                                             <li class="nav-item">
                                                 <a class="nav-link" href="~/Order/Details">New Job Order</a>
@@ -240,23 +240,30 @@
                                     </ul>
                                 </div>
                             </li>
+
                             <li class="nav-divider">
                                 History
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="~/Quote/History"><i class= "fa fa-fw fa-folder-open-o" ></i > Quotes </a >
+                                <a class="nav-link" href="~/Quote/History"><i class="fa fa-fw fa-folder-open-o"></i> Quotes </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="~/Order"><i class= "fa fa-fw fa-folder-open-o" ></i > Orders </a >
+                                <a class="nav-link" href="~/Order"><i class="fa fa-fw fa-folder-open-o"></i> Orders </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="~/Invoice"><i class= "fa fa-fw fa-folder-open-o" ></i > Invoices </a >
+                                <a class="nav-link" href="~/Invoice"><i class="fa fa-fw fa-folder-open-o"></i> Invoices </a>
                             </li>
                             <li class="nav-divider">
                                 Reports
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link" href="~/Report/Adhoc"><i class= "fa fa-fw fa-print" ></i > Adhoc Report </a >
+                                <a class="nav-link" href="~/Report/Adhoc"><i class="fa fa-fw fa-print"></i> Adhoc Report </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="~/Report/Order"><i class="fa fa-fw fa-print"></i> Job Orders </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="~/Report/Invoice"><i class="fa fa-fw fa-print"></i> Invoices </a>
                             </li>
                         </ul>
                     </div>

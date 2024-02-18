@@ -153,10 +153,7 @@ namespace WFM.UI.Controllers
 
             return categoryService.GetCategoryDescription(Id);
         }
-        //[Authorize]
-        //  [Authorize(Roles = "Administrator")]
-        //  [Authorize(Roles = "Sales")]
-        //  [Authorize(Roles = "Design")]
+ 
         [Authorize(Roles = "Administrator,Management,Sales,Finance,Factory")]
         public ActionResult QouteDetails(int? QuoteId, string FromQuate)
         {
@@ -348,6 +345,38 @@ namespace WFM.UI.Controllers
                     Header = item.Header,
                     OrderTypeId = (int)item.OrderTypeId,
                     Location=item.Location,
+                });
+            }
+
+            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        public ActionResult GetAll()
+        {
+            var list = orderService.GetOrderList();
+
+            List<OrderView> modelList = new List<OrderView>();
+
+            foreach (var item in list)
+            {
+                modelList.Add(new OrderView(orderService)
+                {
+                    Id = item.Id,
+                    ClientName = item.Client.Name,
+                    Code = item.Code,
+                    Month = item.CreatedDate.Value.Month.ToString(),
+                    StatusName = item.Status.Name,
+                    IsApproved = item.StatusId == 6 ? false : true,
+                    // DeliveryType=item.DeliveryType.Type,
+                    CreatedDate = item.CreatedDate,
+                    CreatedDateString = item.CreatedDate.Value.ToString(),
+                    BaseQoute = item.BaseQuoteId,
+                    ChanneledBy = item.Employee.Name,
+                    //DeliveryDate = item.DeliveryDate,
+                    //DeliveryDateString = item.DeliveryDate.Value.ToString(),
+                    Header = item.Header,
+                    OrderTypeId = (int)item.OrderTypeId,
+                    Location = item.Location,
                 });
             }
 

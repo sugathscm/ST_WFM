@@ -60,7 +60,9 @@ namespace WFM.UI.Controllers
                     Code = item.Code,
                     OrderCode = item.Order.Code,
                     ClientName=item.Order.Client.Name,
-                    CreatedDateString=item.CreatedDate.ToString()
+                    CreatedDateString=item.CreatedDate.ToString(),
+                    Channelledby=item.Order.Employee.Name,
+                 
 
                 });
                 }catch(Exception ex)

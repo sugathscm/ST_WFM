@@ -217,6 +217,7 @@
     <Compile Include="Controllers\PrinterController.cs" />
     <Compile Include="Controllers\QuoteController.cs" />
     <Compile Include="Controllers\QuoteTermController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SupplierTypeController.cs" />
@@ -914,6 +915,9 @@
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Invoice\Index.cshtml" />
     <Content Include="Views\Invoice\_PrintInvoice.cshtml" />
+    <Content Include="Views\Report\Adhoc.cshtml" />
+    <Content Include="Views\Report\Order.cshtml" />
+    <Content Include="Views\Report\Invoice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
