@@ -377,7 +377,15 @@ namespace WFM.UI.Controllers
                     Header = item.Header,
                     OrderTypeId = (int)item.OrderTypeId,
                     Location = item.Location,
-                });
+                    TotalWithVat = (CalculateOrdItmTotal(item) + CalculateAdnChargeTotal(item)),
+                    VAT = CalculateOrdItmVatTotal(item),
+                    //TotalWithVat = (CalculateOrdItmTotal(item) + CalculateAdnChargeTotal(item)) + CalculateOrdItmVatTotal(item),
+                    //OrderItems = item.OrderItems,
+                    //AdditionalCharges = item.AdditionalCharges,
+
+
+
+                }); ;
             }
 
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);

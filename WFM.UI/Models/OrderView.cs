@@ -33,6 +33,8 @@ namespace WFM.UI.Models
         public double VAT { get; set; }
         [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
         public double OrderTotal { get; set; }
+
+
         [DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
         public double TotalWithVat { get; set; }
         public int OrderCount { get; set; }
@@ -60,9 +62,58 @@ namespace WFM.UI.Models
         {
             return orderService.GetDeliveryType(Id);
         }
-      
+        public double CalculateOrdItmTotal(Order order)
+        {
+            double? TotalCost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
+            return TotalCost.HasValue ? TotalCost.Value : 0;
+        }
+
+        public double CalculateAdnChargeTotal(Order order)
+        {
+            double? TotalCost = order.AdditionalCharges.Sum(x => x.Qty * x.Cost);
+            return TotalCost.HasValue ? TotalCost.Value : 0;
+        }
+
+        public double CalculateOrdItmVatTotal(Order order)
+        {
+            double? TotalVat = 0;
+            //double? Cost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
+            if (order.OrderTypeId == 1)
+                TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * order.VatPercentage);
+            return TotalVat.HasValue ? TotalVat.Value : 0;
+        }
 
 
+
+
+
+
+        //public double VAT
+        //{
+        //    get
+        //    {
+        //        return CalculateOrdItmVatTotal(this);
+        //    }
+        //    set { }
+        //}
+        //[DisplayFormat(DataFormatString = "{0:N}", ApplyFormatInEditMode = true)]
+        //public double OrderTotal
+        //{
+        //    get
+        //    {
+        //        try
+        //        {
+        //            return (CalculateOrdItmTotal(this) + CalculateAdnChargeTotal(this));
+        //        }
+        //        catch (Exception err)
+        //        {
+        //            return 0;
+        //        }
+        //    }
+
+
+        //    set { }
+        //}
 
     }
 
