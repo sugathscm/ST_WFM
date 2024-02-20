@@ -1308,10 +1308,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:28</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/05/2024 19:03:45</publishTime>
+      <publishTime>02/19/2024 02:22:38</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/05/2024 19:03:45</publishTime>
+      <publishTime>02/19/2024 02:22:38</publishTime>
     </File>
     <File Include="bin/Aspose.Words.dll">
       <publishTime>08/30/2022 19:25:28</publishTime>
@@ -1551,28 +1551,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:32</publishTime>
     </File>
     <File Include="bin/WFM.BAL.dll">
-      <publishTime>02/05/2024 19:03:03</publishTime>
+      <publishTime>02/19/2024 02:22:21</publishTime>
     </File>
     <File Include="bin/WFM.BAL.dll.config">
       <publishTime>09/18/2023 21:26:51</publishTime>
     </File>
     <File Include="bin/WFM.BAL.pdb">
-      <publishTime>02/05/2024 19:03:03</publishTime>
+      <publishTime>02/19/2024 02:22:21</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll">
-      <publishTime>02/05/2024 19:03:02</publishTime>
+      <publishTime>02/19/2024 02:22:21</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll.config">
       <publishTime>02/24/2023 16:52:54</publishTime>
     </File>
     <File Include="bin/WFM.DAL.pdb">
-      <publishTime>02/05/2024 19:03:02</publishTime>
+      <publishTime>02/19/2024 02:22:21</publishTime>
     </File>
     <File Include="bin/WFM.UI.dll">
-      <publishTime>02/05/2024 19:03:03</publishTime>
+      <publishTime>02/19/2024 02:22:22</publishTime>
     </File>
     <File Include="bin/WFM.UI.pdb">
-      <publishTime>02/05/2024 19:03:03</publishTime>
+      <publishTime>02/19/2024 02:22:22</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.css">
       <publishTime>08/30/2022 19:25:28</publishTime>
@@ -1773,7 +1773,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/29/2022 11:18:34</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/05/2024 19:03:39</publishTime>
+      <publishTime>02/19/2024 02:22:24</publishTime>
     </File>
     <File Include="Resources/bottom invoice.png">
       <publishTime>02/05/2024 11:34:41</publishTime>
@@ -2273,6 +2273,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/QuoteTerm/Index.cshtml">
       <publishTime>08/30/2022 19:25:28</publishTime>
     </File>
+    <File Include="Views/Report/Adhoc.cshtml">
+      <publishTime>02/19/2024 01:57:23</publishTime>
+    </File>
+    <File Include="Views/Report/Invoice.cshtml">
+      <publishTime>02/19/2024 01:57:23</publishTime>
+    </File>
+    <File Include="Views/Report/Order.cshtml">
+      <publishTime>02/19/2024 01:57:23</publishTime>
+    </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>08/30/2022 19:25:28</publishTime>
     </File>
@@ -2280,7 +2289,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:28</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/05/2024 02:14:16</publishTime>
+      <publishTime>02/19/2024 02:21:11</publishTime>
     </File>
     <File Include="Views/Shared/_LoginLayout.cshtml">
       <publishTime>08/30/2022 19:25:28</publishTime>
