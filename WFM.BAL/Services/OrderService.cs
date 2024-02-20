@@ -210,6 +210,9 @@ namespace WFM.BAL.Services
                 using (DB_stwfmEntities entities = new DB_stwfmEntities())
                 {
                     return entities.Orders
+                        .Include("OrderItems")
+                        .Include("InstallationAttachments")
+                        .Include("AdditionalCharges")
                         .Include("Client")
                         .Include("DeliveryType")
                         .Include("Status")
