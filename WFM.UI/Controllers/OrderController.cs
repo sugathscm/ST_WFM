@@ -370,7 +370,7 @@ namespace WFM.UI.Controllers
                     // DeliveryType=item.DeliveryType.Type,
                     CreatedDate = item.CreatedDate,
                     CreatedDateString = item.CreatedDate.Value.ToString(),
-                    BaseQoute = item.BaseQuoteId,
+                    BaseQoute = item.BaseQuoteId,   
                     ChanneledBy = item.Employee.Name,
                     //DeliveryDate = item.DeliveryDate,
                     //DeliveryDateString = item.DeliveryDate.Value.ToString(),
@@ -382,13 +382,11 @@ namespace WFM.UI.Controllers
                     //TotalWithVat = (CalculateOrdItmTotal(item) + CalculateAdnChargeTotal(item)) + CalculateOrdItmVatTotal(item),
                     //OrderItems = item.OrderItems,
                     //AdditionalCharges = item.AdditionalCharges,
-
-
-
-                }); ;
+                    
+                }); ;                                                                               
             }
 
-            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
+                    return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
 
