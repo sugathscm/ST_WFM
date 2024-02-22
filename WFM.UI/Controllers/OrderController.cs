@@ -321,7 +321,7 @@ namespace WFM.UI.Controllers
         [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
         public ActionResult GetList()
         {
-            var list = orderService.GetOrderActiveList();
+            var list = orderService.GetOrderActiveList().Take(500);
 
             List<OrderView> modelList = new List<OrderView>();
 
@@ -353,7 +353,7 @@ namespace WFM.UI.Controllers
         [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
         public ActionResult GetAll()
         {
-            var list = orderService.GetOrderList();
+            var list = orderService.GetOrderList().Take(500);
 
             List<OrderView> modelList = new List<OrderView>();
 
