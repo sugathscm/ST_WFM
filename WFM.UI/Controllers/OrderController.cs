@@ -745,7 +745,7 @@ namespace WFM.UI.Controllers
                     }
                     foreach (var item in deletedItems)
                     {
-                        orderService.removeItem(int.Parse(item));
+                        if(item != "") orderService.removeItem(int.Parse(item));
                     }
 
 
