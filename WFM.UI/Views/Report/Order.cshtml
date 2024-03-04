@@ -193,8 +193,7 @@
             type: "POST",
             dataType: "json",
             success: function (response) {
-                // $('#clientDropdown').empty().append('<option value="">All Clients</option>'); // Clear existing options and add a default option
-                response.data.forEach(function (item) {
+                  response.data.forEach(function (item) {
                     $('#typeFilter').append($('<option>', {
                         value: item.Name,
                         text: item.Name

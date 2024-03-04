@@ -347,6 +347,20 @@ namespace WFM.BAL.Services
                 }
             }
         }
+
+        public void removeItem(int orderItmId)
+        {
+            using (DB_stwfmEntities entities = new DB_stwfmEntities())
+            {
+                OrderItem orderItemToDelete = entities.OrderItems.Find(orderItmId);
+                if (orderItemToDelete != null)
+                {
+                    entities.OrderItems.Remove(orderItemToDelete);
+                    entities.SaveChanges();
+                }
+            }
+        }
+
         public void SaveOrUpdate(OrderMaterial orderMaterial)
         {
             using (DB_stwfmEntities entities = new DB_stwfmEntities())
