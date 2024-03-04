@@ -7,7 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>D:\project\Publish</_PublishTargetUrl>
-    <History>True|2024-02-22T22:21:35.2659735Z;True|2024-02-05T19:03:47.9218860+05:30;True|2024-02-05T19:03:18.0480731+05:30;True|2024-02-05T12:18:08.9712707+05:30;True|2024-01-09T13:36:26.4403738+05:30;True|2023-12-06T22:58:49.8291421+05:30;True|2023-12-06T05:16:38.8768707+05:30;True|2023-11-22T09:42:08.9106213+05:30;True|2023-11-03T19:28:54.9247974+05:30;True|2023-11-03T19:05:27.2807639+05:30;True|2023-11-01T13:16:25.4261496+05:30;True|2023-10-09T18:32:25.7462794+05:30;True|2023-10-04T19:52:53.5763729+05:30;True|2023-09-27T11:17:30.7094034+05:30;True|2023-09-25T11:54:39.2189308+05:30;True|2023-09-24T11:57:12.6006360+05:30;True|2023-09-24T11:48:32.0643091+05:30;True|2023-09-23T22:03:49.9489490+05:30;True|2023-09-21T09:46:58.5014891+05:30;True|2023-09-18T21:49:17.4416937+05:30;True|2023-09-06T11:19:45.4144586+05:30;True|2023-07-24T23:35:36.6122116+05:30;True|2023-07-20T14:35:47.2042052+05:30;True|2023-07-12T20:03:39.2988210+05:30;True|2023-06-30T23:43:28.9376819+05:30;True|2023-05-16T17:48:09.0014645+05:30;True|2023-05-12T13:17:42.0130764+05:30;True|2023-05-10T17:04:15.4454815+05:30;True|2023-03-18T18:54:43.3750560+05:30;True|2023-03-10T15:56:31.8771876+05:30;True|2023-03-04T14:54:45.7797322+05:30;True|2023-03-02T11:19:27.6559152+05:30;True|2023-02-06T22:05:15.5049584+05:30;True|2023-01-26T14:29:04.5181693+05:30;True|2023-01-03T11:04:58.1893544+05:30;True|2022-12-27T20:03:53.2133364+05:30;True|2022-10-26T16:48:23.7324754+05:30;True|2022-10-26T16:46:54.7464377+05:30;True|2022-10-15T08:51:27.0690547+05:30;True|2022-10-15T08:43:19.2785607+05:30;False|2022-10-15T08:41:04.5891531+05:30;False|2022-10-15T08:39:44.0443544+05:30;False|2022-10-15T08:39:23.2795393+05:30;False|2022-10-15T08:38:48.5107727+05:30;False|2022-10-15T08:37:12.0192933+05:30;False|2022-10-15T08:36:27.9797418+05:30;</History>
+    <History>True|2024-03-04T15:41:27.6083690Z;True|2024-02-23T03:51:35.2659735+05:30;True|2024-02-05T19:03:47.9218860+05:30;True|2024-02-05T19:03:18.0480731+05:30;True|2024-02-05T12:18:08.9712707+05:30;True|2024-01-09T13:36:26.4403738+05:30;True|2023-12-06T22:58:49.8291421+05:30;True|2023-12-06T05:16:38.8768707+05:30;True|2023-11-22T09:42:08.9106213+05:30;True|2023-11-03T19:28:54.9247974+05:30;True|2023-11-03T19:05:27.2807639+05:30;True|2023-11-01T13:16:25.4261496+05:30;True|2023-10-09T18:32:25.7462794+05:30;True|2023-10-04T19:52:53.5763729+05:30;True|2023-09-27T11:17:30.7094034+05:30;True|2023-09-25T11:54:39.2189308+05:30;True|2023-09-24T11:57:12.6006360+05:30;True|2023-09-24T11:48:32.0643091+05:30;True|2023-09-23T22:03:49.9489490+05:30;True|2023-09-21T09:46:58.5014891+05:30;True|2023-09-18T21:49:17.4416937+05:30;True|2023-09-06T11:19:45.4144586+05:30;True|2023-07-24T23:35:36.6122116+05:30;True|2023-07-20T14:35:47.2042052+05:30;True|2023-07-12T20:03:39.2988210+05:30;True|2023-06-30T23:43:28.9376819+05:30;True|2023-05-16T17:48:09.0014645+05:30;True|2023-05-12T13:17:42.0130764+05:30;True|2023-05-10T17:04:15.4454815+05:30;True|2023-03-18T18:54:43.3750560+05:30;True|2023-03-10T15:56:31.8771876+05:30;True|2023-03-04T14:54:45.7797322+05:30;True|2023-03-02T11:19:27.6559152+05:30;True|2023-02-06T22:05:15.5049584+05:30;True|2023-01-26T14:29:04.5181693+05:30;True|2023-01-03T11:04:58.1893544+05:30;True|2022-12-27T20:03:53.2133364+05:30;True|2022-10-26T16:48:23.7324754+05:30;True|2022-10-26T16:46:54.7464377+05:30;True|2022-10-15T08:51:27.0690547+05:30;True|2022-10-15T08:43:19.2785607+05:30;False|2022-10-15T08:41:04.5891531+05:30;False|2022-10-15T08:39:44.0443544+05:30;False|2022-10-15T08:39:23.2795393+05:30;False|2022-10-15T08:38:48.5107727+05:30;False|2022-10-15T08:37:12.0192933+05:30;False|2022-10-15T08:36:27.9797418+05:30;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -1308,10 +1308,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:26</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>02/23/2024 04:02:32</publishTime>
+      <publishTime>03/04/2024 21:11:10</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>02/23/2024 04:02:32</publishTime>
+      <publishTime>03/04/2024 21:11:10</publishTime>
     </File>
     <File Include="bin/Aspose.Words.dll">
       <publishTime>08/30/2022 19:25:27</publishTime>
@@ -1551,13 +1551,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/30/2022 19:25:30</publishTime>
     </File>
     <File Include="bin/WFM.BAL.dll">
-      <publishTime>02/23/2024 03:50:58</publishTime>
+      <publishTime>03/04/2024 21:10:53</publishTime>
     </File>
     <File Include="bin/WFM.BAL.dll.config">
       <publishTime>12/11/2023 13:50:35</publishTime>
     </File>
     <File Include="bin/WFM.BAL.pdb">
-      <publishTime>02/23/2024 03:50:58</publishTime>
+      <publishTime>03/04/2024 21:10:53</publishTime>
     </File>
     <File Include="bin/WFM.DAL.dll">
       <publishTime>02/23/2024 03:50:58</publishTime>
@@ -1569,10 +1569,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/23/2024 03:50:58</publishTime>
     </File>
     <File Include="bin/WFM.UI.dll">
-      <publishTime>02/23/2024 03:50:59</publishTime>
+      <publishTime>03/04/2024 21:10:54</publishTime>
     </File>
     <File Include="bin/WFM.UI.pdb">
-      <publishTime>02/23/2024 03:50:59</publishTime>
+      <publishTime>03/04/2024 21:10:54</publishTime>
     </File>
     <File Include="Content/bootstrap-grid.css">
       <publishTime>08/30/2022 19:25:26</publishTime>
@@ -1773,7 +1773,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/29/2022 11:18:32</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>02/23/2024 04:02:25</publishTime>
+      <publishTime>03/04/2024 21:10:57</publishTime>
     </File>
     <File Include="Resources/bottom invoice.png">
       <publishTime>02/05/2024 10:40:19</publishTime>
@@ -2232,7 +2232,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/11/2023 16:32:15</publishTime>
     </File>
     <File Include="Views/Order/Details.cshtml">
-      <publishTime>01/09/2024 11:32:49</publishTime>
+      <publishTime>03/04/2024 19:18:54</publishTime>
     </File>
     <File Include="Views/Order/Index.cshtml">
       <publishTime>01/17/2024 13:31:20</publishTime>
@@ -2280,7 +2280,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2024 01:41:04</publishTime>
     </File>
     <File Include="Views/Report/Order.cshtml">
-      <publishTime>02/23/2024 03:50:22</publishTime>
+      <publishTime>03/04/2024 18:36:26</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>08/30/2022 19:25:26</publishTime>

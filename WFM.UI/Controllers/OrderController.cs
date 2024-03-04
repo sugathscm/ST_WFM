@@ -517,6 +517,8 @@ namespace WFM.UI.Controllers
                 var chargeCostArray = formCollection["chargeCostArray"].Split(',');
                 var chargeQtyArray = formCollection["chargeQtyArray"].Split(',');
                 var chargeTotalCostArray = formCollection["chargeTotalCostArray"].Split(',');
+                var deletedItems = formCollection["deletedItems"].Split(',');
+
 
                 var installationArray = formCollection["installationArray"].Split(',');
                 //var categoryTypeArray = formCollection["categoryTypeArray"].Split(',');
@@ -736,17 +738,21 @@ namespace WFM.UI.Controllers
                                 SpecialInstruction = (specialInstructionsArray[i] == "") ? "" : specialInstructionsArray[i],
                                 Installation = (installationArray[i] == "") ? "" : installationArray[i]
                             };
-
-                            orderService.SaveOrUpdate(orderItem);
+                            
+                                orderService.SaveOrUpdate(orderItem);
+                           
                         }
 
                         i++;
                     }
+                    foreach (var item in deletedItems)
+                    {
+                        orderService.removeItem(int.Parse(item));
+                    }
 
 
-                    
-                    //order.AdditionalCharges.Clear();
-                    AdditionalCharge additionalCharge = null;
+                        //order.AdditionalCharges.Clear();
+                        AdditionalCharge additionalCharge = null;
 
 
 

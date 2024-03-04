@@ -95,6 +95,8 @@
                     <input type="hidden" name="letteringWarrantyArray" value="" id="letteringWarrantyArray" />
                     <input type="hidden" name="illuminationWarrantyArray" value="" id="illuminationWarrantyArray" />
                     <input type="hidden" name="item-count" value="1" id="item-count" />
+                    <input type="hidden" name="deletedItems" value="" id="deletedItems" />
+
                     <input type="hidden" name="charge-count" value="1" id="charge-count" />
 
                     <input type="hidden" name="material-count" value="1" id="material-count" />
@@ -1075,6 +1077,8 @@
 
     $(document).ready(function () {
 
+        $('#item-count').val($("#items").find("div.form-row.item.m-t-10.m-b-20").length);
+        console.log($('#item-count').val())
 
 
         $('.DelInstF').click(function (e) {
@@ -1387,9 +1391,13 @@
 
         });
     });
+    var deletedItems = [];
     function removeItem(elem) {
-        if ($('#item-count').val() != "1") {
+        console.log($(elem))
+        if (parseInt($('#item-count').val()) > 1) {
             $('#item-count').val(parseInt($('#item-count').val()) - 1);
+            var hiddenValue = $(elem).parent().parent('div').find('input[type="hidden"]').val();
+            deletedItems.push(hiddenValue);
             $(elem).parent().parent('div').remove();
         }
         else {
@@ -2136,6 +2144,7 @@
 
         $('#itemIdArray').val(itemIdArray);
         $('#productIdArray').val(productIdArray);
+        $('#deletedItems').val(deletedItems);
         $('#itmqtyArray').val(itmqtyArray);
         $('#descriptionArray').val(descriptionArray);
         $('#SpecialInstructionsArray').val(SpecialInstructionsArray);
