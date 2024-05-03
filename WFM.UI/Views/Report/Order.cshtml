@@ -116,7 +116,7 @@
                                 <th>Created Date (MM/DD/YYYY)</th>
                                 <th>Month</th>
                                 <th>Channeled By</th>
-                                <th>order total</th>
+                                <th>Order Total</th>
                                 
 
 
@@ -213,101 +213,95 @@
         });
     }
 
+    $(document).ready(function () {
+
+        LoadOrders();
+
+        $('#fromDate').change(function () {
+            LoadOrders();
+        });
+
+
+        $('#toDate').change(function () {
+            LoadOrders();
+        });
+
+
+        $('#statusFilter').change(function () {
+            LoadOrders();
+        });
+
+        $('#typeFilter').change(function () {
+            LoadOrders();
+        });
+
+
+        $('#clientFilter').keyup(function () {
+            LoadOrders();
+        });
+
+
+        $('#salesFilter').keyup(function () {
+            LoadOrders();
+        });
+    });
+
+
     function LoadOrders() {
+
+        // Retrieve filter values
+        let fromDate = $('#fromDate').val();
+        let toDate = $('#toDate').val();
+        let status = $('#statusFilter').val();
+        let orderType = $('#typeFilter').val();
+        let client = $('#clientFilter').val();
+        let salesPerson = $('#salesFilter').val();
+
 
         if ($.fn.dataTable.isDataTable('#List')) {
             table = $('#List').DataTable();
             table.destroy();
         }
-        let minDate, maxDate, statusFilter, clientFilter,SalesPersonFilter,TypeFilter;
-
-
-        // Custom filtering function which will search data in column four between two values
-        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-            let min = minDate ? minDate.getTime() : null;
-            let max = maxDate ? maxDate.getTime() : null;
-            let date = new Date(data[4]);
-            let status = statusFilter ? statusFilter === data[3] : true;
-            let client = clientFilter ? data[1].toLowerCase().includes(clientFilter.toLowerCase()) : true; // Filter client name (case insensitive)
-            let salesperson = SalesPersonFilter ? data[6].toLowerCase().includes(SalesPersonFilter.toLowerCase()) : true; // Filter client name (case insensitive)
-            let type = TypeFilter ? TypeFilter === data[0].split("-")[0] : true;
-
-            if (
-                ((min === null && max === null) ||
-                    (min === null && date <= max) ||
-                    (min <= date && max === null) ||
-                    (min <= date && date <= max)) &&
-                status &&
-                client &&
-                salesperson &&
-                type
-            ) {
-                return true;
-            }
-            return false;
-        });
-
-        // Create date inputs
-        $('#fromDate').change(function () {
-            minDate = $(this).val() ? new Date($(this).val()) : null;
-            table.draw();
-        });
-
-        $('#toDate').change(function () {
-            maxDate = $(this).val() ? new Date($(this).val()) : null;
-            table.draw();
-        });
-
-        // Status filter change event listener
-        $('#statusFilter').change(function () {
-            statusFilter = $(this).val();
-            table.draw();
-        });
-
-        $('#typeFilter').change(function () {
-            TypeFilter = $(this).val();
-            table.draw();
-        });
-
-        // Client filter input event listener
-        $('#clientFilter').keyup(function () {
-            clientFilter = $(this).val();
-            table.draw();
-        });
-        // Sales Person Filter input event listener
-        $('#salesFilter').keyup(function () {
-            SalesPersonFilter = $(this).val();
-            table.draw();
-        });
 
         table = $('#List').DataTable({
             "ordering": false,
             "createdRow": function (row, data, dataIndex) {
-
             },
             "ajax": {
-                "url": "/Order/GetAll",
+                "url": "/Order/GetFilteredOrders",
                 "type": "POST",
+                "data": {
+                    "fromDate": fromDate,
+                    "toDate": toDate,
+                    "status": status,
+                    "client": client,
+                    "salesPerson": salesPerson,
+                    "orderType": orderType,
+
+                },
                 "datatype": "json"
             },
             "columns": [
                 { "data": "Code", "width": "10%", "ordering": false, "sorting": false },
                 { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                { "data": "Location", "width": "25%", "ordering": false, "sorting": false },
+                { "data": "Location", "width": "20%", "ordering": false, "sorting": false },
                 { "data": "StatusName", "width": "10%", "ordering": false, "sorting": false },
                 { "data": "CreatedDateString", "width": "15%", "ordering": false, "sorting": false },
                 { "data": "Month", "width": "5%", "ordering": false, "sorting": false },
-                { "data": "ChanneledBy", "width": "15%", "ordering": false, "sorting": false },
-                { "data": "TotalWithVat", "width": "15%", "ordering": false, "sorting": false },
+                { "data": "ChanneledBy", "width": "10%", "ordering": false, "sorting": false },
+                {
+                    "data": "TotalWithVat", "width": "15%", "ordering": false, "sorting": false,
+                    "render": function (data, type, row) {
+                        // Format TotalWithVat
+                        return parseFloat(data).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                    }
+                },
 
-                
-              
             ]
         });
-       
+
 
     }
-    
 
 </script>
 
