@@ -29,6 +29,7 @@ using System.Web.Security;
 using System.Data;
 using System.Web.Services.Protocols;
 using System.Web.ApplicationServices;
+using System.Globalization;
 
 namespace WFM.UI.Controllers
 {
@@ -283,6 +284,90 @@ namespace WFM.UI.Controllers
             ViewBag.CategoryList = categoryService.GetCategoryList();
             ViewBag.VATPercentage = WebConfigurationManager.AppSettings["WBU"];
             return View(order);
+        }
+
+        public ActionResult GetFilteredOrders(string fromDate, string toDate, string status, string client, string salesPerson, string orderType)
+        {
+            var orders = orderService.GetOrderList();
+
+            try
+            {
+
+
+
+                // Apply filters
+                if (!string.IsNullOrEmpty(fromDate))
+                {
+                    // Convert fromDate string to DateTime
+                    var fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    orders = orders.Where(o => o.CreatedDate >= fromDateValue).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(toDate))
+                {
+                    // Convert toDate string to DateTime
+                    var toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    orders = orders.Where(o => o.CreatedDate <= toDateValue).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(status))
+                {
+                    orders = orders.Where(o => o.Status.Name == status).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(client))
+                {
+                    orders = orders.Where(o => o.Client.Name.ToLower().Contains(client.ToLower())).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(salesPerson))
+                {
+                    orders = orders.Where(o => o.Employee.Name.ToLower().Contains(salesPerson.ToLower())).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(orderType))
+                {
+                    orders = orders.Where(o => o.OrderType.Name.ToLower() == orderType.ToLower()).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            var filteredOrders = orders.Take(500);
+            List<OrderView> modelList = new List<OrderView>();
+
+            foreach (var item in filteredOrders)
+            {
+                modelList.Add(new OrderView(orderService)
+                {
+                    Id = item.Id,
+                    ClientName = item.Client.Name,
+                    Code = item.Code,
+                    Month = item.CreatedDate.Value.Month.ToString(),
+                    StatusName = item.Status.Name,
+                    IsApproved = item.StatusId == 6 ? false : true,
+                    // DeliveryType=item.DeliveryType.Type,
+                    CreatedDate = item.CreatedDate,
+                    CreatedDateString = item.CreatedDate.Value.ToString(),
+                    BaseQoute = item.BaseQuoteId,
+                    ChanneledBy = item.Employee.Name,
+                    //DeliveryDate = item.DeliveryDate,
+                    //DeliveryDateString = item.DeliveryDate.Value.ToString(),
+                    Header = item.Header,
+                    OrderTypeId = (int)item.OrderTypeId,
+                    Location = item.Location,
+                    TotalWithVat = (CalculateOrdItmTotal(item) + CalculateAdnChargeTotal(item)),
+                    VAT = CalculateOrdItmVatTotal(item),
+                    //TotalWithVat = (CalculateOrdItmTotal(item) + CalculateAdnChargeTotal(item)) + CalculateOrdItmVatTotal(item),
+                    //OrderItems = item.OrderItems,
+                    //AdditionalCharges = item.AdditionalCharges,
+
+                }); ;
+            }
+
+            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
         //[Authorize]
@@ -745,7 +830,7 @@ namespace WFM.UI.Controllers
                     }
                     foreach (var item in deletedItems)
                     {
-                        orderService.removeItem(int.Parse(item));
+                        if(item != "") orderService.removeItem(int.Parse(item));
                     }
 
 
