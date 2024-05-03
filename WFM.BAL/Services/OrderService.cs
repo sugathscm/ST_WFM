@@ -302,6 +302,7 @@ namespace WFM.BAL.Services
             {
                 return entities.Orders
                     .Include("OrderItems")
+                    .Include("OrderType")
                     .Include("Client")
                     .Include("OrderItems.Category")
                     .Include("Employee")

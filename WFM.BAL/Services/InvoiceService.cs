@@ -76,7 +76,8 @@ namespace WFM.BAL.Services
                     .Include("Order")
                     .Include("Order.Client")
                     .Include("Order.OrderType")
-                    .Include("Order.OrderItems").Where(s => s.Id == id).SingleOrDefault();
+                    .Include("Order.OrderItems")
+                    .Include("Order.OrderItems.Category").Where(s => s.Id == id).SingleOrDefault();
             }
         }
     }

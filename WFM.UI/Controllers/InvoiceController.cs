@@ -77,6 +77,7 @@ namespace WFM.UI.Controllers
         public ActionResult GenerateInvoice(int id)
         {
             Order order = orderService.GetOrderById(id);
+            var exist = invoiceService.InvoiceExists(order.Id);
             if (invoiceService.InvoiceExists(order.Id) || order.OrderType.Name == "STC" || order.OrderType.Name == "STR")
             {
                 return RedirectToAction("Index", "Invoice");
