@@ -74,6 +74,7 @@ namespace WFM.BAL.Services
             {
                 return entities.Invoices
                     .Include("Order")
+                    .Include("Order.AdditionalCharges")
                     .Include("Order.Client")
                     .Include("Order.OrderType")
                     .Include("Order.OrderItems")

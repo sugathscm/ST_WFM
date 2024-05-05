@@ -99,6 +99,7 @@
             }
         
         </div>
+        
     </div>
 
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -136,7 +137,7 @@
             printElement(document.getElementById("printThis"));
         }
 
-      
+
 
     function printElement(elem) {
         var domClone = elem.cloneNode(true);
@@ -151,6 +152,11 @@
 
         $printSection.innerHTML = "";
         $printSection.appendChild(domClone);
+        //var $img = document.createElement("img");
+        //$img.classList="w-100 h-100 fixed bottom-0 left-0"
+        //$img.src = "/Resources/bottom invoice.png";
+        //$printSection.appendChild($img)
+        
         window.print();
         }
 
@@ -195,9 +201,6 @@
                         return '<a class="btn btn-secondary btn-xs" onclick="PrintInvoice(' + data + ')">View</a>';
                     }
                 },
-              
-
-                
 
             ]
         });

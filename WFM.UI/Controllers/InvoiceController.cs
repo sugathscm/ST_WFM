@@ -78,11 +78,14 @@ namespace WFM.UI.Controllers
         {
             Order order = orderService.GetOrderById(id);
             var exist = invoiceService.InvoiceExists(order.Id);
-            if (invoiceService.InvoiceExists(order.Id) || order.OrderType.Name == "STC" || order.OrderType.Name == "STR")
+            if (invoiceService.InvoiceExists(order.Id))
             {
-                return RedirectToAction("Index", "Invoice");
+                return Json(new { redirectUrl = Url.Action("Index", "Invoice") });
             }
-
+            if (order.OrderType.Name == "STC" || order.OrderType.Name == "STR")
+            {
+                return Json(new { error = "Order type cannot be invoiced." });
+            }
             String invoiceCode = CommonService.GenerateInvoiceCodeSave(order);
             var utcTime = DateTime.Now.ToUniversalTime();
             DateTime today = TimeZoneInfo.ConvertTimeFromUtc(utcTime, TimeZoneInfo.FindSystemTimeZoneById("Sri Lanka Standard Time"));
@@ -98,7 +101,7 @@ namespace WFM.UI.Controllers
             
             
             invoiceService.SaveOrUpdate(invoice);
-            return RedirectToAction("Index", "Invoice");
+            return Json(new { redirectUrl = Url.Action("Index", "Invoice") });
         }
 
         public ActionResult PrintInvoice(int id)
@@ -127,33 +130,50 @@ namespace WFM.UI.Controllers
             invoiceView.AdvancePayment = invoice.Order.AdvancePayment;
             //invoiceView.isVat = invoice.Order.OrderType.Name =="" ? true : false;
             //orderView.CreatedDateString = orderView.CreatedDate.Value.ToString("dd/MM/yyyy");
-            invoiceView.orderTotal = CalculateOrdItmTotal(order) + CalculateAdnChargeTotal(order);
-            invoiceView.vatAmount = CalculateOrdItmVatTotal(order);         
+            invoiceView.orderTotal = CalculateOrdItmTotal(invoiceView.Items) + CalculateAdnChargeTotal(invoice.Order);
+            invoiceView.vatAmount = CalculateOrdItmVatTotal(invoiceView.Items,(double)invoiceView.Order.VatPercentage,invoiceView.OrderType);         
             // orderView.OrderTermDetails = orderService.get.GetQuoteTermsByQuoteId(quote.Id);
             invoiceView.BalancePayment = (double)((invoiceView.orderTotal + invoiceView.vatAmount) - (invoiceView.AdvancePayment != null ? invoiceView.AdvancePayment : 0));
             invoiceView.TotalWithVat = (double)(invoiceView.orderTotal +    invoiceView.vatAmount);
 
             return PartialView("_PrintInvoice", invoiceView);
         }
-        private double CalculateOrdItmTotal(Order order)
+        private double CalculateOrdItmTotal(List<OrderItem> Items)
         {
-            double? TotalCost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
-            return TotalCost.HasValue ? TotalCost.Value : 0;
+            double TotalCost = 0;
+            foreach (OrderItem item in Items)
+            {
+                TotalCost += item.Qty * item.UnitCost;
+            }
+            //double? TotalCost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
+            return TotalCost;
         }
 
         private double CalculateAdnChargeTotal(Order order)
         {
-            double? TotalCost = order.AdditionalCharges.Sum(x => x.Qty * x.Cost);
-            return TotalCost.HasValue ? TotalCost.Value : 0;
+            double TotalCost =0;
+            foreach(AdditionalCharge  charge in order.AdditionalCharges)
+            {
+                TotalCost += charge.Qty * charge.Cost;
+            }
+                
+            return TotalCost;
         }
 
-        private double CalculateOrdItmVatTotal(Order order)
+        private double CalculateOrdItmVatTotal(List<OrderItem> Items,double VatPercentage,string type)
         {
-            double? TotalVat = 0;
+            double TotalVat = 0;
+       
             //double? Cost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
-            if (order.OrderTypeId == 1)
-                TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * order.VatPercentage);
-            return TotalVat.HasValue ? TotalVat.Value : 0;
+            if (String.Equals(type, "STA"))
+            {
+                foreach (OrderItem item in Items)
+                {   
+                    TotalVat += (item.Qty * item.UnitCost) * (VatPercentage /100);
+                }
+            }
+                //TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * order.VatPercentage);
+            return TotalVat;
         }
 
 

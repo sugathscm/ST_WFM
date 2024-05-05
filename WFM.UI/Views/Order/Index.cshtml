@@ -215,11 +215,20 @@
     }
     function GenerateInvoice(id) {
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: '@Url.Action("GenerateInvoice", "Invoice")',
             data: { id: id },
+           
             success: function (data) {
-                alert("Invoice Genrated");
+                if (data.redirectUrl)
+                    window.location.href = data.redirectUrl;
+                else
+                    alert(data.error)
+
+               /* alert("Invoice Genrated");*/
+            },
+            error: function (error) {
+                alert("An unexpected error occured");
             }
         })
     }
@@ -352,7 +361,7 @@
                     {
                         var rowvalue = full.IsApproved;
                         if (rowvalue == true) {
-                            return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-success btn-xs" onclick="GenerateInvoice(' + data + ')" >Invoice</a>}';
+                            return '@if (User.IsInRole("Administrator")) {  <button class="btn btn-success btn-xs" onclick="GenerateInvoice(' + data + ')" >Invoice</button>}';
                         }//||User.IsInRole("Factory")
                         else {
 
