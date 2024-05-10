@@ -77,14 +77,14 @@ namespace WFM.UI.Controllers
         public ActionResult GenerateInvoice(int id)
         {
             Order order = orderService.GetOrderById(id);
-            var exist = invoiceService.InvoiceExists(order.Id);
+           // var exist = invoiceService.InvoiceExists(order.Id);
             if (invoiceService.InvoiceExists(order.Id))
             {
-                return Json(new { redirectUrl = Url.Action("Index", "Invoice") });
+                return Json(new { redirectUrl = Url.Action("Index", "Invoice") }, JsonRequestBehavior.AllowGet);
             }
             if (order.OrderType.Name == "STC" || order.OrderType.Name == "STR")
             {
-                return Json(new { error = "Order type cannot be invoiced." });
+                return Json(new { error = "Order type cannot be invoiced." }, JsonRequestBehavior.AllowGet);
             }
             String invoiceCode = CommonService.GenerateInvoiceCodeSave(order);
             var utcTime = DateTime.Now.ToUniversalTime();
@@ -101,15 +101,15 @@ namespace WFM.UI.Controllers
             
             
             invoiceService.SaveOrUpdate(invoice);
-            return Json(new { redirectUrl = Url.Action("Index", "Invoice") });
+            return Json(new { redirectUrl = Url.Action("Index", "Invoice") }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PrintInvoice(int id)
         {
             Invoice invoice = invoiceService.GetInvoiceById(id);
-            OrderService orderService = new OrderService();
+            //OrderService orderService = new OrderService();
             InvoiceView invoiceView = new InvoiceView(invoiceService);
-            Order order = orderService.GetOrderById(id);
+           // Order order = orderService.GetOrderById(id);
 
 
             PropertyCopier<Invoice, InvoiceView>.Copy(invoice, invoiceView);
@@ -119,11 +119,11 @@ namespace WFM.UI.Controllers
             ViewBag.AuthorizedPersonDesignation = ResourceData.AuthorizedPersonDesignation;
             invoiceView.OrderType = invoice.Order.OrderType.Name.ToString();
             invoiceView.OrderCode = invoice.Order.Code.ToString();
-            invoiceView.ClientSVatNo = invoice.Order.Client.SVATNumber.ToString();
-            invoiceView.ClientName = invoice.Order.Client.Name.ToString();
+            invoiceView.ClientSVatNo = invoice.Order.Client.SVATNumber?.ToString()??"";
+            invoiceView.ClientName = invoice.Order.Client.Name?.ToString() ?? "";
             invoiceView.VatNo=invoice.Order.VATNo.ToString();               
             invoiceView.CreatedDateString = invoice.CreatedDate.Value.ToString("dd/MM/yyyy");
-            invoiceView.ClientAddress = invoice.Order.Client.AddressLine1.ToString();
+            invoiceView.ClientAddress = invoice.Order.Client.AddressLine1?.ToString()??"";
             invoiceView.VatNo=invoice.Order.VATNo.ToString();
             invoiceView.ClientVatNo=invoice.Order.Client.VATNumber ==null ?"": invoice.Order.Client.VATNumber.ToString();
             invoiceView.Items=invoice.Order.OrderItems.ToList();
@@ -134,7 +134,7 @@ namespace WFM.UI.Controllers
             invoiceView.vatAmount = CalculateOrdItmVatTotal(invoiceView.Items,(double)invoiceView.Order.VatPercentage,invoiceView.OrderType);         
             // orderView.OrderTermDetails = orderService.get.GetQuoteTermsByQuoteId(quote.Id);
             invoiceView.BalancePayment = (double)((invoiceView.orderTotal + invoiceView.vatAmount) - (invoiceView.AdvancePayment != null ? invoiceView.AdvancePayment : 0));
-            invoiceView.TotalWithVat = (double)(invoiceView.orderTotal +    invoiceView.vatAmount);
+            invoiceView.TotalWithVat = (double)(invoiceView.orderTotal +  invoiceView.vatAmount);
 
             return PartialView("_PrintInvoice", invoiceView);
         }

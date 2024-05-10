@@ -100,34 +100,27 @@
                         <input type="text" id="salesFilter" name="salesFilter" class="form-control">
                     </div>
                 </div>
-                @*<div>
-                        <div class="form-check form-check-inline pb-2">
-                            <input class="btn btn-primary active" type="button" id="AllOrders" value="Reset Filters">
-                        </div>
-                    </div>*@
-            <div class="table-responsive">
-                <div class="w-100 p-2 flex flex-row justify-content-end">
-                    <button class="btn btn-primary" id="pdfButton">Print Pdf</button>
-                    <button class="btn btn-primary" id="exportButton">Export to Excel</button>
+               
+                <div class="table-responsive">
+                    <div class="w-100 p-2 flex flex-row justify-content-end">
+                        <button class="btn btn-primary" id="pdfButton">Print Pdf</button>
+                        <button class="btn btn-primary" id="exportButton">Export to Excel</button>
+                    </div>
+                    <table id="List" class="table table-striped table-bordered first">
+                        <thead>
+                            <tr>
+                                <th>PO No</th>
+                                <th>Client</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Created Date (MM/DD/YYYY)</th>
+                                <th>Month</th>
+                                <th>Channeled By</th>
+                                <th>Order Total</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-                <table id="List" class="table table-striped table-bordered first">
-                    <thead>
-                        <tr>
-                            <th>PO No</th>
-                            <th>Client</th>
-                            <th>Location</th>
-                            <th>Status</th>
-                            <th>Created Date (MM/DD/YYYY)</th>
-                            <th>Month</th>
-                            <th>Channeled By</th>
-                            <th>Order Total</th>
-
-
-
-                        </tr>
-                    </thead>
-                </table>
-            </div>
             </div>
         </div>
     </div>
@@ -136,13 +129,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                @* <h5 class="modal-title" id="exampleModalLabel">Medical Report</h5>*@
+                
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="Preview">
-                @*Html.Partial("_PrintOrder")*@
+                
             </div>
             <div class="modal-footer">
 
@@ -152,39 +145,65 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
-
 
 <script type="text/javascript">
     $(document).ready(function () {
-        /*     fetchClientList()*/
+        
         fetchOrderTypes()
         LoadOrders();
     });
-    function printElement(elem) {
-        var domClone = elem.cloneNode(true);
 
-        var $printSection = document.getElementById("printSection");
+    const { jsPDF } = window.jspdf;
+    function exportToPdf() {
+        const headers = ["PO No", "Client", "Location", "Status", "Created Date", "Month", "Channelled By", "Order Total"]
+        const props = ["Code", "ClientName", "Location", "StatusName", "CreatedDateString", "Month", "ChanneledBy", "TotalWithVat"]
+        var options = {
+            headStyles: { fontSize: 8, fontStyle: 'bold' }, // Header styles (e.g., font size, font style)
+            bodyStyles: { fontSize: 6 },
+            
+        };
+        var columnStyles = {
+            0: { cellWidth: 'auto' },
+            1: { cellWidth: 'auto' },
+            2: { cellWidth: 40 },
+            3: { cellWidth: 'auto' },
+            4: { cellWidth: 30 },
+            5: { cellWidth: 'auto' },
+            6: { cellWidth: 'auto' },
+            7: { cellWidth: 'auto' }
+        } 
 
-        if (!$printSection) {
-            var $printSection = document.createElement("div");
-            $printSection.id = "printSection";
-            document.body.appendChild($printSection);
-        }
+        var table = $('#List').DataTable();
+        var doc = new jsPDF();
 
-        $printSection.innerHTML = "";
-        $printSection.appendChild(domClone);
+        var data = table.rows({ search: 'applied' }).data().toArray();
+
+        var filteredData = data.map((row) => {
+            return headers.map(header => row[props[headers.indexOf(header)]]);
+        });
+        
+        doc.autoTable({
+            head: [headers],
+            body: filteredData,
+            styles: { overflow: 'linebreak' },// Prevent text wrapping
+            columnStyles: columnStyles,
+            ...options
+        });
+
+       
+        doc.save('OrderReport.pdf');
 
 
-        window.print();
     }
-    document.getElementById("pdfButton").onclick = function () {
-        printElement(document.getElementById("List"));
-    }
+    document.getElementById('pdfButton').addEventListener('click', exportToPdf);
+
+
     function exportToExcel() {
-        const props = ["Code", "ClientName", "Location", "StatusName", "CreatedDateString", "Month", "Channelledby","TotalWithVat"]
-        const headers = ["PO No", "Client", "Location", "Status", "Created Date", "Month","Channelled By","Order Total"]
+        const props = ["Code", "ClientName", "Location", "StatusName", "CreatedDateString", "Month", "ChanneledBy", "TotalWithVat"]
+        const headers = ["PO No", "Client", "Location", "Status", "Created Date", "Month", "Channelled By", "Order Total"]
 
 
         var table = $('#List').DataTable();
@@ -226,7 +245,7 @@
                         text: item.Name
                     }));
                 });
-               
+
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching client list:", error);
@@ -285,6 +304,7 @@
         }
 
         table = $('#List').DataTable({
+
             "ordering": false,
             "createdRow": function (row, data, dataIndex) {
             },
@@ -318,7 +338,9 @@
                     }
                 },
 
-            ]
+
+            ],
+
         });
 
 

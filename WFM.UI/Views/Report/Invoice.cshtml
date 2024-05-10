@@ -146,38 +146,60 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
 
 
 <script>
 
     $(document).ready(function () {
-
         LoadInvoices();
-
-
     });
 
-    function printElement(elem) {
-        var domClone = elem.cloneNode(true);
+    const { jsPDF } = window.jspdf;
+    function exportToPdf() {
+        const props = ["Code", "OrderCode", "ClientName", "Channelledby", "CreatedDateString"]
+        const headers = ["Invoice No", "Order No", "Client", "Channelled By", "Created Date"]
+        var options = {
+            headStyles: { fontSize: 8, fontStyle: 'bold' }, // Header styles (e.g., font size, font style)
+            bodyStyles: { fontSize: 6 }, 
+            columnStyles: {
+                0: { cellWidth: 'auto' },
+                1: { cellWidth: 'auto' },
+                2: { cellWidth: 'auto' },
+                3: { cellWidth: 'auto' },
+                4: { cellWidth: 'auto' }
+            } 
+        };
 
-        var $printSection = document.getElementById("printSection");
-
-        if (!$printSection) {
-            var $printSection = document.createElement("div");
-            $printSection.id = "printSection";
-            document.body.appendChild($printSection);
-        }
-
-        $printSection.innerHTML = "";
-        $printSection.appendChild(domClone);
+        var table = $('#List').DataTable();
+        var doc = new jsPDF();
 
         
-        window.print();
+        var data = table.rows({ search: 'applied' }).data().toArray();
+
+      
+        var filteredData = data.map((row) => {
+            return headers.map(header => row[props[headers.indexOf(header)]]);
+        });
+        console.log(filteredData)
+
+       
+        doc.autoTable({
+            head: [headers],
+            body: filteredData,
+            styles: { overflow: 'linebreak' }, // Prevent text wrapping
+            ...options
+        });
+
+        
+        doc.save('InvoiceReport.pdf');
+
+
     }
-    document.getElementById("pdfButton").onclick = function () {
-        printElement(document.getElementById("List"));
-    }
+    document.getElementById('pdfButton').addEventListener('click', exportToPdf);
 
     function exportToExcel() {
         const props = ["Code", "OrderCode", "ClientName", "Channelledby", "CreatedDateString"]

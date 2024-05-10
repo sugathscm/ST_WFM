@@ -108,7 +108,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="Preview">
+            <div class="modal-body p-5"  id="Preview">
                 @*Html.Partial("_PrintOrder")*@
             </div>
             <div class="modal-footer">
@@ -186,6 +186,19 @@
 
         $printSection.innerHTML = "";
         $printSection.appendChild(domClone);
+
+        // Apply styles for printing
+        var printStyles = `
+        body * { visibility: hidden; }
+        #printSection, #printSection * { visibility: visible; }
+    `;
+
+        // Create a style tag and append it to the head
+        var style = document.createElement("style");
+        style.type = "text/css";
+        style.innerHTML = printStyles;
+        document.head.appendChild(style);
+
         window.print();
     }
 
@@ -215,7 +228,7 @@
     }
     function GenerateInvoice(id) {
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: '@Url.Action("GenerateInvoice", "Invoice")',
             data: { id: id },
            

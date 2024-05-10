@@ -252,6 +252,7 @@
     <Content Include="assets\images\avatar-4.jpg" />
     <Content Include="assets\images\avatar-5.jpg" />
     <Content Include="assets\images\bitbucket.png" />
+    <Content Include="assets\images\bottom-invoice.png" />
     <Content Include="assets\images\card-img-1.jpg" />
     <Content Include="assets\images\card-img-2.jpg" />
     <Content Include="assets\images\card-img-3.jpg" />
@@ -736,7 +737,7 @@
     <Content Include="assets\vendor\summernote\css\font\summernote.ttf" />
     <Content Include="assets\vendor\summernote\css\font\summernote.woff" />
     <Content Include="assets\vendor\summernote\css\font\summernote.woff2" />
-    <Content Include="Resources\bottom invoice.png" />
+    <Content Include="Resources\bottom-invoice.png" />
     <Content Include="Resources\print-logo.png" />
     <Content Include="Resources\ST-print-invoice.png" />
     <Content Include="Resources\STB-print-invoice.png" />
