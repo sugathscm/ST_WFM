@@ -143,41 +143,37 @@
 
         if (!$printSection) {
             var $printSection = document.createElement("div");
-            $printSection.style.width = "100vw";
-            $printSection.style.height = "100vh";
-            $printSection.style.paddingRight = "1rem";
-            $printSection.style.marginLeft = "none";
-            $printSection.classList="relative "
+            //$printSection.style.width = "100vw";
+            //$printSection.style.height = "100vh";
+            //$printSection.style.paddingRight = "1rem";
+            //$printSection.style.marginLeft = "none";
+            //$printSection.classList="relative "
             $printSection.id = "printSection";
             document.body.appendChild($printSection);
         }
        
-        var topDetails = domClone.querySelector("#topDetails");
-        if (topDetails) {
-            topDetails.style.marginTop = "2rem"
-            topDetails.style.marginBottom="10rem"
-        }
-        var totals = domClone.querySelector("#totalsBox")
-        if (totals) {
-            totals.style.marginTop = "5rem"
-            totals.style.paddingRight="2rem"
-        }
-        //var $imgdiv = document.createElement("div");
-        //$imgdiv.style.display = 'flex'
-        //$imgdiv.style.position = 'absolute'
-        //$imgdiv.style.bottom = '50px'
-        //$imgdiv.style.right = '50px'
-        //$imgdiv.style.height = '200px'  
-        //$imgdiv.style.width = '200px'
-
-        //var $img = document.createElement("img");
-        //$img.src = "../../assets/images/bottom-invoice.png";
-        //$img.style.width = '100%'
-        //$img.style.height = '100%'
-        
+        //var topDetails = domClone.querySelector("#topDetails");
+        //if (topDetails) {
+        //    topDetails.style.marginTop = "2rem"
+        //    topDetails.style.marginBottom="10rem"
+        //}
+        //var totals = domClone.querySelector("#totalsBox")
+        //if (totals) {
+        //    totals.style.marginTop = "5rem"
+        //    totals.style.paddingRight="2rem"
+        //}
+        //var redBar = document.createElement("div");
+        //redBar.style.position = "fixed";
+        //redBar.style.bottom = "0";
+        //redBar.style.left = "0";
+        //redBar.style.width = "100vw";
+        //redBar.style.height = "20px";
+        //redBar.style.background = "red";
+        //redBar.style.zIndex = "9999";
 
         $printSection.innerHTML = "";
         $printSection.appendChild(domClone);
+        $printSection.appendChild(redBar);
         //$imgdiv.appendChild($img)
         //$printSection.appendChild($imgdiv)
 

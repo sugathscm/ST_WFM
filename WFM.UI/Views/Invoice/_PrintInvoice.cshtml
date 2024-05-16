@@ -3,324 +3,52 @@
 @using WFM.BAL.Helpers
 
 
-<div class="container-fluid my-5 mx-0" id="printThis">
+<div class="container-fluid     " id="printThis">
 
-    <div class="report-container container-fluid w-100">
-        <div class="report-header">
-            <div>
-                <div class="report-header-cell w-100">
-                    <div class="row w-100 mb-5">
-                            
-                        <div class="header-info col-7 h-100 mt-4 flex flex-column justify-content-end  text-left">
-                            @if (Model.OrderType == "STA")
-                            {
+  <div class="row">
+      <div class="col align-items-end">
 
+          @switch (Model.OrderType)
+          {
+              case "ST":
+                  <img src="~/Resources/ST-print-invoice.png" width="350" />
+                  break;
 
-                                <h1 class="m-0">Tax Invoice</h1>
-                            }
-                            else
-                            {
-                                <h1 class="m-0">Invoice</h1>
-                            }
-
-
-                        </div>
-                        <div class="header-info col-5 text-right align-top">
-                            @switch (Model.OrderType)
-                            {
-                                case "ST":
-                                    <img src="~/Resources/ST-print-invoice.png" width="350" />
-                                    break;
-
-                                case "STA":
-                                    <img src="~/Resources/print-logo.png" width="300" />
-                                    break;
-                                case "STB":
-                                    <img src="~/Resources/STB-print-invoice.png" width="350" />
-                                    break;
-                                case "STW":
-                                    <img src="~/Resources/print-logo.png" width="300" />
-                                    break;
-                                case "STI":
-                                    <img src="~/Resources/print-logo.png" width="300" />
-                                    break;
-                                default: <img src="~/Resources/ST-print-invoice.png" width="350" />break;
-                            }
-                           
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+              case "STA":
+                  <img src="~/Resources/print-logo.png" width="300" />
+                  break;
+              case "STB":
+                  <img src="~/Resources/STB-print-invoice.png" width="350" />
+                  break;
+              case "STW":
+                  <img src="~/Resources/print-logo.png" width="300" />
+                  break;
+              case "STI":
+                  <img src="~/Resources/print-logo.png" width="300" />
+                  break;
+              default: <img src="~/Resources/ST-print-invoice.png" width="350" />break;
+          }
 
 
-        <div class="report-content position-relative">
-
-            <div id="topDetails">
-                <div class="report-content-cell">
-                    <div class="main d-flex flex-column h-auto gap-5">
-                        <div class="col-12 my-3">
-                            <div class="row flex justify-content-between">
-                                <div class="col-7 text-left flex-row">
-                                    <p>
-                                        <span>
-                                            <span class="font-14 font-weight-bold">
-                                                BILL TO :<br>&ensp;Client Name :
-                                            </span>
-                                            @Html.DisplayFor(q => q.ClientName)
-                                        </span><br>
-                                        <span>
-                                            <span class="font-14 font-weight-bold">
-                                                &ensp;Client Address :
-                                            </span>
-                                            @Html.DisplayFor(q => q.ClientAddress)
-                                        </span>
-                                    </p>
-
-                                </div>
-                                <div class="col-4 text-left mr-5 flex-column align-items-end">
-                                    <br />
-                                    <p class="font-14 font-weight-bold mb-1">
-                                            Invoice No :<span class="font-weight-normal">@Html.DisplayFor(q => q.Code)</span>
-                                    </p>
-                                    <p class="font-14 font-weight-bold">
-                                        Invoice Date : <span class="font-weight-normal">@Html.DisplayFor(q => q.CreatedDateString)</span>
-</p>
-                                       
-                                </div>
-                            </div>
-                            @*Client vat number*@
-                            @if (Model.OrderType == "STA" || Model.OrderType == "STCW"|| Model.OrderType == "STI")
-                            {
-                                <div class="row flex justify-content-between mt-2">
-                                    <div class="col-7 text-left flex-row">
-                                        <p>
-                                            <span>
-                                                <span class="font-14 font-weight-bold">
-                                                    Client VAT No :
-                                                </span>
-                                                @Html.DisplayFor(q => q.ClientVatNo)
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div class="col-4 text-left mr-5 flex-column align-items-end">
-                                        <p class="font-14 font-weight-bold">
-                                                    VAT No :<span class="font-weight-normal">@Html.DisplayFor(q => q.VatNo)</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row flex justify-content-between  mt-2">
-                                    <div class="col-7 text-left flex-row">
-                                        <p>
-                                            <span>
-                                                <span class="font-14 font-weight-bold">
-                                                    Client SVAT No :
-                                                </span>
-                                                @Html.DisplayFor(q => q.ClientSVatNo)
-                                            </span>
-                                        </p>
-                                    </div>
-                                    <div class="col-4 text-left mr-5 flex-column align-items-end">
-                                        <p class="font-14 font-weight-bold">
-                                                    SVAT No :<span>
-                                                </span>
-                                                @*@Html.DisplayFor(q => q.VatNo)*@
-                                            
-                                        </p>
-                                    </div>
-
-                                </div>
-
-                            }
-
-                            <div class="row flex justify-content-between  mt-2">
-                                <div class="col-7 text-left flex-row">
-                                    <p>
-                                        <span>
-                                            <span class="font-14 font-weight-bold">
-                                                P.O NO :
-                                            </span>
-                                            @*@Html.DisplayFor(q => q.ClientName)*@
-                                        </span>
-                                    </p>
-                                </div>
-                                <div class="col-4 text-left mr-5 flex-column align-items-end">
-                                    <p class="font-14 font-weight-bold">
-                                                Job No :
-                                            <span class="font-weight-normal">
-                                            @Html.DisplayFor(q => q.OrderCode)
-                                        </span>
-                                    </p>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-12 mt-5">
-                            <table class="border-light col-12">
-                                <tr style="background-color:gray" class="border">
-                                    <th class="py-2 px-3 border-right">S/NO</th>
-                                    <th class="py-2 px-3 border-right">PRODUCT TITLE</th>
-                                    <th class="py-2 px-3 border-right">QTY</th>
-                                    <th class="py-2 px-3 border-right">RATE(LKR)</th>
-                                    <th class="py-2 px-3">AMOUNT(LKR)</th>
-                                </tr>
-                                <tbody>
-
-                                @if (Model != null)
-                                {
-                                    var count = 0;
-                                    foreach (var item in Model.Items)
-                                    {
-                                        count++;
-                                        var rowcolor = "";
-                                        if (count >= 2 && count % 2 == 0)
-                                        {
-                                            rowcolor = "lightgrey";
-                                        }
-                                        else
-                                        {
-                                            rowcolor = "";
-                                        }
-
-                                        <tr style="background-color:@rowcolor;border:1px solid black; border-top:none">
-                                            <td class="border-right border-1 py-2 px-1 text-center">@count</td>
-                                            <td  class="border-right border-1 px-3 pr-5">@item.Category.Name.ToString()</td>
-                                            <td class="border-right border-1 px-2 text-center">@item.Qty</td>
-                                            <td class="border-right border-1 px-2 text-right">@item.UnitCost.ToString("N2")</td>
-                                            <td class="px-2 text-right">@item.TotalCost.ToString("N2")</td>
-                                        </tr>
-                                    }
-                                }
-                             
-                                </tbody>
-                            </table>
-                            <div id="totalsBox" class="container col-12 pt-5 mr-4">
-
-                                <div class="row pb-1">
-                                    <div class="col-10">
-                                        <p class="text-right font-bold font-14 mb-0">TOTAL : </p>
-                                    </div>  
-                                    <div class="col-2">
-
-                                        <p class="text-right font-bold font-14">@Html.DisplayFor(q => q.orderTotal)</p>
-                                    </div>
-                                </div>
+          </div>
+      </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.OrderType == "STA")
+            {
 
 
-                                @if (Model.OrderType == "STA")
-                                {<div class="row py-1">
-                                        <div class="col-10">
-                                            <p class="text-right font-bold font-14 mb-0">VAT (@Html.DisplayFor(q => q.Order.VatPercentage)%) : </p>
-                                        </div>
-                                        <div class="col-2">
-                                            <p class="text-right font-bold font-14">@Html.DisplayFor(q => q.vatAmount)</p>
-                                        </div>
-                                    </div>
-                                }
-                                <div class="row py-1">
-                                    <div class="col-10">
-                                        <p class="text-right font-bold font-14 mb-0">(LESS) ADVANCE RECEIVED : </p>
-
-                                    </div>
-                                    <div class="col-2">
-                                        <p class="text-right font-bold font-14">@Html.DisplayFor(q => q.AdvancePayment)</p>
-                                    </div>
-                                </div>
-                                <div class="row py-1">
-                                    <div class="col-10">
-                                        <p class="text-right font-bold font-14 mb-0">BALANCE DUE : </p>
-
-                                    </div>
-                                    <div class="col-2">
-                                        <p class="text-right font-bold font-14">@Html.DisplayFor(q => q.BalancePayment)</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="bottomBox" class="align-bottom mt-5">
-                <div>
-                    <div class="col-12 position-relative">
-                        <div class="col-9 ml-1 mt-5 border row">
-                            <div class="col-3 py-3 px-0">
-                                <p class="mb-2 font-14">ACCOUNT NAME</p>
-                                <p class="mb-2 font-14">ACCOUNT NUMBER</p>
-                                <p class="mb-2 font-14">BANK NAME</p>
-                                <p class="mb-2 font-14">BRANCH</p>
-                                <p class="mb-2 font-14">ADDRESS</p>
-                                <p class="mb-2 font-14">BANK CODE</p>
-                                <p class="mb-2 font-14">BRANCH CODE</p>
-                                <p class="mb-2 font-14">SWIFT CODE</p>
-                            </div>
-
-                            <div class="col-9 py-3 pr-0 pl-2">
-                                @switch (Model.OrderType)
-                                {
-                                    case "STA":
-                                        <p class=" mb-2 font-14 nowrap">:&ensp;Sign Tech Advertising Services (Pvt) Ltd</p>
-                                        <p class=" mb-2 font-14">:&ensp;0075379404</p>
-                                        break;
-                                    case "ST":
-                                        <p class=" mb-2 font-14">:&ensp;Sign Tech (Pvt) Ltd</p>
-                                        <p class=" mb-2 font-14">:&ensp;85358292</p>
-                                        break;
-                                    case "STB":
-                                        <p class=" mb-2 font-14 nowrap">:&ensp;Sign Tech Branding Solutions (Pvt) Ltd</p>
-                                        <p class=" mb-2 font-14">:&ensp;0090561404</p>
-                                        break;
-                                    case "STP":
-                                        <p class=" mb-2 font-14">:&ensp;Sign Tech Project (Pvt) Ltd</p>
-                                        <p class=" mb-2 font-14">:&ensp;0075379404</p>
-                                        break;
-                                    case "STCW":
-                                        <p class=" mb-2 font-14">:&ensp;Sign Tech Advertising Services (Pvt) Ltd</p>
-                                        <p class=" mb-2 font-14">:&ensp;0075379404</p>
-                                        break;
-                                    case "STI":
-                                        <p class=" mb-2 font-14">:&ensp;Sign Tech Advertising Services (Pvt) Ltd</p>
-                                        <p class=" mb-2 font-14">:&ensp;0075379404</p>
-                                        break;
-                                    default: <p class=" mb-2 font-14">:&ensp;Sign Tech Advertising Services (Pvt) Ltd</p>
-                                        <p class="mb-2 font-14">:&ensp;0075379404</p>
-                                        break;
-                                }
-
-
-                                <p class=" mb-2 font-14">:&ensp;Bank of Ceylon</p>
-                                <p class=" mb-2 font-14">:&ensp;Battaramulla</p>
-                                <p class=" mb-2 font-14">:&ensp;75A, Main Street, Sethsiripaya Circular Road, Battaramulla</p>
-                                <p class=" mb-2 font-14">:&ensp;7010</p>
-                                <p class=" mb-2 font-14">:&ensp;679</p>
-                                <p class=" mb-2 font-14">:&ensp;BCEYLKLX</p>
-                            </div>
-                        </div>
-                        <div class="col-9 mt-2">
-                            <span class="font-bold font-14 tracking-wide">
-                                Cheques to be drawn in favour of SIGN TECH
-                                @switch (Model.OrderType)
-                                {
-                                    case "STA":<span> ADVERTISING SERVICES (PVT) LTD.</span>break;
-                                    case "STB": <span> BRANDING SOLUTIONS (PVT) LTD.</span>break;
-                                    case "ST": <span> SERVICES (PVT) LTD.</span>break;
-                                    case "STP": <span> PROJECT (PVT) LTD.</span>break;
-                                    default: <span> ADVERTISING SERVICES(PVT) LTD.</span>break;
-                                }
-                            </span>
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-            </div>
-           
+                <h1 class="m-0">Tax Invoice</h1>
+            }
+            else
+            {
+                <h1 class="m-0">Invoice</h1>
+            }
 
         </div>
-
     </div>
+
+
+
+
 </div>
