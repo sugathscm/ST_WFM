@@ -2,53 +2,349 @@
 @using WFM.BAL.Enums
 @using WFM.BAL.Helpers
 
+<style>
+    .tablehead{
+        background-color:black;
+        color:white;
+    }
 
-<div class="container-fluid     " id="printThis">
+</style>
+<div class="container-fluid w-100" id="printThis">
 
-  <div class="row">
-      <div class="col align-items-end">
+    <div class="row d-flex justify-content-end">
+        <div class="col-6 ml-auto text-right">
 
-          @switch (Model.OrderType)
-          {
-              case "ST":
-                  <img src="~/Resources/ST-print-invoice.png" width="350" />
-                  break;
-
-              case "STA":
-                  <img src="~/Resources/print-logo.png" width="300" />
-                  break;
-              case "STB":
-                  <img src="~/Resources/STB-print-invoice.png" width="350" />
-                  break;
-              case "STW":
-                  <img src="~/Resources/print-logo.png" width="300" />
-                  break;
-              case "STI":
-                  <img src="~/Resources/print-logo.png" width="300" />
-                  break;
-              default: <img src="~/Resources/ST-print-invoice.png" width="350" />break;
-          }
-
-
-          </div>
-      </div>
-    <div class="row">
-        <div class="col">
-            @if (Model.OrderType == "STA")
+            @switch (Model.OrderType)
             {
+                case "ST":
+                    <img src="~/Resources/ST-print-invoice.png" width="350" />
+                    break;
 
-
-                <h1 class="m-0">Tax Invoice</h1>
-            }
-            else
-            {
-                <h1 class="m-0">Invoice</h1>
+                case "STA":
+                    <img src="~/Resources/print-logo.png" width="350" />
+                    break;
+                case "STB":
+                    <img src="~/Resources/STB-print-invoice.png" width="350" />
+                    break;
+                case "STW":
+                    <img src="~/Resources/print-logo.png" width="350" />
+                    break;
+                case "STI":
+                    <img src="~/Resources/print-logo.png" width="350" />
+                    break;
+                default: <img src="~/Resources/ST-print-invoice.png" width="350" />break;
             }
 
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            @if (Model.OrderType == "STA")
+            {
+                <h1 class="m-0 display-4">Tax Invoice</h1>
+            }
+            else
+            {
+                <h1 class="m-0 display-4">Invoice</h1>
+            }
+
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-6 font-16 font-weight-bold">
+            <p>BILL TO :</p>
+        </div>
+        <div class="col-3 font-16 font-weight-bold text-right">
+            <p>Invoice No :</p>
+        </div>
+        <div class="col-3 font-16">
+            <p>@Html.DisplayFor(q => q.Code)</p>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-6 row">
+            <div class="col-6 font-16 font-weight-bold">
+                <p>
+                    
+                    Client Name</p>
+            </div>
+            <div class="col-6 font-16 text-left">
+                <p>
+                    <span class="font-weight-bold">:</span>
+                @Html.DisplayFor(q => q.ClientName)</p>
+            </div>
+            <div class="col-6 font-16 font-weight-bold">
+                <p>Client Address
+                </p>
+            </div>
+            <div class="col-6 font-16 text-left">
+                <p>
+                    <span class="font-weight-bold">:</span>
+                @Html.DisplayFor(q => q.ClientAddress)</p>
+            </div>
+        </div>
+        <div class="col font-16 font-weight-bold text-right">
+            <p>Invoice Date :</p>
+        </div>
+        <div class="col-3 font-16">
+            <p>@Html.DisplayFor(q => q.CreatedDateString)</p>
+        </div>
+        <div class="col-0"></div>
+    </div>
+    @if (Model.OrderType == "STA" || Model.OrderType == "STCW" || Model.OrderType == "STI")
+    {
+        <div class="row mt-2">
+            <div class="col-3 font-16 font-weight-bold">
+                <p>Client VAT No </p>
+            </div>
+            <div class="col-3 font-16 pl-0">
+                <p>
+                <span class="font-weight-bold">:</span>
+                @Html.DisplayFor(q => q.ClientVatNo)</p>
+            </div>
+            <div class="col-3 font-16 font-weight-bold text-right">
+                <p>VAT No : </p>
+            </div>
+            <div class="col-3 font-16">
+                <p>@Html.DisplayFor(q => q.VatNo)</p>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-3 font-16 font-weight-bold">
+                <p>Client SVAT No </p>
+            </div>
+            <div class="col-3 font-16 pl-0">
+                <p>
+                    <span class="font-weight-bold">:</span>
+                @Html.DisplayFor(q => q.ClientSVatNo)</p>
+            </div>
+            <div class="col-3 font-16 font-weight-bold text-right">
+                <p>SVAT No :</p>
+            </div>
+            <div class="col-3 font-16">
+                <p>@Html.DisplayFor(q => q.ClientSVatNo)</p>
+            </div>
+        </div>
+    }
+        <div class="row mt-2">
+            <div class="col-3 font-16 font-weight-bold">
+                <p>P.O No :</p>
+            </div>
+            <div class="col-3 font-16">
+                <p>@*@Html.DisplayFor(q => q.ClientSVatNo)*@</p>
+            </div>
+            <div class="col-3 font-16 font-weight-bold text-right">
+                <p>Job No :</p>
+            </div>
+            <div class="col-3 font-16">
+                <p>@Html.DisplayFor(q => q.OrderCode)</p>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:5rem">
+            <div class="col-12">
+                <table class="table table-striped table-bordered ">
+                    <thead>
+                        <tr>
+                            <th class="w-10 font-16 font-weight-bold">S/NO</th>
+                            <th class="w-45 font-16 font-weight-bold">PRODUCT TITLE</th>
+                            <th class="w-20 font-16 font-weight-bold">QTY</th>
+                            <th class="w-20 font-16 font-weight-bold">RATE (LKR)</th>
+                            <th class="w-25 font-16 font-weight-bold">AMOUNT (LKR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            var count = 0;
+                            var rowcolor = "";
+
+                            foreach (var item in Model.Items)
+                            {
+                                count++;
+
+                                if (count >= 2 && count % 2 == 0)
+                                {
+                                    rowcolor = "";
+                                }
+                                else
+                                {
+                                    rowcolor = "row-dark";
+                                }
 
 
+                                <tr class="@rowcolor">
+                                    <td class="font-16">@count</td>
+                                    <td class="font-16">@item.Category.Name.ToString()</td>
+                                    <td class="font-16">@item.Qty</td>
+                                    <td class="text-right font-16">@item.UnitCost.ToString("N2")</td>
+                                    <td class="text-right font-16">@item.TotalCost.ToString("N2")</td>
+                                </tr>
+                            }
+                            for (int i = 0; i < 3; i++)
+                            {
+                                count++;
+
+                                if (count >= 2 && count % 2 == 0) { rowcolor = ""; }
+                                else { rowcolor = "row-dark"; }
+
+                                <tr class="@rowcolor" style="height:40px;">
+                                    <td colspan="6"></td>
+                                </tr>
+                            }
+                            count++;
+
+                            if (count >= 2 && count % 2 == 0) { rowcolor = ""; }
+                            else { rowcolor = "row-dark"; }
+                            <tr class="@rowcolor">
+                                <td colspan="4" class="text-right font-weight-bold font-16">TOTAL</td>
+                                <td colspan="2" class="text-right font-weight-bold font-16">@Html.DisplayFor(q => q.orderTotal)</td>
+                            </tr>
+                            count++;
+                            if (Model.OrderType == "STA")
+                            {
+                                if (count >= 2 && count % 2 == 0) { rowcolor = ""; }
+                                else { rowcolor = "row-dark"; }
+                                <tr class="@rowcolor">
+                                    <td colspan="4" class="text-right font-weight-bold font-16">VAT (@Html.DisplayFor(q => q.Order.VatPercentage)%)</td>
+                                    <td colspan="2" class="text-right font-weight-bold font-16">@Html.DisplayFor(q => q.vatAmount)</td>
+                                </tr>
+                                count++;
+                            }
+                            if (count >= 2 && count % 2 == 0) { rowcolor = ""; }
+                            else { rowcolor = "row-dark"; }
+                            <tr class="@rowcolor">
+                                <td colspan="4" class="text-right font-weight-bold font-16">(LESS) ADVANCE RECEIVED</td>
+                                <td colspan="2" class="text-right font-weight-bold font-16">@Html.DisplayFor(q => q.AdvancePayment)</td>
+                            </tr>
+                            count++;
+                            if (count >= 2 && count % 2 == 0) { rowcolor = ""; }
+                            else { rowcolor = "row-dark"; }
+                            <tr class="@rowcolor">
+                                <td colspan="4" class="text-right font-weight-bold font-16">BALANCE DUE</td>
+                                <td colspan="2" class="text-right font-weight-bold font-16">@Html.DisplayFor(q => q.BalancePayment)</td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
 
 
-</div>
+        <div class="row" style="margin-top:5rem">
+            <div class="col-10">
+                <div class="row ml-1 border py-3">
+                    <div class="col-4 font-16">
+                        <p>ACCOUNT NAME</p>
+                    </div>
+                    <div class="col-8 font-16">
+                        @switch (Model.OrderType)
+                        {
+                            case "STA":
+                                <p>: Sign Tech Advertising Services (Pvt) Ltd</p>
+                                break;
+                            case "ST":
+                                <p>: Sign Tech (Pvt) Ltd</p>
+                                break;
+                            case "STB":
+                                <p>: Sign Tech Branding Solutions (Pvt) Ltd</p>
+                                break;
+                            case "STP":
+                                <p>: Sign Tech Project (Pvt) Ltd</p>
+                                break;
+                            case "STCW":
+                                <p>: Sign Tech Advertising Services (Pvt) Ltd</p>
+                                break;
+                            case "STI":
+                                <p>: Sign Tech Advertising Services (Pvt) Ltd</p>
+                                break;
+                            default:
+                                <p>: Sign Tech Advertising Services (Pvt) Ltd</p>
+                                break;
+
+                        }
+                    </div>
+                    <div class="col-4 mt-2 font-16">
+                        <p>ACCOUNT NUMBER</p>
+                    </div>
+
+                    <div class="col-8 mt-2 font-16">
+                        @switch (Model.OrderType)
+                        {
+                            case "STA":
+                                <p>: 0075379404</p>
+                                break;
+                            case "ST":
+                                <p>: 85358292</p>
+                                break;
+                            case "STB":
+                                <p>: 0090561404</p>
+                                break;
+
+                            default:
+                                <p>: 0075379404</p>
+                                break;
+
+                        }
+                    </div>
+                    <div class="col-4 mt-2 font-16">
+                        <p>BANK NAME</p>
+                    </div>
+                    <div class="col-8 mt-2 font-16">
+                        <p>: Bank of Ceylon</p>
+                    </div>
+                    <div class="col-4 mt-2 font-16">
+                        <p>BRANCH</p>
+                    </div>
+                    <div class="col-8 mt-2 font-16">
+                        <p>: Battaramulla</p>
+                    </div>
+                    <div class="col-4 mt-2 font-16">
+                        <p>ADDRESS</p>
+                    </div>
+                    <div class="col-8 mt-2 font-16">
+                        <p>: 75A, Main Street, Sethsiripaya Circular Road, Battaramulla</p>
+                    </div>
+                    <div class="col-4 mt-2 font-16">
+                        <p>BANK CODE</p>
+                    </div>
+                    <div class="col-8 mt-2 font-16">
+                        <p>: 7010</p>
+                    </div>
+                    <div class="col-4 mt-2 font-16">
+                        <p>BRANCH CODE</p>
+                    </div>
+                    <div class="col-8 mt-2 font-16">
+                        <p>: 679</p>
+                    </div>
+                    <div class="col-4 mt-2 font-16">
+                        <p>SWIFT CODE</p>
+                    </div>
+                    <div class="col-8 mt-2 font-16">
+                        <p>: BCEYLKLX</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row  mt-5 ml-2">
+            <p class="font-16 font-weight-bold">
+                Cheques to be drawn in favour of SIGN TECH
+                @switch (Model.OrderType)
+                {
+                    case "STA":<span class="tracking-wide"> ADVERTISING SERVICES (PVT) LTD.</span>break;
+                    case "STB": <span class="tracking-wide"> BRANDING SOLUTIONS (PVT) LTD.</span>break;
+                    case "ST": <span class="tracking-wide"> SERVICES (PVT) LTD.</span>break;
+                    case "STP": <span class="tracking-wide"> PROJECT (PVT) LTD.</span>break;
+                    default: <span class="tracking-wide"> ADVERTISING SERVICES(PVT) LTD.</span>break;
+                }
+
+            </p>
+        </div>
+        <div class="row  mt-2 ml-2">
+            <p class="font-16">
+                THIS IS A SYSTEM GENERATED INVOICE AND REQUIRES NO SIGNATURE.
+            </p>
+        </div>
+    </div>

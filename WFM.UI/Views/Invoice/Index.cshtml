@@ -27,9 +27,27 @@
 
         #printSection {
             position: absolute;
-            left: 10px;
+            left: 0;
             top: 0;
+            width: 100%;
+            height: 5rem;
+            background: white;
+            padding: 20px;
         }
+        
+        .table thead .thead-dark {
+            background-color: #808080 !important;
+            -webkit-print-color-adjust: exact;
+        }
+        .table-striped tbody tr:nth-of-type(odd) td {
+            background-color: rgba(0,0,0,.05) !important;
+            -webkit-print-color-adjust: exact;
+        }
+        .bg-dark {
+            background-color: #2e2f39 !important;
+            -webkit-print-color-adjust: exact;
+        }
+        
     }
 
     table.report-container {
@@ -48,6 +66,13 @@
         page-break-inside: avoid;
         page-break-after: auto
     }
+    .bottom-bar {
+        height: 100%;
+        width: 100%;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDMyMCI+PHBhdGggZmlsbD0iI2U3MDA4YSIgZmlsbC1vcGFjaXR5PSIxIiBkPSJNMCwyMjRMMTIwLDIyOS4zQzI0MCwyMzUsNDgwLDI0NSw3MjAsMjEzLjNDOTYwLDE4MSwxMjAwLDEwNywxMzIwLDY5LjNMMTQ0MCwzMkwxNDQwLDMyMEwxMzIwLDMyMEMxMjAwLDMyMCw5NjAsMzIwLDcyMCwzMjBDNDgwLDMyMCwyNDAsMzIwLDEyMCwzMjBMMCwzMjBaIj48L3BhdGg+PC9zdmc+');
+        background-size:cover;
+        background-repeat:no-repeat;
+        }
 </style>
 <sty>
     <div class="dashboard-ecommerce">
@@ -143,41 +168,18 @@
 
         if (!$printSection) {
             var $printSection = document.createElement("div");
-            //$printSection.style.width = "100vw";
-            //$printSection.style.height = "100vh";
-            //$printSection.style.paddingRight = "1rem";
-            //$printSection.style.marginLeft = "none";
-            //$printSection.classList="relative "
+            $printSection.style.width = "100vw";
+            $printSection.style.height = "100vh";
+            $printSection.style.zIndex = 2;
+          
             $printSection.id = "printSection";
             document.body.appendChild($printSection);
         }
        
-        //var topDetails = domClone.querySelector("#topDetails");
-        //if (topDetails) {
-        //    topDetails.style.marginTop = "2rem"
-        //    topDetails.style.marginBottom="10rem"
-        //}
-        //var totals = domClone.querySelector("#totalsBox")
-        //if (totals) {
-        //    totals.style.marginTop = "5rem"
-        //    totals.style.paddingRight="2rem"
-        //}
-        //var redBar = document.createElement("div");
-        //redBar.style.position = "fixed";
-        //redBar.style.bottom = "0";
-        //redBar.style.left = "0";
-        //redBar.style.width = "100vw";
-        //redBar.style.height = "20px";
-        //redBar.style.background = "red";
-        //redBar.style.zIndex = "9999";
+    
 
         $printSection.innerHTML = "";
         $printSection.appendChild(domClone);
-        $printSection.appendChild(redBar);
-        //$imgdiv.appendChild($img)
-        //$printSection.appendChild($imgdiv)
-
-        
         
         window.print();
         }
