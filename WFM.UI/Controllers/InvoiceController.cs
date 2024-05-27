@@ -10,6 +10,8 @@ using WFM.DAL;
 using WFM.UI.Models;
 using System.Web.Configuration;
 using WFM.BAL.Helpers;
+using Aspose.Words;
+using System.Globalization;
 
 namespace WFM.UI.Controllers
 {
@@ -70,6 +72,73 @@ namespace WFM.UI.Controllers
                     Console.WriteLine(ex.ToString());
                 }
             }
+
+            return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        public ActionResult GetFilteredList(string fromDate, string toDate, string client, string salesPerson)
+        {
+            var list = invoiceService.GetInvoiceList();
+
+            try
+            {
+                // Apply filters
+                if (!string.IsNullOrEmpty(fromDate))
+                {
+                    // Convert fromDate string to DateTime
+                    var fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    list = list.Where(o => o.CreatedDate >= fromDateValue).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(toDate))
+                {
+                    // Convert toDate string to DateTime
+                    var toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    list = list.Where(o => o.CreatedDate <= toDateValue).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(client))
+                {
+                    list = list.Where(o => o.Order.Client.Name.ToLower().Contains(client.ToLower())).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(salesPerson))
+                {
+                    list = list.Where(o => o.Order.Employee.Name.ToLower().Contains(salesPerson.ToLower())).ToList();
+                }
+
+             
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            List<InvoiceView> modelList = new List<InvoiceView>();
+
+            foreach (var item in list)
+            {
+                try
+                {
+                    modelList.Add(new InvoiceView(invoiceService)
+                    {
+                        Id = item.Id,
+                        Code = item.Code,
+                        OrderCode = item.Order.Code,
+                        ClientName = item.Order.Client.Name,
+                        CreatedDateString = item.CreatedDate.ToString(),
+                        Channelledby = item.Order.Employee.Name,
+
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+
 
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }

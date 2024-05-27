@@ -293,8 +293,6 @@ namespace WFM.UI.Controllers
             try
             {
 
-
-
                 // Apply filters
                 if (!string.IsNullOrEmpty(fromDate))
                 {

@@ -154,9 +154,7 @@
 
 <script>
 
-    $(document).ready(function () {
-        LoadInvoices();
-    });
+  
 
     const { jsPDF } = window.jspdf;
     function exportToPdf() {
@@ -232,58 +230,40 @@
     }
     document.getElementById('exportButton').addEventListener('click', exportToExcel);
 
+    $(document).ready(function () {
 
-    let minDate, maxDate, clientFilter, SalesPersonFilter;
+        LoadInvoices();
+
+        $('#fromDate').change(function () {
+            LoadInvoices();
+        });
 
 
+        $('#toDate').change(function () {
+            LoadInvoices();
+        });
+
+
+        $('#clientFilter').keyup(function () {
+            LoadInvoices();
+        });
+
+
+        $('#salesFilter').keyup(function () {
+            LoadInvoices();
+        });
+    });
     function LoadInvoices() {
+
+        let fromDate = $('#fromDate').val();
+        let toDate = $('#toDate').val();
+        let client = $('#clientFilter').val();
+        let salesPerson = $('#salesFilter').val();
 
         if ($.fn.dataTable.isDataTable('#List')) {
             table = $('#List').DataTable();
             table.destroy();
         }
-
-        //filter for the table
-        $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) {
-            let min = minDate ? minDate.getTime() : null;
-            let max = maxDate ? maxDate.getTime() : null;
-            let date = new Date(data[4]);
-            let client = clientFilter ? data[2].toLowerCase().includes(clientFilter.toLowerCase()) : true;
-            let salesperson = SalesPersonFilter ? data[4].toLowerCase().includes(SalesPersonFilter.toLowerCase()) : true;
-
-            if (
-                ((min === null && max === null) ||
-                    (min === null && date <= max) ||
-                    (min <= date && max === null) ||
-                    (min <= date && date <= max)) &&
-                client && salesperson
-            ) {
-                return true;
-            }
-            return false;
-        });
-
-        // Create date inputs
-        $('#fromDate').change(function () {
-            minDate = $(this).val() ? new Date($(this).val()) : null;
-            table.draw();
-        });
-
-        $('#toDate').change(function () {
-            maxDate = $(this).val() ? new Date($(this).val()) : null;
-            table.draw();
-        });
-
-
-        $('#clientFilter').keyup(function () {
-            clientFilter = $(this).val();
-            table.draw();
-        });
-        // Sales Person Filter input event listener
-        $('#salesFilter').keyup(function () {
-            SalesPersonFilter = $(this).val();
-            table.draw();
-        });
 
         table = $('#List').DataTable({
             "ordering": false,
@@ -291,8 +271,14 @@
 
             },
             "ajax": {
-                "url": "/Invoice/GetList",
+                "url": "/Invoice/GetFilteredList",
                 "type": "POST",
+                "data": {
+                    "fromDate": fromDate,
+                    "toDate": toDate,   
+                    "client": client,
+                    "salesPerson": salesPerson,
+                },
                 "datatype": "json"
             },
             "columns": [
