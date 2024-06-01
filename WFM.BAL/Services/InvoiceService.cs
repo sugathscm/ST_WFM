@@ -46,7 +46,10 @@ namespace WFM.BAL.Services
                 using (DB_stwfmEntities entities = new DB_stwfmEntities())
                 {
                     return entities.Invoices.Include("Order")
+                        .Include("Order.OrderType")
                        .Include("Order.Client")
+                       .Include("Order.OrderItems")
+                       .Include("Order.AdditionalCharges")
                        .Include("Order.Employee").OrderByDescending(q=>q.CreatedDate).ToList();
 
                 }

@@ -84,6 +84,7 @@ namespace WFM.UI.Controllers
                     IsActive = item.IsActive,
                     CPTitle = item.CPTitle,
                     CPName = item.CPName,
+                    Address=item.AddressLine1,
                     CPMobile = item.CPMobile,
                     Email = item.Email,
                     LandLine = item.LandLine,

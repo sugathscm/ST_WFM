@@ -101,12 +101,13 @@
                         <table id="List" class="table table-striped table-bordered first overflow-auto">
                             <thead>
                                 <tr>
-                                    <th>Invoice No</th>
-                                    <th>Order No</th>
-                                    <th>Client</th>
-                                    <th>Created Date</th>
-                                    <th>ChannelledBy</th>
-
+                                    <th>INVOICE NO</th>
+                                    <th>ORDER NO</th>
+                                    <th>CLIENT</th>
+                                    <th>INVOICE DATE</th>
+                                    <th>CHANNELLED BY</th>
+                                    <th>LOCATION</th>
+                                    <th>ORDER TOTAL</th>
                                 </tr>
                             </thead>
                         </table>
@@ -158,8 +159,8 @@
 
     const { jsPDF } = window.jspdf;
     function exportToPdf() {
-        const props = ["Code", "OrderCode", "ClientName", "Channelledby", "CreatedDateString"]
-        const headers = ["Invoice No", "Order No", "Client", "Channelled By", "Created Date"]
+        const props = ["Code", "OrderCode", "ClientName", "Channelledby", "CreatedDateString","Location","TotalWithVat"]
+        const headers = ["Invoice No", "Order No", "Client", "Channelled By", "Created Date","Location","Order Total"]
         var options = {
             headStyles: { fontSize: 8, fontStyle: 'bold' }, // Header styles (e.g., font size, font style)
             bodyStyles: { fontSize: 6 }, 
@@ -168,7 +169,10 @@
                 1: { cellWidth: 'auto' },
                 2: { cellWidth: 'auto' },
                 3: { cellWidth: 'auto' },
-                4: { cellWidth: 'auto' }
+                4: { cellWidth: 'auto' },
+                5: { cellWidth: 'auto' },
+                6: { cellWidth: 'auto' }
+
             } 
         };
 
@@ -200,8 +204,8 @@
     document.getElementById('pdfButton').addEventListener('click', exportToPdf);
 
     function exportToExcel() {
-        const props = ["Code", "OrderCode", "ClientName", "Channelledby", "CreatedDateString"]
-        const headers = ["Invoice No", "Order No", "Client", "Channelled By", "Created Date"]
+        const props = ["Code", "OrderCode", "ClientName", "Channelledby", "CreatedDateString","Location","TotalWithVat"]
+        const headers = ["Invoice No", "Order No", "Client", "Channelled By", "Created Date","Location","Order Total"]
 
 
         var table = $('#List').DataTable();
@@ -282,11 +286,19 @@
                 "datatype": "json"
             },
             "columns": [
-                { "data": "Code", "width": "20%", "ordering": false, "sorting": false },
-                { "data": "OrderCode", "width": "20%", "ordering": false, "sorting": false },
+                { "data": "Code", "width": "10%", "ordering": false, "sorting": false },
+                { "data": "OrderCode", "width": "15%", "ordering": false, "sorting": false },
                 { "data": "ClientName", "width": "20%", "ordering": false, "sorting": false },
-                { "data": "CreatedDateString", "width": "20%", "ordering": false, "sorting": false },
-                { "data": "Channelledby", "width": "20%", "ordering": false, "sorting": false },
+                { "data": "CreatedDateString", "width": "10%", "ordering": false, "sorting": false },
+                { "data": "Channelledby", "width": "15%", "ordering": false, "sorting": false },
+                { "data": "Location", "width": "15%", "ordering": false, "sorting": false },
+                {
+                    "data": "TotalWithVat", "width": "15%", "ordering": false, "sorting": false,
+                    "render": function (data, type, row) {
+                        // Format TotalWithVat
+                        return parseFloat(data).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+                    }
+                }
 
             ]
 

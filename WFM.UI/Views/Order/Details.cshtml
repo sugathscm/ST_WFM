@@ -255,11 +255,11 @@
                                     <label class="control-label" for="BaseQuoteId">Quote Number</label>
                                     @Html.DropDownList("BaseQuoteId", (SelectList)ViewBag.QuoteList, "Quote Number", new { @class = "form-control" })
                                 </div>
-                                <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
+                                @*<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="VATNo">VAT Number</label>
                                     @Html.TextBoxFor(m => m.VATNo, new { @class = "form-control" })
 
-                                </div>
+                                </div>*@
 
                                 <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12 m-t-5">
                                     <label class="control-label" for="Designer">Designer</label>
@@ -1373,7 +1373,7 @@
         $(".order-type").change(function () {
             var selectedval = $(this).val()
             if (selectedval != "1")  {
-                $("#VATNo").attr("disabled", "disabled");
+                
                 $("#VAT").attr("disabled", "disabled");
                 $("#OrderVAT").attr("disabled", "disabled");
 
@@ -1382,7 +1382,7 @@
             }
 
             else {
-                $("#VATNo").removeAttr('disabled');
+                
                 $("#VAT").removeAttr('disabled');
                 $("#OrderVAT").removeAttr('disabled');
                 $("#TotalCostVAT").removeAttr('disabled');

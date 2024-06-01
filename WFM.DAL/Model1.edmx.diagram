@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="990db2ee35624643b39ccf12e52f5117" Name="Diagram1" ZoomLevel="22">
+      <Diagram DiagramId="990db2ee35624643b39ccf12e52f5117" Name="Diagram1" ZoomLevel="62">
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetRole" Width="1.5" PointX="1.5" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="45.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="48.125" IsExpanded="true" />
@@ -76,11 +76,17 @@
         <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.SupplierType" Width="1.5" PointX="16.375" PointY="1.375" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Supplier" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Supplier_SupplierType" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.625" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Invoice" Width="1.5" PointX="14.875" PointY="20.875" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Client" Width="1.5" PointX="3.75" PointY="18" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Client_Designation" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Quote_Client" />
+        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Order" Width="1.5" PointX="12.625" PointY="9.5" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_AdditionalCharges_Order" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Client" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_employee" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_InstallationAttachment_Order" />
+        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Invoice_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_OrderType" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Qouate" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Status" />
@@ -88,12 +94,6 @@
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderItem_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderMaterial_Order" />
         <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_OrderTermDetail_Order" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Invoice" Width="1.5" PointX="14.875" PointY="20.875" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Invoice_Order" />
-        <EntityTypeShape EntityType="DB_A4EFEA_stwfmModel.Client" Width="1.5" PointX="3.75" PointY="18" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Client_Designation" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Order_Client" />
-        <AssociationConnector Association="DB_A4EFEA_stwfmModel.FK_Quote_Client" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -18,6 +18,9 @@ namespace WFM.UI.Models
         [Display(Name = "Contact Person")]
         public string CPName { get; set; }
 
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
         [Display(Name = "Mobile")]
         public string CPMobile { get; set; }
 

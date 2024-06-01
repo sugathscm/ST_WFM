@@ -19,6 +19,7 @@
                 { "data": "VATNumber" },
                 { "data": "CPTitle" },
                 { "data": "CPName" },
+                { "data": "Address" },
                 { "data": "DesignationName" },
                 { "data": "CPMobile" },
                 { "data": "Email" },
@@ -67,7 +68,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
                             <label class="control-label" for="AddressLine1">Address Line 1</label>
-                            @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control",  })
                         </div>
                     </div>
                     <br />
@@ -89,7 +90,7 @@
                     <div class="form-row">
                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 ">
                             @Html.LabelFor(m => m.Email, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control",  })
                         </div>
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 ">
                             <label class="control-label" for="LandLine">Land Line</label>
@@ -116,7 +117,7 @@
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                             <label class="control-label" for="CPName">Contact Person</label>
-                            @Html.TextBoxFor(m => m.CPName, new { @class = "form-control",required = "required" })
+                            @Html.TextBoxFor(m => m.CPName, new { @class = "form-control" })
                         </div>
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-2">
                             <label class="control-label" for="Designation">Designation</label>
@@ -124,7 +125,7 @@
                         </div>
                         <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-2">
                             <label class="control-label" for="Mobile">Mobile</label>
-                            @Html.TextBoxFor(m => m.CPMobile, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(m => m.CPMobile, new { @class = "form-control" })
                         </div>
                     </div>
                     <br />
@@ -177,6 +178,7 @@
                                 <th>VAT Number</th>
                                 <th>Title</th>
                                 <th>Contact Person</th>
+                                <th>Address</th>
                                 <th>Designation</th>
                                 <th>Mobile</th>
                                 <th>Email</th>

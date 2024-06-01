@@ -19,11 +19,11 @@ namespace WFM.DAL
         {
             this.AdditionalCharges = new HashSet<AdditionalCharge>();
             this.InstallationAttachments = new HashSet<InstallationAttachment>();
+            this.Invoices = new HashSet<Invoice>();
             this.OrderAttachments = new HashSet<OrderAttachment>();
             this.OrderItems = new HashSet<OrderItem>();
             this.OrderMaterials = new HashSet<OrderMaterial>();
             this.OrderTermDetails = new HashSet<OrderTermDetail>();
-            this.Invoices = new HashSet<Invoice>();
         }
     
         public int Id { get; set; }
@@ -84,13 +84,18 @@ namespace WFM.DAL
         public string InstallationLocation { get; set; }
         public Nullable<bool> isCancelled { get; set; }
         public Nullable<double> VatPercentage { get; set; }
+        public string VATNumber { get; set; }
+        public string SVAT { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdditionalCharge> AdditionalCharges { get; set; }
+        public virtual Client Client { get; set; }
         public virtual DeliveryType DeliveryType { get; set; }
         public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InstallationAttachment> InstallationAttachments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual OrderType OrderType { get; set; }
         public virtual Quote Quote { get; set; }
         public virtual Status Status { get; set; }
@@ -102,8 +107,5 @@ namespace WFM.DAL
         public virtual ICollection<OrderMaterial> OrderMaterials { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTermDetail> OrderTermDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Invoice> Invoices { get; set; }
-        public virtual Client Client { get; set; }
     }
 }

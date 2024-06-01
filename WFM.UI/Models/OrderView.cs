@@ -24,6 +24,7 @@ namespace WFM.UI.Models
         public string CreatedDateString { get; set; }
         public DateTime Delivery { get; set; }
         public string Month { get; set; }
+        
         public string DeliveryType { get; set; }
         public string DeliveryDateString { get; set; }
         public List<OrderItem> Items { get; set; }

@@ -55,19 +55,21 @@ namespace WFM.UI.Controllers
 
             foreach (var item in list)
             {
-                try { 
-                modelList.Add(new InvoiceView(invoiceService)
+                try
                 {
-                    Id= item.Id,
-                    Code = item.Code,
-                    OrderCode = item.Order.Code,
-                    ClientName=item.Order.Client.Name,
-                    CreatedDateString=item.CreatedDate.ToString(),
-                    Channelledby=item.Order.Employee.Name,
-                 
+                    modelList.Add(new InvoiceView(invoiceService)
+                    {
+                        Id = item.Id,
+                        Code = item.Code,
+                        OrderCode = item.Order.Code,
+                        ClientName = item.Order.Client.Name,
+                        CreatedDateString = item.CreatedDate.Value.ToString("dd/MM/yyyy"),
+                        Channelledby = item.Order.Employee.Name,
 
-                });
-                }catch(Exception ex)
+
+                    });
+                }
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
@@ -108,7 +110,7 @@ namespace WFM.UI.Controllers
                     list = list.Where(o => o.Order.Employee.Name.ToLower().Contains(salesPerson.ToLower())).ToList();
                 }
 
-             
+
             }
             catch (Exception ex)
             {
@@ -122,14 +124,20 @@ namespace WFM.UI.Controllers
             {
                 try
                 {
+                    var addcharge = CalculateAdnChargeTotal(item.Order);
+                    var vatTot = CalculateOrdItmVatTotal(item.Order.OrderItems.ToList(), (double)item.Order.VatPercentage, item.Order.OrderType.Name);
+                    var Total = CalculateOrdItmTotal(item.Order.OrderItems.ToList()) +addcharge+ vatTot;
+
                     modelList.Add(new InvoiceView(invoiceService)
                     {
                         Id = item.Id,
                         Code = item.Code,
                         OrderCode = item.Order.Code,
                         ClientName = item.Order.Client.Name,
-                        CreatedDateString = item.CreatedDate.ToString(),
+                        CreatedDateString = item.CreatedDate.Value.ToString("dd/MM/yyyy"),
                         Channelledby = item.Order.Employee.Name,
+                        Location=item.Order.Location,
+                        TotalWithVat = Total
 
                     });
                 }
@@ -146,7 +154,7 @@ namespace WFM.UI.Controllers
         public ActionResult GenerateInvoice(int id)
         {
             Order order = orderService.GetOrderById(id);
-           // var exist = invoiceService.InvoiceExists(order.Id);
+            // var exist = invoiceService.InvoiceExists(order.Id);
             if (invoiceService.InvoiceExists(order.Id))
             {
                 return Json(new { redirectUrl = Url.Action("Index", "Invoice") }, JsonRequestBehavior.AllowGet);
@@ -162,13 +170,13 @@ namespace WFM.UI.Controllers
             Invoice invoice = new Invoice
             {
                 Code = invoiceCode,
-                CodeNumber= int.Parse(invoiceCode.Split('-')[2]),
+                CodeNumber = int.Parse(invoiceCode.Split('-')[2]),
                 OrderId = order.Id,
-                CreatedDate= today,
+                CreatedDate = today,
 
             };
-            
-            
+
+
             invoiceService.SaveOrUpdate(invoice);
             return Json(new { redirectUrl = Url.Action("Index", "Invoice") }, JsonRequestBehavior.AllowGet);
         }
@@ -178,32 +186,33 @@ namespace WFM.UI.Controllers
             Invoice invoice = invoiceService.GetInvoiceById(id);
             //OrderService orderService = new OrderService();
             InvoiceView invoiceView = new InvoiceView(invoiceService);
-           // Order order = orderService.GetOrderById(id);
+            // Order order = orderService.GetOrderById(id);
 
 
             PropertyCopier<Invoice, InvoiceView>.Copy(invoice, invoiceView);
-            
+
             ViewBag.Name = ResourceData.Name;
             ViewBag.AuthorizedPersonName = ResourceData.AuthorizedPersonName;
             ViewBag.AuthorizedPersonDesignation = ResourceData.AuthorizedPersonDesignation;
             invoiceView.OrderType = invoice.Order.OrderType.Name.ToString();
             invoiceView.OrderCode = invoice.Order.Code.ToString();
-            invoiceView.ClientSVatNo = invoice.Order.Client.SVATNumber?.ToString()??"";
+            invoiceView.ClientSVatNo = invoice.Order.Client.SVATNumber?.ToString() ?? "";
             invoiceView.ClientName = invoice.Order.Client.Name?.ToString() ?? "";
-            invoiceView.VatNo=invoice.Order.VATNo.ToString();               
+            invoiceView.VatNo = invoice.Order.VATNo.ToString();
             invoiceView.CreatedDateString = invoice.CreatedDate.Value.ToString("dd/MM/yyyy");
-            invoiceView.ClientAddress = invoice.Order.Client.AddressLine1?.ToString()??"";
-            invoiceView.VatNo=invoice.Order.VATNo.ToString();
-            invoiceView.ClientVatNo=invoice.Order.Client.VATNumber ==null ?"": invoice.Order.Client.VATNumber.ToString();
-            invoiceView.Items=invoice.Order.OrderItems.ToList();
+            invoiceView.ClientAddress = invoice.Order.Client.AddressLine1?.ToString() ?? "";
+            invoiceView.ClientAddress2 = invoice.Order.Client.AddressLine2?.ToString() ?? "";
+            invoiceView.VatNo = invoice.Order.VATNo.ToString();
+            invoiceView.ClientVatNo = invoice.Order.Client.VATNumber == null ? "" : invoice.Order.Client.VATNumber.ToString();
+            invoiceView.Items = invoice.Order.OrderItems.ToList();
             invoiceView.AdvancePayment = invoice.Order.AdvancePayment;
             //invoiceView.isVat = invoice.Order.OrderType.Name =="" ? true : false;
             //orderView.CreatedDateString = orderView.CreatedDate.Value.ToString("dd/MM/yyyy");
             invoiceView.orderTotal = CalculateOrdItmTotal(invoiceView.Items) + CalculateAdnChargeTotal(invoice.Order);
-            invoiceView.vatAmount = CalculateOrdItmVatTotal(invoiceView.Items,(double)invoiceView.Order.VatPercentage,invoiceView.OrderType);         
+            invoiceView.vatAmount = CalculateOrdItmVatTotal(invoiceView.Items, (double)invoiceView.Order.VatPercentage, invoiceView.OrderType);
             // orderView.OrderTermDetails = orderService.get.GetQuoteTermsByQuoteId(quote.Id);
             invoiceView.BalancePayment = (double)((invoiceView.orderTotal + invoiceView.vatAmount) - (invoiceView.AdvancePayment != null ? invoiceView.AdvancePayment : 0));
-            invoiceView.TotalWithVat = (double)(invoiceView.orderTotal +  invoiceView.vatAmount);
+            invoiceView.TotalWithVat = (double)(invoiceView.orderTotal + invoiceView.vatAmount);
 
             return PartialView("_PrintInvoice", invoiceView);
         }
@@ -220,31 +229,31 @@ namespace WFM.UI.Controllers
 
         private double CalculateAdnChargeTotal(Order order)
         {
-            double TotalCost =0;
-            foreach(AdditionalCharge  charge in order.AdditionalCharges)
+            double TotalCost = 0;
+            foreach (AdditionalCharge charge in order.AdditionalCharges)
             {
                 TotalCost += charge.Qty * charge.Cost;
             }
-                
+
             return TotalCost;
         }
 
-        private double CalculateOrdItmVatTotal(List<OrderItem> Items,double VatPercentage,string type)
+        public double CalculateOrdItmVatTotal(List<OrderItem> Items, double VatPercentage, string type)
         {
             double TotalVat = 0;
-       
+
             //double? Cost = order.OrderItems.Sum(x => x.Qty * x.UnitCost);
             if (String.Equals(type, "STA"))
             {
                 foreach (OrderItem item in Items)
-                {   
-                    TotalVat += (item.Qty * item.UnitCost) * (VatPercentage /100);
+                {
+                    TotalVat += (item.Qty * item.UnitCost) * (VatPercentage / 100);
                 }
             }
-                //TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * order.VatPercentage);
+            //TotalVat = order.OrderItems.Sum(x => ((x.Qty * x.UnitCost) / 100) * order.VatPercentage);
             return TotalVat;
         }
 
-
     }
+    
 }
