@@ -71,7 +71,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator,Management,Sales")]
+        [Authorize(Roles = "Administrator,Management,Sales,Finance")]
         public ActionResult SaveOrUpdate(Visibility model)
         {
             string newData = string.Empty, oldData = string.Empty;
@@ -141,7 +141,7 @@ namespace WFM.UI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator,Management,Sales,Design")]
+        [Authorize(Roles = "Administrator,Management,Sales,Design,Finance")]
         public JsonResult GetDescriptionById(int? id)
         {
             var visibility = visibilityservice.GetVisibilityId(id);

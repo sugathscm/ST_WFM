@@ -57,7 +57,7 @@ namespace WFM.UI.Controllers
             return View(employee);
         }
 
-        [Authorize(Roles = "Administrator,Management,Sales,Design,Factory")]
+        [Authorize(Roles = "Administrator,Management,Sales,Design,Factory,Finance")]
         public ActionResult GetList()
         {
 
@@ -84,7 +84,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator,Management,Sales")]
+        [Authorize(Roles = "Administrator,Management,Sales,Finance")]
         public ActionResult SaveOrUpdate(Employee model)
         {
             string newData = string.Empty, oldData = string.Empty;

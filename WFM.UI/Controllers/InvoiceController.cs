@@ -46,7 +46,7 @@ namespace WFM.UI.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetList()
         {
             var list = invoiceService.GetInvoiceList();
@@ -78,7 +78,7 @@ namespace WFM.UI.Controllers
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetFilteredList(string fromDate, string toDate, string client, string salesPerson)
         {
             var list = invoiceService.GetInvoiceList();

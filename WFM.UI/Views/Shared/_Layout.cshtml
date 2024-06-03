@@ -136,7 +136,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            @if (User.IsInRole("Administrator"))
+                            @if (User.IsInRole("Administrator")|| User.IsInRole("Finance"))
                             {
                                 <li class="nav-item ">
                                     <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#master" aria-controls="master"><i class="fa fa-fw fa-folder-open"></i>Master Files<span class="badge badge-success">6</span></a>

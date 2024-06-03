@@ -200,7 +200,7 @@ namespace WFM.UI.Controllers
             return View();
         }
         // [Authorize]
-        [Authorize(Roles = "Administrator,Management,Sales,Finace,Factory")]
+        [Authorize(Roles = "Administrator,Management,Sales,Finace,Factory,Finance")]
         // GET: Order
         public ActionResult Details(int? id, int? qouteid)
         {
@@ -372,7 +372,7 @@ namespace WFM.UI.Controllers
         //[Authorize(Roles = "Administrator")]
         //[Authorize(Roles = "Sales")]
         //[Authorize(Roles = "Design")]
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetHistoryList()
         {
             var list = orderService.GetOrderHistoryList();
@@ -401,7 +401,7 @@ namespace WFM.UI.Controllers
         //[Authorize]
         //[Authorize(Roles = "Administrator")]
         //[Authorize(Roles = "Sales")]
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetList()
         {
             var list = orderService.GetOrderActiveList().Take(500);
@@ -433,7 +433,7 @@ namespace WFM.UI.Controllers
 
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetAll()
         {
             var list = orderService.GetOrderList().Take(500);
@@ -474,7 +474,7 @@ namespace WFM.UI.Controllers
 
 
         //get completed orders
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetCompletedList()
         {
             var list = orderService.GetOrderCompleteList();
@@ -505,7 +505,7 @@ namespace WFM.UI.Controllers
         }
 
         //get completed orders
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetCancelledList()
         {
             var list = orderService.GetOrderCancelledList();
@@ -535,7 +535,7 @@ namespace WFM.UI.Controllers
             return Json(new { data = modelList }, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department")]
+        [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetDashboardList()
         {
             var list = orderService.GetOrderActiveList().Take(10);

@@ -48,7 +48,7 @@ namespace WFM.UI.Controllers
             }
             return View(designation);
         }
-        [Authorize(Roles = "Administrator,Management,Sales,Design,Factory")]
+        [Authorize(Roles = "Administrator,Management,Sales,Design,Factory,Finance")]
         public ActionResult GetList()
         {
             List<Designation> list = designationService.GetDesignationList();
@@ -66,7 +66,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator,Management,Sales")]
+        [Authorize(Roles = "Administrator,Management,Sales,Finance")]
         public ActionResult SaveOrUpdate(Designation model)
         {
             string newData = string.Empty, oldData = string.Empty;

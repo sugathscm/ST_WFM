@@ -98,7 +98,7 @@ namespace WFM.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator,Management,Sales, Design")]
+        [Authorize(Roles = "Administrator,Management,Sales, Design,Finance")]
         public ActionResult SaveOrUpdate(Category model)
         {
             string newData = string.Empty, oldData = string.Empty;
