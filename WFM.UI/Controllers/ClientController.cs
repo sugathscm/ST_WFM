@@ -131,7 +131,9 @@ namespace WFM.UI.Controllers
                         CPMobile = model.CPMobile,
                         CPDesignationId = model.CPDesignationId,
                         VATNumber = model.VATNumber,
-                        SVATNumber = model.SVATNumber
+                        SVATNumber = model.SVATNumber,
+                        PONumber = model.PONumber,
+                        
                     };
 
                     oldClient = new Client();
@@ -160,7 +162,8 @@ namespace WFM.UI.Controllers
                         CPMobile = oldClient.CPMobile,
                         CPDesignationId = oldClient.CPDesignationId,
                         VATNumber = oldClient.VATNumber,
-                        SVATNumber = oldClient.SVATNumber
+                        SVATNumber = oldClient.SVATNumber,
+                        PONumber= oldClient.PONumber,
                     });
 
                     client.Name = model.Name;
@@ -178,6 +181,7 @@ namespace WFM.UI.Controllers
                     client.IsActive = model.IsActive;
                     client.VATNumber = model.VATNumber;
                     client.SVATNumber = model.SVATNumber;
+                    client.PONumber = model.PONumber;
 
                     newData = new JavaScriptSerializer().Serialize(new Client()
                     {
@@ -196,7 +200,8 @@ namespace WFM.UI.Controllers
                         CPMobile = client.CPMobile,
                         CPDesignationId = client.CPDesignationId,
                         VATNumber = client.VATNumber,
-                        SVATNumber = client.SVATNumber
+                        SVATNumber = client.SVATNumber,
+                        PONumber = client.PONumber,
                     });
                 }
 
@@ -252,7 +257,8 @@ namespace WFM.UI.Controllers
                         CPName = model.CPName,
                         CPMobile = model.CPMobile,
                         CPDesignationId = model.CPDesignationId,
-                        SVATNumber = model.SVATNumber
+                        SVATNumber = model.SVATNumber,
+                        PONumber = model.PONumber,
                     };
 
                     oldClient = new Client();

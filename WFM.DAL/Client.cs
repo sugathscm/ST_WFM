@@ -17,8 +17,8 @@ namespace WFM.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Client()
         {
-            this.Quotes = new HashSet<Quote>();
             this.Orders = new HashSet<Order>();
+            this.Quotes = new HashSet<Quote>();
         }
     
         public int Id { get; set; }
@@ -40,11 +40,12 @@ namespace WFM.DAL
         public bool IsVAT { get; set; }
         public string VATNumber { get; set; }
         public string SVATNumber { get; set; }
+        public string PONumber { get; set; }
     
         public virtual Designation Designation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Quote> Quotes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Quote> Quotes { get; set; }
     }
 }

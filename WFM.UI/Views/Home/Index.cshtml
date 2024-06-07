@@ -412,7 +412,7 @@
                     {
                         var rowvalue = full.IsApproved;
                         if (rowvalue == true) {
-                            return '@if (User.IsInRole("Administrator")) {  <a class="btn btn-success btn-xs" onclick="GenerateInvoice(' + data + ')" >Invoice</a>}';
+                            return '@if (User.IsInRole("Administrator") || User.IsInRole("Finance")) {  <a class="btn btn-success btn-xs" onclick="GenerateInvoice(' + data + ')" >Invoice</a>}';
                         }//||User.IsInRole("Factory")
                         else {
 

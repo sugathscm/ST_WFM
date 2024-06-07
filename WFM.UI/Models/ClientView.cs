@@ -35,6 +35,9 @@ namespace WFM.UI.Models
 
         public string VATNumber { get; set; }
 
+        [Display(Name = "P.O No")]
+        public string PONumber { get; set; }
+
         [Display(Name = "Active")]
         public bool IsActive { get; set; } = true;
 

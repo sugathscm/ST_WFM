@@ -133,7 +133,7 @@
                 <p>P.O No :</p>
             </div>
             <div class="col-3 font-16">
-                <p>@*@Html.DisplayFor(q => q.ClientSVatNo)*@</p>
+                <p>@Html.DisplayFor(q => q.ClientPoNo)</p>
             </div>
             <div class="col-3 font-16 font-weight-bold text-right">
                 <p>Job No :</p>
@@ -183,6 +183,33 @@
                                     <td class="text-right font-16">@item.TotalCost.ToString("N2")</td>
                                 </tr>
                             }
+
+                            foreach (var charge in Model.additionalCharges)
+                            {
+                                if(charge.AddCharge == "") {
+                                    continue;
+                                }
+                                count++;
+
+                                if (count >= 2 && count % 2 == 0)
+                                {
+                                    rowcolor = "";
+                                }
+                                else
+                                {
+                                    rowcolor = "row-dark";
+                                }
+
+
+                                <tr class="@rowcolor">
+                                    <td class="font-16">@count</td>
+                                    <td class="font-16">@charge.AddCharge.ToString()</td>
+                                    <td class="font-16">@charge.Qty</td>
+                                    <td class="text-right font-16">@charge.Cost.ToString("N2")</td>
+                                    <td class="text-right font-16">@charge.TotalCost.ToString("N2")</td>
+                                </tr>
+                            }
+
                             for (int i = 0; i < 3; i++)
                             {
                                 count++;
@@ -337,9 +364,9 @@
                 {
                     case "STA":<span class="tracking-wide"> ADVERTISING SERVICES (PVT) LTD.</span>break;
                     case "STB": <span class="tracking-wide"> BRANDING SOLUTIONS (PVT) LTD.</span>break;
-                    case "ST": <span class="tracking-wide"> SERVICES (PVT) LTD.</span>break;
-                    case "STP": <span class="tracking-wide"> PROJECT (PVT) LTD.</span>break;
-                    default: <span class="tracking-wide"> ADVERTISING SERVICES(PVT) LTD.</span>break;
+                    case "ST": <span class="tracking-wide"> (PVT) LTD.</span>break;
+                    case "STP": <span class="tracking-wide"> PROJECTS (PVT) LTD.</span>break;
+                    default: <span class="tracking-wide"> ADVERTISING SERVICES (PVT) LTD.</span>break;
                 }
 
             </p>

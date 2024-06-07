@@ -197,6 +197,7 @@ namespace WFM.UI.Controllers
             invoiceView.OrderType = invoice.Order.OrderType.Name.ToString();
             invoiceView.OrderCode = invoice.Order.Code.ToString();
             invoiceView.ClientSVatNo = invoice.Order.Client.SVATNumber?.ToString() ?? "";
+            invoiceView.ClientPoNo = invoice.Order.Client.PONumber?.ToString() ?? "";
             invoiceView.ClientName = invoice.Order.Client.Name?.ToString() ?? "";
             invoiceView.VatNo = invoice.Order.VATNo.ToString();
             invoiceView.CreatedDateString = invoice.CreatedDate.Value.ToString("dd/MM/yyyy");
@@ -205,6 +206,7 @@ namespace WFM.UI.Controllers
             invoiceView.VatNo = invoice.Order.VATNo.ToString();
             invoiceView.ClientVatNo = invoice.Order.Client.VATNumber == null ? "" : invoice.Order.Client.VATNumber.ToString();
             invoiceView.Items = invoice.Order.OrderItems.ToList();
+            invoiceView.additionalCharges = invoice.Order.AdditionalCharges.ToList();
             invoiceView.AdvancePayment = invoice.Order.AdvancePayment;
             //invoiceView.isVat = invoice.Order.OrderType.Name =="" ? true : false;
             //orderView.CreatedDateString = orderView.CreatedDate.Value.ToString("dd/MM/yyyy");
