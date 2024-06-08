@@ -130,10 +130,12 @@
     }
         <div class="row mt-2">
             <div class="col-3 font-16 font-weight-bold">
-                <p>P.O No :</p>
+                <p>P.O No</p>
             </div>
-            <div class="col-3 font-16">
-                <p>@Html.DisplayFor(q => q.ClientPoNo)</p>
+            <div class="col-3 font-16 pl-0">
+                <p>
+                    <span class="font-weight-bold">:</span>
+                @Html.DisplayFor(q => q.ClientPoNo)</p>
             </div>
             <div class="col-3 font-16 font-weight-bold text-right">
                 <p>Job No :</p>

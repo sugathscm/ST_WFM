@@ -682,7 +682,8 @@ namespace WFM.UI.Controllers
                         IsScreenPrintingDept = model.IsScreenPrintingDept,
                         IsSteelDepartment = model.IsSteelDepartment,
                         isCancelled = false,
-                        VatPercentage = 18
+                        VatPercentage = 18,
+                        PONumber=model.PONumber
 
 
 
@@ -756,7 +757,7 @@ namespace WFM.UI.Controllers
                     order.InstallationRemark = model.InstallationRemark;
                     order.Remarks = model.Remarks;
                     order.isCancelled =false;
-
+                    order.PONumber = model.PONumber;
 
                     newData = new JavaScriptSerializer().Serialize(new Order()
                     {

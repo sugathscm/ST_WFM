@@ -510,27 +510,33 @@
                             </div>
 
 
-                        </div>
+                        </div>  
 
                         @*---------------THIRDTAB---------------*@
-                        <div class="tab-pane fade" id="_ThirdTab">
+                    <div class="tab-pane fade" id="_ThirdTab">
 
 
-                            <div class="" id="summerydiv">
-                                <table class="table table-bordered" id="summerytble">
-                                    <thead>
-                                        <tr>
-                                            <th style="font-size: medium; color:black ">Item</th>
-                                            <th style="font-size: medium; color:black ">Quantity</th>
-                                            <th style="font-size: medium; color:black ">Cost</th>
-                                            <th style="font-size: medium; color:black ">Total Cost</th>
+                        <div class="" id="summerydiv">
+                            <table class="table table-bordered" id="summerytble">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size: medium; color:black ">Item</th>
+                                        <th style="font-size: medium; color:black ">Quantity</th>
+                                        <th style="font-size: medium; color:black ">Cost</th>
+                                        <th style="font-size: medium; color:black ">Total Cost</th>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody id="sumtdata" style="font:bolder; color:black ">
-                                    </tbody>
-                                </table>
+                                    </tr>
+                                </thead>
+                                <tbody id="sumtdata" style="font:bolder; color:black ">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-xl-2 col-lg-1 col-md-1 m-t-5">
+                                <label class="control-label" for="poNumber"><b>P.O Number</b></label>
+                                @Html.TextBoxFor(m => m.PONumber, new { @class = "form-control" })
                             </div>
+                        </div>
 
 
                             @if (Model.AdditionalCharges.Count > 0)

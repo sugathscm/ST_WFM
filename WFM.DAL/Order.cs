@@ -86,6 +86,7 @@ namespace WFM.DAL
         public Nullable<double> VatPercentage { get; set; }
         public string VATNumber { get; set; }
         public string SVAT { get; set; }
+        public string PONumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdditionalCharge> AdditionalCharges { get; set; }

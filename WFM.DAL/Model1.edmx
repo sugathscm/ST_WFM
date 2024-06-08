@@ -115,7 +115,6 @@
           <Property Name="IsVAT" Type="bit" Nullable="false" />
           <Property Name="VATNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="SVATNumber" Type="nvarchar" MaxLength="50" />
-          <Property Name="PONumber" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DataAudit">
           <Key>
@@ -321,6 +320,7 @@
           <Property Name="VatPercentage" Type="float" />
           <Property Name="VATNumber" Type="varchar" MaxLength="50" />
           <Property Name="SVAT" Type="varchar" MaxLength="50" />
+          <Property Name="PONumber" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="OrderAttachment">
           <Key>
@@ -2494,6 +2494,7 @@
           <Property Name="VatPercentage" Type="Double" />
           <Property Name="VATNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="SVAT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PONumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AdditionalCharges" Relationship="DB_A4EFEA_stwfmModel.FK_AdditionalCharges_Order" FromRole="Order" ToRole="AdditionalCharge" />
           <NavigationProperty Name="DeliveryType" Relationship="DB_A4EFEA_stwfmModel.FK_Order_DeliveryType" FromRole="Order" ToRole="DeliveryType" />
           <NavigationProperty Name="Employee" Relationship="DB_A4EFEA_stwfmModel.FK_Order_employee" FromRole="Order" ToRole="Employee" />
@@ -2675,7 +2676,6 @@
           <Property Name="IsVAT" Type="Boolean" Nullable="false" />
           <Property Name="VATNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SVATNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PONumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Designation" Relationship="DB_A4EFEA_stwfmModel.FK_Client_Designation" FromRole="Client" ToRole="Designation" />
           <NavigationProperty Name="Orders" Relationship="DB_A4EFEA_stwfmModel.FK_Order_Client" FromRole="Client" ToRole="Order" />
           <NavigationProperty Name="Quotes" Relationship="DB_A4EFEA_stwfmModel.FK_Quote_Client" FromRole="Client" ToRole="Quote" />
@@ -3228,6 +3228,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Order">
               <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
                 <ScalarProperty Name="SVAT" ColumnName="SVAT" />
                 <ScalarProperty Name="VATNumber" ColumnName="VATNumber" />
                 <ScalarProperty Name="VatPercentage" ColumnName="VatPercentage" />
@@ -3294,7 +3295,6 @@
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="DB_A4EFEA_stwfmModel.Client">
               <MappingFragment StoreEntitySet="Client">
-                <ScalarProperty Name="PONumber" ColumnName="PONumber" />
                 <ScalarProperty Name="SVATNumber" ColumnName="SVATNumber" />
                 <ScalarProperty Name="VATNumber" ColumnName="VATNumber" />
                 <ScalarProperty Name="IsVAT" ColumnName="IsVAT" />
