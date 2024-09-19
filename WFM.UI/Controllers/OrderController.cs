@@ -477,7 +477,7 @@ namespace WFM.UI.Controllers
         [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetCompletedList()
         {
-            var list = orderService.GetOrderCompleteList();
+            var list = orderService.GetOrderCompleteList().Take(500);
 
             List<OrderView> modelList = new List<OrderView>();
 
@@ -508,7 +508,7 @@ namespace WFM.UI.Controllers
         [Authorize(Roles = "Administrator,Management,Sales,Factory,Design,Department,Finance")]
         public ActionResult GetCancelledList()
         {
-            var list = orderService.GetOrderCancelledList();
+            var list = orderService.GetOrderCancelledList().Take(500);
 
             List<OrderView> modelList = new List<OrderView>();
 
